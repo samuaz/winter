@@ -19,10 +19,13 @@
 namespace winter::data::sql {
 
 template <typename TConnectionImpl, typename TConnectionType, typename TResponse>
-class SQLConnection : public winter::templates::
+class SQLConnection : public virtual winter::templates::
 			  Connection<TConnectionImpl, TConnectionType> {
  public:
   explicit SQLConnection(TConnectionType *conn) : winter::templates::Connection<TConnectionImpl, TConnectionType>(conn){};
+
+  SQLConnection(const SQLConnection&) = delete;
+  SQLConnection& operator=(const SQLConnection&) = delete;
 
   virtual TResponse Execute(const PreparedStatement &query) = 0;
 

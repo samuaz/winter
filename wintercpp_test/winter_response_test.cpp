@@ -85,20 +85,20 @@ TEST(winterResponse, onSuccessVoid) {
 TEST(winterResponse, onSuccessSameResponseTrue) {
   auto response = winter::data::Response<int>::Success(1);
 
-  auto value = response.OnSuccess<winter::data::Response<int>>(
-      [&](const winter::data::Response<int> &value) -> winter::data::Response<int> {
-        return winter::data::Response<int>::Success(value.Value() + 1);
+  auto value = response.OnSuccess<int>(
+      [&](const winter::data::Response<int> &value) -> int {
+        return (value.Value() + 1);
       });
 
-  EXPECT_EQ(value->Value(), 2);
+  EXPECT_EQ(value, 2);
 }
 
 TEST(winterResponse, onSuccessSameResponseFalse) {
   auto response = winter::data::Response<int>::Error("not found");
 
-  auto value = response.OnSuccess<winter::data::Response<int>>(
-      [&](const winter::data::Response<int> &value) -> winter::data::Response<int> {
-        return winter::data::Response<int>::Success(value.Value() + 1);
+  auto value = response.OnSuccess<int>(
+      [&](const winter::data::Response<int> &value) -> int {
+        return value.Value() + 1;
       });
 
   EXPECT_EQ(value, std::nullopt);

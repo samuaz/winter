@@ -23,36 +23,20 @@ template <typename T>
 struct std::is_pointer<std::optional<std::shared_ptr<T> > > : std::true_type {
 };
 
-/* template <typename T>
-struct std::is_pointer<T *> : std::true_type {};
-
-template <typename T>
-struct std::is_pointer<T &> : std::false_type {}; */
-
-namespace winter::data {
-class AbstractResponse {
-  virtual const std::string &message() const = 0;
-};
-}  // namespace winter::data
-
 namespace winter::templates {
 template <typename TImplementation, typename TResultType, typename TStatusType>
-class Response : public virtual data::AbstractResponse {
+class Response {
  public:
-  Response();
+
+  Response(const Response&) = delete;
+    
+  Response& operator=(const Response&) = delete;
 
   virtual ~Response() = default;
 
   virtual bool IsSuccess() const = 0;
 
   virtual bool IsError() const = 0;
-
-  Response(TStatusType status, std::string message);
-
-  Response(
-      const std::optional<TResultType> &result,
-      TStatusType status,
-      std::string message);
 
   explicit operator bool() const noexcept;
 
@@ -76,15 +60,9 @@ class Response : public virtual data::AbstractResponse {
 
   TStatusType status() const;
 
-  void set_status(TStatusType status);
-
   const std::string &message() const;
 
-  void set_message(const std::string &message);
-
   const std::optional<TResultType> &result() const;
-
-  void set_result(const TResultType &result);
 
   auto ReturnOrThrow();
 
@@ -128,17 +106,23 @@ class Response : public virtual data::AbstractResponse {
   auto operator<<(const Functor &functor);
 
  protected:
-  std::optional<TResultType> result_;
 
-  TStatusType status_{};
+  Response(TStatusType status, std::string message);
 
-  std::string message_{};
+  Response(
+      const std::optional<TResultType> &result,
+      TStatusType status,
+      std::string message);
+ 
+  const std::optional<TResultType> result_;
+
+  const TStatusType status_{};
+
+  const std::string message_{};
 
  private:
-  TImplementation &
-  This() {
-    return dynamic_cast<TImplementation &>(*this);
-  }
+
+  TImplementation & This();
 
   template <typename T = TResultType, std::enable_if_t<!std::is_pointer<T>::value> * = nullptr>
   bool HasValue() const;

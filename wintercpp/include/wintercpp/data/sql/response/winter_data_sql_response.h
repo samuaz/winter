@@ -21,6 +21,7 @@ class Response : public winter::templates::Response<
 		     TImplementation,
 		     std::vector<TResultRow>,
 		     winter::data::ResponseStatus> {
+
   using winter::templates::Response<
       TImplementation,
       std::vector<TResultRow>,
@@ -32,9 +33,6 @@ class Response : public winter::templates::Response<
       winter::data::ResponseStatus>::status;
 
  public:
-  Response() = default;
-
-  explicit Response(StatementType type) : type_(type) {}
 
   Response(
       std::string transaction_id,
@@ -50,13 +48,13 @@ class Response : public winter::templates::Response<
       std::string message,
       int row_affected) : winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(result, status, message), transaction_id_(std::move(transaction_id)), type_(type), row_affected_(row_affected) {}
 
+  Response(const Response&) = delete;
+  Response& operator=(const Response&) = delete;
+  
+  virtual ~Response() = default;
+
   int row_affected() const {
     return row_affected_;
-  }
-
-  void
-  set_row_affected(int row_affected) {
-    row_affected_ = row_affected;
   }
 
   const std::string &
@@ -64,19 +62,9 @@ class Response : public winter::templates::Response<
     return transaction_id_;
   }
 
-  void
-  set_transaction_id(const std::string &transaction_id) {
-    transaction_id_ = transaction_id;
-  }
-
   StatementType
   type() const {
     return type_;
-  }
-
-  void
-  set_type(StatementType type) {
-    type_ = type;
   }
 
   std::optional<TResultRow>
@@ -103,10 +91,11 @@ class Response : public winter::templates::Response<
   };
 
  private:
-  std::string transaction_id_{};
-  StatementType type_{0};
-  int row_affected_{0};
+  const std::string transaction_id_{};
+  const StatementType type_{0};
+  const int row_affected_{0};
 };
+
 }  // namespace winter::data::sql
 
 #endif /* WINTER_DATA_SQL_RESPONSE */

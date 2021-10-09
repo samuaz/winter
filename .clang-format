@@ -1,5 +1,5 @@
 BasedOnStyle: google
-BreakBeforeBinaryOperators: All
+BreakBeforeBinaryOperators: NonAssignment
 ColumnLimit: 0
 UseTab: Always
 IncludeBlocks: Regroup

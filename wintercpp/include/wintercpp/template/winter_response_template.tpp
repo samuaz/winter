@@ -1,9 +1,6 @@
 namespace winter::templates {
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
-Response<TImplementation, TResultType, TStatusType>::Response() = default;
-
-template <typename TImplementation, typename TResultType, typename TStatusType>
 Response<TImplementation, TResultType, TStatusType>::Response(
     TStatusType status,
     std::string message) : status_(status),
@@ -88,11 +85,6 @@ Response<TImplementation, TResultType, TStatusType>::status()
   return status_;
 }
 
-template <typename TImplementation, typename TResultType, typename TStatusType>
-void Response<TImplementation, TResultType, TStatusType>::set_status(
-    TStatusType status) {
-  status_ = status;
-}
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
 const std::string &
@@ -100,22 +92,11 @@ Response<TImplementation, TResultType, TStatusType>::message() const {
   return message_;
 }
 
-template <typename TImplementation, typename TResultType, typename TStatusType>
-void Response<TImplementation, TResultType, TStatusType>::set_message(
-    const std::string &message) {
-  message_ = message;
-}
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
 const std::optional<TResultType> &
 Response<TImplementation, TResultType, TStatusType>::result() const {
   return result_;
-}
-
-template <typename TImplementation, typename TResultType, typename TStatusType>
-void Response<TImplementation, TResultType, TStatusType>::set_result(
-    const TResultType &result) {
-  result_ = result;
 }
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
@@ -224,5 +205,10 @@ template <typename Functor>
 auto Response<TImplementation, TResultType, TStatusType>::operator<<(const Functor &functor) {
   return functor();
 }
+
+template <typename TImplementation, typename TResultType, typename TStatusType>
+TImplementation & Response<TImplementation, TResultType, TStatusType>::This() {
+    return dynamic_cast<TImplementation &>(*this);
+  }
 
 }  // namespace winter::templates

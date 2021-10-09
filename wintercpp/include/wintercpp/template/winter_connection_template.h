@@ -17,8 +17,10 @@ namespace winter::templates {
 template <typename TConnectionImpl, typename TConnectionType>
 class Connection {
  public:
-  explicit Connection(TConnectionType *conn) : id_(winter::random::generateHex(10)),
-					       conn_(conn) {}
+  explicit Connection(TConnectionType *conn): conn_(conn) {}
+
+  Connection(const Connection&) = delete;
+  Connection& operator=(const Connection&) = delete;
 
   constexpr const std::string &
   id() const {
@@ -28,6 +30,10 @@ class Connection {
   constexpr TConnectionType &
   conn() const {
     return *conn_;
+  }
+
+  const std::recursive_mutex &conn_mtx() const{
+    return conn_mtx_;
   }
 
   bool
@@ -40,10 +46,10 @@ class Connection {
     return !(rhs == *this);
   }
 
- protected:
-  std::string id_;
-  std::unique_ptr<TConnectionType> conn_;
-  std::recursive_mutex conn_mtx_{};
+ private:
+  const std::string id_ {winter::random::generateHex(10)};
+  const std::unique_ptr<TConnectionType> conn_;
+  const std::recursive_mutex conn_mtx_{};
 };
 
 template <typename ConnectionImpl, typename ConnectionType>

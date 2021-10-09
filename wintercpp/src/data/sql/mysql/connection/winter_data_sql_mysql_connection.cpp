@@ -51,7 +51,6 @@ void Connection::Reconnect() {
 
 MysqlResponse
 Connection::CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::PreparedStatement> &prep_stmt) {
-  MysqlResponse response;
 
   if (prep_stmt != nullptr) {
     auto no_result_query = [&](int update_count) -> MysqlResponse {

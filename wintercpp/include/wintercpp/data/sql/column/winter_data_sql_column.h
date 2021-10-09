@@ -42,10 +42,10 @@ class Column {
     return this;
   }
 
- protected:
+ private:
   const Table &table_;
-  std::string name_;
-  FieldType type_;
+  const std::string name_;
+  const FieldType type_;
 };
 
 struct ColumnComparator {
