@@ -31,126 +31,71 @@ class IStatement {
 template <typename Children>
 class Statement : public virtual IStatement {
  public:
-  explicit Statement(std::string query) : statement_template_(std::move(query)),
-					  type_(StatementType::kNative) {}
 
-  Statement(
-      std::string statement_template,
-      const StatementType &statement_type) : statement_template_(std::move(statement_template)),
-					     type_(statement_type) {
-    prepared_statement_ = std::make_unique<PreparedStatement>(type_, "", transaction_id_);
-  }
+  explicit Statement(std::string query);
 
-  Statement(const Statement &statement) : transaction_id_(statement.transaction_id_),
-					  statement_template_(statement.statement_template_),
-					  prepared_statement_(
-					      new PreparedStatement(*statement.prepared_statement_)),
-					  type_(statement.type_) {}
+  Statement(std::string statement_template, const StatementType &statement_type);
+
+  Statement(const Statement &statement);
 
   StatementType
-  type() override {
-    return type_;
-  }
+  type() override;
 
   std::string
-  transaction_id() override {
-    return transaction_id_;
-  }
+  transaction_id() override;
 
   void
-  set_transaction_id(const std::string &transaction_id) override {
-    transaction_id_ = transaction_id;
-    prepared_statement_->set_id(transaction_id);
-  };
+  set_transaction_id(const std::string &transaction_id);
 
   Children &
-  set_statement_template(const std::string &statement_template) {
-    prepared_statement_->set_statement_template(statement_template);
-    return This();
-  };
+  set_statement_template(const std::string &statement_template);
 
   template <typename T>
   Children &
-  Value(const T value) {
-    prepared_statement_->AddValue(new PreparedStatementField<T>(value));
-    return This();
-  };
+  Value(const T value);
 
   template <typename T>
   Children &
-  Value(const Column &row, const T value) {
-    prepared_statement_->AddValue(
-	new PreparedStatementField<T>(row->name(), value));
-    return This();
-  };
+  Value(const Column &row, const T value);
 
   template <typename T>
   Children &
-  Value(const Column &row, const T value, const std::string &custom_value) {
-    prepared_statement_->AddValue(
-	new PreparedStatementField<T>(row->name(), value, custom_value));
-    return This();
-  };
+  Value(const Column &row, const T value, const std::string &custom_value);
 
   const PreparedStatement &
-  prepared_statement() override {
-    BuildStatement();
-    return *prepared_statement_;
-  };
+  prepared_statement() override;
 
   template <typename TRANSACTION>
   auto
-  Execute(TRANSACTION &transaction) {
-    return transaction.Execute(This());
-  }
+  Execute(TRANSACTION &transaction);
 
   template <typename TRANSACTION>
   auto
-  Execute(std::shared_ptr<TRANSACTION> &transaction) {
-    return transaction->Execute(This());
-  }
+  Execute(std::shared_ptr<TRANSACTION> &transaction);
 
   template <typename TRANSACTION>
   auto
-  Execute(TRANSACTION *transaction) {
-    return transaction->Execute(This());
-  }
+  Execute(TRANSACTION *transaction);
 
   template <typename TRANSACTION>
   auto
-  operator>>(TRANSACTION &transaction) {
-    return Execute(transaction);
-  }
+  operator>>(TRANSACTION &transaction);
 
   template <typename TRANSACTION>
   auto
-  operator>>(TRANSACTION *transaction) {
-    return Execute(transaction);
-  }
+  operator>>(TRANSACTION *transaction);
 
   template <typename TRANSACTION>
   auto
-  operator>>(std::shared_ptr<TRANSACTION> &transaction) {
-    return Execute(transaction);
-  }
+  operator>>(std::shared_ptr<TRANSACTION> &transaction);
 
   template <typename CLAUSE>
   Children &
-  AddClause(CLAUSE clause) {
-    auto preparedStatement = clause.Prepare();
-    statement_template_.append(" ").append(preparedStatement.statement_template());
-    prepared_statement_->AddAll(preparedStatement.values());
-    if (prepared_statement_->columns().empty()) {
-      prepared_statement_->AddColumn(preparedStatement.columns());
-    }
-    return This();
-  }
+  AddClause(CLAUSE clause);
 
   template <typename CLAUSE>
   auto &
-  operator<<(CLAUSE clause) {
-    return AddClause(clause);
-  }
+  operator<<(CLAUSE clause);
 
   virtual ~Statement();
 
@@ -162,14 +107,14 @@ class Statement : public virtual IStatement {
  private:
   std::string transaction_id_ = winter::random::uuid();
   Children &
-  This() {
-    return dynamic_cast<Children &>(*this);
-  }
+  This();
 };
 
 template <typename Children>
 Statement<Children>::~Statement() = default;
 
 }  // namespace winter::data::sql
+
+#include "winter_data_sql_statement.tpp"
 
 #endif /* WINTER_DATA_SQL_STATEMENT */
