@@ -105,8 +105,7 @@ class Statement : public virtual IStatement {
 
  private:
   std::string transaction_id_ = winter::random::uuid();
-  Children &
-  This();
+  Children & This();
 };
 
 template <typename Children>
