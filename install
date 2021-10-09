@@ -1,0 +1,118 @@
+#!/bin/bash
+
+if [ "$machine" = "Mac" ]; then
+    brew upgrade openssl
+    brew link --force openssl
+    pkg-config --modversion openssl
+    brew install cmake
+    brew install autoconf automake libtool boost unzip make wget
+    xcode-select --install
+    sudo cp -rf /usr/local/Cellar/openssl/1.0.2s/lib/* /usr/local/lib/
+    sudo cp -rf /usr/local/Cellar/openssl/1.0.2s/include/* /usr/local/include/openssl
+fi
+
+sudo rm -rf install
+mkdir install
+cd install
+
+export MYSQL_VERSION=8.0.18
+export MYSQL_CON_VERSION=8.0.18
+export GRPC_VERSION=v1.24.x
+export PROTO_VERSION=3.10.0
+export OPENSSL_VERSION=1.1.1
+
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+
+
+if [ "$machine" = "Mac" ]; then
+    export MYSQL_PLATFORM=macos10.14
+    export MYSQL_EXTENSION=tar.gz
+    export MYSQL_EXTRACT_COMMAND=xvzf
+    echo ${machine}
+elif [ "$machine" = "Linux" ]; then
+    export MYSQL_PLATFORM=linux-glibc2.12
+    export MYSQL_EXTENSION=tar.xz
+    export MYSQL_EXTRACT_COMMAND=xf
+    echo ${machine}
+fi
+
+
+if [ "$machine" = "Linux" ]; then
+    sudo apt-get -y install g++
+    sudo apt-get -y install build-essential
+    sudo apt-get -y install autotools-dev
+    sudo apt-get -y install automake
+    sudo apt-get -y install autoconf
+    sudo apt-get -y install cmake
+    sudo apt-get -y install libboost-all-dev
+    sudo apt-get -y install libssl-dev
+    sudo apt-get -y install libncurses5-dev libncursesw5-dev
+    sudo apt-get -y install libtool
+    sudo apt-get -y install curl
+    sudo apt-get -y install openssl libssl-dev
+    sudo apt-get -y install zlib1g-dev
+    curl https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz | tar xz && cd openssl-$OPENSSL_VERSION && sudo ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl no-shared && sudo make && sudo make install
+fi
+
+cd ..
+rm -rf protobuf-$PROTO_VERSION
+wget https://github.com/protocolbuffers/protobuf/releases/download/v$PROTO_VERSION/protobuf-all-$PROTO_VERSION.tar.gz --no-check-certificate
+tar -xvzf protobuf-all-$PROTO_VERSION.tar.gz
+cd protobuf-$PROTO_VERSION
+./configure
+make
+sudo make install
+sudo ldconfig
+
+# Build gRPC
+cd ..
+rm -rf grpc
+git clone -b $GRPC_VERSION https://github.com/grpc/grpc && \
+cd grpc && \
+git submodule update --init && \
+make && \
+sudo make install
+
+cd ..
+rm rf yaml-cpp
+git clone https://github.com/jbeder/yaml-cpp.git && \
+cd yaml-cpp && \
+mkdir build && \
+cd build && \
+cmake .. && \
+make && \
+sudo make install
+
+cd ..
+cd ..
+rm -rf cpp_redis
+git clone https://github.com/cpp-redis/cpp_redis.git && \
+cd cpp_redis  && \
+git submodule init && git submodule update  && \
+mkdir build && cd build  && \
+cmake .. -DCMAKE_BUILD_TYPE=Release  && \
+make  && \
+sudo make install
+
+cd ..
+cd ..
+rm -rf mysql-connector-cpp
+git clone https://github.com/mysql/mysql-connector-cpp.git && \
+cd mysql-connector-cpp && \
+git submodule update --init && \
+mkdir build && \
+cd build  && \
+wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-$MYSQL_VERSION-$MYSQL_PLATFORM-x86_64.$MYSQL_EXTENSION --no-check-certificate
+tar -$MYSQL_EXTRACT_COMMAND mysql-$MYSQL_VERSION-$MYSQL_PLATFORM-x86_64.$MYSQL_EXTENSION
+sudo cp -rf mysql-$MYSQL_VERSION-$MYSQL_PLATFORM-x86_64/include/* /usr/local/include/ && \
+sudo cp -rf mysql-$MYSQL_VERSION-$MYSQL_PLATFORM-x86_64/lib/* /usr/local/lib/ && \
+cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DCMAKE_INSTALL_LIBDIR=/usr/local/lib/ -DWITH_SSL=/usr/local -DMYSQL_LIB_DIR=mysql-${MYSQL_VERSION}-$MYSQL_PLATFORM-x86_64/lib -DMYSQL_INCLUDE_DIR=mysql-${MYSQL_VERSION}-$MYSQL_PLATFORM-x86_64/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DCMAKE_INSTALL_PREFIX:PATH=/usr/local .. && \
+make && \
+sudo make install
