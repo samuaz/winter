@@ -138,7 +138,7 @@ Statement<Children>::operator<<(CLAUSE clause) {
 }
 
 template <typename Children>
-Children & Statement<Children>::This() {
+Children &Statement<Children>::This() {
   return dynamic_cast<Children &>(*this);
 }
 
