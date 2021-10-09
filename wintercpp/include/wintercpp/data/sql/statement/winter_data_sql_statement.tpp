@@ -25,27 +25,30 @@ Statement<Children>::Statement(const Statement &statement) : transaction_id_(sta
 
 template <typename Children>
 StatementType
-Statement<Children>::type() override {
+Statement<Children>::type() {
   return type_;
 }
 
 template <typename Children>
 std::string
-Statement<Children>::transaction_id() override {
+Statement<Children>::transaction_id() {
   return transaction_id_;
 }
 
-void Statement<Children>::set_transaction_id(const std::string &transaction_id) override {
+template <typename Children>
+void Statement<Children>::set_transaction_id(const std::string &transaction_id) {
   transaction_id_ = transaction_id;
   prepared_statement_->set_id(transaction_id);
 };
 
+template <typename Children>
 Children &
 Statement<Children>::set_statement_template(const std::string &statement_template) {
   prepared_statement_->set_statement_template(statement_template);
   return This();
 };
 
+template <typename Children>
 template <typename T>
 Children &
 Statement<Children>::Value(const T value) {
@@ -53,6 +56,7 @@ Statement<Children>::Value(const T value) {
   return This();
 };
 
+template <typename Children>
 template <typename T>
 Children &
 Statement<Children>::Value(const Column &row, const T value) {
@@ -61,6 +65,7 @@ Statement<Children>::Value(const Column &row, const T value) {
   return This();
 };
 
+template <typename Children>
 template <typename T>
 Children &
 Statement<Children>::Value(const Column &row, const T value, const std::string &custom_value) {
@@ -69,50 +74,50 @@ Statement<Children>::Value(const Column &row, const T value, const std::string &
   return This();
 };
 
-template <typename T>
+template <typename Children>
 const PreparedStatement &
-Statement<Children>::prepared_statement() override {
+Statement<Children>::prepared_statement() {
   BuildStatement();
   return *prepared_statement_;
 };
 
-template <typename T>
+template <typename Children>
 template <typename TRANSACTION>
 auto Statement<Children>::Execute(TRANSACTION &transaction) {
   return transaction.Execute(This());
 }
 
-template <typename T>
+template <typename Children>
 template <typename TRANSACTION>
 auto Statement<Children>::Execute(std::shared_ptr<TRANSACTION> &transaction) {
   return transaction->Execute(This());
 }
 
-template <typename T>
+template <typename Children>
 template <typename TRANSACTION>
 auto Statement<Children>::Execute(TRANSACTION *transaction) {
   return transaction->Execute(This());
 }
 
-template <typename T>
+template <typename Children>
 template <typename TRANSACTION>
 auto Statement<Children>::operator>>(TRANSACTION &transaction) {
   return Execute(transaction);
 }
 
-template <typename T>
+template <typename Children>
 template <typename TRANSACTION>
 auto Statement<Children>::operator>>(TRANSACTION *transaction) {
   return Execute(transaction);
 }
 
-template <typename T>
+template <typename Children>
 template <typename TRANSACTION>
 auto Statement<Children>::operator>>(std::shared_ptr<TRANSACTION> &transaction) {
   return Execute(transaction);
 }
 
-template <typename T>
+template <typename Children>
 template <typename CLAUSE>
 Children &
 Statement<Children>::AddClause(CLAUSE clause) {
@@ -125,15 +130,15 @@ Statement<Children>::AddClause(CLAUSE clause) {
   return This();
 }
 
-template <typename T>
+template <typename Children>
 template <typename CLAUSE>
 auto &
 Statement<Children>::operator<<(CLAUSE clause) {
   return AddClause(clause);
 }
 
-template <typename T>
-Statement<Children>::This() {
+template <typename Children>
+Children & Statement<Children>::This() {
   return dynamic_cast<Children &>(*this);
 }
 

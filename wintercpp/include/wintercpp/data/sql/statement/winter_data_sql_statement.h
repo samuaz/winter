@@ -31,7 +31,6 @@ class IStatement {
 template <typename Children>
 class Statement : public virtual IStatement {
  public:
-
   explicit Statement(std::string query);
 
   Statement(std::string statement_template, const StatementType &statement_type);
