@@ -12,6 +12,7 @@ set(BINARY wintercpp_test)
 include(dependencies.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/ClangFormat.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/astyle_format.cmake)
+include(GoogleTest)
 
 
 enable_testing()
@@ -19,7 +20,7 @@ file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp *.tpp)
 
 add_executable(${BINARY} ${TEST_SOURCES})
 
-add_test(NAME ${BINARY} COMMAND ${BINARY})
+#add_test(NAME ${BINARY} COMMAND ${BINARY})
 
 target_link_libraries(${BINARY} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} wintercpp)
 
@@ -32,6 +33,8 @@ add_custom_command(
         POST_BUILD
         COMMAND ${BINARY} --output-on-failure
 )
+
+gtest_discover_tests(${BINARY})
 
 
 #[[

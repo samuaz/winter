@@ -45,7 +45,7 @@ class Transaction : public virtual ITransaction {
 
   TResponse Execute(const PreparedStatement &prepared_statement);
 
-/*   template <typename T>
+  /*   template <typename T>
   T operator()(const std::function<T(TTransactionImpl &)> &statements);
 
   TResponse operator()(const PreparedStatement &prepared_statement);
