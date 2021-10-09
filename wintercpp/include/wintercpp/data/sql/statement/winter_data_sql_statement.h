@@ -37,64 +37,48 @@ class Statement : public virtual IStatement {
 
   Statement(const Statement &statement);
 
-  StatementType
-  type() override;
+  StatementType type() override;
 
-  std::string
-  transaction_id() override;
+  std::string transaction_id() override;
 
-  void
-  set_transaction_id(const std::string &transaction_id);
+  void set_transaction_id(const std::string &transaction_id);
 
-  Children &
-  set_statement_template(const std::string &statement_template);
+  Children & set_statement_template(const std::string &statement_template);
 
   template <typename T>
-  Children &
-  Value(const T value);
+  Children & Value(const T value);
 
   template <typename T>
-  Children &
-  Value(const Column &row, const T value);
+  Children & Value(const Column &row, const T value);
 
   template <typename T>
-  Children &
-  Value(const Column &row, const T value, const std::string &custom_value);
+  Children & Value(const Column &row, const T value, const std::string &custom_value);
 
-  const PreparedStatement &
-  prepared_statement() override;
+  const PreparedStatement & prepared_statement() override;
 
   template <typename TRANSACTION>
-  auto
-  Execute(TRANSACTION &transaction);
+  auto Execute(TRANSACTION &transaction);
 
   template <typename TRANSACTION>
-  auto
-  Execute(std::shared_ptr<TRANSACTION> &transaction);
+  auto Execute(std::shared_ptr<TRANSACTION> &transaction);
 
   template <typename TRANSACTION>
-  auto
-  Execute(TRANSACTION *transaction);
+  auto Execute(TRANSACTION *transaction);
 
   template <typename TRANSACTION>
-  auto
-  operator>>(TRANSACTION &transaction);
+  auto operator>>(TRANSACTION &transaction);
 
   template <typename TRANSACTION>
-  auto
-  operator>>(TRANSACTION *transaction);
+  auto operator>>(TRANSACTION *transaction);
 
   template <typename TRANSACTION>
-  auto
-  operator>>(std::shared_ptr<TRANSACTION> &transaction);
+  auto operator>>(std::shared_ptr<TRANSACTION> &transaction);
 
   template <typename CLAUSE>
-  Children &
-  AddClause(CLAUSE clause);
+  Children & AddClause(CLAUSE clause);
 
   template <typename CLAUSE>
-  auto &
-  operator<<(CLAUSE clause);
+  auto & operator<<(CLAUSE clause);
 
   virtual ~Statement();
 
