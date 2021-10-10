@@ -46,8 +46,8 @@ class Response : public winter::templates::Response<
       std::string message,
       int row_affected) : winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(result, status, message), transaction_id_(std::move(transaction_id)), type_(type), row_affected_(row_affected) {}
 
-  Response(const Response&) = delete;
-  Response& operator=(const Response&) = delete;
+  Response(const Response&) = default;
+  Response& operator=(const Response&) = default;
 
   virtual ~Response() = default;
 
