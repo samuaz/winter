@@ -22,11 +22,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    # install dependencies
     - name: ninja
       run: sudo apt-get install -y ninja-build
       
-    - name: Cache cmake
+    - name: winter build cache
       uses: actions/cache@v2.1.6
       id: cache-cmake
       with:
