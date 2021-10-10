@@ -85,7 +85,7 @@ class ResultRow {
       if (res_) {
 	return std::get<T>(res_.Value());
       }
-      throw WinterException(res_.message());
+      throw WinterException::Create(__FILE__, __FUNCTION__, __LINE__, res_.message());
     }
 
    private:
