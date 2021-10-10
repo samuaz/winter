@@ -27,7 +27,6 @@ namespace winter::templates {
 template <typename TImplementation, typename TResultType, typename TStatusType>
 class Response {
  public:
-
   virtual ~Response() = default;
 
   virtual bool IsSuccess() const = 0;
@@ -111,7 +110,7 @@ class Response {
 
   Response(const Response &) = default;
 
-  Response &operator=(const Response &) = default;    
+  Response &operator=(const Response &) = default;
 
   const std::optional<TResultType> result_;
 
