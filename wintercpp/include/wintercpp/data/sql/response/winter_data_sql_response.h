@@ -46,9 +46,6 @@ class Response : public winter::templates::Response<
       std::string message,
       int row_affected) : winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(result, status, message), transaction_id_(std::move(transaction_id)), type_(type), row_affected_(row_affected) {}
 
-  Response(const Response&) = default;
-  Response& operator=(const Response&) = default;
-
   virtual ~Response() = default;
 
   int row_affected() const {
@@ -87,6 +84,10 @@ class Response : public winter::templates::Response<
   IsError() const override {
     return !IsSuccess();
   };
+
+ protected:
+  Response(const Response&) = default;
+  Response& operator=(const Response&) = default;
 
  private:
   const std::string transaction_id_{};
