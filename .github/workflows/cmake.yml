@@ -43,7 +43,7 @@ jobs:
           sudo cp --force --recursive ~/winter/wintercpp_test/third_party/* ${{github.workspace}}/wintercpp_test/third_party/
           cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
         else
-          cmake -B ${{github.workspace}}/winterbuild -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja
+          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja
           cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
           mkdir -p ~/winter
           sudo cp --force --recursive ${{github.workspace}}/build/* ~/winter/build/
