@@ -32,7 +32,7 @@ jobs:
       with:
         path: "~/winter"
         key: cmake-build
-    - name: Install boost
+    - name: Configure and build winter
       env:
         CACHE_HIT: ${{steps.cache-cmake.outputs.cache-hit}}
       run: |
