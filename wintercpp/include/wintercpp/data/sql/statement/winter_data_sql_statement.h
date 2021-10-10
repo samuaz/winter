@@ -31,11 +31,10 @@ class IStatement {
 template <typename Children>
 class Statement : public virtual IStatement {
  public:
-
   StatementType type() override;
 
   std::string transaction_id() override;
-/* 
+  /* 
   void set_transaction_id(const std::string &transaction_id) override;
 
   Children &set_statement_template(const std::string &statement_template); */
@@ -78,11 +77,10 @@ class Statement : public virtual IStatement {
   virtual ~Statement();
 
  protected:
-
   explicit Statement(std::string query);
   Statement(std::string statement_template, const StatementType &statement_type);
   Statement(const Statement &statement);
-  Statement& operator=(const Statement&) = default;
+  Statement &operator=(const Statement &) = default;
 
   std::string statement_template_;
   std::unique_ptr<PreparedStatement> prepared_statement_;

@@ -16,7 +16,6 @@ namespace winter::data::sql::mysql {
 class Response final : public virtual winter::data::sql::
 			   Response<winter::data::sql::mysql::Response, MysqlResultRow> {
  public:
-
   Response(
       std::string transaction_id,
       StatementType type,

@@ -32,7 +32,6 @@ class Response : public winter::templates::Response<
       winter::data::ResponseStatus>::status;
 
  public:
-
   virtual ~Response() = default;
 
   int row_affected() const {
@@ -73,8 +72,7 @@ class Response : public winter::templates::Response<
   };
 
  protected:
-
-   Response(
+  Response(
       std::string transaction_id,
       StatementType type,
       winter::data::ResponseStatus status,
@@ -87,7 +85,7 @@ class Response : public winter::templates::Response<
       winter::data::ResponseStatus status,
       std::string message,
       int row_affected) : winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(result, status, message), transaction_id_(std::move(transaction_id)), type_(type), row_affected_(row_affected) {}
-      
+
   Response(const Response&) = default;
   Response& operator=(const Response&) = default;
 

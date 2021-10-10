@@ -13,7 +13,7 @@
 
 namespace winter::data::sql {
 
-class Insert  final: public virtual Statement<Insert> {
+class Insert final : public virtual Statement<Insert> {
  public:
   Insert();
 
