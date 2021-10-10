@@ -80,8 +80,7 @@ class ResultRow {
     explicit DataTypeResult(winter::data::response::Response<DataType> res) : res_(res) {}
 
     template <typename T>
-    T
-    as() {
+    T as() {
       if (res_) {
 	return std::get<T>(res_.Value());
       }
