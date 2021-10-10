@@ -35,7 +35,7 @@ Statement<Children>::transaction_id() {
   return transaction_id_;
 }
 
-template <typename Children>
+/* template <typename Children>
 void Statement<Children>::set_transaction_id(const std::string &transaction_id) {
   transaction_id_ = transaction_id;
   prepared_statement_->set_id(transaction_id);
@@ -46,7 +46,7 @@ Children &
 Statement<Children>::set_statement_template(const std::string &statement_template) {
   prepared_statement_->set_statement_template(statement_template);
   return This();
-};
+}; */
 
 template <typename Children>
 template <typename T>

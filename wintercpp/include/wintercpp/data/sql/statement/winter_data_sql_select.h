@@ -16,7 +16,7 @@
 
 namespace winter::data::sql {
 
-class Select : public virtual Statement<Select> {
+class Select final : public virtual Statement<Select> {
  public:
   Select();
 

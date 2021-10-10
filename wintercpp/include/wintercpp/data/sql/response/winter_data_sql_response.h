@@ -32,19 +32,6 @@ class Response : public winter::templates::Response<
       winter::data::ResponseStatus>::status;
 
  public:
-  Response(
-      std::string transaction_id,
-      StatementType type,
-      winter::data::ResponseStatus status,
-      std::string message) : winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(status, message), transaction_id_(std::move(transaction_id)), type_(type) {}
-
-  Response(
-      std::string transaction_id,
-      StatementType type,
-      std::vector<TResultRow> result,
-      winter::data::ResponseStatus status,
-      std::string message,
-      int row_affected) : winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(result, status, message), transaction_id_(std::move(transaction_id)), type_(type), row_affected_(row_affected) {}
 
   virtual ~Response() = default;
 
@@ -86,6 +73,21 @@ class Response : public winter::templates::Response<
   };
 
  protected:
+
+   Response(
+      std::string transaction_id,
+      StatementType type,
+      winter::data::ResponseStatus status,
+      std::string message) : winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(status, message), transaction_id_(std::move(transaction_id)), type_(type) {}
+
+  Response(
+      std::string transaction_id,
+      StatementType type,
+      std::vector<TResultRow> result,
+      winter::data::ResponseStatus status,
+      std::string message,
+      int row_affected) : winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(result, status, message), transaction_id_(std::move(transaction_id)), type_(type), row_affected_(row_affected) {}
+      
   Response(const Response&) = default;
   Response& operator=(const Response&) = default;
 

@@ -22,7 +22,7 @@ class IStatement {
 
   virtual std::string transaction_id() = 0;
 
-  virtual void set_transaction_id(const std::string &id) = 0;
+  //virtual void set_transaction_id(const std::string &id) = 0;
 
  protected:
   virtual void BuildStatement() = 0;
@@ -31,19 +31,14 @@ class IStatement {
 template <typename Children>
 class Statement : public virtual IStatement {
  public:
-  explicit Statement(std::string query);
-
-  Statement(std::string statement_template, const StatementType &statement_type);
-
-  Statement(const Statement &statement);
 
   StatementType type() override;
 
   std::string transaction_id() override;
+/* 
+  void set_transaction_id(const std::string &transaction_id) override;
 
-  void set_transaction_id(const std::string &transaction_id);
-
-  Children &set_statement_template(const std::string &statement_template);
+  Children &set_statement_template(const std::string &statement_template); */
 
   template <typename T>
   Children &Value(const T value);
@@ -83,12 +78,18 @@ class Statement : public virtual IStatement {
   virtual ~Statement();
 
  protected:
+
+  explicit Statement(std::string query);
+  Statement(std::string statement_template, const StatementType &statement_type);
+  Statement(const Statement &statement);
+  Statement& operator=(const Statement&) = default;
+
   std::string statement_template_;
   std::unique_ptr<PreparedStatement> prepared_statement_;
-  StatementType type_{};
+  const StatementType type_{};
 
  private:
-  std::string transaction_id_ = winter::random::uuid();
+  const std::string transaction_id_ = winter::random::uuid();
   Children &This();
 };
 
