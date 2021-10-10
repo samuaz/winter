@@ -13,8 +13,6 @@ namespace winter::data::sql {
 
 class Clause {
  public:
-  void set_statement_template(const std::string &statement_template);
-
   Clause &operator<<(const std::string &rvalue);
 
   const std::string &query() const;
@@ -28,6 +26,7 @@ class Clause {
  protected:
   Clause &BuildQuery();
   Clause(std::string statement_template, std::string param);
+  void set_statement_template(const std::string &statement_template);
 
  private:
   std::string statement_template_;

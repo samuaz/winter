@@ -54,10 +54,10 @@ class Where : public virtual Clause {
   }
 
  private:
-  Column column_;
-  std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> field_;
-  winter::data::sql::Condition condition_{};
-  bool _is_predicate = false;
+  const Column column_;
+  const std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> field_;
+  const winter::data::sql::Condition condition_{};
+  const bool _is_predicate = false;
 };
 
 }  // namespace winter::data::sql

@@ -4,16 +4,15 @@
  * @YEAR 2019
  */
 
+#include <jdbc/cppconn/sqlstring.h>
 #include <mysql/jdbc.h>
 #include <wintercpp/data/response/winter_data_response_status.h>
-#include <wintercpp/exception/sql/winter_sql_exception.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection.h>
 #include <wintercpp/exception/generic/winter_internal_exception.h>
+#include <wintercpp/exception/sql/winter_sql_exception.h>
 
 #include <optional>
 #include <string>
-
-#include <jdbc/cppconn/sqlstring.h>
 
 using namespace winter;
 using namespace winter::descriptor;
