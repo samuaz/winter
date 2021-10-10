@@ -20,8 +20,6 @@ using namespace winter::data::sql::exception;
 using namespace winter::data::sql::mysql;
 using namespace winter::data::sql::mysql::connection;
 
-Connection::Connection(::sql::Connection *conn) : SQLConnection<Connection, ::sql::Connection, MysqlResponse>(conn){};
-
 MysqlResponse
 Connection::Execute(const PreparedStatement &query) noexcept(false) {
   std::scoped_lock<std::recursive_mutex> lock(conn_mtx());

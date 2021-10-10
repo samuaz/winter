@@ -19,8 +19,6 @@ namespace winter::templates {
 template <typename TConnectionImpl, typename TConnectionType>
 class Connection {
  public:
-  explicit Connection(TConnectionType *conn) : conn_(conn) {}
-
   Connection(const Connection &) = delete;
   Connection &operator=(const Connection &) = delete;
 
@@ -40,6 +38,8 @@ class Connection {
   }
 
  protected:
+   explicit Connection(TConnectionType *conn) : conn_(conn) {}
+
   constexpr TConnectionType &
   conn() const {
     if (conn_ == nullptr) {
