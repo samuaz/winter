@@ -24,8 +24,8 @@ class SQLConnection : public winter::templates::
  public:
   explicit SQLConnection(TConnectionType *conn) : winter::templates::Connection<TConnectionImpl, TConnectionType>(conn){};
 
-  SQLConnection(const SQLConnection&) = delete;
-  SQLConnection& operator=(const SQLConnection&) = delete;
+  SQLConnection(const SQLConnection &) = delete;
+  SQLConnection &operator=(const SQLConnection &) = delete;
 
   virtual TResponse Execute(const PreparedStatement &query) = 0;
 

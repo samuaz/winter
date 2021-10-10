@@ -85,13 +85,11 @@ Response<TImplementation, TResultType, TStatusType>::status()
   return status_;
 }
 
-
 template <typename TImplementation, typename TResultType, typename TStatusType>
 const std::string &
 Response<TImplementation, TResultType, TStatusType>::message() const {
   return message_;
 }
-
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
 const std::optional<TResultType> &
@@ -207,8 +205,8 @@ auto Response<TImplementation, TResultType, TStatusType>::operator<<(const Funct
 }
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
-TImplementation & Response<TImplementation, TResultType, TStatusType>::This() {
-    return dynamic_cast<TImplementation &>(*this);
-  }
+TImplementation &Response<TImplementation, TResultType, TStatusType>::This() {
+  return dynamic_cast<TImplementation &>(*this);
+}
 
 }  // namespace winter::templates

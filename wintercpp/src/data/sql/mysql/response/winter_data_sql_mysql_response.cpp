@@ -3,7 +3,6 @@
 using namespace winter::data::sql;
 using namespace winter::data::sql::mysql;
 
-
 MysqlResponse
 MysqlResponse::Error(const std::string &transactionId, StatementType type, const std::string &message) {
   return {transactionId, type, ResponseStatus::kError, message};

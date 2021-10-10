@@ -27,10 +27,9 @@ namespace winter::templates {
 template <typename TImplementation, typename TResultType, typename TStatusType>
 class Response {
  public:
+  Response(const Response &) = delete;
 
-  Response(const Response&) = delete;
-    
-  Response& operator=(const Response&) = delete;
+  Response &operator=(const Response &) = delete;
 
   virtual ~Response() = default;
 
@@ -106,14 +105,13 @@ class Response {
   auto operator<<(const Functor &functor);
 
  protected:
-
   Response(TStatusType status, std::string message);
 
   Response(
       const std::optional<TResultType> &result,
       TStatusType status,
       std::string message);
- 
+
   const std::optional<TResultType> result_;
 
   const TStatusType status_{};
@@ -121,8 +119,7 @@ class Response {
   const std::string message_{};
 
  private:
-
-  TImplementation & This();
+  TImplementation &This();
 
   template <typename T = TResultType, std::enable_if_t<!std::is_pointer<T>::value> * = nullptr>
   bool HasValue() const;

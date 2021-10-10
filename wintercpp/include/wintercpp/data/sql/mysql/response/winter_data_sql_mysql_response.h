@@ -16,7 +16,7 @@ namespace winter::data::sql::mysql {
 class Response final : public virtual winter::data::sql::
 			   Response<winter::data::sql::mysql::Response, MysqlResultRow> {
  public:
-   using winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>::Response;
+  using winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>::Response;
 
   static Response Error(const std::string &transactionId, StatementType type, const std::string &message);
 

@@ -21,7 +21,6 @@ class Response : public winter::templates::Response<
 		     TImplementation,
 		     std::vector<TResultRow>,
 		     winter::data::ResponseStatus> {
-
   using winter::templates::Response<
       TImplementation,
       std::vector<TResultRow>,
@@ -33,7 +32,6 @@ class Response : public winter::templates::Response<
       winter::data::ResponseStatus>::status;
 
  public:
-
   Response(
       std::string transaction_id,
       StatementType type,
@@ -50,14 +48,14 @@ class Response : public winter::templates::Response<
 
   Response(const Response&) = delete;
   Response& operator=(const Response&) = delete;
-  
+
   virtual ~Response() = default;
 
   int row_affected() const {
     return row_affected_;
   }
 
-  const std::string &
+  const std::string&
   transaction_id() const {
     return transaction_id_;
   }
