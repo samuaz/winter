@@ -8,6 +8,7 @@
 #include <wintercpp/template/winter_connection_pool_template.h>
 
 #include <memory>
+#include <optional>
 
 namespace winter::templates {
 
