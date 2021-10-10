@@ -6,7 +6,7 @@
 #define WINTER_RESPONSE_TEMPLATE
 
 #include <wintercpp/data/response/winter_data_response_status.h>
-#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 
 #include <functional>
 #include <iostream>

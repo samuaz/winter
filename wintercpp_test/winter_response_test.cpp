@@ -8,8 +8,8 @@
 #include <optional>
 #include <string>
 
-#include "wintercpp/exception/generic/winter_exception.h"
-
+#include "wintercpp/exception/generic/winter_internal_exception.h"
+using namespace winter::exception;
 struct Person {
   Person(std::string name) : name_(name) {}
   std::string name_;
@@ -130,12 +130,12 @@ TEST(winterResponse, returnOrThrowShouldReturn) {
 
 TEST(winterResponse, returnOrThrowShouldThrow) {
   auto response = winter::data::Response<int>::Error("not found");
-  EXPECT_THROW(response.ReturnOrThrow(), winter::WinterException);
+  EXPECT_THROW(response.ReturnOrThrow(), WinterInternalException);
 }
 
 TEST(winterResponse, testHasValuePointerThrow) {
   auto response = winter::data::Response<int *>::Error("not found");
-  EXPECT_THROW(response.ReturnOrThrow(), winter::WinterException);
+  EXPECT_THROW(response.ReturnOrThrow(), WinterInternalException);
 }
 
 TEST(winterResponse, testHasValuePointer) {

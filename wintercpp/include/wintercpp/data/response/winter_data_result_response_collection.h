@@ -11,9 +11,10 @@
 #include <string>
 #include <utility>
 
-#include "wintercpp/exception/generic/winter_exception.h"
+#include "wintercpp/exception/generic/winter_internal_exception.h"
 
 namespace winter::data::response {
+using namespace winter::exception;
 
 /**
  * @brief returns single element, nullopt if there are no elements or throws an exception if there is more than one element
@@ -28,7 +29,7 @@ RequireSingleOrNullopt(const std::vector<T>& result) {
   }
 
   if (result.size() > 1) {
-    throw WinterException("Collection has more than one element");
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "Collection has more than one element");
   }
 
   return Response<T>::Success(*result.begin());

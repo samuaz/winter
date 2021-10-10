@@ -3,10 +3,11 @@
 //
 
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
-#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 
 #include <utility>
 
+using namespace winter::exception;
 using namespace winter::data::sql;
 
 PreparedStatement::PreparedStatement(
@@ -139,7 +140,8 @@ PreparedStatement::FindByName(
   if (it != values_.end()) {
     return **it;
   }
-  throw WinterException("preparedstatement field not found " + name);
+
+  throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ("preparedstatement field not found " + name));
 }
 
 std::shared_ptr<AbstractPreparedStatementField>
@@ -149,7 +151,7 @@ PreparedStatement::FindByField(
   if (it != values_.end()) {
     return *it;
   }
-  throw WinterException("preparedstatement field not found " + name);
+  throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ("preparedstatement field not found " + name));
 }
 
 bool PreparedStatement::FieldIsPresent(const std::string &name) {
@@ -164,7 +166,7 @@ int PreparedStatement::SearchFieldIndex(const std::string &name) {
     return index;
   }
 
-  throw WinterException("preparedstatement field not found " + name);
+  throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ("preparedstatement field not found " + name));
 }
 
 const std::set<Column, ColumnComparator> &

@@ -9,12 +9,12 @@
 
 #include <wintercpp/exception/generic/winter_exception.h>
 
-namespace winter {
+namespace winter::exception {
 
-class UnauthenticatedException final : public WinterException {
+class UnauthenticatedException final : public WinterException<UnauthenticatedException> {
  public:
   explicit UnauthenticatedException(const string &message) noexcept;
 };
-}  // namespace winter
+}  // namespace winter::exception
 
 #endif	// WINTER_UNAUTHENTICATED_EXCEPTION_H

@@ -5,6 +5,6 @@
  */
 
 #include <wintercpp/exception/database/winter_database_exception.h>
-using namespace winter;
+using namespace winter::exception;
 
-DataException::DataException(const string &message) noexcept : WinterException(message) {}
+DataException::DataException(const string &message) noexcept : WinterException<DataException>(message) {}

@@ -12,34 +12,33 @@
 #include <string>
 
 using namespace std;
-namespace winter {
+namespace winter::exception {
 
+template <typename T>
 class WinterException : public std::logic_error {
  public:
-  explicit WinterException(const string &message) noexcept;
-
-  template<typename T>
   static T
-  Create(const std::string &file, const std::string &function_name, int line, const std::string &err, int err_code) {    
-    auto msg = message<T>(file, function_name, line, err);
+  Create(const std::string &file, const std::string &function_name, int line, const std::string &err, int err_code) {
+    auto msg = message(file, function_name, line, err);
     msg << " with err code " << err_code;
     return T(msg.str());
   }
 
-  template<typename T>
   static T
-  Create(const std::string &file, const std::string &function_name, int line, const std::string &err) {  
-    return T(message<T>(file, function_name, line, err).str());
+  Create(const std::string &file, const std::string &function_name, int line, const std::string &err) {
+    return T(message(file, function_name, line, err).str());
   }
 
-  private:
-  template<typename T>
+ protected:
+  explicit WinterException<T>(const string &message) noexcept : std::logic_error(message) {}
+
+ private:
   static std::stringstream message(const std::string &file, const std::string &function_name, int line, const std::string &err) {
-        std::stringstream ss;
-        ss << "Exception " << typeid(T).name() << " " << err << " in file " << file << " function name " << function_name << " on line number " << line;
-        return ss;
+    std::stringstream ss;
+    ss << "Exception " << typeid(T).name() << " " << err << " in file " << file << " function name " << function_name << " on line number " << line;
+    return ss;
   }
 };
-}  // namespace winter
+}  // namespace winter::exception
 
 #endif	// WINTER_EXCEPTION_H

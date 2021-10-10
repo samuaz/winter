@@ -8,6 +8,7 @@
 #include <wintercpp/data/response/winter_data_response_status.h>
 #include <wintercpp/data/sql/exception/winter_sql_exception.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 
 #include <optional>
 #include <string>
@@ -16,7 +17,7 @@
 
 using namespace winter;
 using namespace winter::descriptor;
-using namespace winter::data::sql::exception;
+using namespace winter::exception;
 using namespace winter::data::sql::mysql;
 using namespace winter::data::sql::mysql::connection;
 
@@ -212,6 +213,6 @@ Connection::Create(const Config &mysql_config) {
     connectionProperties["OPT_CONNECT_TIMEOUT"] = mysql_config.opt_connect_timeout();
     return new Connection(mysql_config.driver().connect(connectionProperties));
   } catch (std::runtime_error &ex) {
-    throw WinterException(ex.what());
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());
   }
 }

@@ -1,4 +1,5 @@
 namespace winter::templates {
+using namespace winter::exception;
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
 Response<TImplementation, TResultType, TStatusType>::Response(
@@ -103,10 +104,10 @@ auto Response<TImplementation, TResultType, TStatusType>::ReturnOrThrow() {
     if (HasValue()) {
       return result_.value();
     } else {
-      throw WinterException(message_);
+      throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, message_);
     }
   } catch (const std::exception &ex) {
-    throw WinterException(ex.what());
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());
   }
 }
 

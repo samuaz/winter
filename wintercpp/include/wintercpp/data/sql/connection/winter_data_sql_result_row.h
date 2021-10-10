@@ -13,9 +13,11 @@
 
 #include "wintercpp/data/response/winter_data_response.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_query.h"
-#include "wintercpp/exception/generic/winter_exception.h"
+#include "wintercpp/exception/generic/winter_internal_exception.h"
 
 namespace winter::data::sql {
+
+using namespace winter::exception;
 
 template <typename TResultSet>
 class ResultRow {
@@ -84,7 +86,7 @@ class ResultRow {
       if (res_) {
 	return std::get<T>(res_.Value());
       }
-      throw WinterException::Create(__FILE__, __FUNCTION__, __LINE__, res_.message());
+      throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, res_.message());
     }
 
    private:

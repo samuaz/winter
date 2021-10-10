@@ -9,13 +9,13 @@
 
 #include <wintercpp/exception/generic/winter_exception.h>
 
-namespace winter {
+namespace winter::exception {
 
-class SecurityException final : public WinterException {
+class SecurityException final : public WinterException<SecurityException> {
  public:
   explicit SecurityException(const string &message) noexcept;
 };
 
-}  // namespace winter
+}  // namespace winter::exception
 
 #endif	// WINTER_SECURITY_EXCEPTION_H

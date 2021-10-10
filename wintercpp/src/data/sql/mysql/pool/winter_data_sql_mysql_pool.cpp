@@ -5,6 +5,7 @@
 #include <wintercpp/data/sql/mysql/pool/winter_data_sql_mysql_pool.h>
 
 using namespace winter::data::sql::mysql::connection;
+using namespace winter::exception;
 
 Pool::Pool(
     PoolDescriptor pool_descriptor,
@@ -15,5 +16,5 @@ Pool::CreateConn() {
   if (connection_config_) {
     return MysqlConnection::Create(connection_config_.value());
   }
-  throw WinterException("MYSQL connection_config not present");
+  throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "MYSQL connection_config not present");
 }

@@ -60,6 +60,7 @@
 #include <wintercpp/data/winter_data_pageable.h>
 #include <wintercpp/exception/database/winter_database_exception.h>
 #include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/exception/security/winter_security_exception.h>
 #include <wintercpp/exception/security/winter_unauthenticated_exception.h>
 #include <wintercpp/grpc/winter_grpc_controller.h>

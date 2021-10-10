@@ -4,6 +4,8 @@
 
 #include <wintercpp/grpc/winter_grpc_controller.h>
 
+using namespace winter::exception;
+
 grpc::Status
 winter::GrpcController::responseEntity(
     const std::function<void()> &execute) {
@@ -12,7 +14,7 @@ winter::GrpcController::responseEntity(
     execute();
   } catch (const SecurityException &e) {
     status = grpc::Status(grpc::StatusCode::UNAUTHENTICATED, e.what());
-  } catch (const WinterException &e) {
+  } catch (const WinterInternalException &e) {
     status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
   } catch (const ::sql::SQLException &e) {
     status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());

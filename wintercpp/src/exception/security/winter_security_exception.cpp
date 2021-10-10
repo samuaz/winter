@@ -5,6 +5,6 @@
  */
 
 #include <wintercpp/exception/security/winter_security_exception.h>
-using namespace winter;
+using namespace winter::exception;
 
-SecurityException::SecurityException(const string &message) noexcept : WinterException(message) {}
+SecurityException::SecurityException(const string &message) noexcept : WinterException<SecurityException>(message) {}

@@ -12,9 +12,11 @@
 #include <mutex>
 #include <string>
 
-#include "wintercpp/exception/generic/winter_exception.h"
+#include "wintercpp/exception/generic/winter_internal_exception.h"
 
 namespace winter::templates {
+
+using namespace exception;
 
 template <typename TConnectionImpl, typename TConnectionType>
 class Connection {
@@ -43,7 +45,7 @@ class Connection {
   constexpr TConnectionType &
   conn() const {
     if (conn_ == nullptr) {
-      throw WinterException::Create(__FILE__, __FUNCTION__, __LINE__, "cant connect to database, conn_ is null");
+      throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "cant connect to database, conn_ is null");
     }
     return *conn_;
   }
