@@ -18,23 +18,26 @@ class WinterException : public std::logic_error {
  public:
   explicit WinterException(const string &message) noexcept;
 
-  static WinterException
-  Create(const std::string &file, const std::string &function_name, int line, const std::string &err, int err_code) {
-    auto msg = message(file, function_name, line, err);
+  template<typename T>
+  static T
+  Create(const std::string &file, const std::string &function_name, int line, const std::string &err, int err_code) {    
+    auto msg = message<T>(file, function_name, line, err);
     msg << " with err code " << err_code;
-    return WinterException(msg.str());
+    return T(msg.str());
   }
 
-  static WinterException
-  Create(const std::string &file, const std::string &function_name, int line, const std::string &err) {
-    return WinterException(message(file, function_name, line, err).str());
+  template<typename T>
+  static T
+  Create(const std::string &file, const std::string &function_name, int line, const std::string &err) {  
+    return T(message<T>(file, function_name, line, err).str());
   }
 
- private:
+  private:
+  template<typename T>
   static std::stringstream message(const std::string &file, const std::string &function_name, int line, const std::string &err) {
-    std::stringstream ss;
-    ss << "Exception " << err << " in file " << file << " function name " << function_name << " on line number" << line;
-    return ss;
+        std::stringstream ss;
+        ss << "Exception " << typeid(T).name() << " " << err << " in file " << file << " function name " << function_name << " on line number " << line;
+        return ss;
   }
 };
 }  // namespace winter
