@@ -11,6 +11,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include "wintercpp/exception/generic/winter_exception.h"
 
 namespace winter::templates {
 
@@ -27,15 +28,6 @@ class Connection {
     return id_;
   }
 
-  constexpr TConnectionType &
-  conn() const {
-    return *conn_;
-  }
-
-  const std::recursive_mutex &conn_mtx() const{
-    return conn_mtx_;
-  }
-
   bool
   operator==(const TConnectionImpl &rhs) const {
     return id_ == rhs.id_;
@@ -46,10 +38,24 @@ class Connection {
     return !(rhs == *this);
   }
 
+  protected:
+  
+  constexpr TConnectionType &
+  conn() const {
+    if(conn_ == nullptr) {
+        throw WinterException::Create(__FILE__, __FUNCTION__, __LINE__, "cant connect to database, conn_ is null");
+    }
+    return *conn_;
+  }
+
+  std::recursive_mutex &conn_mtx() {
+    return conn_mtx_;
+  }
+
  private:
   const std::string id_ {winter::random::generateHex(10)};
   const std::unique_ptr<TConnectionType> conn_;
-  const std::recursive_mutex conn_mtx_{};
+  std::recursive_mutex conn_mtx_{};
 };
 
 template <typename ConnectionImpl, typename ConnectionType>

@@ -19,7 +19,7 @@
 namespace winter::data::sql {
 
 template <typename TConnectionImpl, typename TConnectionType, typename TResponse>
-class SQLConnection : public virtual winter::templates::
+class SQLConnection : public winter::templates::
 			  Connection<TConnectionImpl, TConnectionType> {
  public:
   explicit SQLConnection(TConnectionType *conn) : winter::templates::Connection<TConnectionImpl, TConnectionType>(conn){};

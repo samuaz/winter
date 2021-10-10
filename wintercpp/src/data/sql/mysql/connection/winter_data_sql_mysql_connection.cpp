@@ -24,7 +24,7 @@ Connection::Connection(::sql::Connection *conn) : SQLConnection<Connection, ::sq
 
 MysqlResponse
 Connection::Execute(const PreparedStatement &query) noexcept(false) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx_);
+  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
   try {
     Reconnect();
     return CreateResponse(query, GeneratePrepareStatement(query));
@@ -35,14 +35,10 @@ Connection::Execute(const PreparedStatement &query) noexcept(false) {
 }
 
 void Connection::Reconnect() {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx_);
+  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
   try {
-    if (conn_) {
-      if (conn_->isClosed()) {
-	conn_->reconnect();
-      }
-    } else {
-      throw SqlException::Create(__FILE__, __FUNCTION__, __LINE__, "cant connect to database, conn_ is null");
+    if (conn().isClosed()) {
+      conn().reconnect();
     }
   } catch (::sql::SQLException &e) {
     throw SqlException::Create(__FILE__, __FUNCTION__, __LINE__, (std::string("cant connect to database, ") + e.what()), e.getErrorCode());
@@ -51,7 +47,6 @@ void Connection::Reconnect() {
 
 MysqlResponse
 Connection::CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::PreparedStatement> &prep_stmt) {
-
   if (prep_stmt != nullptr) {
     auto no_result_query = [&](int update_count) -> MysqlResponse {
       if (update_count > 0) {
@@ -103,9 +98,9 @@ Connection::CreateResponse(const PreparedStatement &prepared_statement, const st
 std::shared_ptr< ::sql::PreparedStatement>
 Connection::GeneratePrepareStatement(
     const PreparedStatement &query) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx_);
+  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
   std::shared_ptr< ::sql::PreparedStatement> _prep_stmt(
-      conn_->prepareStatement(::sql::SQLString(query.statement_template())));
+      conn().prepareStatement(::sql::SQLString(query.statement_template())));
   auto values = query.values();
   for (std::size_t i = 0; i != values.size(); ++i) {
     auto field = values[i].get();
@@ -192,18 +187,18 @@ Connection::IsolationLevel(
 }
 
 void Connection::PrepareTransaction(const TransactionIsolationType &isolation) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx_);
-  conn_->setAutoCommit(false);
-  conn_->setTransactionIsolation(IsolationLevel(isolation));
-  conn_->createStatement()->execute("START TRANSACTION");
+  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
+  conn().setAutoCommit(false);
+  conn().setTransactionIsolation(IsolationLevel(isolation));
+  conn().createStatement()->execute("START TRANSACTION");
 }
 
 void Connection::Commit() const {
-  conn_->commit();
+  conn().commit();
 }
 
 void Connection::Rollback() const {
-  conn_->rollback();
+  conn().rollback();
 }
 
 winter::data::sql::mysql::connection::Connection *
