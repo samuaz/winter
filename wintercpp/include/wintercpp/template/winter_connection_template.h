@@ -38,7 +38,7 @@ class Connection {
   }
 
  protected:
-   explicit Connection(TConnectionType *conn) : conn_(conn) {}
+  explicit Connection(TConnectionType *conn) : conn_(conn) {}
 
   constexpr TConnectionType &
   conn() const {
