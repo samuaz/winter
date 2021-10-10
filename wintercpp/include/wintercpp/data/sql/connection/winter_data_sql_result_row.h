@@ -13,6 +13,7 @@
 
 #include "wintercpp/data/response/winter_data_response.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_query.h"
+#include "wintercpp/exception/generic/winter_exception.h"
 
 namespace winter::data::sql {
 
@@ -79,12 +80,12 @@ class ResultRow {
     explicit DataTypeResult(winter::data::response::Response<DataType> res) : res_(res) {}
 
     template <typename T>
-    winter::data::response::Response<T>
+    T
     as() {
       if (res_) {
-	return winter::data::response::Response<T>::Success(std::get<T>(res_.Value()));
+	return std::get<T>(res_.Value());
       }
-      return winter::data::response::Response<T>::Error("result not found " + res_.message());
+      throw WinterException(res_.message());
     }
 
    private:
