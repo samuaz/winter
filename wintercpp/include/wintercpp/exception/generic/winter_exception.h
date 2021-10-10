@@ -19,17 +19,22 @@ class WinterException : public std::logic_error {
   explicit WinterException(const string &message) noexcept;
 
   static WinterException
-  Create(const std::string &file, const std::string &function_name, int line, const std::string &err, int err_code) {
-    std::stringstream ss;
-    ss << "Exception " << err << " in file " << file << " function " << function_name << " on line " << line << " with err code " << err_code;
-    return WinterException(ss.str());
+  Create(const std::string &file, const std::string &function_name, int line, const std::string &err, int err_code) {    
+    auto msg = message(file, function_name, line, err);
+    msg << " with err code " << err_code;
+    return WinterException(msg.str());
   }
 
   static WinterException
-  Create(const std::string &file, const std::string &function_name, int line, const std::string &err) {
-    std::stringstream ss;
-    ss << "Exception " << err << " in file " << file << " function " << function_name << " on line " << line;
-    return WinterException(ss.str());
+  Create(const std::string &file, const std::string &function_name, int line, const std::string &err) {  
+    return WinterException(message(file, function_name, line, err).str());
+  }
+
+  private:
+  static std::stringstream message(const std::string &file, const std::string &function_name, int line, const std::string &err) {
+        std::stringstream ss;
+        ss << "Exception " << err << " in file " << file << " function name " << function_name << " on line number" << line;
+        return ss;
   }
 };
 }  // namespace winter
