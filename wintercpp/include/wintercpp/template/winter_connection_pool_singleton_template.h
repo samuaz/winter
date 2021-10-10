@@ -5,8 +5,8 @@
 #ifndef WINTERCPP_WINTER_CONNECTION_POOL_SINGLETON_TEMPLATE_H
 #define WINTERCPP_WINTER_CONNECTION_POOL_SINGLETON_TEMPLATE_H
 
-#include <wintercpp/template/winter_connection_pool_template.h>
 #include <wintercpp/exception/generic/winter_internal_exception.h>
+#include <wintercpp/template/winter_connection_pool_template.h>
 
 #include <memory>
 #include <optional>
