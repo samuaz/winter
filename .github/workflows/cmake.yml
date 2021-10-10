@@ -22,17 +22,37 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: ccache
-      uses: hendrikmuhs/ccache-action@v1
+    # install dependencies
+    - name: ninja
+      run: sudo apt-get install -y ninja-build
       
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
+    - name: Cache cmake
+      uses: actions/cache@v2.1.6
+      id: cache-cmake
+      with:
+        path: "~/winter"
+        key: cmake-build
+    - name: Install boost
+      env:
+        CACHE_HIT: ${{steps.cache-cmake.outputs.cache-hit}}
+      run: |
+        if [[ "$CACHE_HIT" == 'true' ]]; then
+          sudo cp --force --recursive ~/winter/build/* ${{github.workspace}}/build/
+          sudo cp --force --recursive ~/winter/.cache/* ${{github.workspace}}/build/.cache/
+          sudo cp --force --recursive ~/winter/wintercpp/third_party/* ${{github.workspace}}/wintercpp/third_party/
+          sudo cp --force --recursive ~/winter/wintercpp_test/third_party/* ${{github.workspace}}/wintercpp_test/third_party/
+        else
+          cmake -B ${{github.workspace}}/winterbuild -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja
+          mkdir -p ~/winter
+          sudo cp --force --recursive ${{github.workspace}}/build/* ~/winter/build/
+          sudo cp --force --recursive ${{github.workspace}}/build/.cache/* ~/winter/.cache/
+          sudo cp --force --recursive ${{github.workspace}}/wintercpp/third_party/* ~/winter/wintercpp/third_party/
+          sudo cp --force --recursive ${{github.workspace}}/wintercpp_test/third_party/* ~/winter/wintercpp_test/third_party/
+        fi
+  
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} 
 
     - name: Test
       working-directory: ${{github.workspace}}/build/${{env.TEST_DIR}}
