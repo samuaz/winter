@@ -25,7 +25,7 @@ void WinterBoot::runServer(const std::string &host, const std::string &port) {
 
   std::string server_address(host + ":" + port);
 
-  /// Listen on the given address without any authentication mechanism.
+  //// Listen on the given address without any authentication mechanism.
   //// security is service independent by security module
   //// you can also make this use ssl security or auth
   builder_.AddListeningPort(server_address, grpc::InsecureServerCredentials());
