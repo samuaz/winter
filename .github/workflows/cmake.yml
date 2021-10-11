@@ -37,10 +37,14 @@ jobs:
         CACHE_HIT: ${{steps.cache-winter.outputs.cache-hit}}
       run: |
         if [[ "$CACHE_HIT" == 'true' ]]; then
-          sudo cp --force --recursive ~/winter/build/* ${{github.workspace}}/build/
-          #sudo cp --force --recursive ~/winter/cache/* ${{github.workspace}}/.cache/
-          sudo cp --force --recursive ~/winter/wintercpp/third_party/* ${{github.workspace}}/wintercpp/third_party/
-          sudo cp --force --recursive ~/winter/wintercpp_test/third_party/* ${{github.workspace}}/wintercpp_test/third_party/
+          mkdir -p ${{github.workspace}}/build/
+          cp --force --recursive ~/winter/build/* ${{github.workspace}}/build/
+          #mkdir -p ${{github.workspace}}/.cache/
+          #cp --force --recursive ~/winter/cache/* ${{github.workspace}}/.cache/
+          mkdir -p ${{github.workspace}}/wintercpp/third_party/
+          cp --force --recursive ~/winter/wintercpp/third_party/* ${{github.workspace}}/wintercpp/third_party/
+          mkdir -p ${{github.workspace}}/wintercpp_test/third_party/
+          cp --force --recursive ~/winter/wintercpp_test/third_party/* ${{github.workspace}}/wintercpp_test/third_party/
           cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
         else
           cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja
@@ -50,10 +54,10 @@ jobs:
           mkdir -p ~/winter/build
           mkdir -p ~/winter/wintercpp/third_party
           mkdir -p ~/winter/wintercpp_test/third_party
-          sudo cp --force --recursive ${{github.workspace}}/build/* ~/winter/build/
-          #sudo cp --force --recursive ${{github.workspace}}/.cache/* ~/winter/cache/
-          sudo cp --force --recursive ${{github.workspace}}/wintercpp/third_party/* ~/winter/wintercpp/third_party/
-          sudo cp --force --recursive ${{github.workspace}}/wintercpp_test/third_party/* ~/winter/wintercpp_test/third_party/
+          cp --force --recursive ${{github.workspace}}/build/* ~/winter/build/
+          #cp --force --recursive ${{github.workspace}}/.cache/* ~/winter/cache/
+          cp --force --recursive ${{github.workspace}}/wintercpp/third_party/* ~/winter/wintercpp/third_party/
+          cp --force --recursive ${{github.workspace}}/wintercpp_test/third_party/* ~/winter/wintercpp_test/third_party/
         fi
         
     - name: Build
