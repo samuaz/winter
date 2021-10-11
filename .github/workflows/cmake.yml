@@ -26,15 +26,15 @@ jobs:
     - name: ninja
       run: sudo apt-get install -y ninja-build
       
-    - name: winter build cache
+    - name: configure
       uses: actions/cache@v2.1.6
-      id: cache-cmake
+      id: cache-winter
       with:
         path: "~/winter"
-        key: cmake-build
+        key: ${{ runner.os }}-winter
     - name: Configure and build winter
       env:
-        CACHE_HIT: ${{steps.cache-cmake.outputs.cache-hit}}
+        CACHE_HIT: ${{steps.cache-winter.outputs.cache-hit}}
       run: |
         if [[ "$CACHE_HIT" == 'true' ]]; then
           sudo cp --force --recursive ~/winter/build/* ${{github.workspace}}/build/
@@ -44,7 +44,7 @@ jobs:
           cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
         else
           cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja
-          cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+          #cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
           mkdir -p ~/winter
           #mkdir -p ~/winter/cache
           mkdir -p ~/winter/build
@@ -55,10 +55,13 @@ jobs:
           sudo cp --force --recursive ${{github.workspace}}/wintercpp/third_party/* ~/winter/wintercpp/third_party/
           sudo cp --force --recursive ${{github.workspace}}/wintercpp_test/third_party/* ~/winter/wintercpp_test/third_party/
         fi
-
+        
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} 
+      
     - name: Test
       working-directory: ${{github.workspace}}/build/${{env.TEST_DIR}}
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
-      
