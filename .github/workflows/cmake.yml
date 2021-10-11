@@ -63,8 +63,10 @@ jobs:
         fi
         
     - name: Build
+      working-directory: ${{github.workspace}}
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} 
+      #run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} 
+      run: ninja -C build -j 20
       
     - name: Test
       working-directory: ${{github.workspace}}/build/${{env.TEST_DIR}}
