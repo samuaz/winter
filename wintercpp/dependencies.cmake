@@ -16,7 +16,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/dep_json.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_jwt.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_mysql.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_redis.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/util_grpc_proto.cmake)
+#include(${PROJECT_SOURCE_DIR}/cmake/util_grpc_proto.cmake)
 
 set(WINTER_LIBS
         ${WINTER_PROTOBUF_LIB}
