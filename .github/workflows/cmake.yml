@@ -30,8 +30,8 @@ jobs:
       id: cache-winter
       with:
         path: "~/winter"
-        key: ${{ runner.os }}-winter
-        restore-keys: ${{ runner.os }}-winter
+        key: winter-${{ hashFiles('wintercpp/dependencies.cmake') }}
+        restore-keys: winter-
     - name: Configure and build winter
       env:
         CACHE_HIT: ${{steps.cache-winter.outputs.cache-hit}}
