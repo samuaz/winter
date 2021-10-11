@@ -27,11 +27,12 @@ jobs:
       run: sudo apt-get install -y ninja-build
       
     - name: configure
-      uses: actions/cache@v2.1.6
+      uses: actions/cache@v2
       id: cache-winter
       with:
         path: "~/winter"
         key: ${{ runner.os }}-winter
+        restore-keys: ${{ runner.os }}-winter
     - name: Configure and build winter
       env:
         CACHE_HIT: ${{steps.cache-winter.outputs.cache-hit}}
