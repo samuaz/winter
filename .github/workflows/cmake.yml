@@ -54,6 +54,7 @@ jobs:
           #sudo cp --force --recursive ${{github.workspace}}/.cache/* ~/winter/cache/
           sudo cp --force --recursive ${{github.workspace}}/wintercpp/third_party/* ~/winter/wintercpp/third_party/
           sudo cp --force --recursive ${{github.workspace}}/wintercpp_test/third_party/* ~/winter/wintercpp_test/third_party/
+          done
         fi
 
     - name: Test
