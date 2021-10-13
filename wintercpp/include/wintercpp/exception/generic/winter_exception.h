@@ -14,8 +14,17 @@
 using namespace std;
 namespace winter::exception {
 
-template <typename T>
 class WinterException : public std::logic_error {
+ public:
+  WinterException(const WinterException &) = delete;
+  WinterException &operator=(const WinterException &) = delete;
+
+ protected:
+  explicit WinterException(const string &message) noexcept : std::logic_error(message) {}
+};
+
+template <typename T>
+class WinterExceptionTemplate : public WinterException {
  public:
   static T
   Create(const std::string &file, const std::string &function_name, int line, const std::string &err, int err_code) {
@@ -30,7 +39,7 @@ class WinterException : public std::logic_error {
   }
 
  protected:
-  explicit WinterException<T>(const string &message) noexcept : std::logic_error(message) {}
+  explicit WinterExceptionTemplate<T>(const string &message) noexcept : WinterException(message) {}
 
  private:
   static std::stringstream message(const std::string &file, const std::string &function_name, int line, const std::string &err) {

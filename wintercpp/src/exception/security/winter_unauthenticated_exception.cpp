@@ -8,4 +8,4 @@
 using namespace winter::exception;
 
 UnauthenticatedException::UnauthenticatedException(
-    const string &message) noexcept : WinterException<UnauthenticatedException>(message) {}
+    const string &message) noexcept : WinterExceptionTemplate<UnauthenticatedException>(message) {}

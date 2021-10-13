@@ -7,4 +7,4 @@
 #include <wintercpp/exception/security/winter_security_exception.h>
 using namespace winter::exception;
 
-SecurityException::SecurityException(const string &message) noexcept : WinterException<SecurityException>(message) {}
+SecurityException::SecurityException(const string &message) noexcept : WinterExceptionTemplate<SecurityException>(message) {}

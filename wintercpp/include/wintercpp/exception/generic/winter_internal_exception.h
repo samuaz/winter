@@ -16,7 +16,7 @@
 using namespace std;
 namespace winter::exception {
 
-class WinterInternalException final : public WinterException<WinterInternalException> {
+class WinterInternalException final : public WinterExceptionTemplate<WinterInternalException> {
  public:
   explicit WinterInternalException(const string &message) noexcept;
 };

@@ -11,7 +11,7 @@
 
 namespace winter::exception {
 
-class UnauthenticatedException final : public WinterException<UnauthenticatedException> {
+class UnauthenticatedException final : public WinterExceptionTemplate<UnauthenticatedException> {
  public:
   explicit UnauthenticatedException(const string &message) noexcept;
 };

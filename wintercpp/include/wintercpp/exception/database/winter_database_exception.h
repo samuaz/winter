@@ -11,7 +11,7 @@
 
 namespace winter::exception {
 
-class DataException final : public WinterException<DataException> {
+class DataException final : public WinterExceptionTemplate<DataException> {
  public:
   explicit DataException(const string &message) noexcept;
 };
