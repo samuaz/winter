@@ -33,11 +33,51 @@ Table::RegisterColumn(const Column &col) {
 }
 
 const Column &
+Table::Char(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::kChar));
+}
+
+const Column &
+Table::SignedChar(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::kSchar));
+}
+
+const Column &
+Table::UnsignedChar(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::kUchar));
+}
+
+const Column &
 Table::String(const std::string &name) {
   return RegisterColumn(Column(
       *this,
       name,
       FieldType::kString));
+}
+
+const Column &
+Table::Short(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::KShort));
+}
+
+const Column &
+Table::UShort(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::kUshort));
 }
 
 const Column &
@@ -49,11 +89,43 @@ Table::Int(const std::string &name) {
 }
 
 const Column &
+Table::UInt(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::KUint));
+}
+
+const Column &
+Table::BigInt(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::kBigInt));
+}
+
+const Column &
 Table::Long(const std::string &name) {
   return RegisterColumn(Column(
       *this,
       name,
       FieldType::kLong));
+}
+
+const Column &
+Table::ULong(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::kUlong));
+}
+
+const Column &
+Table::Decimal(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::KDecimal));
 }
 
 const Column &
@@ -89,6 +161,22 @@ Table::Date(const std::string &name) {
 }
 
 const Column &
+Table::DateTime(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::kDateTime));
+}
+
+const Column &
+Table::TimeStamp(const std::string &name) {
+  return RegisterColumn(Column(
+      *this,
+      name,
+      FieldType::kTimeStamp));
+}
+
+const Column &
 Table::Enum(const std::string &name) {
   return RegisterColumn(Column(
       *this,
@@ -110,3 +198,27 @@ TableType
 Table::tableType() const {
   return type_;
 }
+
+  bool
+  TableComparator::operator()(const std::shared_ptr<Table> &lhs, const std::shared_ptr<Table> &rhs) const {
+    std::stringstream s1, s2;
+    s1 << lhs->name();
+    s2 << rhs->name();
+    return s1.str() < s2.str();
+  }
+
+  bool
+  TableComparator::operator()(Table *lhs, Table *rhs) const {
+    std::stringstream s1, s2;
+    s1 << lhs->name();
+    s2 << rhs->name();
+    return s1.str() < s2.str();
+  }
+
+  bool
+  TableComparator::operator()(const Table &lhs, const Table &rhs) const {
+    std::stringstream s1, s2;
+    s1 << lhs.name();
+    s2 << rhs.name();
+    return s1.str() < s2.str();
+  }

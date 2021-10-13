@@ -21,7 +21,7 @@ class Table;
 class Column;
 struct ColumnComparator;
 
-class Column {
+class Column final {
  public:
   Column(Table &table, std::string column_name, FieldType column_type);
 
@@ -50,28 +50,13 @@ class Column {
 
 struct ColumnComparator {
   bool
-  operator()(const std::shared_ptr<Column> &lhs, const std::shared_ptr<Column> &rhs) const {
-    std::stringstream s1, s2;
-    s1 << lhs->TableName() << lhs->name();
-    s2 << rhs->TableName() << rhs->name();
-    return s1.str() < s2.str();
-  }
+  operator()(const std::shared_ptr<Column> &lhs, const std::shared_ptr<Column> &rhs) const;
 
   bool
-  operator()(Column *lhs, Column *rhs) const {
-    std::stringstream s1, s2;
-    s1 << lhs->TableName() << lhs->name();
-    s2 << rhs->TableName() << rhs->name();
-    return s1.str() < s2.str();
-  }
+  operator()(Column *lhs, Column *rhs) const;
 
   bool
-  operator()(const Column &lhs, const Column &rhs) const {
-    std::stringstream s1, s2;
-    s1 << lhs.TableName() << lhs.name();
-    s2 << rhs.TableName() << rhs.name();
-    return s1.str() < s2.str();
-  }
+  operator()(const Column &lhs, const Column &rhs) const;
 };
 
 }  // namespace winter::data::sql

@@ -16,7 +16,7 @@
 
 namespace winter::data::sql {
 
-class Query : public virtual Statement<Query> {
+class Query final : public virtual Statement<Query> {
  public:
   explicit Query(StatementType statement_type, const std::string &query) : Statement<Query>(query, statement_type) {}
 

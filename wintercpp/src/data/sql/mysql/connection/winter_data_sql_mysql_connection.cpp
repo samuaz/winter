@@ -11,6 +11,7 @@
 #include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/exception/sql/winter_sql_exception.h>
 
+#include <cstdint>
 #include <optional>
 #include <string>
 
@@ -107,10 +108,16 @@ Connection::GeneratePrepareStatement(
       case FieldType::kNull:
 	_prep_stmt->setNull(position, 0);
 	break;
+      case FieldType::kBigInt:
+	_prep_stmt->setBigInt(
+	    position,
+	    dynamic_cast<PreparedStatementField<std::string> *>(field)->value());
+      break;
       case FieldType::kChar:
       case FieldType::kDate:
       case FieldType::kDateTime:
-      case FieldType::kBigInt:
+      case FieldType::KDecimal:
+      case FieldType::kTimeStamp:
       case FieldType::kString:
 	_prep_stmt->setString(
 	    position,
@@ -122,26 +129,22 @@ Connection::GeneratePrepareStatement(
       case FieldType::kInt:
 	_prep_stmt->setInt(
 	    position,
-	    dynamic_cast<PreparedStatementField<int> *>(field)->value());
+	    dynamic_cast<PreparedStatementField<int32_t> *>(field)->value());
 	break;
       case FieldType::kUshort:
       case FieldType::kUchar:
       case FieldType::KUint:
 	_prep_stmt->setUInt(
 	    position,
-	    dynamic_cast<PreparedStatementField<unsigned int> *>(field)->value());
+	    dynamic_cast<PreparedStatementField<uint32_t> *>(field)->value());
 	break;
       case FieldType::kBoolean:
 	_prep_stmt->setBoolean(
 	    position,
 	    dynamic_cast<PreparedStatementField<bool> *>(field)->value());
 	break;
-      case FieldType::kDouble:
-	_prep_stmt->setDouble(
-	    position,
-	    dynamic_cast<PreparedStatementField<double> *>(field)->value());
-	break;
       case FieldType::kFloat:
+      case FieldType::kDouble:
 	_prep_stmt->setDouble(
 	    position,
 	    dynamic_cast<PreparedStatementField<double> *>(field)->value());
@@ -149,12 +152,12 @@ Connection::GeneratePrepareStatement(
       case FieldType::kLong:
 	_prep_stmt->setInt64(
 	    position,
-	    dynamic_cast<PreparedStatementField<long> *>(field)->value());
+	    dynamic_cast<PreparedStatementField<int64_t> *>(field)->value());
 	break;
       case FieldType::kUlong:
 	_prep_stmt->setUInt64(
 	    position,
-	    dynamic_cast<PreparedStatementField<unsigned long> *>(field)->value());
+	    dynamic_cast<PreparedStatementField<uint64_t> *>(field)->value());
 	break;
       case FieldType::kBlob:
 	_prep_stmt->setBlob(

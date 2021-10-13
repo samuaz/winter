@@ -32,3 +32,24 @@ const std::string &
 Column::TableName() const {
   return table_.name();
 }
+
+bool ColumnComparator::operator()(const std::shared_ptr<Column> &lhs, const std::shared_ptr<Column> &rhs) const {
+  std::stringstream s1, s2;
+  s1 << lhs->TableName() << lhs->name();
+  s2 << rhs->TableName() << rhs->name();
+  return s1.str() < s2.str();
+}
+
+bool ColumnComparator::operator()(Column *lhs, Column *rhs) const {
+  std::stringstream s1, s2;
+  s1 << lhs->TableName() << lhs->name();
+  s2 << rhs->TableName() << rhs->name();
+  return s1.str() < s2.str();
+}
+
+bool ColumnComparator::operator()(const Column &lhs, const Column &rhs) const {
+  std::stringstream s1, s2;
+  s1 << lhs.TableName() << lhs.name();
+  s2 << rhs.TableName() << rhs.name();
+  return s1.str() < s2.str();
+}

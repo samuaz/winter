@@ -22,11 +22,10 @@ class UUIDTable : public Table,
 
   ~UUIDTable() override = default;
 
- protected:
-  Column id_;
-
  private:
-  bool binary_;
+  const Column id_;
+  const bool binary_;
+
 };
 
 }  // namespace winter::data::sql

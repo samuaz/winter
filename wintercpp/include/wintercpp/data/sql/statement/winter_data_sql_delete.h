@@ -12,7 +12,7 @@
 
 namespace winter::data::sql {
 
-class Delete : public virtual Statement<Delete> {
+class Delete final : public virtual Statement<Delete> {
  public:
   Delete();
 

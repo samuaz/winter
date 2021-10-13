@@ -30,11 +30,13 @@ enum class FieldType : int {
   kBigInt,
   kUlong,
   kLong,
+  KDecimal,
   kFloat,
   kDouble,
   kBoolean,
   kDate,
   kDateTime,
+  kTimeStamp,
   kEnum,
   kBlob
 };
