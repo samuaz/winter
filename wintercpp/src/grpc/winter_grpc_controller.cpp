@@ -4,6 +4,8 @@
 
 #include <wintercpp/grpc/winter_grpc_controller.h>
 
+using namespace winter::exception;
+
 grpc::Status
 winter::GrpcController::responseEntity(
     const std::function<void()> &execute) {

@@ -48,7 +48,7 @@ TEST(winterSqlTable, columnsSize) {
 
 TEST(winterSqlTable, canRegisterColumn) {
   TestTable testTable;
-  testTable.RegisterColumn(Column(testTable, "newColumn", FieldType::kString));
+  testTable.RegisterColumn("newColumn", FieldType::kString);
   // size should be 4 because we have the default id column + 2 declared columns + the new column we register
   EXPECT_THAT(testTable.columns(), testing::SizeIs(4));
   auto newColumn = *std::next(testTable.columns().begin(), 3);

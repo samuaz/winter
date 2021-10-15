@@ -14,7 +14,7 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_select.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 #include <wintercpp/data/winter_data_pageable.h>
-#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 
 #include <functional>
 #include <memory>
@@ -22,6 +22,8 @@
 #include "wintercpp/data/sql/table/winter_data_sql_uuid_table.h"
 
 namespace winter::data::sql {
+
+using namespace winter::exception;
 
 template <typename TEntityClass, typename TIDType, typename TTransaction, typename TResultRow>
 inline TEntityClass
@@ -73,8 +75,7 @@ template <typename TEntityClass, typename TIDType>
 inline winter::data::sql::Select
 SelectById(const std::shared_ptr<Table> &table, TIDType id) {
   if (table->tableType() == TableType::kTable) {
-    throw WinterException(
-	"TABLE " + table->name() + " IS NOT ID BASE TABLE");
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "TABLE " + table->name() + " IS NOT ID BASE TABLE");
   }
 
   Select select;
@@ -96,8 +97,7 @@ SelectById(const std::shared_ptr<Table> &table, TIDType id) {
       break;
     }
     default:
-      throw WinterException(
-	  "not yet support for different tables types than UUID");
+      throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "not yet support for different tables types than UUID");
   }
 
   return select;

@@ -4,6 +4,7 @@
  * @YEAR 2019
  */
 
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/security/winter_security_jwt_grpc.h>
 
 #include <chrono>
@@ -11,8 +12,8 @@
 #include <utility>
 
 #include "wintercpp/util/winter_string_util.h"
-
 using namespace winter::security;
+using namespace winter::exception;
 
 GrpcJwt &
 GrpcJwt::init(
@@ -33,10 +34,11 @@ GrpcJwt::init(
 GrpcJwt &
 GrpcJwt::instance() {
   if (instance_ == nullptr) {
-    throw WinterException(
-	"you first need to init this GRPCJWT class using "
-	"the init function");
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__,
+					  "you first need to init this GRPCJWT class using "
+					  "the init function");
   }
+
   return *instance_;
 }
 
@@ -65,15 +67,14 @@ GrpcJwt::ExtractTokenFromGrpcMetadata(
 	winter::util::string::strip_unicode(token);
 	return token;
       } catch (...) {
-	throw SecurityException(
-	    "TOKEN Format invalid you need tu use Bearer token");
+	throw SecurityException::Create(__FILE__, __FUNCTION__, __LINE__, "TOKEN Format invalid you need tu use Bearer token");
       }
     }
   }
 
-  throw SecurityException(
-      "TOKEN IS MISSING, YOU NEED TO SEND YOUR TOKEN AS METADATA example: "
-      "authorization: Bearer token");
+  throw SecurityException::Create(__FILE__, __FUNCTION__, __LINE__,
+				  "TOKEN IS MISSING, YOU NEED TO SEND YOUR TOKEN AS METADATA example: "
+				  "authorization: Bearer token");
 }
 
 UserSecurityInfo
@@ -83,7 +84,7 @@ GrpcJwt::Secure(const grpc::ServerContext &context) const {
   TokenStatus tokenStatus = GrpcJwt::ValidateToken(token);
 
   if (!tokenStatus.isValid()) {
-    throw SecurityException(tokenStatus.message());
+    throw SecurityException::Create(__FILE__, __FUNCTION__, __LINE__, tokenStatus.message());
   }
 
   return UserSecurityInfo(_key, UserFromToken(token), token, tokenStatus);
@@ -94,7 +95,7 @@ GrpcJwt::Secure(const grpc::ServerContext &context, const Session &session) cons
   UserSecurityInfo userSecurityInfo = Secure(context);
 
   if (!session.IsValid(userSecurityInfo)) {
-    throw SecurityException("Session is not valid, re-authentication is needed");
+    throw SecurityException::Create(__FILE__, __FUNCTION__, __LINE__, "Session is not valid, re-authentication is needed");
   }
   return userSecurityInfo;
 }
@@ -113,34 +114,3 @@ std::string
 GrpcJwt::UserFromToken(const std::string &token) const {
   return Jwt::ValueFromKey(_key, token);
 }
-
-/* UserSecurityInfo GrpcJwt::secure(const grpc::ServerContext &context) {
-  std::string token =
-      GrpcJwt::ExtractTokenFromGrpcMetadata(context.client_metadata());
-
-  TokenStatus tokenStatus = GrpcJwt::ValidateToken(token);
-  if (!tokenStatus.valid) {
-    throw SecurityException(tokenStatus.message.data());
-  }
-  std::string userId = UserFromToken(token);
-
-  auto redis = winter::redis_impl::RedisPool::Instance().Conn();
-
-  std::string redisSessionToken = redis->String(userId);
-
-  if (redisSessionToken.empty()) {
-    throw SecurityException("User session with given token dont exist");
-  }
-
-  if (token != redisSessionToken) {
-    throw SecurityException(
-        "Session and token are different re-authentication is needed");
-  }
-
-  UserSecurityInfo userSecurityInfo;
-  userSecurityInfo.userId = userId;
-  userSecurityInfo.token = token;
-  userSecurityInfo.valid = true;
-
-  return userSecurityInfo;
-} */

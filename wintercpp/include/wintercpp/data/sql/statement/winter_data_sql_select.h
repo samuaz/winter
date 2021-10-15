@@ -16,7 +16,7 @@
 
 namespace winter::data::sql {
 
-class Select : public virtual Statement<Select> {
+class Select final : public virtual Statement<Select> {
  public:
   Select();
 
@@ -38,7 +38,7 @@ class Select : public virtual Statement<Select> {
   using Statement<Select>::prepared_statement_;
   using Statement<Select>::type_;
   std::set<Column, ColumnComparator> columns_;
-  std::vector<std::shared_ptr<Table> > tables_;
+  //  std::vector<std::shared_ptr<Table> > tables_;
 
   void writeColumns();
 };

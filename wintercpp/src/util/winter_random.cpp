@@ -2,10 +2,12 @@
 // Created by AZCONA VARGAS, SAMUEL EDUARDO [AG-Contractor/5000] on 2019-11-21.
 //
 
-#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/util/winter_random.h>
 
 #include <chrono>
+
+using namespace winter::exception;
 
 std::size_t
 winter::random::StreamSize(const std::stringstream &s) {
@@ -89,7 +91,7 @@ winter::random::uuid(bool dashed) {
   auto idSize = id.size();
 
   if (idSize != 32) {
-    throw WinterException("wrong uuid generation");
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "wrong uuid generation");
   }
   const bool dash[] = {false, false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false, true};
   if (dashed) {
@@ -103,7 +105,7 @@ winter::random::uuid(bool dashed) {
     }
 
     if (finalId.size() != 36) {
-      throw WinterException("wrong uuid generation");
+      throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "wrong uuid generation");
     }
     return finalId;
   }

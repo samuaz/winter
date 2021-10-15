@@ -60,6 +60,8 @@ class ResultRow final : public virtual winter::data::sql::ResultRow<std::shared_
       case FieldType::kChar:
       case FieldType::kDate:
       case FieldType::kDateTime:
+      case FieldType::KDecimal:
+      case FieldType::kTimeStamp:
       case FieldType::kString:
 	AddRow(value_name, result->getString(value_name));
 	break;

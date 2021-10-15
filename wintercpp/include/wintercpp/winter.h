@@ -11,7 +11,6 @@
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_connection.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
-#include <wintercpp/data/sql/exception/winter_sql_exception.h>
 #include <wintercpp/data/sql/field/winter_data_sql_abstract_field.h>
 #include <wintercpp/data/sql/field/winter_data_sql_data_type.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field.h>
@@ -60,8 +59,10 @@
 #include <wintercpp/data/winter_data_pageable.h>
 #include <wintercpp/exception/database/winter_database_exception.h>
 #include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/exception/security/winter_security_exception.h>
 #include <wintercpp/exception/security/winter_unauthenticated_exception.h>
+#include <wintercpp/exception/sql/winter_sql_exception.h>
 #include <wintercpp/grpc/winter_grpc_controller.h>
 #include <wintercpp/model/winter_base.h>
 #include <wintercpp/redis/winter_redis_connection.h>

@@ -22,7 +22,8 @@ template <typename TConnectionImpl, typename TConnectionType, typename TResponse
 class SQLConnection : public winter::templates::
 			  Connection<TConnectionImpl, TConnectionType> {
  public:
-  explicit SQLConnection(TConnectionType *conn) : winter::templates::Connection<TConnectionImpl, TConnectionType>(conn){};
+  SQLConnection(const SQLConnection &) = delete;
+  SQLConnection &operator=(const SQLConnection &) = delete;
 
   virtual TResponse Execute(const PreparedStatement &query) = 0;
 
@@ -31,6 +32,9 @@ class SQLConnection : public winter::templates::
   virtual void Commit() const = 0;
 
   virtual void Rollback() const = 0;
+
+ protected:
+  explicit SQLConnection(TConnectionType *conn) : winter::templates::Connection<TConnectionImpl, TConnectionType>(conn){};
 };
 }  // namespace winter::data::sql
 

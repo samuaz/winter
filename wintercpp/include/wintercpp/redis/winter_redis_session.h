@@ -26,7 +26,7 @@ class Session final : virtual public winter::security::Session {
   bool IsValid(const winter::security::UserSecurityInfo &user_security_info) const override;
 
  private:
-  std::function<std::shared_ptr<RedisConnection>()> redis_connection_;
+  const std::function<std::shared_ptr<RedisConnection>()> redis_connection_;
 };
 
 }  // namespace winter::redis

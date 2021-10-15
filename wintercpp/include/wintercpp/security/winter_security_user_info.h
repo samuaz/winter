@@ -20,10 +20,10 @@ class UserSecurityInfo {
   TokenStatus &token_status() const;
 
  private:
-  std::string key_;
-  std::string user_id_;
-  std::string token_;
-  TokenStatus token_status_;
+  const std::string key_;
+  const std::string user_id_;
+  const std::string token_;
+  const TokenStatus token_status_;
 };
 
 }  // namespace winter::security

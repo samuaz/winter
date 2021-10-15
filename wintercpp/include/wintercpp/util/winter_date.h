@@ -18,13 +18,6 @@
 namespace winter {
 
 class Date {
- private:
-  int _year = 0;
-  int _month = 0;
-  int _day = 0;
-  int _hour = 0;
-  int _minute = 0;
-  int _second = 0;
 
  public:
   Date();
@@ -72,6 +65,14 @@ class Date {
   bool operator>=(const Date &rhs) const;
 
   std::string toString() const;
+
+ private:
+  int _year = 0;
+  int _month = 0;
+  int _day = 0;
+  int _hour = 0;
+  int _minute = 0;
+  int _second = 0;
 };
 
 }  // namespace winter

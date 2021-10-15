@@ -37,8 +37,8 @@ class TokenStatus {
   bool isValid() const;
 
  private:
-  TokenStatusType status_;
-  std::string message_;
+  const TokenStatusType status_;
+  const std::string message_;
 };
 
 }  // namespace winter::security

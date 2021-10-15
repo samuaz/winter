@@ -17,14 +17,8 @@ template <typename T>
 class Response final : public virtual winter::templates::
 			   Response<Response<T>, T, ResponseStatus> {
  public:
-  Response() = default;
-
-  Response(
-      const std::optional<T> &entity,
-      ResponseStatus status,
-      std::string message);
-
-  Response(ResponseStatus status, std::string message);
+  using winter::templates::
+      Response<winter::data::response::Response<T>, T, ResponseStatus>::Response;
 
   static Response<T> Error(const std::string &message);
 

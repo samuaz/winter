@@ -16,25 +16,23 @@ namespace winter::data::sql::mysql {
 class Response final : public virtual winter::data::sql::
 			   Response<winter::data::sql::mysql::Response, MysqlResultRow> {
  public:
-  Response();
-
   Response(
-      std::string transactionId,
+      std::string transaction_id,
       StatementType type,
       winter::data::ResponseStatus status,
-      std::string message);
+      std::string message) : winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>(transaction_id, type, status, message) {}
 
   Response(
-      std::string transactionId,
+      std::string transaction_id,
       StatementType type,
       std::vector<MysqlResultRow> result,
       winter::data::ResponseStatus status,
       std::string message,
-      int row_affected);
-
-  explicit Response(StatementType type);
+      int row_affected) : winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>(transaction_id, type, result, status, message, row_affected) {}
 
   static Response Error(const std::string &transactionId, StatementType type, const std::string &message);
+
+  static Response Success(const std::string &transactionId, StatementType type, const std::vector<MysqlResultRow> &result, int row_affected, const std::string &message = "Success");
 
   ~Response();
 };

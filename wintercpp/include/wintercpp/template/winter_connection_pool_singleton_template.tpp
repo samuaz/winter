@@ -9,8 +9,7 @@ template <
 SinglePool<TImplementation, TConnectionType, TConnectionConfig> &
 SinglePool<TImplementation, TConnectionType, TConnectionConfig>::Instance() {
   if (instance_ == nullptr) {
-    throw WinterException(
-	"first need to initialize the pool using the init fun");
+    throw winter::exception::WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "first need to initialize the pool using the init fun");
   }
   return *instance_;
 }
