@@ -19,7 +19,7 @@ namespace winter::data::sql {
 
 class Table;
 class Column;
-//struct ColumnComparator;
+struct ColumnComparator;
 
 class Column final {
  public:
