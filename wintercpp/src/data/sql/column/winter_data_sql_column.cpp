@@ -24,6 +24,16 @@ Column::Column(Table &table, std::string column_name, FieldType column_type) :
   //table.RegisterColumn(*this);
 }
 
+Column::Column(const Column &column) :
+    table_(column.table_),
+    name_(column.name_),
+    type_(column.type_){};
+
+Column::Column(const Column *column) :
+    table_(column->table_),
+    name_(column->name_),
+    type_(column->type_){};
+
 const std::string &
 Column::name() const {
   return name_;
