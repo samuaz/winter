@@ -9,9 +9,15 @@
 
 #include <string>
 
+
 namespace winter::data::sql::mysql::connection {
 
+class Connection;
+
 class Config final {
+
+  friend class Connection;
+
  public:
   Config(
       std::string host,
@@ -32,21 +38,21 @@ class Config final {
 
   const std::string &schema() const;
 
-  ::sql::mysql::MySQL_Driver &driver() const;
-
   bool is_opt_reconnect() const;
 
   int opt_connect_timeout() const;
 
  private:
   ::sql::mysql::MySQL_Driver *_driver;
-  std::string _host;
-  int _port;
-  std::string _userName;
-  std::string _password;
-  std::string _schema;
-  bool _opt_reconnect;
-  int _opt_connect_timeout;
+  const std::string _host;
+  const int _port;
+  const std::string _userName;
+  const std::string _password;
+  const std::string _schema;
+  const bool _opt_reconnect;
+  const int _opt_connect_timeout;
+
+  ::sql::mysql::MySQL_Driver &driver() const;
 };
 }  // namespace winter::data::sql::mysql::connection
 typedef winter::data::sql::mysql::connection::Config MysqlConfig;

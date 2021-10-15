@@ -50,6 +50,8 @@ winter::data::sql::Join::GenerateType() {
       return "RIGHT";
     case JoinType::CROSS:
       return "CROSS";
+    case JoinType::DEFAULT:
+      return "INNER";
   }
   return std::string();
 }

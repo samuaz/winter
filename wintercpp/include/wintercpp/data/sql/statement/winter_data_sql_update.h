@@ -30,7 +30,7 @@ class Update : public virtual Statement<Update> {
  private:
   using Statement<Update>::prepared_statement_;
   using Statement<Update>::type_;
-  std::shared_ptr<Table> table_;
+  const std::shared_ptr<Table> table_;
 };
 }  // namespace winter::data::sql
 

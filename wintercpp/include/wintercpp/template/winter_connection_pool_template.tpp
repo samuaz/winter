@@ -3,6 +3,7 @@
 namespace winter::templates {
 
 using namespace winter::descriptor;
+using namespace winter::exception;
 
 template <typename TConnection>
 ConnectionPool<TConnection>::ConnectionPool(winter::descriptor::PoolDescriptor pool_descriptor) : pool_descriptor_(std::move(pool_descriptor)) {}
@@ -34,7 +35,7 @@ void ConnectionPool<TConnection>::InitPool() {
 	std::cout << "init pool crash \n";
 	std::cout << poolDescriptor.name() << "\n";
 #endif
-	throw WinterException(e.what());
+	throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, e.what());
       }
     };
     std::thread db_pool_thread;
@@ -81,16 +82,16 @@ void ConnectionPool<TConnection>::CheckConnections() {
 		    << " timeout end throw exception and releasing "
 		       "thread/memory \n";
 #endif
-	  throw WinterException(
-	      "Maximum connection pool size and time reached, no available "
-	      "connections!");
+	  throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__,
+						"Maximum connection pool size and time reached, no available "
+						"connections!");
 	}
 	std::this_thread::sleep_for(waitTme);
 	intents++;
       }
     }
   } catch (std::runtime_error &e) {
-    throw WinterException(e.what());
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, e.what());
   }
 }
 

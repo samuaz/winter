@@ -58,7 +58,7 @@ class GrpcJwt : public virtual Jwt {
       string secretKey,
       std::chrono::seconds token_exp,
       std::chrono::seconds refresh_token_exp);
-  std::string _key;
+  const std::string _key;
   static inline std::unique_ptr<GrpcJwt> instance_;
   static inline std::once_flag m_once_;
 };

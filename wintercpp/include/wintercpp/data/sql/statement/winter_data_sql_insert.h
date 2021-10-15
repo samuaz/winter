@@ -13,7 +13,7 @@
 
 namespace winter::data::sql {
 
-class Insert : public virtual Statement<Insert> {
+class Insert final : public virtual Statement<Insert> {
  public:
   Insert();
 
@@ -40,7 +40,7 @@ class Insert : public virtual Statement<Insert> {
  private:
   using Statement<Insert>::prepared_statement_;
   using Statement<Insert>::type_;
-  std::shared_ptr<Table> table_;
+  const std::shared_ptr<Table> table_;
 };
 }  // namespace winter::data::sql
 

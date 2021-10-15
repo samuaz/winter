@@ -23,9 +23,9 @@ namespace winter::data::sql::mysql::connection {
 
 class Connection final : public virtual SQLConnection<Connection, ::sql::Connection, MysqlResponse> {
  public:
-  static winter::data::sql::mysql::connection::Connection *Create(const winter::data::sql::mysql::connection::Config &mysql_config);
+  using SQLConnection<Connection, ::sql::Connection, MysqlResponse>::SQLConnection;
 
-  explicit Connection(::sql::Connection *conn);
+  static winter::data::sql::mysql::connection::Connection *Create(const winter::data::sql::mysql::connection::Config &mysql_config);
 
   MysqlResponse Execute(const PreparedStatement &query) noexcept(false) override;
 

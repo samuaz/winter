@@ -4,27 +4,26 @@
  * @YEAR 2019
  */
 
+#include <jdbc/cppconn/sqlstring.h>
 #include <mysql/jdbc.h>
 #include <wintercpp/data/response/winter_data_response_status.h>
-#include <wintercpp/data/sql/exception/winter_sql_exception.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
+#include <wintercpp/exception/sql/winter_sql_exception.h>
 
+#include <cstdint>
 #include <optional>
 #include <string>
 
-#include "jdbc/cppconn/sqlstring.h"
-
 using namespace winter;
 using namespace winter::descriptor;
-using namespace winter::data::sql::exception;
+using namespace winter::exception;
 using namespace winter::data::sql::mysql;
 using namespace winter::data::sql::mysql::connection;
 
-Connection::Connection(::sql::Connection *conn) : SQLConnection<Connection, ::sql::Connection, MysqlResponse>(conn){};
-
 MysqlResponse
 Connection::Execute(const PreparedStatement &query) noexcept(false) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx_);
+  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
   try {
     Reconnect();
     return CreateResponse(query, GeneratePrepareStatement(query));
@@ -35,14 +34,10 @@ Connection::Execute(const PreparedStatement &query) noexcept(false) {
 }
 
 void Connection::Reconnect() {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx_);
+  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
   try {
-    if (conn_) {
-      if (conn_->isClosed()) {
-	conn_->reconnect();
-      }
-    } else {
-      throw SqlException::Create(__FILE__, __FUNCTION__, __LINE__, "cant connect to database, conn_ is null");
+    if (conn().isClosed()) {
+      conn().reconnect();
     }
   } catch (::sql::SQLException &e) {
     throw SqlException::Create(__FILE__, __FUNCTION__, __LINE__, (std::string("cant connect to database, ") + e.what()), e.getErrorCode());
@@ -51,8 +46,6 @@ void Connection::Reconnect() {
 
 MysqlResponse
 Connection::CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::PreparedStatement> &prep_stmt) {
-  MysqlResponse response;
-
   if (prep_stmt != nullptr) {
     auto no_result_query = [&](int update_count) -> MysqlResponse {
       if (update_count > 0) {
@@ -104,9 +97,9 @@ Connection::CreateResponse(const PreparedStatement &prepared_statement, const st
 std::shared_ptr< ::sql::PreparedStatement>
 Connection::GeneratePrepareStatement(
     const PreparedStatement &query) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx_);
+  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
   std::shared_ptr< ::sql::PreparedStatement> _prep_stmt(
-      conn_->prepareStatement(::sql::SQLString(query.statement_template())));
+      conn().prepareStatement(::sql::SQLString(query.statement_template())));
   auto values = query.values();
   for (std::size_t i = 0; i != values.size(); ++i) {
     auto field = values[i].get();
@@ -115,10 +108,16 @@ Connection::GeneratePrepareStatement(
       case FieldType::kNull:
 	_prep_stmt->setNull(position, 0);
 	break;
+      case FieldType::kBigInt:
+	_prep_stmt->setBigInt(
+	    position,
+	    dynamic_cast<PreparedStatementField<std::string> *>(field)->value());
+	break;
       case FieldType::kChar:
       case FieldType::kDate:
       case FieldType::kDateTime:
-      case FieldType::kBigInt:
+      case FieldType::KDecimal:
+      case FieldType::kTimeStamp:
       case FieldType::kString:
 	_prep_stmt->setString(
 	    position,
@@ -130,26 +129,22 @@ Connection::GeneratePrepareStatement(
       case FieldType::kInt:
 	_prep_stmt->setInt(
 	    position,
-	    dynamic_cast<PreparedStatementField<int> *>(field)->value());
+	    dynamic_cast<PreparedStatementField<int32_t> *>(field)->value());
 	break;
       case FieldType::kUshort:
       case FieldType::kUchar:
       case FieldType::KUint:
 	_prep_stmt->setUInt(
 	    position,
-	    dynamic_cast<PreparedStatementField<unsigned int> *>(field)->value());
+	    dynamic_cast<PreparedStatementField<uint32_t> *>(field)->value());
 	break;
       case FieldType::kBoolean:
 	_prep_stmt->setBoolean(
 	    position,
 	    dynamic_cast<PreparedStatementField<bool> *>(field)->value());
 	break;
-      case FieldType::kDouble:
-	_prep_stmt->setDouble(
-	    position,
-	    dynamic_cast<PreparedStatementField<double> *>(field)->value());
-	break;
       case FieldType::kFloat:
+      case FieldType::kDouble:
 	_prep_stmt->setDouble(
 	    position,
 	    dynamic_cast<PreparedStatementField<double> *>(field)->value());
@@ -157,12 +152,12 @@ Connection::GeneratePrepareStatement(
       case FieldType::kLong:
 	_prep_stmt->setInt64(
 	    position,
-	    dynamic_cast<PreparedStatementField<long> *>(field)->value());
+	    dynamic_cast<PreparedStatementField<int64_t> *>(field)->value());
 	break;
       case FieldType::kUlong:
 	_prep_stmt->setUInt64(
 	    position,
-	    dynamic_cast<PreparedStatementField<unsigned long> *>(field)->value());
+	    dynamic_cast<PreparedStatementField<uint64_t> *>(field)->value());
 	break;
       case FieldType::kBlob:
 	_prep_stmt->setBlob(
@@ -193,18 +188,18 @@ Connection::IsolationLevel(
 }
 
 void Connection::PrepareTransaction(const TransactionIsolationType &isolation) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx_);
-  conn_->setAutoCommit(false);
-  conn_->setTransactionIsolation(IsolationLevel(isolation));
-  conn_->createStatement()->execute("START TRANSACTION");
+  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
+  conn().setAutoCommit(false);
+  conn().setTransactionIsolation(IsolationLevel(isolation));
+  conn().createStatement()->execute("START TRANSACTION");
 }
 
 void Connection::Commit() const {
-  conn_->commit();
+  conn().commit();
 }
 
 void Connection::Rollback() const {
-  conn_->rollback();
+  conn().rollback();
 }
 
 winter::data::sql::mysql::connection::Connection *
@@ -220,6 +215,6 @@ Connection::Create(const Config &mysql_config) {
     connectionProperties["OPT_CONNECT_TIMEOUT"] = mysql_config.opt_connect_timeout();
     return new Connection(mysql_config.driver().connect(connectionProperties));
   } catch (std::runtime_error &ex) {
-    throw WinterException(ex.what());
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());
   }
 }

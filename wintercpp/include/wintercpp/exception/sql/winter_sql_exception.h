@@ -9,13 +9,13 @@
 
 #include <wintercpp/exception/generic/winter_exception.h>
 
-namespace winter::data::sql::exception {
+namespace winter::exception {
 
-class SqlException final : public virtual WinterException {
+class SqlException final : public virtual WinterExceptionTemplate<SqlException> {
  public:
   explicit SqlException(const string &message) noexcept;
 };
 
-}  // namespace winter::data::sql::exception
+}  // namespace winter::exception
 
 #endif /* WINTER_SQL_EXCEPTION */

@@ -9,13 +9,13 @@
 
 #include <wintercpp/exception/generic/winter_exception.h>
 
-namespace winter {
+namespace winter::exception {
 
-class DataException final : public WinterException {
+class DataException final : public WinterExceptionTemplate<DataException> {
  public:
   explicit DataException(const string &message) noexcept;
 };
 
-}  // namespace winter
+}  // namespace winter::exception
 
 #endif	// WINTER_DATABASE_EXCEPTION_H

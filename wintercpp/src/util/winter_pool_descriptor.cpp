@@ -6,11 +6,11 @@
 
 using namespace winter::descriptor;
 
-PoolDescriptor::PoolDescriptor() : _name("GENERIC_POOL_DESCRIPTOR"),
+/* PoolDescriptor::PoolDescriptor() : _name("GENERIC_POOL_DESCRIPTOR"),
 				   _initialPoolSize(5),
 				   _maxPoolSize(10),
 				   _poolTimeout(60),
-				   _usePool(true) {}
+				   _usePool(true) {} */
 
 PoolDescriptor::PoolDescriptor(
     std::string name,

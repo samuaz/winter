@@ -1,0 +1,75 @@
+name: CMake
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  BUILD_TYPE: Release
+  TEST_DIR: wintercpp_test
+  CACHE_DIR: ~/winter
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: ninja
+      run: sudo apt-get install -y ninja-build
+      
+    - name: configure
+      uses: actions/cache@v2
+      id: cache-winter
+      with:
+        path: "~/winter"
+        key: winter-cache
+        restore-keys: winter-cache winter-
+    - name: Configure and build winter
+      env:
+        CACHE_HIT: ${{steps.cache-winter.outputs.cache-hit}}
+      run: |
+        if [[ "$CACHE_HIT" == 'true' ]]; then
+          mkdir -p ${{github.workspace}}/build/
+          cp --force --recursive ~/winter/build/* ${{github.workspace}}/build/
+          #mkdir -p ${{github.workspace}}/.cache/
+          #cp --force --recursive ~/winter/cache/* ${{github.workspace}}/.cache/
+          mkdir -p ${{github.workspace}}/wintercpp/third_party/
+          cp --force --recursive ~/winter/wintercpp/third_party/* ${{github.workspace}}/wintercpp/third_party/
+          mkdir -p ${{github.workspace}}/wintercpp_test/third_party/
+          cp --force --recursive ~/winter/wintercpp_test/third_party/* ${{github.workspace}}/wintercpp_test/third_party/
+          echo "mostrando el contenido de build"
+          ls ${{github.workspace}}/wintercpp/third_party/
+          cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        else
+          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja
+          #cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+          mkdir -p ~/winter
+          #mkdir -p ~/winter/cache
+          mkdir -p ~/winter/build
+          mkdir -p ~/winter/wintercpp/third_party
+          mkdir -p ~/winter/wintercpp_test/third_party
+          cp --force --recursive ${{github.workspace}}/build/* ~/winter/build/
+          #cp --force --recursive ${{github.workspace}}/.cache/* ~/winter/cache/
+          cp --force --recursive ${{github.workspace}}/wintercpp/third_party/* ~/winter/wintercpp/third_party/
+          cp --force --recursive ${{github.workspace}}/wintercpp_test/third_party/* ~/winter/wintercpp_test/third_party/
+        fi
+        
+    - name: Build
+      working-directory: ${{github.workspace}}
+      # Build your program with the given configuration
+      #run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} 
+      run: ninja -C build -j 20
+      
+    - name: Test
+      working-directory: ${{github.workspace}}/build/${{env.TEST_DIR}}
+      # Execute tests defined by the CMake configuration.  
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -C ${{env.BUILD_TYPE}}

@@ -27,19 +27,13 @@ class Repository {
   virtual int Count() = 0;
 
  protected:
-  virtual Response<TEntityClass> Save(
-      const TEntityClass &entity)
-      = 0;
+  virtual Response<TEntityClass> Save(const TEntityClass &entity) = 0;
 
-  virtual Response<TEntityClass> Generate(
-      const TResultSetType &)
-      = 0;
+  virtual Response<TEntityClass> Generate(const TResultSetType &) = 0;
 
   virtual std::optional<TEntityClass> CreateEntity(const TResultSetType &) = 0;
 
-  virtual Response<TEntityClass> Single(
-      const TResultSetType &)
-      = 0;
+  virtual Response<TEntityClass> Single(const TResultSetType &) = 0;
 
   virtual std::vector<TEntityClass> All(const TResultSetType &) = 0;
 };

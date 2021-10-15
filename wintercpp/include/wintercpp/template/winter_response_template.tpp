@@ -1,7 +1,5 @@
 namespace winter::templates {
-
-template <typename TImplementation, typename TResultType, typename TStatusType>
-Response<TImplementation, TResultType, TStatusType>::Response() = default;
+using namespace winter::exception;
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
 Response<TImplementation, TResultType, TStatusType>::Response(
@@ -89,21 +87,9 @@ Response<TImplementation, TResultType, TStatusType>::status()
 }
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
-void Response<TImplementation, TResultType, TStatusType>::set_status(
-    TStatusType status) {
-  status_ = status;
-}
-
-template <typename TImplementation, typename TResultType, typename TStatusType>
 const std::string &
 Response<TImplementation, TResultType, TStatusType>::message() const {
   return message_;
-}
-
-template <typename TImplementation, typename TResultType, typename TStatusType>
-void Response<TImplementation, TResultType, TStatusType>::set_message(
-    const std::string &message) {
-  message_ = message;
 }
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
@@ -113,21 +99,15 @@ Response<TImplementation, TResultType, TStatusType>::result() const {
 }
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
-void Response<TImplementation, TResultType, TStatusType>::set_result(
-    const TResultType &result) {
-  result_ = result;
-}
-
-template <typename TImplementation, typename TResultType, typename TStatusType>
 auto Response<TImplementation, TResultType, TStatusType>::ReturnOrThrow() {
   try {
     if (HasValue()) {
       return result_.value();
     } else {
-      throw WinterException(message_);
+      throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, message_);
     }
   } catch (const std::exception &ex) {
-    throw WinterException(ex.what());
+    throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());
   }
 }
 
@@ -223,6 +203,11 @@ template <typename TImplementation, typename TResultType, typename TStatusType>
 template <typename Functor>
 auto Response<TImplementation, TResultType, TStatusType>::operator<<(const Functor &functor) {
   return functor();
+}
+
+template <typename TImplementation, typename TResultType, typename TStatusType>
+TImplementation &Response<TImplementation, TResultType, TStatusType>::This() {
+  return dynamic_cast<TImplementation &>(*this);
 }
 
 }  // namespace winter::templates

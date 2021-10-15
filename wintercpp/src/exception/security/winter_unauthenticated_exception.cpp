@@ -5,7 +5,7 @@
  */
 
 #include <wintercpp/exception/security/winter_unauthenticated_exception.h>
-using namespace winter;
+using namespace winter::exception;
 
 UnauthenticatedException::UnauthenticatedException(
-    const string &message) noexcept : WinterException(message) {}
+    const string &message) noexcept : WinterExceptionTemplate<UnauthenticatedException>(message) {}

@@ -31,7 +31,7 @@ winter::data::sql::And::Prepare() {
     if (field_->IsCustomValue()) {
       BuildQuery() << column_->TableName() << Dot() << column_->name()
 		   << Space() << condition(condition_) << Space()
-		   << field_->custom_value() << Space();
+		   << field_->custom_value();
       return PreparedStatement(
 	  StatementType::kClause,
 	  replace_value(statement_template(), param(), query()),
@@ -39,7 +39,7 @@ winter::data::sql::And::Prepare() {
     } else {
       BuildQuery() << column_->TableName() << Dot() << column_->name()
 		   << Space() << condition(condition_) << Space()
-		   << PlaceHolder() << Space();
+		   << PlaceHolder();
       return PreparedStatement(
 	  StatementType::kClause,
 	  replace_value(statement_template(), param(), query()),

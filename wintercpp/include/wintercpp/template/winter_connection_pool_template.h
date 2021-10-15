@@ -5,7 +5,7 @@
 #ifndef WINTER_CONNECTION_POOL_H
 #define WINTER_CONNECTION_POOL_H
 
-#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/util/winter_pool_descriptor.h>
 
 #include <algorithm>
