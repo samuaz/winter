@@ -8,10 +8,12 @@
 
 using namespace winter::util::string;
 
-winter::data::sql::From::From(std::vector<std::shared_ptr<Table>> tables) : Clause("FROM $tables", "$tables"),
-									    tables_(std::move(tables)) {}
+winter::data::sql::From::From(std::vector<std::shared_ptr<Table>> tables) :
+    Clause("FROM $tables", "$tables"),
+    tables_(std::move(tables)) {}
 
-winter::data::sql::From::From(const std::shared_ptr<Table> &table) : Clause("FROM $tables", "$tables") {
+winter::data::sql::From::From(const std::shared_ptr<Table> &table) :
+    Clause("FROM $tables", "$tables") {
   tables_.push_back(table);
 }
 

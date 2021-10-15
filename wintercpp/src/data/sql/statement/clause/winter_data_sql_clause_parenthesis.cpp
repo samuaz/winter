@@ -4,14 +4,16 @@
 
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_parenthesis.h>
 
-winter::data::sql::Parenthesis::Parenthesis(winter::data::sql::Clause *clause) : Clause("($clause)", "$clause") {
+winter::data::sql::Parenthesis::Parenthesis(winter::data::sql::Clause *clause) :
+    Clause("($clause)", "$clause") {
   set_statement_template(winter::util::string::replace_value(
       statement_template(),
       "$clause",
       clause->Prepare().statement_template()));
 }
 
-winter::data::sql::Parenthesis::Parenthesis(const std::string &clause) : Clause("($clause)", "$clause") {
+winter::data::sql::Parenthesis::Parenthesis(const std::string &clause) :
+    Clause("($clause)", "$clause") {
   set_statement_template(winter::util::string::replace_value(
       statement_template(),
       "$clause",

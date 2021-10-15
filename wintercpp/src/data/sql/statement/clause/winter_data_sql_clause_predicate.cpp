@@ -10,9 +10,10 @@ using namespace winter::util::string;
 winter::data::sql::Predicate::Predicate(
     Column column,
     std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> field,
-    winter::data::sql::Condition conditionOperator) : column_(std::move(column)),
-						      field_(std::move(field)),
-						      condition_(conditionOperator) {}
+    winter::data::sql::Condition conditionOperator) :
+    column_(std::move(column)),
+    field_(std::move(field)),
+    condition_(conditionOperator) {}
 
 const winter::data::sql::Column&
 winter::data::sql::Predicate::column()

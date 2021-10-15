@@ -14,7 +14,8 @@ Base::Base() {
   creationDate(Date());
 }
 
-Base::Base(std::string id) : _id(std::move(id)) {
+Base::Base(std::string id) :
+    _id(std::move(id)) {
   creationDate(Date());
 }
 

@@ -6,8 +6,9 @@
 
 winter::data::sql::Clause::Clause(
     std::string statement_template,
-    std::string param) : statement_template_(std::move(statement_template)),
-			 param_(std::move(param)) {}
+    std::string param) :
+    statement_template_(std::move(statement_template)),
+    param_(std::move(param)) {}
 
 const std::string &
 winter::data::sql::Clause::query() const {

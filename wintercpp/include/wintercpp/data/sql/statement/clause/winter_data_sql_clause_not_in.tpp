@@ -1,11 +1,14 @@
 namespace winter::data::sql {
 
 template <typename T>
-NotIn<T>::NotIn(std::vector<T> values) : Clause("NOT IN ($NOT_IN_VALUE)", "$NOT_IN_VALUE"),
-					 values_(std::move(values)) {}
+NotIn<T>::NotIn(std::vector<T> values) :
+    Clause("NOT IN ($NOT_IN_VALUE)", "$NOT_IN_VALUE"),
+    values_(std::move(values)) {}
 
 template <typename T>
-NotIn<T>::NotIn(const Select &select) : select_(select), has_clause(true) {}
+NotIn<T>::NotIn(const Select &select) :
+    select_(select),
+    has_clause(true) {}
 
 template <typename T>
 PreparedStatement

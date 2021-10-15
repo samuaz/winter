@@ -37,16 +37,18 @@ Date::Date(const std::string &date) {
       &_second);
 }
 
-Date::Date(int year, int month, int day) : _year(year),
-					   _month(month),
-					   _day(day) {}
+Date::Date(int year, int month, int day) :
+    _year(year),
+    _month(month),
+    _day(day) {}
 
-Date::Date(int year, int month, int day, int hour, int minute, int second) : _year(year),
-									     _month(month),
-									     _day(day),
-									     _hour(hour),
-									     _minute(minute),
-									     _second(second) {}
+Date::Date(int year, int month, int day, int hour, int minute, int second) :
+    _year(year),
+    _month(month),
+    _day(day),
+    _hour(hour),
+    _minute(minute),
+    _second(second) {}
 
 int Date::year() const {
   return _year;

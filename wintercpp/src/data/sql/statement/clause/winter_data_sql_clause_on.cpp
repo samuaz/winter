@@ -9,7 +9,8 @@
 winter::data::sql::On::On(
     const winter::data::sql::Column &l_column,
     winter::data::sql::Condition condition,
-    const winter::data::sql::Column &r_column) : Clause("ON $lcolumn $condition $rcolumn", "$lcolumn $condition $rcolumn") {
+    const winter::data::sql::Column &r_column) :
+    Clause("ON $lcolumn $condition $rcolumn", "$lcolumn $condition $rcolumn") {
   set_statement_template(winter::util::string::replace_value(
       statement_template(),
       "$lcolumn",
@@ -26,7 +27,8 @@ winter::data::sql::On::On(
 
 winter::data::sql::On::On(
     const winter::data::sql::Column &l_column,
-    winter::data::sql::Condition condition) : Clause("ON $lcolumn $condition", "$lcolumn $condition") {
+    winter::data::sql::Condition condition) :
+    Clause("ON $lcolumn $condition", "$lcolumn $condition") {
   set_statement_template(winter::util::string::replace_value(
       statement_template(),
       "$lcolumn",

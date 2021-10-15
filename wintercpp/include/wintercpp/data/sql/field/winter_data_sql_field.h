@@ -13,20 +13,24 @@ namespace winter::data::sql {
 template <typename T>
 class Field : public virtual AbstractField {
  public:
-  explicit Field(T value) : value_(std::move(value)),
-			    type_(TypeField<T>::Get()) {}
+  explicit Field(T value) :
+      value_(std::move(value)),
+      type_(TypeField<T>::Get()) {}
 
-  Field(std::string name, T value) : name_(std::move(name)),
-				     value_(std::move(value)),
-				     type_(TypeField<T>::Get()) {}
+  Field(std::string name, T value) :
+      name_(std::move(name)),
+      value_(std::move(value)),
+      type_(TypeField<T>::Get()) {}
 
-  Field(const Field &field) : value_(field.value_),
-			      type_(field.type_),
-			      name_(field.name_) {}
+  Field(const Field &field) :
+      value_(field.value_),
+      type_(field.type_),
+      name_(field.name_) {}
 
-  explicit Field(const Field *field) : value_(field->value_),
-				       type_(field->type_),
-				       name_(field->name_) {}
+  explicit Field(const Field *field) :
+      value_(field->value_),
+      type_(field->type_),
+      name_(field->name_) {}
 
   const T &value() const;
 

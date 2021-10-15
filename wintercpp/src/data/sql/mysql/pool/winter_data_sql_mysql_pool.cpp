@@ -9,7 +9,8 @@ using namespace winter::exception;
 
 Pool::Pool(
     PoolDescriptor pool_descriptor,
-    std::optional<Config> mysql_config) : SinglePool(std::move(pool_descriptor), std::move(mysql_config)) {}
+    std::optional<Config> mysql_config) :
+    SinglePool(std::move(pool_descriptor), std::move(mysql_config)) {}
 
 MysqlConnection*
 Pool::CreateConn() {

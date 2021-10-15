@@ -79,7 +79,8 @@ class ResultRow {
 
   class DataTypeResult {
    public:
-    explicit DataTypeResult(winter::data::response::Response<DataType> res) : res_(res) {}
+    explicit DataTypeResult(winter::data::response::Response<DataType> res) :
+	res_(res) {}
 
     template <typename T>
     T as() {

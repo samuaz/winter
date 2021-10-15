@@ -15,13 +15,15 @@
 
 using namespace winter::data::sql;
 
-Table::Table(std::string name, TableType table_type, DatabaseType database_type) : name_(std::move(name)),
-										   type_(table_type),
-										   database_type_(database_type) {}
+Table::Table(std::string name, TableType table_type, DatabaseType database_type) :
+    name_(std::move(name)),
+    type_(table_type),
+    database_type_(database_type) {}
 
-Table::Table(std::string name, DatabaseType database_type) : name_(std::move(name)),
-							     type_(TableType::kTable),
-							     database_type_(database_type) {}
+Table::Table(std::string name, DatabaseType database_type) :
+    name_(std::move(name)),
+    type_(TableType::kTable),
+    database_type_(database_type) {}
 
 const std::string &
 Table::name() const {

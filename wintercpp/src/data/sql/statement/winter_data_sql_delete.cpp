@@ -7,7 +7,8 @@
 
 using namespace winter::data::sql;
 
-Delete::Delete() : Statement<Delete>("Delete $columns", StatementType::kDelete) {
+Delete::Delete() :
+    Statement<Delete>("Delete $columns", StatementType::kDelete) {
   winter::util::string::replace(statement_template_, "$columns", "");
 }
 

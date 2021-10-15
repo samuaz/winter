@@ -110,6 +110,7 @@ void Jwt::StripUnicode(string &str) const {
 Jwt::Jwt(
     string secretKey,
     std::chrono::seconds tokenExp,
-    std::chrono::seconds refreshTokenExp) : secret_key_(std::move(secretKey)),
-					    token_exp_(tokenExp),
-					    refresh_token_exp_(refreshTokenExp) {}
+    std::chrono::seconds refreshTokenExp) :
+    secret_key_(std::move(secretKey)),
+    token_exp_(tokenExp),
+    refresh_token_exp_(refreshTokenExp) {}

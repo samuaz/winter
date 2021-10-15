@@ -14,35 +14,39 @@ using namespace winter::data::sql;
 PreparedStatement::PreparedStatement(
     const StatementType &statement_type,
     std::string statement_template,
-    std::string id) : id_(std::move(id)),
-		      type_(statement_type),
-		      statement_template_(std::move(statement_template)) {}
+    std::string id) :
+    id_(std::move(id)),
+    type_(statement_type),
+    statement_template_(std::move(statement_template)) {}
 
 PreparedStatement::PreparedStatement(
     const StatementType &statement_type,
     std::string statement_template,
     std::vector<Column> columns,
-    std::string id) : id_(std::move(id)),
-		      type_(statement_type),
-		      statement_template_(std::move(statement_template)),
-		      columns_(std::move(columns)) {}
+    std::string id) :
+    id_(std::move(id)),
+    type_(statement_type),
+    statement_template_(std::move(statement_template)),
+    columns_(std::move(columns)) {}
 
 PreparedStatement::PreparedStatement(
     const StatementType &statement_type,
     std::string query,
     std::deque<std::shared_ptr<AbstractPreparedStatementField> > values,
-    std::string id) : id_(std::move(id)),
-		      type_(statement_type),
-		      statement_template_(std::move(query)),
-		      values_(std::move(values)) {}
+    std::string id) :
+    id_(std::move(id)),
+    type_(statement_type),
+    statement_template_(std::move(query)),
+    values_(std::move(values)) {}
 
 PreparedStatement::PreparedStatement(
     const StatementType &statement_type,
     std::string statement_template,
     const std::shared_ptr<AbstractPreparedStatementField> &value,
-    std::string id) : id_(std::move(id)),
-		      type_(statement_type),
-		      statement_template_(std::move(statement_template)) {
+    std::string id) :
+    id_(std::move(id)),
+    type_(statement_type),
+    statement_template_(std::move(statement_template)) {
   values_.push_back(value);
 }
 

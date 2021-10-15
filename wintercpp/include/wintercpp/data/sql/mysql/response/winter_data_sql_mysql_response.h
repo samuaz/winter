@@ -20,7 +20,8 @@ class Response final : public virtual winter::data::sql::
       std::string transaction_id,
       StatementType type,
       winter::data::ResponseStatus status,
-      std::string message) : winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>(transaction_id, type, status, message) {}
+      std::string message) :
+      winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>(transaction_id, type, status, message) {}
 
   Response(
       std::string transaction_id,
@@ -28,7 +29,8 @@ class Response final : public virtual winter::data::sql::
       std::vector<MysqlResultRow> result,
       winter::data::ResponseStatus status,
       std::string message,
-      int row_affected) : winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>(transaction_id, type, result, status, message, row_affected) {}
+      int row_affected) :
+      winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>(transaction_id, type, result, status, message, row_affected) {}
 
   static Response Error(const std::string &transactionId, StatementType type, const std::string &message);
 

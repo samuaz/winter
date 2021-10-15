@@ -22,7 +22,8 @@ class Transaction final : public virtual winter::data::sql::Transaction<
   Transaction(
       const std::shared_ptr<Connection> &conn,
       TransactionIsolationType isolation = TransactionIsolationType::DEFAULT,
-      bool partial_commit = false) : winter::data::sql::Transaction<Transaction, Connection, ::sql::Connection, MysqlResponse>(conn, isolation, partial_commit) {}
+      bool partial_commit = false) :
+      winter::data::sql::Transaction<Transaction, Connection, ::sql::Connection, MysqlResponse>(conn, isolation, partial_commit) {}
 };
 
 }  // namespace winter::data::sql::mysql

@@ -6,8 +6,9 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
-winter::data::sql::Into::Into(std::shared_ptr<Table> table) : Clause("INTO $table", "$table"),
-							      table_(std::move(table)) {}
+winter::data::sql::Into::Into(std::shared_ptr<Table> table) :
+    Clause("INTO $table", "$table"),
+    table_(std::move(table)) {}
 
 winter::data::sql::PreparedStatement
 winter::data::sql::Into::Prepare() {

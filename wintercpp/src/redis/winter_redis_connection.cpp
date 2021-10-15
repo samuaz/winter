@@ -20,8 +20,9 @@ redis::Connection::Create(
 
 redis::Connection::Connection(
     cpp_redis::client *conn,
-    Config redis_config) : winter::templates::Connection<winter::redis::Connection, cpp_redis::client>(conn),
-			   redis_config_(std::move(redis_config)) {}
+    Config redis_config) :
+    winter::templates::Connection<winter::redis::Connection, cpp_redis::client>(conn),
+    redis_config_(std::move(redis_config)) {}
 
 int redis::Connection::Int(const std::string &key) {
   std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
