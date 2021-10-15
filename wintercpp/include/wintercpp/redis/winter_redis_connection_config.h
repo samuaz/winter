@@ -19,9 +19,9 @@ class Config final {
   const std::string &password() const;
 
  private:
-  std::string host_;
-  size_t port_;
-  std::string password_;
+  const std::string host_;
+  const size_t port_;
+  const std::string password_;
 };
 }  // namespace winter::redis
 

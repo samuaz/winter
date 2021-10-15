@@ -23,7 +23,6 @@ winter::data::sql::Clause::operator<<(
 
 winter::data::sql::Clause &
 winter::data::sql::Clause::BuildQuery() {
-  query_ = {};
   return *this;
 }
 

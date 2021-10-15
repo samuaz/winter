@@ -10,8 +10,8 @@
 using namespace winter::data::sql;
 
 Column::Column(Table &table, std::string column_name, FieldType column_type) : table_(std::move(table)),
-									       name_(std::move(column_name)),
-									       type_(column_type) {}
+											   name_(std::move(column_name)),
+											   type_(column_type){}
 
 const std::string &
 Column::name() const {

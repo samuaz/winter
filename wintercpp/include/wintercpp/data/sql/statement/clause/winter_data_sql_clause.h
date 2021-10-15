@@ -29,9 +29,9 @@ class Clause {
   void set_statement_template(const std::string &statement_template);
 
  private:
-  std::string statement_template_;
-  std::string param_;
-  std::string query_;
+  std::string statement_template_{};
+  const std::string param_{};
+  std::string query_{};
 };
 
 }  // namespace winter::data::sql

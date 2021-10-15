@@ -53,10 +53,10 @@ class And : public virtual Clause {
   }
 
  private:
-  Column column_;
-  std::shared_ptr<AbstractPreparedStatementField> field_;
-  Condition condition_{};
-  bool is_predicate_ = false;
+  const Column column_;
+  const std::shared_ptr<AbstractPreparedStatementField> field_;
+  const Condition condition_{};
+  const bool is_predicate_ = false;
 };
 
 }  // namespace winter::data::sql

@@ -73,7 +73,7 @@ class Connection final : public virtual winter::templates::
   void Reconnect();
 
  private:
-  Config redis_config_;
+  const Config redis_config_;
   explicit Connection(cpp_redis::client *conn, Config redis_config);
 };
 }  // namespace winter::redis

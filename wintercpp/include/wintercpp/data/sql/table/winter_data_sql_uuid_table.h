@@ -25,7 +25,6 @@ class UUIDTable : public Table,
  private:
   const Column id_;
   const bool binary_;
-
 };
 
 }  // namespace winter::data::sql

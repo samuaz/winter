@@ -11,7 +11,7 @@ winter::data::sql::CommaSeparatedValue(
   auto elementsSize = elements.size();
   for (size_t i = 0; i < elementsSize; i++) {
     auto e = elements[i];
-    statement += e += std::string((i == elementsSize - 1 ? Nothing() : Comma()));
+    statement += e += std::string((i == elementsSize - 1 ? Nothing() : Comma() + Space()));
   }
   return statement;
 }

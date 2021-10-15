@@ -112,7 +112,7 @@ Connection::GeneratePrepareStatement(
 	_prep_stmt->setBigInt(
 	    position,
 	    dynamic_cast<PreparedStatementField<std::string> *>(field)->value());
-      break;
+	break;
       case FieldType::kChar:
       case FieldType::kDate:
       case FieldType::kDateTime:

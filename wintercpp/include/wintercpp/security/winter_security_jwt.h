@@ -41,9 +41,9 @@ class Jwt {
   std::string Encode(const std::string &password) const;
 
  private:
-  std::string secret_key_;
-  std::chrono::seconds token_exp_;
-  std::chrono::seconds refresh_token_exp_;
+  const std::string secret_key_;
+  const std::chrono::seconds token_exp_;
+  const std::chrono::seconds refresh_token_exp_;
   const std::string algorithm_ = "HS512";
   std::string createToken(const std::string &key, const std::string &value, std::chrono::seconds expire_time) const;
 };
