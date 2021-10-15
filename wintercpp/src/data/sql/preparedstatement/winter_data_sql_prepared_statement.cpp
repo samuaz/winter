@@ -6,6 +6,7 @@
 #include <wintercpp/exception/generic/winter_internal_exception.h>
 
 #include <utility>
+#include <vector>
 
 using namespace winter::exception;
 using namespace winter::data::sql;
@@ -20,7 +21,7 @@ PreparedStatement::PreparedStatement(
 PreparedStatement::PreparedStatement(
     const StatementType &statement_type,
     std::string statement_template,
-    std::set<Column, ColumnComparator> columns,
+    std::vector<Column> columns,
     std::string id) : id_(std::move(id)),
 		      type_(statement_type),
 		      statement_template_(std::move(statement_template)),
@@ -169,19 +170,21 @@ int PreparedStatement::SearchFieldIndex(const std::string &name) {
   throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ("preparedstatement field not found " + name));
 }
 
-const std::set<Column, ColumnComparator> &
+const std::vector<Column> &
 PreparedStatement::columns() const {
   return columns_;
 }
 
-void PreparedStatement::columns(std::set<Column, ColumnComparator> columns) {
+void PreparedStatement::columns(std::vector<Column> columns) {
   columns_ = std::move(columns);
 }
 
 void PreparedStatement::AddColumn(const Column &column) {
-  columns_.insert(column);
+  columns_.push_back(column);
 }
 
-void PreparedStatement::AddColumn(const std::set<Column, ColumnComparator> &columns) {
-  columns_.insert(columns.begin(), columns.end());
+void PreparedStatement::AddColumn(const std::vector<Column> &columns) {
+  for (const Column &col : columns) {
+    columns_.push_back(col);
+  }
 }

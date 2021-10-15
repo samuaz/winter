@@ -28,7 +28,10 @@ void winter::data::sql::From::GenerateStatement() {
   std::vector<std::string> tablesNames;
   for (auto const &table : tables_) {
     tablesNames.push_back(table->name());
-    columns_.insert(table->columns().begin(), table->columns().end());
+    auto tableColumns = table->columns();
+    for (const Column &col : tableColumns) {
+      columns_.push_back(col);
+    }
   }
   set_statement_template(winter::util::string::replace_value(
       statement_template(),

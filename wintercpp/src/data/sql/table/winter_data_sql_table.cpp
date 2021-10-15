@@ -5,10 +5,13 @@
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
 #include <algorithm>
+#include <cstddef>
 #include <functional>
+#include <optional>
 #include <vector>
 
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
+#include "wintercpp/exception/generic/winter_internal_exception.h"
 
 using namespace winter::data::sql;
 
@@ -25,25 +28,40 @@ Table::name() const {
   return name_;
 }
 
-const std::set<Column, ColumnComparator> &
+/* const std::set<Column, ColumnComparator> &
+Table::columns() const {
+  return columns_;
+} */
+
+const std::vector<Column> &
 Table::columns() const {
   return columns_;
 }
 
-/* std::vector<Column>
-Table::columns() const {
-  std::vector<Column> columns;
-  for (auto pair : columns_) {
-    columns.push_back(pair.second);
-  }
-  return columns;
-} */
-
-/* const Column &
+const Column &
 Table::RegisterColumn(const Column &col) {
-  columns_.emplace(col.name(), col);
-  Column &insertedCOl = columns_.at(col.name());
-  return insertedCOl;
+  // check if the columns corresponds to the current table
+  if (col.TableName() != this->name()) {
+    throw exception::WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ("column " + col.name() + " from table " + col.TableName() + " Cannot register in a different table " + this->name()));
+  }
+
+  /** 
+     **  Todo: 
+     ** For now as we are not registering the column when is created, let's throw an exception if you try to register a column that already exists
+     ** If I move to register the column at creation time, this function should return the existing one if you try to register a column that already exist instead of throw
+    **/
+  // throw if the column already exists
+  if (std::find(columns_.begin(), columns_.end(), col) != columns_.end()) {
+    throw exception::WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ("column " + col.name() + " from table " + col.TableName() + " already exists"));
+    //return columns_.at(std::distance(columns_.begin(), std::find(columns_.begin(), columns_.end(), col)));
+  }
+
+  // add the new column
+  columns_.push_back(col);
+
+  // find the recenctly column to return
+  // easy this can be equals to current size... but i feel more safe searching by the column == operator
+  return columns_.at(std::distance(columns_.begin(), std::find(columns_.begin(), columns_.end(), col)));
 }
 
 const Column &
@@ -51,11 +69,23 @@ Table::RegisterColumn(const std::string &name, FieldType fieldType) {
   return RegisterColumn(Column(
       *this,
       name,
-      fieldType,
-      columns_.size() + 1));
-} */
+      fieldType));
+}
 
-const Column &
+std::optional<const Column *>
+Table::FindColumnByName(const std::string &column_name) const {
+  auto existing = std::find_if(columns_.begin(), columns_.end(), [&column_name](const Column &column) -> bool {
+    return column.name() == column_name;
+  });
+
+  if (existing != columns_.end()) {
+    return std::optional(&columns_.at(std::distance(columns_.begin(), existing)));
+  }
+
+  return nullopt;
+};
+
+/* const Column &
 Table::RegisterColumn(const Column &col) {
   columns_.insert(col);
   return *columns_.find(col);
@@ -67,7 +97,7 @@ Table::RegisterColumn(const std::string &name, FieldType fieldType) {
       *this,
       name,
       fieldType));
-}
+} */
 
 const Column &
 Table::Char(const std::string &name) {

@@ -90,6 +90,6 @@ TEST(winterSqlTable, canConstructSelecFromMultipleTables) {
 
   auto query = Select({testTable->col1, testTable2->col3}) << From({testTable, testTable2}) << Where(testTable->col3, winter::data::sql::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable2->col1, winter::data::sql::Condition::EQ, "Eduardo"));
 
-  EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable2.col3, QueryTestTable.col1 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
+  EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable2.col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
 }
 

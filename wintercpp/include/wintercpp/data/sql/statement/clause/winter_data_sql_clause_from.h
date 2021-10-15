@@ -9,7 +9,7 @@
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
 #include <memory>
-#include <set>
+#include <vector>
 
 namespace winter::data::sql {
 
@@ -21,7 +21,7 @@ class From : public virtual Clause {
 
  private:
   std::set<std::shared_ptr<Table>, TableComparator> tables_;
-  std::set<Column, ColumnComparator> columns_;
+  std::vector<Column> columns_;
   void GenerateStatement();
 };
 

@@ -15,6 +15,8 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <vector>
+#include <optional>
 
 namespace winter::data::sql {
 
@@ -48,11 +50,13 @@ class Table {
 
   const std::string &name() const;
 
-  //std::vector<Column> columns() const;
+  const std::vector<Column>& columns() const;
 
-  const std::set<Column, ColumnComparator> &columns() const;
+  //const std::set<Column, ColumnComparator> &columns() const;
 
   TableType tableType() const;
+
+  std::optional<const Column *> FindColumnByName(const std::string& column_name) const;
 
   const Column &RegisterColumn(const Column &col);
 
@@ -102,10 +106,10 @@ class Table {
 
  protected:
   const std::string name_;
-  std::set<Column, ColumnComparator> columns_;
+  //std::set<Column, ColumnComparator> columns_;
   const TableType type_;
   const DatabaseType database_type_;
-  // std::map<std::string, Column> columns_;
+  std::vector<Column> columns_;
 };
 
 struct TableComparator {
