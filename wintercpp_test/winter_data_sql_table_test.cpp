@@ -56,7 +56,6 @@ TEST(winterSqlTable, canRegisterColumn) {
   EXPECT_EQ(newColumn->name(), "col3");
 }
 
-
 TEST(winterSqlTable, canTemporalCreateColumnForTableWithoutGlobalRegister) {
   TestTable testTable;
   Column column = Column(testTable, "col3", FieldType::kString);
