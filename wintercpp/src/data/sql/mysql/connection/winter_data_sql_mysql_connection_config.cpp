@@ -50,6 +50,6 @@ int MysqlConfig::opt_connect_timeout() const {
 }
 
 ::sql::mysql::MySQL_Driver&
-MysqlConfig::driver() const  {
+MysqlConfig::driver() const {
   return *_driver;
 }

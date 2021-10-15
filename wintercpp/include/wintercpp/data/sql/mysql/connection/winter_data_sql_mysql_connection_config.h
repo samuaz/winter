@@ -9,13 +9,11 @@
 
 #include <string>
 
-
 namespace winter::data::sql::mysql::connection {
 
 class Connection;
 
 class Config final {
-
   friend class Connection;
 
  public:
