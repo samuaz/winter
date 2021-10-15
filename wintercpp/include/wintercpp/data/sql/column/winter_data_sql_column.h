@@ -31,13 +31,6 @@ class Column final {
 
   bool operator==(const Column &column) const;
 
-  /*     bool operator==(const Column &column) {
-    std::stringstream thisColumnName, comparableColumnName;
-    thisColumnName << this->TableName() << this->name();
-    comparableColumnName << column->TableName() << column->name();
-    return thisColumnName.str() < comparableColumnName.str();
-  }
- */
   const Table &table() const;
 
   const std::string &TableName() const;
