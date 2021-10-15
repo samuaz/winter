@@ -29,11 +29,9 @@ class Column final {
 
   Column(const Column *column) : table_(column->table_), name_(column->name_), type_(column->type_){};
 
-  bool operator==(const Column &column) {
-    return this->TableName() == column.TableName() && this->name_ == column.name_;
-  }
+  bool operator==(const Column &column) const;
 
-/*     bool operator==(const Column &column) {
+  /*     bool operator==(const Column &column) {
     std::stringstream thisColumnName, comparableColumnName;
     thisColumnName << this->TableName() << this->name();
     comparableColumnName << column->TableName() << column->name();
@@ -69,7 +67,7 @@ struct ColumnComparator {
   bool
   operator()(const Column &lhs, const Column &rhs) const;
 };
- 
+
 }  // namespace winter::data::sql
 
 #endif /* WINTER_DATA_SQL_COLUMN */

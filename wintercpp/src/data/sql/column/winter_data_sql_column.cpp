@@ -11,8 +11,8 @@ using namespace winter::data::sql;
 
 Column::Column(Table &table, std::string column_name, FieldType column_type) : table_(std::move(table)),
 									       name_(std::move(column_name)),
-									       type_(column_type) { 
-                            /**
+									       type_(column_type) {
+  /**
                             **  Todo: 
                             **  I need to analyze if is good idea to register the column at the time you create it.
                             **  The use case is that you have a column that is handled by the database, and you don't want to expose inside winter because is going to be available.
@@ -20,8 +20,8 @@ Column::Column(Table &table, std::string column_name, FieldType column_type) : t
                             **  So, if I don't register it automatically, it is all to you if you want to register it globally or just use it in that function scope.
                             **  For now lets say that register the column need manual call to the table.RegisterColumn function.
                             **/
-                           //table.RegisterColumn(*this);
-                           }
+  //table.RegisterColumn(*this);
+}
 
 const std::string &
 Column::name() const {
@@ -43,7 +43,11 @@ Column::TableName() const {
   return table_.name();
 }
 
- bool ColumnComparator::operator()(const std::shared_ptr<Column> &lhs, const std::shared_ptr<Column> &rhs) const {
+bool Column::operator==(const Column &column) const {
+  return this->TableName() == column.TableName() && this->name_ == column.name_;
+}
+
+bool ColumnComparator::operator()(const std::shared_ptr<Column> &lhs, const std::shared_ptr<Column> &rhs) const {
   std::stringstream s1, s2;
   s1 << lhs->TableName() << lhs->name();
   s2 << rhs->TableName() << rhs->name();

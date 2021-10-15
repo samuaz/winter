@@ -28,11 +28,6 @@ Table::name() const {
   return name_;
 }
 
-/* const std::set<Column, ColumnComparator> &
-Table::columns() const {
-  return columns_;
-} */
-
 const std::vector<Column> &
 Table::columns() const {
   return columns_;
@@ -59,8 +54,8 @@ Table::RegisterColumn(const Column &col) {
   // add the new column
   columns_.push_back(col);
 
-  // find the recenctly column to return
-  // easy this can be equals to current size... but i feel more safe searching by the column == operator
+  // Find the recent column to return
+  // Easily this can be equals to current size... but I feel more safe searching by the column == operator
   return columns_.at(std::distance(columns_.begin(), std::find(columns_.begin(), columns_.end(), col)));
 }
 
@@ -84,20 +79,6 @@ Table::FindColumnByName(const std::string &column_name) const {
 
   return nullopt;
 };
-
-/* const Column &
-Table::RegisterColumn(const Column &col) {
-  columns_.insert(col);
-  return *columns_.find(col);
-}
-
-const Column &
-Table::RegisterColumn(const std::string &name, FieldType fieldType) {
-  return RegisterColumn(Column(
-      *this,
-      name,
-      fieldType));
-} */
 
 const Column &
 Table::Char(const std::string &name) {
@@ -204,6 +185,10 @@ Table::~Table() {}
 TableType
 Table::tableType() const {
   return type_;
+}
+
+bool Table::operator==(const Table &table) const {
+  return this->name() == table.name();
 }
 
 bool TableComparator::operator()(const std::shared_ptr<Table> &lhs, const std::shared_ptr<Table> &rhs) const {
