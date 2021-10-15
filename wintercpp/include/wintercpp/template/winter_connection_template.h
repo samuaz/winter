@@ -40,7 +40,8 @@ class Connection {
   }
 
  protected:
-  explicit Connection(TConnectionType *conn) : conn_(conn) {}
+  explicit Connection(TConnectionType *conn) :
+      conn_(conn) {}
 
   constexpr TConnectionType &
   conn() const {
@@ -62,7 +63,8 @@ class Connection {
 
 template <typename ConnectionImpl, typename ConnectionType>
 struct MatchConn {
-  explicit MatchConn(const std::string &id) : id_(id) {}
+  explicit MatchConn(const std::string &id) :
+      id_(id) {}
 
   bool
   operator()(

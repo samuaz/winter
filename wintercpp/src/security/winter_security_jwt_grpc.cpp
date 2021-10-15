@@ -46,7 +46,9 @@ GrpcJwt::GrpcJwt(
     string key,
     string secretKey,
     std::chrono::seconds token_exp,
-    std::chrono::seconds refresh_token_exp) : Jwt(std::move(secretKey), token_exp, refresh_token_exp), _key(std::move(key)){};
+    std::chrono::seconds refresh_token_exp) :
+    Jwt(std::move(secretKey), token_exp, refresh_token_exp),
+    _key(std::move(key)){};
 
 std::string
 GrpcJwt::ExtractTokenFromGrpcMetadata(

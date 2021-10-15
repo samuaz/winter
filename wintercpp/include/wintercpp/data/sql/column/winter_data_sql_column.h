@@ -25,9 +25,11 @@ class Column final {
  public:
   Column(Table &table, std::string column_name, FieldType column_type);
 
-  Column(const Column &c1) : table_(c1.table_), name_(c1.name_), type_(c1.type_){};
+  Column(const Column &column);
 
-  Column(const Column *c1) : table_(c1->table_), name_(c1->name_), type_(c1->type_){};
+  Column(const Column *column);
+  
+  bool operator==(const Column &column) const;
 
   const Table &table() const;
 

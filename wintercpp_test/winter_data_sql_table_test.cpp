@@ -18,6 +18,7 @@ struct TestTable : public UUIDTable {
   TestTable() : UUIDTable("TestTable", true, DatabaseType::kGeneric) {}
   const Column col1 = String("col1");
   const Column col2 = String("col2");
+  const Column col3 = String("id2");
 };
 
 TEST(winterSqlTable, canGetTableName) {
@@ -43,14 +44,21 @@ TEST(winterSqlTable, checkTableType) {
 TEST(winterSqlTable, columnsSize) {
   TestTable testTable;
   // size should be 3 because we have the default id column + 2 declared columns
-  EXPECT_THAT(testTable.columns(), testing::SizeIs(3));
+  EXPECT_THAT(testTable.columns(), testing::SizeIs(4));
 }
 
 TEST(winterSqlTable, canRegisterColumn) {
   TestTable testTable;
-  testTable.RegisterColumn("newColumn", FieldType::kString);
+  testTable.RegisterColumn("col3", FieldType::kString);
+  // size should be 4 because we have the default id column + 2 declared columns + the new column we register
+  EXPECT_THAT(testTable.columns(), testing::SizeIs(5));
+  auto newColumn = *std::next(testTable.columns().begin(), 4);
+  EXPECT_EQ(newColumn->name(), "col3");
+}
+
+TEST(winterSqlTable, canTemporalCreateColumnForTableWithoutGlobalRegister) {
+  TestTable testTable;
+  Column column = Column(testTable, "col3", FieldType::kString);
   // size should be 4 because we have the default id column + 2 declared columns + the new column we register
   EXPECT_THAT(testTable.columns(), testing::SizeIs(4));
-  auto newColumn = *std::next(testTable.columns().begin(), 3);
-  EXPECT_EQ(newColumn->name(), "newColumn");
 }

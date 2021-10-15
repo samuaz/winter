@@ -11,8 +11,8 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
-#include <set>
 #include <string>
+#include <vector>
 
 namespace winter::data::sql {
 
@@ -20,11 +20,11 @@ class Select final : public virtual Statement<Select> {
  public:
   Select();
 
-  explicit Select(std::set<Column, ColumnComparator> columns);
+  explicit Select(std::vector<Column> columns);
 
   explicit Select(const std::string &query);
 
-  Select &operator<<(std::set<Column, ColumnComparator> columns);
+  Select &operator<<(std::vector<Column> columns);
 
   using Statement<Select>::prepared_statement;
   using Statement<Select>::operator<<;
@@ -37,7 +37,7 @@ class Select final : public virtual Statement<Select> {
  private:
   using Statement<Select>::prepared_statement_;
   using Statement<Select>::type_;
-  std::set<Column, ColumnComparator> columns_;
+  std::vector<Column> columns_;
   //  std::vector<std::shared_ptr<Table> > tables_;
 
   void writeColumns();

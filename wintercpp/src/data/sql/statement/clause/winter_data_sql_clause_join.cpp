@@ -6,9 +6,10 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
-winter::data::sql::Join::Join(std::shared_ptr<Table> table, JoinType type) : Clause("$type JOIN $table", "$table"),
-									     table_(std::move(table)),
-									     type_(type) {
+winter::data::sql::Join::Join(std::shared_ptr<Table> table, JoinType type) :
+    Clause("$type JOIN $table", "$table"),
+    table_(std::move(table)),
+    type_(type) {
   set_statement_template(winter::util::string::replace_value(
       statement_template(),
       "$type",
@@ -19,9 +20,10 @@ winter::data::sql::Join::Join(std::shared_ptr<Table> table, JoinType type) : Cla
       winter::data::sql::CommaSeparatedValue({table_->name()})));
 }
 
-winter::data::sql::Join::Join(std::shared_ptr<Table> table) : Clause("JOIN $table", "$table"),
-							      table_(std::move(table)),
-							      type_(JoinType::DEFAULT) {
+winter::data::sql::Join::Join(std::shared_ptr<Table> table) :
+    Clause("JOIN $table", "$table"),
+    table_(std::move(table)),
+    type_(JoinType::DEFAULT) {
   set_statement_template(winter::util::string::replace_value(
       statement_template(),
       param(),

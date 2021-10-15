@@ -11,8 +11,9 @@
 winter::data::sql::Values::Values(
     std::deque<
 	std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> >
-	fields) : Clause("($columns) VALUES ($set_values)", "$set_values"),
-		  _fields(std::move(fields)) {}
+	fields) :
+    Clause("($columns) VALUES ($set_values)", "$set_values"),
+    _fields(std::move(fields)) {}
 
 winter::data::sql::PreparedStatement
 winter::data::sql::Values::Prepare() {

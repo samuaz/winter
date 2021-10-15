@@ -7,4 +7,5 @@
 #include <wintercpp/exception/sql/winter_sql_exception.h>
 using namespace winter::exception;
 
-SqlException::SqlException(const string &message) noexcept : WinterExceptionTemplate<SqlException>(message) {}
+SqlException::SqlException(const string &message) noexcept :
+    WinterExceptionTemplate<SqlException>(message) {}

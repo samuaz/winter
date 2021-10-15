@@ -6,10 +6,12 @@
 
 using namespace winter::data::sql;
 
-Update::Update(const std::string &query) : Statement<Update>(query, StatementType::kUpdate) {}
+Update::Update(const std::string &query) :
+    Statement<Update>(query, StatementType::kUpdate) {}
 
-Update::Update(std::shared_ptr<Table> table) : Statement<Update>("UPDATE $table", StatementType::kUpdate),
-					       table_(std::move(table)) {}
+Update::Update(std::shared_ptr<Table> table) :
+    Statement<Update>("UPDATE $table", StatementType::kUpdate),
+    table_(std::move(table)) {}
 
 void Update::BuildStatement() {
   if (table_) {

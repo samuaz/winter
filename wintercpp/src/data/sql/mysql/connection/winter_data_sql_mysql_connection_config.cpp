@@ -15,7 +15,15 @@ MysqlConfig::Config(
     std::string password,
     std::string schema,
     bool optReconnect,
-    int optConnectTimeout) : _driver(::sql::mysql::get_driver_instance()), _host(std::move(host)), _port(port), _userName(std::move(userName)), _password(std::move(password)), _schema(std::move(schema)), _opt_reconnect(optReconnect), _opt_connect_timeout(optConnectTimeout) {}
+    int optConnectTimeout) :
+    _driver(::sql::mysql::get_driver_instance()),
+    _host(std::move(host)),
+    _port(port),
+    _userName(std::move(userName)),
+    _password(std::move(password)),
+    _schema(std::move(schema)),
+    _opt_reconnect(optReconnect),
+    _opt_connect_timeout(optConnectTimeout) {}
 
 const std::string&
 MysqlConfig::host() const {

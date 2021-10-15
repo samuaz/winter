@@ -7,9 +7,10 @@
 winter::redis::Config::Config(
     std::string host,
     const size_t &port,
-    std::string password) : host_(std::move(host)),
-			    port_(port),
-			    password_(std::move(password)) {}
+    std::string password) :
+    host_(std::move(host)),
+    port_(port),
+    password_(std::move(password)) {}
 
 const std::string &
 winter::redis::Config::host() const {

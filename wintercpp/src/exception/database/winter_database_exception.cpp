@@ -7,4 +7,5 @@
 #include <wintercpp/exception/database/winter_database_exception.h>
 using namespace winter::exception;
 
-DataException::DataException(const string &message) noexcept : WinterExceptionTemplate<DataException>(message) {}
+DataException::DataException(const string &message) noexcept :
+    WinterExceptionTemplate<DataException>(message) {}

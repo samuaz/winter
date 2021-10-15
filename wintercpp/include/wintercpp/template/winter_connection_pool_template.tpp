@@ -6,7 +6,8 @@ using namespace winter::descriptor;
 using namespace winter::exception;
 
 template <typename TConnection>
-ConnectionPool<TConnection>::ConnectionPool(winter::descriptor::PoolDescriptor pool_descriptor) : pool_descriptor_(std::move(pool_descriptor)) {}
+ConnectionPool<TConnection>::ConnectionPool(winter::descriptor::PoolDescriptor pool_descriptor) :
+    pool_descriptor_(std::move(pool_descriptor)) {}
 
 template <typename TConnection>
 void ConnectionPool<TConnection>::InitPool() {

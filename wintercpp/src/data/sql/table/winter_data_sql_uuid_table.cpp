@@ -6,9 +6,10 @@
 
 using namespace winter::data::sql;
 
-UUIDTable::UUIDTable(const std::string &name, bool binary, DatabaseType database_type) : Table(name, TableType::kUUID, database_type),
-											 id_(RegisterColumn("id", FieldType::kString)),
-											 binary_(binary) {}
+UUIDTable::UUIDTable(const std::string &name, bool binary, DatabaseType database_type) :
+    Table(name, TableType::kUUID, database_type),
+    id_(RegisterColumn("id", FieldType::kString)),
+    binary_(binary) {}
 
 std::string
 UUIDTable::GenerateId() const {

@@ -17,11 +17,12 @@ PoolDescriptor::PoolDescriptor(
     unsigned int initialPoolSize,
     unsigned int maxPoolSize,
     unsigned int poolTimeout,
-    bool usePool) : _name(std::move(name)),
-		    _initialPoolSize(initialPoolSize),
-		    _maxPoolSize(maxPoolSize),
-		    _poolTimeout(poolTimeout),
-		    _usePool(usePool) {}
+    bool usePool) :
+    _name(std::move(name)),
+    _initialPoolSize(initialPoolSize),
+    _maxPoolSize(maxPoolSize),
+    _poolTimeout(poolTimeout),
+    _usePool(usePool) {}
 
 const std::string&
 PoolDescriptor::name() const {

@@ -10,11 +10,15 @@
 
 using namespace winter::data::sql;
 
-Select::Select(const std::string &query) : Statement<Select>(query, StatementType::kSelect) {}
+Select::Select(const std::string &query) :
+    Statement<Select>(query, StatementType::kSelect) {}
 
-Select::Select() : Statement<Select>("SELECT $columns", StatementType::kSelect) {}
+Select::Select() :
+    Statement<Select>("SELECT $columns", StatementType::kSelect) {}
 
-Select::Select(std::set<Column, ColumnComparator> columns) : Statement("SELECT $columns", StatementType::kSelect), columns_(std::move(columns)) {}
+Select::Select(std::vector<Column> columns) :
+    Statement("SELECT $columns", StatementType::kSelect),
+    columns_(std::move(columns)) {}
 
 void Select::writeColumns() {
   if (columns_.empty()) {
@@ -34,7 +38,7 @@ void Select::writeColumns() {
 }
 
 Select &
-Select::operator<<(std::set<Column, ColumnComparator> columns) {
+Select::operator<<(std::vector<Column> columns) {
   columns_ = std::move(columns);
   return *this;
 }

@@ -8,19 +8,22 @@
 
 using namespace winter::util::string;
 
-winter::data::sql::Or::Or(const Predicate &predicate) : Clause("OR $or", "$or"),
-							column_(predicate.column()),
-							field_(predicate.field()),
-							condition_(predicate.condition()),
-							is_predicate_(true) {}
+winter::data::sql::Or::Or(const Predicate &predicate) :
+    Clause("OR $or", "$or"),
+    column_(predicate.column()),
+    field_(predicate.field()),
+    condition_(predicate.condition()),
+    is_predicate_(true) {}
 
-winter::data::sql::Or::Or(Column column) : Clause("OR $or", "$or"),
-					   column_(std::move(column)),
-					   condition_(winter::data::sql::Condition::NONE) {}
+winter::data::sql::Or::Or(Column column) :
+    Clause("OR $or", "$or"),
+    column_(std::move(column)),
+    condition_(winter::data::sql::Condition::NONE) {}
 
-winter::data::sql::Or::Or(Column column, winter::data::sql::Condition condition) : Clause("OR $or", "$or"),
-										   column_(std::move(column)),
-										   condition_(condition) {}
+winter::data::sql::Or::Or(Column column, winter::data::sql::Condition condition) :
+    Clause("OR $or", "$or"),
+    column_(std::move(column)),
+    condition_(condition) {}
 
 winter::data::sql::PreparedStatement
 winter::data::sql::Or::Prepare() {

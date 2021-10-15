@@ -45,7 +45,8 @@ template <
     typename TConnectionConfig>
 SinglePool<TImplementation, TConnectionType, TConnectionConfig>::SinglePool(
     winter::descriptor::PoolDescriptor pool_descriptor,
-    std::optional<TConnectionConfig> connection_config) : winter::templates::ConnectionPool<TConnectionType>(std::move(pool_descriptor)),
-							  connection_config_(std::move(connection_config)){};
+    std::optional<TConnectionConfig> connection_config) :
+    winter::templates::ConnectionPool<TConnectionType>(std::move(pool_descriptor)),
+    connection_config_(std::move(connection_config)){};
 
 }  // namespace winter::templates

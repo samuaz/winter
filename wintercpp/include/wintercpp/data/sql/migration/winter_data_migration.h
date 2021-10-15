@@ -30,7 +30,8 @@ using namespace winter::data::sql;
 using namespace winter::data::sql::mysql;
 
 struct MigrationTable : public virtual Table {
-  MigrationTable() : Table("db_migrations", DatabaseType::kGeneric) {}
+  MigrationTable() :
+      Table("db_migrations", DatabaseType::kGeneric) {}
 
   const Column id = Long("id");
   const Column name = String("name");
@@ -42,8 +43,9 @@ struct Migration {
   std::string name;
   std::string script;
 
-  Migration(std::string name, std::string script) : name(std::move(name)),
-						    script(std::move(script)) {}
+  Migration(std::string name, std::string script) :
+      name(std::move(name)),
+      script(std::move(script)) {}
 
   [[nodiscard]] std::size_t
   Hash() const {
@@ -58,13 +60,15 @@ class DataBaseMigration {
  public:
   explicit DataBaseMigration(
       std::vector<Migration> migrations_sql,
-      std::function<std::shared_ptr<TConnectionType>()> readWriteDb) : path_(std::nullopt),
-								       migrations_sql_(std::move(migrations_sql)),
-								       read_write_db_(std::move(readWriteDb)) {}
+      std::function<std::shared_ptr<TConnectionType>()> readWriteDb) :
+      path_(std::nullopt),
+      migrations_sql_(std::move(migrations_sql)),
+      read_write_db_(std::move(readWriteDb)) {}
   DataBaseMigration(
       std::string path,
-      std::function<std::shared_ptr<TConnectionType>()> readWriteDb) : path_(std::move(path)),
-								       read_write_db_(std::move(readWriteDb)) {}
+      std::function<std::shared_ptr<TConnectionType>()> readWriteDb) :
+      path_(std::move(path)),
+      read_write_db_(std::move(readWriteDb)) {}
 
   void execute();
 

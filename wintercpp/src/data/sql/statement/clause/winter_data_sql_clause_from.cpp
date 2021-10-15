@@ -8,11 +8,13 @@
 
 using namespace winter::util::string;
 
-winter::data::sql::From::From(std::set<std::shared_ptr<Table>, TableComparator> tables) : Clause("FROM $tables", "$tables"),
-											  tables_(std::move(tables)) {}
+winter::data::sql::From::From(std::vector<std::shared_ptr<Table>> tables) :
+    Clause("FROM $tables", "$tables"),
+    tables_(std::move(tables)) {}
 
-winter::data::sql::From::From(const std::shared_ptr<Table> &table) : Clause("FROM $tables", "$tables") {
-  tables_.insert(table);
+winter::data::sql::From::From(const std::shared_ptr<Table> &table) :
+    Clause("FROM $tables", "$tables") {
+  tables_.push_back(table);
 }
 
 winter::data::sql::PreparedStatement
@@ -28,7 +30,10 @@ void winter::data::sql::From::GenerateStatement() {
   std::vector<std::string> tablesNames;
   for (auto const &table : tables_) {
     tablesNames.push_back(table->name());
-    columns_.insert(table->columns().begin(), table->columns().end());
+    auto tableColumns = table->columns();
+    for (const Column &col : tableColumns) {
+      columns_.push_back(col);
+    }
   }
   set_statement_template(winter::util::string::replace_value(
       statement_template(),

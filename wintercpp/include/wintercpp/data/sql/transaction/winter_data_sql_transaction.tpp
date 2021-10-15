@@ -12,9 +12,10 @@ Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Tran
     std::shared_ptr<SQLConnection<TConnectionImpl, TConnectionType, TResponse> >
 	connection,
     TransactionIsolationType isolation_type,
-    bool partial_commit) : connection_(std::move(connection)),
-			   isolation_type_(isolation_type),
-			   partial_commit_(partial_commit) {
+    bool partial_commit) :
+    connection_(std::move(connection)),
+    isolation_type_(isolation_type),
+    partial_commit_(partial_commit) {
   connection_->PrepareTransaction(isolation_type_);
 }
 

@@ -9,19 +9,19 @@
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
 #include <memory>
-#include <set>
+#include <vector>
 
 namespace winter::data::sql {
 
 class From : public virtual Clause {
  public:
-  explicit From(std::set<std::shared_ptr<Table>, TableComparator> tables);
+  explicit From(std::vector<std::shared_ptr<Table>> tables);
   explicit From(const std::shared_ptr<Table> &table);
   PreparedStatement Prepare() override;
 
  private:
-  std::set<std::shared_ptr<Table>, TableComparator> tables_;
-  std::set<Column, ColumnComparator> columns_;
+  std::vector<std::shared_ptr<Table>> tables_;
+  std::vector<Column> columns_;
   void GenerateStatement();
 };
 

@@ -9,21 +9,24 @@
 using namespace winter::util::string;
 
 winter::data::sql::Where::Where(
-    const Predicate &predicate) : Clause("WHERE $where", "$where"),
-				  column_(predicate.column()),
-				  field_(predicate.field()),
-				  condition_(predicate.condition()),
-				  _is_predicate(true) {}
+    const Predicate &predicate) :
+    Clause("WHERE $where", "$where"),
+    column_(predicate.column()),
+    field_(predicate.field()),
+    condition_(predicate.condition()),
+    _is_predicate(true) {}
 
-winter::data::sql::Where::Where(Column column) : Clause("WHERE $where", "$where"),
-						 column_(std::move(column)),
-						 condition_(winter::data::sql::Condition::NONE) {}
+winter::data::sql::Where::Where(Column column) :
+    Clause("WHERE $where", "$where"),
+    column_(std::move(column)),
+    condition_(winter::data::sql::Condition::NONE) {}
 
 winter::data::sql::Where::Where(
     Column column,
-    winter::data::sql::Condition condition) : Clause("WHERE $where", "$where"),
-					      column_(std::move(column)),
-					      condition_(condition) {}
+    winter::data::sql::Condition condition) :
+    Clause("WHERE $where", "$where"),
+    column_(std::move(column)),
+    condition_(condition) {}
 
 winter::data::sql::PreparedStatement
 winter::data::sql::Where::Prepare() {

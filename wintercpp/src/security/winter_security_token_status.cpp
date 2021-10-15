@@ -2,7 +2,9 @@
 
 using namespace winter::security;
 
-TokenStatus::TokenStatus(TokenStatusType status, std::string message) : status_(status), message_(std::move(message)) {}
+TokenStatus::TokenStatus(TokenStatusType status, std::string message) :
+    status_(status),
+    message_(std::move(message)) {}
 
 const TokenStatusType&
 TokenStatus::status() const {
