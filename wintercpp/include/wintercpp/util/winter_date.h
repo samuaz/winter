@@ -18,7 +18,6 @@
 namespace winter {
 
 class Date {
-
  public:
   Date();
 

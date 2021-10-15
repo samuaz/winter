@@ -63,7 +63,7 @@ Table::RegisterColumn(const Column &col) {
 
 const Column &
 Table::RegisterColumn(const std::string &name, FieldType fieldType) {
-return RegisterColumn(Column(
+  return RegisterColumn(Column(
       *this,
       name,
       fieldType));
