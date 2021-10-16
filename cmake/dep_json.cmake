@@ -12,9 +12,11 @@ FetchContent_Declare(
         SOURCE_DIR ${THIRD_PARTY_DIR}/json
 )
 
-FetchContent_GetProperties(json)
-if(NOT json_POPULATED)
-    FetchContent_Populate(json)
-    add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
+# FetchContent_GetProperties(json)
+# if(NOT json_POPULATED)
+#     FetchContent_Populate(json)
+#     add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+# endif()
+
+FetchContent_MakeAvailable(json)
 include_directories(${json_SOURCE_DIR}/include/)

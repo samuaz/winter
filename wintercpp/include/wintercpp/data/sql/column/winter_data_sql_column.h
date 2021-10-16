@@ -28,7 +28,7 @@ class Column final {
   Column(const Column &column);
 
   Column(const Column *column);
-  
+
   bool operator==(const Column &column) const;
 
   const Table &table() const;
