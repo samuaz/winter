@@ -8,10 +8,7 @@ set(FETCHCONTENT_QUIET OFF)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 execute_process(
-        COMMAND mkdir -p build
-        COMMAND cd build
-        COMMAND cmake .. 
-        COMMAND make grpc_cpp_plugin
+        COMMAND "mkdir -p build && cd build && cmake .. && make grpc_cpp_plugin"
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_plugin_cmake_result
         OUTPUT_VARIABLE grpc_plugin_cmake_VARIABLE)
