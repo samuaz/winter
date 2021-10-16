@@ -8,14 +8,18 @@ set(FETCHCONTENT_QUIET OFF)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 execute_process(
-        COMMAND mkdir -p build && cd build && cmake .. && make grpc_cpp_plugin
+        COMMAND mkdir -p build
+        COMMAND cd build
+        COMMAND cmake .. 
+        COMMAND make grpc_cpp_plugin
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_plugin_cmake_result
         OUTPUT_VARIABLE grpc_plugin_cmake_VARIABLE)
 MESSAGE(STATUS "grpc_plugin_build_CMD_ERROR:" ${grpc_plugin_cmake_result})
 MESSAGE(STATUS "grpc_plugin_build_CMD_OUTPUT:" ${grpc_plugin_cmake_VARIABLE})
 execute_process(
-        COMMAND mkdir -p ${THIRD_PARTY_DIR}/grpc_plugin && cp ${grpc_SOURCE_DIR}/build/{grpc_cpp_plugin,libgrpc_plugin_support.a} ${THIRD_PARTY_DIR}/grpc_plugin
+        COMMAND mkdir -p ${THIRD_PARTY_DIR}/grpc_plugin
+        COMMAND cp ${grpc_SOURCE_DIR}/build/{grpc_cpp_plugin,libgrpc_plugin_support.a} ${THIRD_PARTY_DIR}/grpc_plugin
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}/build
         RESULT_VARIABLE grpc_plugin_install_result
         OUTPUT_VARIABLE grpc_plugin_OUTPUT_VARIABLE)
