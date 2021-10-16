@@ -19,7 +19,8 @@ MESSAGE(STATUS "grpc_plugin_build_CMD_ERROR:" ${grpc_plugin_cmake_result})
 MESSAGE(STATUS "grpc_plugin_build_CMD_OUTPUT:" ${grpc_plugin_cmake_VARIABLE})
 execute_process(
         COMMAND mkdir -p ${THIRD_PARTY_DIR}/grpc_plugin
-        COMMAND cp ${grpc_SOURCE_DIR}/build/{grpc_cpp_plugin,libgrpc_plugin_support.a} ${THIRD_PARTY_DIR}/grpc_plugin
+        COMMAND cp ${grpc_SOURCE_DIR}/build/grpc_cpp_plugin ${THIRD_PARTY_DIR}/grpc_plugin
+        COMMAND cp ${grpc_SOURCE_DIR}/build/libgrpc_plugin_support.a ${THIRD_PARTY_DIR}/grpc_plugin
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}/build
         RESULT_VARIABLE grpc_plugin_install_result
         OUTPUT_VARIABLE grpc_plugin_OUTPUT_VARIABLE)
