@@ -7,20 +7,20 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
-execute_process(
-        COMMAND mkdir -p build && cd build && cmake .. &&  make 
-        WORKING_DIRECTORY ${grpc_SOURCE_DIR}
-        RESULT_VARIABLE mysql_cmake_result
-        OUTPUT_VARIABLE mysql_cmake_VARIABLE)
-MESSAGE(STATUS "MYSQL_cmake_CMD_ERROR:" ${mysql_cmake_result})
-MESSAGE(STATUS "MYSQL_cmake_CMD_OUTPUT:" ${mysql_cmake_VARIABLE})
-execute_process(
-        COMMAND make install
-        WORKING_DIRECTORY ${mysql_connector_cpp_SOURCE_DIR}
-        RESULT_VARIABLE mysql_install_result
-        OUTPUT_VARIABLE mysql_OUTPUT_VARIABLE)
-MESSAGE(STATUS "MYSQL_INSTALL_CMD_ERROR:" ${mysql_install_result})
-MESSAGE(STATUS "MYSQL_INSTALL_CMD_OUTPUT:" ${mysql_OUTPUT_VARIABLE})
+# execute_process(
+#         COMMAND mkdir -p build && cd build && cmake .. &&  make 
+#         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
+#         RESULT_VARIABLE mysql_cmake_result
+#         OUTPUT_VARIABLE mysql_cmake_VARIABLE)
+# MESSAGE(STATUS "MYSQL_cmake_CMD_ERROR:" ${mysql_cmake_result})
+# MESSAGE(STATUS "MYSQL_cmake_CMD_OUTPUT:" ${mysql_cmake_VARIABLE})
+# execute_process(
+#         COMMAND make install
+#         WORKING_DIRECTORY ${mysql_connector_cpp_SOURCE_DIR}
+#         RESULT_VARIABLE mysql_install_result
+#         OUTPUT_VARIABLE mysql_OUTPUT_VARIABLE)
+# MESSAGE(STATUS "MYSQL_INSTALL_CMD_ERROR:" ${mysql_install_result})
+# MESSAGE(STATUS "MYSQL_INSTALL_CMD_OUTPUT:" ${mysql_OUTPUT_VARIABLE})
 
 FetchContent_Declare(
         protobuf_compiler
