@@ -5,7 +5,7 @@
 #ifndef WINTER_DATA_SQL_REPOSITORY_UTILS
 #define WINTER_DATA_SQL_REPOSITORY_UTILS
 
-#include <mysql/jdbc.h>
+//#include <mysql/jdbc.h>
 #include <wintercpp/data/repository/winter_data_repository.h>
 #include <wintercpp/data/response/winter_data_response.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>

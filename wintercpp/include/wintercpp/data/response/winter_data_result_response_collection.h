@@ -1,7 +1,7 @@
 #ifndef WINTER_DATA_RESULT_RESPONSE_COLLECTION
 #define WINTER_DATA_RESULT_RESPONSE_COLLECTION
 
-#include <mysql/jdbc.h>
+//#include <mysql/jdbc.h>
 #include <wintercpp/data/response/winter_data_response_status.h>
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_result_row.h>

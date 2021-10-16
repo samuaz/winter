@@ -7,8 +7,8 @@
 #ifndef WINTER_DATA_SQL_MYSQL_CONNECTION
 #define WINTER_DATA_SQL_MYSQL_CONNECTION
 
-#include <jdbc/cppconn/connection.h>
-#include <mysql/jdbc.h>
+//#include <jdbc/cppconn/connection.h>
+//#include <mysql/jdbc.h>
 #include <wintercpp/data/response/winter_data_response.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_connection.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection_config.h>
@@ -16,6 +16,8 @@
 #include <wintercpp/data/sql/mysql/response/winter_data_sql_mysql_response.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/exception/database/winter_database_exception.h>
+
+#include <conncpp.hpp>
 
 #include "wintercpp/data/response/winter_data_response_status.h"
 
@@ -44,7 +46,10 @@ class Connection final : public virtual SQLConnection<Connection, ::sql::Connect
   void Reconnect();
 
  private:
-  ::sql::transaction_isolation IsolationLevel(
+  /*   ::sql::transaction_isolation IsolationLevel(
+      const TransactionIsolationType &isolation); */
+
+  int32_t IsolationLevel(
       const TransactionIsolationType &isolation);
 
   MysqlResponse CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::PreparedStatement> &prep_stmt);

@@ -4,7 +4,7 @@
 
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection_config.h>
 
-#include "jdbc/mysql_driver.h"
+//#include "jdbc/mysql_driver.h"
 
 using namespace winter::data::sql::mysql::connection;
 
@@ -16,7 +16,8 @@ MysqlConfig::Config(
     std::string schema,
     bool optReconnect,
     int optConnectTimeout) :
-    _driver(::sql::mysql::get_driver_instance()),
+    //_driver(::sql::mysql::get_driver_instance()),
+    _driver(::sql::mariadb::get_driver_instance()),
     _host(std::move(host)),
     _port(port),
     _userName(std::move(userName)),
@@ -57,7 +58,12 @@ int MysqlConfig::opt_connect_timeout() const {
   return _opt_connect_timeout;
 }
 
-::sql::mysql::MySQL_Driver&
+/* ::sql::mysql::MySQL_Driver&
+MysqlConfig::driver() const {
+  return *_driver;
+} */
+
+::sql::Driver&
 MysqlConfig::driver() const {
   return *_driver;
 }

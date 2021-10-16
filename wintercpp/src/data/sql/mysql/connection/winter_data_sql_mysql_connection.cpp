@@ -4,8 +4,8 @@
  * @YEAR 2019
  */
 
-#include <jdbc/cppconn/sqlstring.h>
-#include <mysql/jdbc.h>
+//#include <jdbc/cppconn/sqlstring.h>
+//#include <mysql/jdbc.h>
 #include <wintercpp/data/response/winter_data_response_status.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection.h>
 #include <wintercpp/exception/generic/winter_internal_exception.h>
@@ -169,7 +169,7 @@ Connection::GeneratePrepareStatement(
   return _prep_stmt;
 }
 
-::sql::transaction_isolation
+/* ::sql::transaction_isolation
 Connection::IsolationLevel(
     const TransactionIsolationType &isolation) {
   switch (isolation) {
@@ -185,6 +185,24 @@ Connection::IsolationLevel(
       return ::sql::enum_transaction_isolation::TRANSACTION_SERIALIZABLE;
   }
   return static_cast< ::sql::enum_transaction_isolation>(isolation);
+} */
+
+int32_t
+Connection::IsolationLevel(
+    const TransactionIsolationType &isolation) {
+  switch (isolation) {
+    case TransactionIsolationType::DEFAULT:
+      return ::sql::TRANSACTION_REPEATABLE_READ;
+    case TransactionIsolationType::REPEATABLE_READ:
+      return ::sql::TRANSACTION_REPEATABLE_READ;
+    case TransactionIsolationType::READ_COMMITTED:
+      return ::sql::TRANSACTION_READ_COMMITTED;
+    case TransactionIsolationType::READ_UNCOMMITTED:
+      return ::sql::TRANSACTION_READ_UNCOMMITTED;
+    case TransactionIsolationType::SERIALIZABLE:
+      return ::sql::TRANSACTION_SERIALIZABLE;
+  }
+  ///return static_cast< ::sql::enum_transaction_isolation>(isolation);
 }
 
 void Connection::PrepareTransaction(const TransactionIsolationType &isolation) {
@@ -210,9 +228,9 @@ Connection::Create(const Config &mysql_config) {
     connectionProperties["userName"] = mysql_config.user_name();
     connectionProperties["password"] = mysql_config.password();
     connectionProperties["schema"] = mysql_config.schema();
-    connectionProperties["port"] = mysql_config.port();
-    connectionProperties["OPT_RECONNECT"] = mysql_config.is_opt_reconnect();
-    connectionProperties["OPT_CONNECT_TIMEOUT"] = mysql_config.opt_connect_timeout();
+    connectionProperties["port"] = std::to_string(mysql_config.port());
+    connectionProperties["OPT_RECONNECT"] = std::to_string(mysql_config.is_opt_reconnect());
+    connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(mysql_config.opt_connect_timeout());
     return new Connection(mysql_config.driver().connect(connectionProperties));
   } catch (std::runtime_error &ex) {
     throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());

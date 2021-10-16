@@ -5,8 +5,8 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H
 
-#include <mysql/jdbc.h>
-
+//#include <mysql/jdbc.h>
+#include <conncpp.hpp>
 #include <string>
 
 namespace winter::data::sql::mysql::connection {
@@ -41,7 +41,8 @@ class Config final {
   int opt_connect_timeout() const;
 
  private:
-  ::sql::mysql::MySQL_Driver *_driver;
+  //::sql::mysql::MySQL_Driver *_driver;
+  ::sql::Driver *_driver;
   const std::string _host;
   const int _port;
   const std::string _userName;
@@ -50,7 +51,8 @@ class Config final {
   const bool _opt_reconnect;
   const int _opt_connect_timeout;
 
-  ::sql::mysql::MySQL_Driver &driver() const;
+  //::sql::mysql::MySQL_Driver &driver() const;
+  ::sql::Driver &driver() const;
 };
 }  // namespace winter::data::sql::mysql::connection
 typedef winter::data::sql::mysql::connection::Config MysqlConfig;

@@ -9,11 +9,12 @@
 #ifndef WINTER_DATA_SQL_MYSQL_RESULT_ROW
 #define WINTER_DATA_SQL_MYSQL_RESULT_ROW
 
-#include <jdbc/cppconn/resultset.h>
+//#include <jdbc/cppconn/resultset.h>
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
 
+#include <conncpp.hpp>
 #include <cstdint>
 #include <map>
 #include <memory>
@@ -63,7 +64,7 @@ class ResultRow final : public virtual winter::data::sql::ResultRow<std::shared_
       case FieldType::KDecimal:
       case FieldType::kTimeStamp:
       case FieldType::kString:
-	AddRow(value_name, result->getString(value_name));
+	AddRow(value_name, std::string(result->getString(value_name).c_str()));
 	break;
       case FieldType::kSchar:
       case FieldType::KShort:

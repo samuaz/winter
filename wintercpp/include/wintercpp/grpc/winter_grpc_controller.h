@@ -6,7 +6,7 @@
 #define WINTER_GRPC_CONTROLLER_TEMPLATE_H
 
 #include <grpcpp/grpcpp.h>
-#include <mysql/jdbc.h>
+//#include <mysql/jdbc.h>
 #include <wintercpp/data/response/winter_data_response.h>
 #include <wintercpp/exception/security/winter_security_exception.h>
 
