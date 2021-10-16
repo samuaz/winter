@@ -17,7 +17,7 @@
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/exception/database/winter_database_exception.h>
 
-#include <conncpp.hpp>
+#include <mariadb/conncpp.hpp>
 
 #include "wintercpp/data/response/winter_data_response_status.h"
 

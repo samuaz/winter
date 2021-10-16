@@ -14,9 +14,9 @@
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
 
-#include <conncpp.hpp>
 #include <cstdint>
 #include <map>
+#include <mariadb/conncpp.hpp>
 #include <memory>
 #include <string>
 #include <variant>

@@ -6,7 +6,7 @@
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H
 
 //#include <mysql/jdbc.h>
-#include <conncpp.hpp>
+#include <mariadb/conncpp.hpp>
 #include <string>
 
 namespace winter::data::sql::mysql::connection {
