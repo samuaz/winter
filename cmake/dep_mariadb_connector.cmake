@@ -45,4 +45,4 @@ MESSAGE(STATUS "mariadb_INSTALL_CMD_OUTPUT:" ${mariadb_OUTPUT_VARIABLE})
 include_directories(${mariadb_connector_cpp_SOURCE_DIR}/install/include)
 link_directories(${mariadb_connector_cpp_SOURCE_DIR}/install/lib)
 
-set(WINTER_MYSQL_LIB ${mariadb_connector_cpp_SOURCE_DIR}/install/lib/libmariadbcpp.a)
+set(WINTER_MARIADB_CONNECTOR_LIB ${mariadb_connector_cpp_SOURCE_DIR}/install/lib/libmariadbcpp.a)
