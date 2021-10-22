@@ -7,8 +7,16 @@
 #ifndef WINTER_DATA_SQL_MYSQL_CONNECTION
 #define WINTER_DATA_SQL_MYSQL_CONNECTION
 
-//#include <jdbc/cppconn/connection.h>
-//#include <mysql/jdbc.h>
+#include <wintercpp/data/sql/mysql/winter_sql_mysql_driver.h>
+
+#if WITH_MYSQL
+#include <mysql/jdbc.h>
+#elif WITH_MARIADB
+#include <mariadb/conncpp.hpp>
+#else
+#error "NO WINTER_MYSQL_DRIVER"
+#endif
+
 #include <wintercpp/data/response/winter_data_response.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_connection.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection_config.h>
@@ -16,8 +24,6 @@
 #include <wintercpp/data/sql/mysql/response/winter_data_sql_mysql_response.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/exception/database/winter_database_exception.h>
-
-#include <mariadb/conncpp.hpp>
 
 #include "wintercpp/data/response/winter_data_response_status.h"
 

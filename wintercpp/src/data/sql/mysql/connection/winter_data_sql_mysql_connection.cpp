@@ -4,8 +4,6 @@
  * @YEAR 2019
  */
 
-//#include <jdbc/cppconn/sqlstring.h>
-//#include <mysql/jdbc.h>
 #include <wintercpp/data/response/winter_data_response_status.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection.h>
 #include <wintercpp/exception/generic/winter_internal_exception.h>
@@ -201,6 +199,8 @@ Connection::IsolationLevel(
       return ::sql::TRANSACTION_READ_UNCOMMITTED;
     case TransactionIsolationType::SERIALIZABLE:
       return ::sql::TRANSACTION_SERIALIZABLE;
+    default:
+      return ::sql::TRANSACTION_REPEATABLE_READ;
   }
   ///return static_cast< ::sql::enum_transaction_isolation>(isolation);
 }
@@ -222,8 +222,10 @@ void Connection::Rollback() const {
 
 winter::data::sql::mysql::connection::Connection *
 Connection::Create(const Config &mysql_config) {
+  ::sql::ConnectOptionsMap connectionProperties;
   try {
-    ::sql::ConnectOptionsMap connectionProperties;
+#if WITH_MYSQL
+
     connectionProperties["hostName"] = mysql_config.host();
     connectionProperties["userName"] = mysql_config.user_name();
     connectionProperties["password"] = mysql_config.password();
@@ -231,6 +233,21 @@ Connection::Create(const Config &mysql_config) {
     connectionProperties["port"] = std::to_string(mysql_config.port());
     connectionProperties["OPT_RECONNECT"] = std::to_string(mysql_config.is_opt_reconnect());
     connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(mysql_config.opt_connect_timeout());
+
+#elif WITH_MARIADB
+
+    connectionProperties["hostName"] = mysql_config.host();
+    connectionProperties["userName"] = mysql_config.user_name();
+    connectionProperties["password"] = mysql_config.password();
+    connectionProperties["schema"] = mysql_config.schema();
+    connectionProperties["port"] = std::to_string(mysql_config.port());
+    connectionProperties["OPT_RECONNECT"] = std::to_string(mysql_config.is_opt_reconnect());
+    connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(mysql_config.opt_connect_timeout());
+
+#else
+    static_assert(false, "MYSQL CONNECTOR NOT DEFINED");
+#endif
+
     return new Connection(mysql_config.driver().connect(connectionProperties));
   } catch (std::runtime_error &ex) {
     throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());

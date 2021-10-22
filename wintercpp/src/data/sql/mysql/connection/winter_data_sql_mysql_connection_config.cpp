@@ -16,15 +16,20 @@ MysqlConfig::Config(
     std::string schema,
     bool optReconnect,
     int optConnectTimeout) :
-    //_driver(::sql::mysql::get_driver_instance()),
+#if WITH_MYSQL
+    _driver(::sql::mysql::get_driver_instance()),
+#endif
+#if WITH_MARIADB
     _driver(::sql::mariadb::get_driver_instance()),
+#endif
     _host(std::move(host)),
     _port(port),
     _userName(std::move(userName)),
     _password(std::move(password)),
     _schema(std::move(schema)),
     _opt_reconnect(optReconnect),
-    _opt_connect_timeout(optConnectTimeout) {}
+    _opt_connect_timeout(optConnectTimeout) {
+}
 
 const std::string&
 MysqlConfig::host() const {
@@ -58,12 +63,7 @@ int MysqlConfig::opt_connect_timeout() const {
   return _opt_connect_timeout;
 }
 
-/* ::sql::mysql::MySQL_Driver&
-MysqlConfig::driver() const {
-  return *_driver;
-} */
-
-::sql::Driver&
+MYSQL_DRIVER&
 MysqlConfig::driver() const {
   return *_driver;
 }

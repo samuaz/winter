@@ -21,6 +21,7 @@ else ()
     message("local AS DEFAULT")
     set(APP_ENV local)
 endif (APP_ENV)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/config/winter_env.h.in ${CMAKE_BINARY_DIR}/generated/config/winter_env.h)
 include_directories(${CMAKE_BINARY_DIR}/generated)
 
@@ -29,10 +30,6 @@ include_directories(${CMAKE_BINARY_DIR}/generated)
 ############################
 include(dependencies.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/ClangFormat.cmake)
-
-configure_file(include/wintercpp/config/winter_env.h.in src/config/winter_env.h)
-include_directories(${CMAKE_BINARY_DIR}/generated)
-include_directories(include/wintercpp/config)
 
 ############################
 ##    CREATE EXECUTABLE   ##

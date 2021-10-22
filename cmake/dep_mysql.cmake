@@ -84,3 +84,7 @@ include_directories(${THIRD_PARTY_DIR}/boost/)
 link_directories(${mysql_connector_cpp_SOURCE_DIR}/install)
 
 set(WINTER_MYSQL_LIB ${mysql_connector_cpp_SOURCE_DIR}/install/libmysqlcppconn-static.a)
+set(WINTER_MYSQL_DRIVER true)
+set(WINTER_MARIADB_DRIVER false)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h.in ${CMAKE_BINARY_DIR}/generated/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h)
+include_directories(${CMAKE_BINARY_DIR}/generated)

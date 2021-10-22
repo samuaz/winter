@@ -9,7 +9,16 @@
 #ifndef WINTER_DATA_SQL_MYSQL_RESULT_ROW
 #define WINTER_DATA_SQL_MYSQL_RESULT_ROW
 
-//#include <jdbc/cppconn/resultset.h>
+#include <wintercpp/data/sql/mysql/winter_sql_mysql_driver.h>
+
+#if WITH_MYSQL
+#include <mysql/jdbc.h>
+#elif WITH_MARIADB
+#include <mariadb/conncpp.hpp>
+#else
+#error "NO WINTER_MYSQL_DRIVER"
+#endif
+
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>

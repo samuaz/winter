@@ -5,8 +5,18 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H
 
-//#include <mysql/jdbc.h>
+#include <wintercpp/data/sql/mysql/winter_sql_mysql_driver.h>
+
+#if WITH_MYSQL
+#include <mysql/jdbc.h>
+typedef ::sql::mysql::MySQL_Driver MYSQL_DRIVER;
+#elif WITH_MARIADB
 #include <mariadb/conncpp.hpp>
+typedef ::sql::Driver MYSQL_DRIVER;
+#else
+#error "NO WINTER_MYSQL_DRIVER"
+#endif
+
 #include <string>
 
 namespace winter::data::sql::mysql::connection {
@@ -42,7 +52,7 @@ class Config final {
 
  private:
   //::sql::mysql::MySQL_Driver *_driver;
-  ::sql::Driver *_driver;
+  MYSQL_DRIVER *_driver;
   const std::string _host;
   const int _port;
   const std::string _userName;
@@ -52,7 +62,7 @@ class Config final {
   const int _opt_connect_timeout;
 
   //::sql::mysql::MySQL_Driver &driver() const;
-  ::sql::Driver &driver() const;
+  MYSQL_DRIVER &driver() const;
 };
 }  // namespace winter::data::sql::mysql::connection
 typedef winter::data::sql::mysql::connection::Config MysqlConfig;
