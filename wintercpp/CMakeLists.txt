@@ -22,7 +22,8 @@ else ()
     set(APP_ENV local)
 endif (APP_ENV)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/config/winter_env.h.in ${CMAKE_BINARY_DIR}/generated/config/winter_env.h)
+execute_process(COMMAND rm -f ${CMAKE_BINARY_DIR}/generated)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/config/winter_env.h.in  ${CMAKE_BINARY_DIR}/generated/wintercpp/config/winter_env.h)
 include_directories(${CMAKE_BINARY_DIR}/generated)
 
 ############################
@@ -107,25 +108,34 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
         )
-# target_include_directories(${PROJECT_NAME} PUBLIC
-#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_connector_cpp_include/include>
-#         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-#         )
 
-# target_include_directories(${PROJECT_NAME} PUBLIC
-#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/boost>
-#         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-#         )
 
-# target_include_directories(${PROJECT_NAME} PUBLIC
-#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_client/include>
-#         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-#         )
-
- target_include_directories(${PROJECT_NAME} PUBLIC
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mariadb_connector/install/include>
+if(WINTER_MYSQL_DRIVER)
+MESSAGE("USING WINTER_MYSQL_DRIVER")
+target_include_directories(${PROJECT_NAME} PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_connector_cpp_include/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
          )
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/boost>
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+         )
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_client/include>
+         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+         )
+endif()
+
+
+if(WINTER_MARIADB_DRIVER)
+MESSAGE("USING WINTER_MARIADB_DRIVER")
+target_include_directories(${PROJECT_NAME} PUBLIC
+$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mariadb_connector/install/include>
+$<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+)
+endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include>

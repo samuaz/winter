@@ -11,11 +11,12 @@ using namespace winter::data::sql::mysql::connection;
 MysqlConfig::Config(
     std::string host,
     int port,
-    std::string userName,
+    std::string user_name,
     std::string password,
     std::string schema,
-    bool optReconnect,
-    int optConnectTimeout) :
+    bool opt_reconnect,
+    int opt_connect_timeout,
+    const ConnectionProperties& other_properties) :
 #if WITH_MYSQL
     _driver(::sql::mysql::get_driver_instance()),
 #endif
@@ -24,11 +25,12 @@ MysqlConfig::Config(
 #endif
     _host(std::move(host)),
     _port(port),
-    _userName(std::move(userName)),
+    _user_name(std::move(user_name)),
     _password(std::move(password)),
     _schema(std::move(schema)),
-    _opt_reconnect(optReconnect),
-    _opt_connect_timeout(optConnectTimeout) {
+    _opt_reconnect(opt_reconnect),
+    _opt_connect_timeout(opt_connect_timeout),
+    _other_properties(other_properties) {
 }
 
 const std::string&
@@ -42,7 +44,7 @@ int MysqlConfig::port() const {
 
 const std::string&
 MysqlConfig::user_name() const {
-  return _userName;
+  return _user_name;
 }
 
 const std::string&
@@ -61,6 +63,10 @@ bool MysqlConfig::is_opt_reconnect() const {
 
 int MysqlConfig::opt_connect_timeout() const {
   return _opt_connect_timeout;
+}
+
+const ConnectionProperties& MysqlConfig::properties() const {
+  return _other_properties;
 }
 
 MYSQL_DRIVER&

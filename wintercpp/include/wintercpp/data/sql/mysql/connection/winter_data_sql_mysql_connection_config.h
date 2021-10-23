@@ -21,6 +21,8 @@ typedef ::sql::Driver MYSQL_DRIVER;
 
 namespace winter::data::sql::mysql::connection {
 
+typedef std::map<std::string, std::string> ConnectionProperties;
+
 class Connection;
 
 class Config final {
@@ -30,11 +32,12 @@ class Config final {
   Config(
       std::string host,
       int port,
-      std::string userName,
+      std::string user_name,
       std::string password,
       std::string schema,
       bool opt_reconnect,
-      int opt_connect_timeout);
+      int opt_connect_timeout,
+      const ConnectionProperties &other_properties = {});
 
   const std::string &host() const;
 
@@ -50,16 +53,19 @@ class Config final {
 
   int opt_connect_timeout() const;
 
+  const ConnectionProperties &properties() const;
+
  private:
   //::sql::mysql::MySQL_Driver *_driver;
   MYSQL_DRIVER *_driver;
   const std::string _host;
   const int _port;
-  const std::string _userName;
+  const std::string _user_name;
   const std::string _password;
   const std::string _schema;
   const bool _opt_reconnect;
   const int _opt_connect_timeout;
+  const ConnectionProperties _other_properties;
 
   //::sql::mysql::MySQL_Driver &driver() const;
   MYSQL_DRIVER &driver() const;

@@ -11,8 +11,20 @@
 
 #if WITH_MYSQL
 #include <mysql/jdbc.h>
+typedef ::sql::transaction_isolation MYSQL_ISOLATION;
 #elif WITH_MARIADB
 #include <mariadb/conncpp.hpp>
+typedef int32_t MYSQL_ISOLATION;
+#else
+#error "NO WINTER_MYSQL_DRIVER"
+#endif
+
+#if WITH_MYSQL
+#include <mysql/jdbc.h>
+typedef ::sql::mysql::MySQL_Driver MYSQL_DRIVER;
+#elif WITH_MARIADB
+#include <mariadb/conncpp.hpp>
+typedef ::sql::Driver MYSQL_DRIVER;
 #else
 #error "NO WINTER_MYSQL_DRIVER"
 #endif
@@ -55,7 +67,7 @@ class Connection final : public virtual SQLConnection<Connection, ::sql::Connect
   /*   ::sql::transaction_isolation IsolationLevel(
       const TransactionIsolationType &isolation); */
 
-  int32_t IsolationLevel(
+  MYSQL_ISOLATION IsolationLevel(
       const TransactionIsolationType &isolation);
 
   MysqlResponse CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::PreparedStatement> &prep_stmt);

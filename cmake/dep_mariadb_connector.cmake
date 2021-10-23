@@ -18,9 +18,6 @@ FetchContent_Declare(
 
 #FetchContent_MakeAvailable(mariadb_connector)
 
-#set(WINTER_MARIADB_CONNECTOR_LIB mariadb)
-
-
 FetchContent_GetProperties(mariadb_connector)
 if(NOT mariadb_connector_POPULATED)
     FetchContent_Populate(mariadb_connector)
@@ -46,7 +43,7 @@ include_directories(${mariadb_connector_SOURCE_DIR}/install/include)
 link_directories(${mariadb_connector_SOURCE_DIR}/install/lib)
 
 set(WINTER_MARIADB_CONNECTOR_LIB ${mariadb_connector_SOURCE_DIR}/install/lib/libmariadbcpp.a ${mariadb_connector_SOURCE_DIR}/install/lib/mariadb/libmariadb.a )
-set(WINTER_MARIADB_DRIVER true)
-set(WINTER_MYSQL_DRIVER false)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h.in ${CMAKE_BINARY_DIR}/generated/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h)
-include_directories(${CMAKE_BINARY_DIR}/generated)
+set(WINTER_MARIADB_DRIVER true CACHE INTERNAL "")
+set(WINTER_MYSQL_DRIVER false CACHE INTERNAL "")
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h)
+#include_directories(${CMAKE_BINARY_DIR}/generated/)

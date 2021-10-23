@@ -185,7 +185,7 @@ Connection::IsolationLevel(
   return static_cast< ::sql::enum_transaction_isolation>(isolation);
 } */
 
-int32_t
+MYSQL_ISOLATION
 Connection::IsolationLevel(
     const TransactionIsolationType &isolation) {
   switch (isolation) {
@@ -223,32 +223,32 @@ void Connection::Rollback() const {
 winter::data::sql::mysql::connection::Connection *
 Connection::Create(const Config &mysql_config) {
   ::sql::ConnectOptionsMap connectionProperties;
+
   try {
 #if WITH_MYSQL
-
     connectionProperties["hostName"] = mysql_config.host();
     connectionProperties["userName"] = mysql_config.user_name();
     connectionProperties["password"] = mysql_config.password();
     connectionProperties["schema"] = mysql_config.schema();
-    connectionProperties["port"] = std::to_string(mysql_config.port());
-    connectionProperties["OPT_RECONNECT"] = std::to_string(mysql_config.is_opt_reconnect());
-    connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(mysql_config.opt_connect_timeout());
-
+    connectionProperties["port"] = mysql_config.port();
+    connectionProperties["OPT_RECONNECT"] = mysql_config.is_opt_reconnect();
+    connectionProperties["OPT_CONNECT_TIMEOUT"] = mysql_config.opt_connect_timeout();
+    return new Connection(mysql_config.driver().connect(connectionProperties));
 #elif WITH_MARIADB
-
     connectionProperties["hostName"] = mysql_config.host();
-    connectionProperties["userName"] = mysql_config.user_name();
+    connectionProperties["user"] = mysql_config.user_name();
     connectionProperties["password"] = mysql_config.password();
     connectionProperties["schema"] = mysql_config.schema();
     connectionProperties["port"] = std::to_string(mysql_config.port());
     connectionProperties["OPT_RECONNECT"] = std::to_string(mysql_config.is_opt_reconnect());
     connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(mysql_config.opt_connect_timeout());
 
+    std::string url = mysql_config.host() + ":" + std::to_string(mysql_config.port()) + "/" + mysql_config.schema();
+
+    return new Connection(mysql_config.driver().connect("jdbc:mariadb://" + url, connectionProperties));
 #else
     static_assert(false, "MYSQL CONNECTOR NOT DEFINED");
 #endif
-
-    return new Connection(mysql_config.driver().connect(connectionProperties));
   } catch (std::runtime_error &ex) {
     throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());
   }

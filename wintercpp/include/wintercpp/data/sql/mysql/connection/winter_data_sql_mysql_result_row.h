@@ -25,7 +25,6 @@
 
 #include <cstdint>
 #include <map>
-#include <mariadb/conncpp.hpp>
 #include <memory>
 #include <string>
 #include <variant>
