@@ -29,7 +29,7 @@ typedef int32_t MYSQL_ISOLATION;
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/exception/database/winter_database_exception.h>
 
-#include "wintercpp/data/response/winter_data_response_status.h"
+#include <wintercpp/data/response/winter_data_response_status.h>
 
 namespace winter::data::sql::mysql::connection {
 
