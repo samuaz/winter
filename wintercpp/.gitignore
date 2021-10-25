@@ -146,3 +146,4 @@ release/*
 .directory
 .vscode
 third_party
+include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h

@@ -109,6 +109,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
         )
 
+target_include_directories(${PROJECT_NAME} PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated>
+        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        )
 
 if(WINTER_MYSQL_DRIVER)
 MESSAGE("USING WINTER_MYSQL_DRIVER")
