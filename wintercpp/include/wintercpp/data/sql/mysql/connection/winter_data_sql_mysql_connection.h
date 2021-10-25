@@ -11,20 +11,12 @@
 
 #if WITH_MYSQL
 #include <mysql/jdbc.h>
+typedef ::sql::mysql::MySQL_Driver MYSQL_DRIVER;
 typedef ::sql::transaction_isolation MYSQL_ISOLATION;
 #elif WITH_MARIADB
 #include <mariadb/conncpp.hpp>
-typedef int32_t MYSQL_ISOLATION;
-#else
-#error "NO WINTER_MYSQL_DRIVER"
-#endif
-
-#if WITH_MYSQL
-#include <mysql/jdbc.h>
-typedef ::sql::mysql::MySQL_Driver MYSQL_DRIVER;
-#elif WITH_MARIADB
-#include <mariadb/conncpp.hpp>
 typedef ::sql::Driver MYSQL_DRIVER;
+typedef int32_t MYSQL_ISOLATION;
 #else
 #error "NO WINTER_MYSQL_DRIVER"
 #endif

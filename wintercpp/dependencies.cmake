@@ -14,10 +14,10 @@ include(${PROJECT_SOURCE_DIR}/cmake/dep_protobuf.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_grpc.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_json.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_jwt.cmake)
-if(true)
+if(false)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_mysql.cmake)
 endif ()
-if(false)
+if(true)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_mariadb_connector.cmake)
 endif ()
 include(${PROJECT_SOURCE_DIR}/cmake/dep_redis.cmake)
@@ -27,7 +27,6 @@ set(WINTER_LIBS
         ${WINTER_PROTOBUF_LIB}
         ${WINTER_GRPC_LIB}
         ${WINTER_REDIS_LIB}
-        ${WINTER_OPENSSL_LIB}
         )
 
 if(WINTER_MYSQL_DRIVER)
@@ -42,3 +41,8 @@ set(WINTER_LIBS
         ${WINTER_MARIADB_CONNECTOR_LIB}
         )
 endif ()
+
+set(WINTER_LIBS
+        ${WINTER_LIBS}
+        ${WINTER_OPENSSL_LIB}
+        )
