@@ -5,7 +5,7 @@
 ############################
 ##      CONFIG BUILD      ##
 ############################
-project( wintercpp_core )
+project( wintercpp_mysql )
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
 set(CMAKE_CXX_STANDARD 20)
 add_compile_definitions(STATIC_CONCPP)
@@ -15,17 +15,7 @@ set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
 set(_LIBCPP_INLINE_VISIBILITY "")
 set(CMAKE_OPTIMIZE_DEPENDENCIES TRUE)
 
-option(APP_ENV "APP_ENV" local)
-message("***************************** ENVIRONMENT IS ${APP_ENV} **************************************")
-if (APP_ENV)
-else ()
-    message("***************************** NOT ENV **************************************")
-    message("local AS DEFAULT")
-    set(APP_ENV local)
-endif (APP_ENV)
 
-execute_process(COMMAND rm -f ${CMAKE_BINARY_DIR}/generated)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/config/winter_env.h.in  ${CMAKE_BINARY_DIR}/generated/wintercpp/config/winter_env.h)
 include_directories(${CMAKE_BINARY_DIR}/generated)
 
 ############################
@@ -34,7 +24,7 @@ include_directories(${CMAKE_BINARY_DIR}/generated)
 include(dependencies.cmake)
 include(${PARENT_DIR}/cmake/ClangFormat.cmake)
 
-############################2
+############################
 ##    CREATE EXECUTABLE   ##
 ############################
 
@@ -63,7 +53,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DDEBUG=TRUE)
 endif ()
 
-message("***************************** LIBRARY ${WINTER_LIBS} **************************************")
 file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false include/wintercpp/*.h)
 file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false src/*.cpp include/wintercpp/*.tpp)
 
@@ -78,28 +67,28 @@ endforeach()
 #format_with_astyle_by_sources(${SOURCES})
 #format_with_astyle_by_sources(${HEADERS})
 
-add_library(${PROJECT_NAME} STATIC ${PROTOBUF_MODELS_INCLUDES} ${HEADERS} ${SOURCES})
+add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} ${WINTER_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
+target_link_libraries(${PROJECT_NAME} wintercpp_core ${WINTER_MYSQL_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
 
 function(create_winter_header headerFiles)
     # Create empty output file
-    set(output ${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/winter.h)
+    set(output ${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/winter_mysql.h)
     file(WRITE ${output} "")
     # Iterate through input files
     file(APPEND ${output} "//\n")
     file(APPEND ${output} "// Created by AZCONA VARGAS, SAMUEL EDUARDO\n")
     file(APPEND ${output} "//\n")
-    file(APPEND ${output} "#ifndef WINTERC_WINTER_H\n")
-    file(APPEND ${output} "#define WINTERC_WINTER_H\n")
+    file(APPEND ${output} "#ifndef WINTERC_WINTER_MYSQL_H\n")
+    file(APPEND ${output} "#define WINTERC_WINTER_MYSQL_H\n")
     foreach(bin ${HEADERS})
         string(REGEX REPLACE "(.*)include/" "" filename ${bin})
-        IF(NOT ${filename} MATCHES "winter.h")
+        IF(NOT ${filename} MATCHES "winter_mysql.h")
         file(APPEND ${output} "#include <${filename}>\n")
         endif()
     endforeach()
-    file(APPEND ${output} "#endif // WINTERC_WINTER_H;\n")
+    file(APPEND ${output} "#endif // WINTERC_WINTER_MYSQL_H;\n")
 endfunction()
 
 create_winter_header(${HEADERS})
@@ -145,41 +134,6 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-        )
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/jwt/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-        )
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/json/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-        )
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/grpc/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-        )
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/protobuf/src>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-        )
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/yaml_cpp/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-        )
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/includes>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-        )
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/tacopie/includes>
         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
         )
 

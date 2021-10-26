@@ -6,7 +6,6 @@
 #define WINTER_DATA_SQL_TRANSACTION
 
 #include <wintercpp/data/sql/connection/winter_data_sql_connection.h>
-#include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement.h>
 

@@ -4,6 +4,7 @@
 
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_POLICY_DEFAULT_CMP0079 NEW)
+set(WINTER_PROJECT_DIR ${CMAKE_CURRENT_LIST_DIR})
 set(APP_NAME wintercpp)
 set(APP_VERSION 0.1)
 set(APP_DESCRIPTION "c++ framework to build microservices")
@@ -38,3 +39,4 @@ set(CMAKE_C_FLAGS_RELEASE "-Ofast -march=native -pipe -fno-unroll-loops -fmerge-
 ############################
 add_subdirectory(wintercpp_test)
 add_subdirectory(wintercpp)
+add_subdirectory(wintercpp_mysql)

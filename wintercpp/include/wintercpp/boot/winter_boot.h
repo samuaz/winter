@@ -10,7 +10,6 @@
 #define __WINTER_BOOT_H__
 
 #include <grpcpp/grpcpp.h>
-#include <wintercpp/data/sql/mysql/pool/winter_data_sql_mysql_pool.h>
 #include <wintercpp/grpc/winter_grpc_controller.h>
 #include <wintercpp/redis/winter_redis_pool.h>
 

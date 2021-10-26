@@ -16,7 +16,6 @@
 
 using namespace winter;
 using namespace winter::data::sql;
-using namespace winter::data::sql::mysql;
 struct QueryTestTable : public UUIDTable {
   QueryTestTable() : UUIDTable("QueryTestTable", true, DatabaseType::kGeneric) {}
   const Column col1 = String("col1");

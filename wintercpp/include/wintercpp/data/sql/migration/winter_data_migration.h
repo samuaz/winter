@@ -27,7 +27,6 @@ namespace winter::data::sql {
 namespace fs = std::filesystem;
 using namespace winter;
 using namespace winter::data::sql;
-using namespace winter::data::sql::mysql;
 
 struct MigrationTable : public virtual Table {
   MigrationTable() :
