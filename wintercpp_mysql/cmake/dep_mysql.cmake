@@ -51,7 +51,7 @@ if(NOT mysql_client_POPULATED)
 
 
 execute_process(
-        COMMAND mkdir -p build
+        COMMAND bash "-c" "mkdir -p build/install"
         WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}
         RESULT_VARIABLE mysql_client_build_dir_result
         OUTPUT_VARIABLE mysql_client_build_dir_VARIABLE)
@@ -59,16 +59,7 @@ MESSAGE(STATUS "MYSQL_client_build_dir_CMD_ERROR:" ${mysql_client_build_dir_resu
 MESSAGE(STATUS "MYSQL_client_build_dir_CMD_OUTPUT:" ${mysql_client_build_dir_VARIABLE})
 
 execute_process(
-        COMMAND mkdir -p install
-        WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/build
-        RESULT_VARIABLE mysql_client_install_dir_result
-        OUTPUT_VARIABLE mysql_client_install_dir_VARIABLE)
-MESSAGE(STATUS "MYSQL_client_install_dir_CMD_ERROR:" ${mysql_client_install_dir_result})
-MESSAGE(STATUS "MYSQL_client_install_dir_CMD_OUTPUT:" ${mysql_client_install_dir_VARIABLE})
-
-
-execute_process(
-         COMMAND "sed -e '/SET(RUN_ABI_CHECK 1)/ s/^#*/#/' -i abi_check.cmake"
+         COMMAND bash "-c" "sed -e '/SET(RUN_ABI_CHECK 1)/ s/^#*/#/' -i abi_check.cmake"
          WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/cmake
          RESULT_VARIABLE mysql_client_RUN_ABI_CHECK_result
          OUTPUT_VARIABLE mysql_client_RUN_ABI_CHECK_VARIABLE)
@@ -76,15 +67,7 @@ MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_ERROR:" ${mysql_client_RUN_ABI_CH
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_OUTPUT:" ${mysql_client_RUN_ABI_CHECK_VARIABLE})
 
 execute_process(
-        COMMAND cmake .. -DDOWNLOAD_BOOST=1 -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF
-        WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/build
-        RESULT_VARIABLE mysql_client_cmake_result
-        OUTPUT_VARIABLE mysql_client_cmake_VARIABLE)
-MESSAGE(STATUS "MYSQL_client_cmake_CMD_ERROR:" ${mysql_client_cmake_result})
-MESSAGE(STATUS "MYSQL_client_cmake_CMD_OUTPUT:" ${mysql_client_cmake_VARIABLE})
-
-execute_process(
-        COMMAND make install
+        COMMAND bash "-c" "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install"
         WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/build
         RESULT_VARIABLE mysql_client_cmake_result
         OUTPUT_VARIABLE mysql_client_cmake_VARIABLE)
@@ -123,24 +106,17 @@ if(NOT mysql_connector_cpp_POPULATED)
 endif()
 
 execute_process(
-        COMMAND cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DWITH_SSL=${openssl_SOURCE_DIR} -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install
+        COMMAND bash "-c" "cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DWITH_SSL=${openssl_SOURCE_DIR} -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install"
         WORKING_DIRECTORY ${mysql_connector_cpp_SOURCE_DIR}
         RESULT_VARIABLE mysql_cmake_result
         OUTPUT_VARIABLE mysql_cmake_VARIABLE)
 MESSAGE(STATUS "MYSQL_cmake_CMD_ERROR:" ${mysql_cmake_result})
 MESSAGE(STATUS "MYSQL_cmake_CMD_OUTPUT:" ${mysql_cmake_VARIABLE})
-execute_process(
-        COMMAND make install
-        WORKING_DIRECTORY ${mysql_connector_cpp_SOURCE_DIR}
-        RESULT_VARIABLE mysql_install_result
-        OUTPUT_VARIABLE mysql_OUTPUT_VARIABLE)
-MESSAGE(STATUS "MYSQL_INSTALL_CMD_ERROR:" ${mysql_install_result})
-MESSAGE(STATUS "MYSQL_INSTALL_CMD_OUTPUT:" ${mysql_OUTPUT_VARIABLE})
 
 include_directories(${mysql_connector_cpp_SOURCE_DIR}/install/include)
 include_directories(${THIRD_PARTY_DIR}/boost/)
 link_directories(${mysql_connector_cpp_SOURCE_DIR}/install)
-set(WINTER_MYSQL_LIB ${mysql_connector_cpp_SOURCE_DIR}/install/libmysqlcppconn-static.a)
+set(WINTER_MYSQL_CONNECTOR_LIB ${mysql_connector_cpp_SOURCE_DIR}/install/libmysqlcppconn-static.a)
 set(WINTER_MYSQL_DRIVER true CACHE INTERNAL "")
 set(WINTER_MARIADB_DRIVER false CACHE INTERNAL "")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h.in ${CMAKE_BINARY_DIR}/generated/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h)

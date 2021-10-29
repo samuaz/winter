@@ -79,6 +79,7 @@ endforeach()
 #format_with_astyle_by_sources(${HEADERS})
 
 add_library(${PROJECT_NAME} STATIC ${PROTOBUF_MODELS_INCLUDES} ${HEADERS} ${SOURCES})
+add_library(winter::core ALIAS ${PROJECT_NAME})
 
 target_link_libraries(${PROJECT_NAME} ${WINTER_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})

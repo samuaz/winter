@@ -5,7 +5,7 @@
 ############################
 ##      CONFIG BUILD      ##
 ############################
-project( wintercpp_mysql )
+project( wintercpp_data_mysql )
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
 set(CMAKE_CXX_STANDARD 20)
 add_compile_definitions(STATIC_CONCPP)
@@ -70,6 +70,7 @@ endforeach()
 #format_with_astyle_by_sources(${HEADERS})
 
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
+add_library(winter::data::mysql ALIAS ${PROJECT_NAME})
 
 target_link_libraries(${PROJECT_NAME} wintercpp_core ${WINTER_MYSQL_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
