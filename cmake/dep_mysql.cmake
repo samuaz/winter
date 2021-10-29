@@ -21,7 +21,13 @@ FetchContent_Declare(
         URL https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-${MYSQL_VERSION}-${MYSQL_PLATFORM}-x86_64.${MYSQL_EXTENSION}
         SOURCE_DIR ${THIRD_PARTY_DIR}/mysql_client
 )
-FetchContent_MakeAvailable(mysql_client)
+#FetchContent_MakeAvailable(mysql_client)
+
+FetchContent_GetProperties(mysql_client)
+if(NOT mysql_client_POPULATED)
+    FetchContent_Populate(mysql_client)
+endif()
+
 FetchContent_Declare(
         boost
         URL https://boostorg.jfrog.io/artifactory/main/release/1.75.0/source/boost_1_75_0.tar.gz
