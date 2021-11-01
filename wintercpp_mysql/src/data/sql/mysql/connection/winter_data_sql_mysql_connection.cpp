@@ -233,6 +233,8 @@ Connection::Create(const Config &mysql_config) {
     connectionProperties["port"] = mysql_config.port();
     connectionProperties["OPT_RECONNECT"] = mysql_config.is_opt_reconnect();
     connectionProperties["OPT_CONNECT_TIMEOUT"] = mysql_config.opt_connect_timeout();
+    auto otherProps = mysql_config.properties();
+    connectionProperties.insert(otherProps.begin(), otherProps.end());
     return new Connection(mysql_config.driver().connect(connectionProperties));
 #elif WITH_MARIADB
     connectionProperties["hostName"] = mysql_config.host();

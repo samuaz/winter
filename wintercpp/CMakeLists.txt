@@ -109,29 +109,29 @@ set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 if(WINTER_MYSQL_DRIVER)
 MESSAGE("USING WINTER_MYSQL_DRIVER")
 target_include_directories(${PROJECT_NAME} PUBLIC
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_connector_cpp_include/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+         $<INSTALL_INTERFACE:include/${APP_NAME}>
          )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/boost>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+         $<INSTALL_INTERFACE:include/${APP_NAME}>
          )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_client/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+         $<INSTALL_INTERFACE:include/${APP_NAME}>
          )
 endif()
 
@@ -140,63 +140,63 @@ if(WINTER_MARIADB_DRIVER)
 MESSAGE("USING WINTER_MARIADB_DRIVER")
 target_include_directories(${PROJECT_NAME} PUBLIC
 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mariadb_connector/install/include>
-$<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+$<INSTALL_INTERFACE:include/${APP_NAME}>
 )
 endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/jwt/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/json/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/grpc/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/protobuf/src>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/yaml_cpp/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/includes>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/tacopie/includes>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+        $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
-        DESTINATION ${WINTER_INSTALL_DIR}/include/${PROJECT_NAME} # target directory
+        DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
         FILES_MATCHING # install only matched files
         PATTERN "*.h*" # select header files
         )
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
-        DESTINATION ${WINTER_INSTALL_DIR}/include/${PROJECT_NAME} # target directory
+        DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
         FILES_MATCHING # install only matched files
         PATTERN "*.tpp*" # select header files
         )
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/cmake" # source directory
-        DESTINATION ${WINTER_INSTALL_DIR}/include/${PROJECT_NAME}/cmake # target directory
+        DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME}/cmake # target directory
         FILES_MATCHING # install only matched files
         PATTERN "*.cmake*" # select header files
         )
