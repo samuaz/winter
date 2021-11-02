@@ -116,37 +116,37 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         $<INSTALL_INTERFACE:include/${APP_NAME}>
         )
 
-if(WINTER_MYSQL_DRIVER)
-MESSAGE("USING WINTER_MYSQL_DRIVER")
-target_include_directories(${PROJECT_NAME} PUBLIC
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_connector_cpp_include/include>
-         $<INSTALL_INTERFACE:include/${APP_NAME}>
-         )
+# if(WINTER_MYSQL_DRIVER)
+# MESSAGE("USING WINTER_MYSQL_DRIVER")
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_connector_cpp_include/include>
+#          $<INSTALL_INTERFACE:include/${APP_NAME}>
+#          )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/boost>
-         $<INSTALL_INTERFACE:include/${APP_NAME}>
-         )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/boost>
+#          $<INSTALL_INTERFACE:include/${APP_NAME}>
+#          )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_client/include>
-         $<INSTALL_INTERFACE:include/${APP_NAME}>
-         )
-endif()
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_client/include>
+#          $<INSTALL_INTERFACE:include/${APP_NAME}>
+#          )
+# endif()
 
 
-if(WINTER_MARIADB_DRIVER)
-MESSAGE("USING WINTER_MARIADB_DRIVER")
-target_include_directories(${PROJECT_NAME} PUBLIC
-$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mariadb_connector/install/include>
-$<INSTALL_INTERFACE:include/${APP_NAME}>
-)
-endif()
+# if(WINTER_MARIADB_DRIVER)
+# MESSAGE("USING WINTER_MARIADB_DRIVER")
+# target_include_directories(${PROJECT_NAME} PUBLIC
+# $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/mariadb_connector/install/include>
+# $<INSTALL_INTERFACE:include/${APP_NAME}>
+# )
+# endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory

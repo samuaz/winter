@@ -118,45 +118,45 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         )
 
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/jwt/include>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/jwt/include>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/json/include>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/json/include>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/grpc/include>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/grpc/include>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/protobuf/src>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/protobuf/src>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/yaml_cpp/include>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/yaml_cpp/include>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/includes>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/includes>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/tacopie/includes>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/tacopie/includes>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
