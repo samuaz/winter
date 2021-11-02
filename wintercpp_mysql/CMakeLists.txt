@@ -80,7 +80,7 @@ endforeach()
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 add_library(winter::mysql ALIAS ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} wintercpp_core ${WINTER_MYSQL_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
+target_link_libraries(${PROJECT_NAME} winter::core ${WINTER_MYSQL_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
 
 function(create_winter_header headerFiles)
