@@ -107,15 +107,29 @@ create_winter_header(${HEADERS})
 
 set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated>
-        $<INSTALL_INTERFACE:include/${APP_NAME}>
-        )
+# target_include_directories(${PROJECT_NAME} PUBLIC
+#         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated>
+#         $<INSTALL_INTERFACE:include/${APP_NAME}>
+#         )
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)        
+
+
+       
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/jwt/include)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/json/include)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/grpc/include)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/protobuf/src)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/yaml_cpp/include)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/includes)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpp_redis/tacopie/includes)
 
 
 # target_include_directories(${PROJECT_NAME} PUBLIC
