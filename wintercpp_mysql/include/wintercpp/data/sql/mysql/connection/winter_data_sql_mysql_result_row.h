@@ -29,12 +29,12 @@
 #include <string>
 #include <variant>
 
-namespace winter::data::sql::mysql {
+namespace winter::data::sql_impl::mysql {
 
-class ResultRow final : public virtual winter::data::sql::ResultRow<std::shared_ptr< ::sql::ResultSet> > {
+class ResultRow final : public virtual winter::data::sql_impl::ResultRow<std::shared_ptr< ::sql::ResultSet> > {
  public:
-  // using winter::data::sql::ResultRow<std::shared_ptr<::sql::ResultSet>>::operator[];
-  // using winter::data::sql::ResultRow<std::shared_ptr<::sql::ResultSet>>::Value;
+  // using winter::data::sql_impl::ResultRow<std::shared_ptr<::sql::ResultSet>>::operator[];
+  // using winter::data::sql_impl::ResultRow<std::shared_ptr<::sql::ResultSet>>::Value;
 
   explicit ResultRow(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::ResultSet> &result_set) {
     Create(prepared_statement, result_set);
@@ -106,8 +106,8 @@ class ResultRow final : public virtual winter::data::sql::ResultRow<std::shared_
   }
 };
 
-typedef winter::data::sql::mysql::ResultRow MysqlResultRow;
+typedef winter::data::sql_impl::mysql::ResultRow MysqlResultRow;
 
-}  // namespace winter::data::sql::mysql
+}  // namespace winter::data::sql_impl::mysql
 
 #endif /* WINTER_DATA_SQL_MYSQL_RESULT_ROW */

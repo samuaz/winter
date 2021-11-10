@@ -1,4 +1,4 @@
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename T>
 NotIn<T>::NotIn(std::vector<T> values) :
@@ -31,8 +31,8 @@ NotIn<T>::Prepare() {
 	winter::util::string::replace_value(
 	    statement_template(),
 	    param(),
-	    winter::data::sql::CommaSeparatedPlaceHolder(values_.size())),
+	    winter::data::sql_impl::CommaSeparatedPlaceHolder(values_.size())),
 	fields);
   }
 }
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl

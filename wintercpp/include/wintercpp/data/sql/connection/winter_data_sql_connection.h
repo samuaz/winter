@@ -16,7 +16,7 @@
 #include <mutex>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename TConnectionImpl, typename TConnectionType, typename TResponse>
 class SQLConnection : public winter::templates::
@@ -37,6 +37,6 @@ class SQLConnection : public winter::templates::
   explicit SQLConnection(TConnectionType *conn) :
       winter::templates::Connection<TConnectionImpl, TConnectionType>(conn){};
 };
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CONNECTION */

@@ -11,17 +11,17 @@
 #include <string>
 #include <utility>
 
-namespace winter::data::sql::mysql {
+namespace winter::data::sql_impl::mysql {
 
-class Response final : public virtual winter::data::sql::
-			   Response<winter::data::sql::mysql::Response, MysqlResultRow> {
+class Response final : public virtual winter::data::sql_impl::
+			   Response<winter::data::sql_impl::mysql::Response, MysqlResultRow> {
  public:
   Response(
       std::string transaction_id,
       StatementType type,
       winter::data::ResponseStatus status,
       std::string message) :
-      winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>(transaction_id, type, status, message) {}
+      winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response, MysqlResultRow>(transaction_id, type, status, message) {}
 
   Response(
       std::string transaction_id,
@@ -30,7 +30,7 @@ class Response final : public virtual winter::data::sql::
       winter::data::ResponseStatus status,
       std::string message,
       int row_affected) :
-      winter::data::sql::Response<winter::data::sql::mysql::Response, MysqlResultRow>(transaction_id, type, result, status, message, row_affected) {}
+      winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response, MysqlResultRow>(transaction_id, type, result, status, message, row_affected) {}
 
   static Response Error(const std::string &transactionId, StatementType type, const std::string &message);
 
@@ -39,8 +39,8 @@ class Response final : public virtual winter::data::sql::
   ~Response();
 };
 
-typedef winter::data::sql::mysql::Response MysqlResponse;
+typedef winter::data::sql_impl::mysql::Response MysqlResponse;
 
-}  // namespace winter::data::sql::mysql
+}  // namespace winter::data::sql_impl::mysql
 
 #endif /* WINTER_DATA_SQL_MYSQL_RESPONSE */

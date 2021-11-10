@@ -5,7 +5,7 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 
 std::string
-winter::data::sql::CommaSeparatedValue(
+winter::data::sql_impl::CommaSeparatedValue(
     const std::vector<std::string> &elements) {
   std::string statement{};
   auto elementsSize = elements.size();
@@ -17,7 +17,7 @@ winter::data::sql::CommaSeparatedValue(
 }
 
 std::string
-winter::data::sql::CommaSeparatedEqualValue(
+winter::data::sql_impl::CommaSeparatedEqualValue(
     const std::vector<std::string> &elements) {
   std::string statement{};
   auto elementsSize = elements.size();
@@ -29,13 +29,13 @@ winter::data::sql::CommaSeparatedEqualValue(
 }
 
 std::string
-winter::data::sql::CommaSeparatedEqualValue(
-    const winter::data::sql::PreparedStatement &prepared_statement) {
+winter::data::sql_impl::CommaSeparatedEqualValue(
+    const winter::data::sql_impl::PreparedStatement &prepared_statement) {
   return commaSeparatedEqualValue(prepared_statement.values());
 }
 
 std::string
-winter::data::sql::commaSeparatedEqualValue(
+winter::data::sql_impl::commaSeparatedEqualValue(
     const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
 	&columns) {
   std::string values{};
@@ -52,7 +52,7 @@ winter::data::sql::commaSeparatedEqualValue(
 }
 
 std::string
-winter::data::sql::CommaSeparatedStatement(
+winter::data::sql_impl::CommaSeparatedStatement(
     const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
 	&columns) {
   std::string values{};
@@ -69,8 +69,8 @@ winter::data::sql::CommaSeparatedStatement(
 }
 
 std::string
-winter::data::sql::CommaSeparatedStatement(
-    const winter::data::sql::PreparedStatement &prepared_statement) {
+winter::data::sql_impl::CommaSeparatedStatement(
+    const winter::data::sql_impl::PreparedStatement &prepared_statement) {
   std::string values{};
   auto columns = prepared_statement.values();
   unsigned long size = columns.size();
@@ -86,7 +86,7 @@ winter::data::sql::CommaSeparatedStatement(
 }
 
 std::string
-winter::data::sql::CommaSeparatedPlaceHolder(size_t size) {
+winter::data::sql_impl::CommaSeparatedPlaceHolder(size_t size) {
   std::string values{};
   for (size_t i = 0; i < size; i++) {
     values += PlaceHolder() += std::string(i == size - 1 ? Nothing() : Comma());
@@ -95,31 +95,31 @@ winter::data::sql::CommaSeparatedPlaceHolder(size_t size) {
 }
 
 std::string
-winter::data::sql::Dot() {
+winter::data::sql_impl::Dot() {
   return ".";
 }
 
 std::string
-winter::data::sql::Space() {
+winter::data::sql_impl::Space() {
   return " ";
 }
 
 std::string
-winter::data::sql::Comma() {
+winter::data::sql_impl::Comma() {
   return ",";
 }
 
 std::string
-winter::data::sql::PlaceHolder() {
+winter::data::sql_impl::PlaceHolder() {
   return "?";
 }
 
 std::string
-winter::data::sql::Equal() {
+winter::data::sql_impl::Equal() {
   return "=";
 }
 
 std::string
-winter::data::sql::Nothing() {
+winter::data::sql_impl::Nothing() {
   return {};
 }

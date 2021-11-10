@@ -1,6 +1,6 @@
 //#include "winter_data_sql_abstract_field.h"
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename T>
 const T&
@@ -25,4 +25,4 @@ void Field<T>::value(T value) {
   value_ = value;
 }
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl

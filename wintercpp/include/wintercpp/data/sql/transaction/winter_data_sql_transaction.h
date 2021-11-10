@@ -15,7 +15,7 @@
 
 #include "wintercpp/data/response/winter_data_response_status.h"
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class ITransaction {
  public:
@@ -73,7 +73,7 @@ class Transaction : public virtual ITransaction {
   void status(const ResponseStatus &status);
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_transaction.tpp"
 

@@ -8,7 +8,7 @@
 #include <any>
 #include <string>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 enum class IDType : int {
   STRING,
@@ -42,6 +42,6 @@ struct TypeId<void> {
   static IDType Get();
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_ID_TYPE_H

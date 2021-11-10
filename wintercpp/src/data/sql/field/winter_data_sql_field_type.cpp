@@ -4,7 +4,7 @@
 
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 FieldType
 TypeField<uint8_t>::Get() {

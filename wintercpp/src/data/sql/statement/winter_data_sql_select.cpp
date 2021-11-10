@@ -8,7 +8,7 @@
 
 #include <vector>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 Select::Select(const std::string &query) :
     Statement<Select>(query, StatementType::kSelect) {}

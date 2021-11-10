@@ -8,7 +8,7 @@
 #include <wintercpp/data/sql/field/winter_data_sql_abstract_field.h>
 #include <wintercpp/data/sql/field/winter_data_sql_data_type.h>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename T>
 class Field : public virtual AbstractField {
@@ -48,7 +48,7 @@ class Field : public virtual AbstractField {
   std::string name_;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_field.tpp"
 

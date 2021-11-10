@@ -12,7 +12,7 @@
 #include <string>
 #include <utility>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class IStatement {
  public:
@@ -94,7 +94,7 @@ class Statement : public virtual IStatement {
 template <typename Children>
 Statement<Children>::~Statement() = default;
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_statement.tpp"
 

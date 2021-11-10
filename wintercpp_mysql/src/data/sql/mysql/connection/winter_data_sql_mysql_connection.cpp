@@ -16,8 +16,8 @@
 using namespace winter;
 using namespace winter::descriptor;
 using namespace winter::exception;
-using namespace winter::data::sql::mysql;
-using namespace winter::data::sql::mysql::connection;
+using namespace winter::data::sql_impl::mysql;
+using namespace winter::data::sql_impl::mysql::connection;
 
 MysqlResponse
 Connection::Execute(const PreparedStatement &query) noexcept(false) {
@@ -220,7 +220,7 @@ void Connection::Rollback() const {
   conn().rollback();
 }
 
-winter::data::sql::mysql::connection::Connection *
+winter::data::sql_impl::mysql::connection::Connection *
 Connection::Create(const Config &mysql_config) {
   ::sql::ConnectOptionsMap connectionProperties;
 

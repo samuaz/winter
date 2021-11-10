@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 std::string CommaSeparatedValue(const std::vector<std::string> &elements);
 
@@ -44,6 +44,6 @@ std::string Equal();
 std::string PlaceHolder();
 
 std::string Nothing();
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_STATEMENT_UTIL_H

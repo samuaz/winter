@@ -8,25 +8,25 @@
 
 using namespace winter::util::string;
 
-winter::data::sql::From::From(std::vector<std::shared_ptr<Table>> tables) :
+winter::data::sql_impl::From::From(std::vector<std::shared_ptr<Table>> tables) :
     Clause("FROM $tables", "$tables"),
     tables_(std::move(tables)) {}
 
-winter::data::sql::From::From(const std::shared_ptr<Table> &table) :
+winter::data::sql_impl::From::From(const std::shared_ptr<Table> &table) :
     Clause("FROM $tables", "$tables") {
   tables_.push_back(table);
 }
 
-winter::data::sql::PreparedStatement
-winter::data::sql::From::Prepare() {
+winter::data::sql_impl::PreparedStatement
+winter::data::sql_impl::From::Prepare() {
   GenerateStatement();
-  return winter::data::sql::PreparedStatement(
+  return winter::data::sql_impl::PreparedStatement(
       StatementType::kClause,
       statement_template(),
       columns_);
 }
 
-void winter::data::sql::From::GenerateStatement() {
+void winter::data::sql_impl::From::GenerateStatement() {
   std::vector<std::string> tablesNames;
   for (auto const &table : tables_) {
     tablesNames.push_back(table->name());
@@ -38,5 +38,5 @@ void winter::data::sql::From::GenerateStatement() {
   set_statement_template(winter::util::string::replace_value(
       statement_template(),
       param(),
-      winter::data::sql::CommaSeparatedValue(tablesNames)));
+      winter::data::sql_impl::CommaSeparatedValue(tablesNames)));
 }

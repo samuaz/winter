@@ -14,7 +14,7 @@
 #include <queue>
 #include <utility>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Or : public virtual Clause {
  public:
@@ -60,6 +60,6 @@ class Or : public virtual Clause {
   bool is_predicate_ = false;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CLAUSE_OR */

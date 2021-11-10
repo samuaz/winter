@@ -11,7 +11,7 @@
 
 #include <queue>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Set : public virtual Clause {
  public:
@@ -34,6 +34,6 @@ class Set : public virtual Clause {
  private:
   std::deque<std::shared_ptr<AbstractPreparedStatementField> > fields_;
 };
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CLAUSE_SET */

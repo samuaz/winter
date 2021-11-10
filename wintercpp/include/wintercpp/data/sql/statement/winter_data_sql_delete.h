@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Delete final : public virtual Statement<Delete> {
  public:
@@ -29,6 +29,6 @@ class Delete final : public virtual Statement<Delete> {
   using Statement<Delete>::type_;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_DELETE_H

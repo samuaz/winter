@@ -11,7 +11,7 @@
 #include "../field/winter_data_sql_field.h"
 #include "winter_data_sql_abstract_prepared_statement_field.h"
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename T>
 class PreparedStatementField : public virtual Field<T>,
@@ -60,6 +60,6 @@ class PreparedStatementField : public virtual Field<T>,
 template <typename T>
 using QUERY_FIELD = std::shared_ptr<PreparedStatementField<T> >;
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_DATA_SQL_PREPARED_STATEMENT_FIELD_H

@@ -10,7 +10,7 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
 #include <wintercpp/util/winter_string_util.h>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Parenthesis : public virtual Clause {
  public:
@@ -24,6 +24,6 @@ Parenthesis
 withParenthesis(T clause) {
   return Parenthesis(clause.Prepare().set_statement_template());
 }
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_PARENTHESIS_H

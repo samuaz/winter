@@ -4,7 +4,7 @@
 
 #include <wintercpp/data/sql/table/winter_data_sql_id_type.h>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 IDType
 TypeId<int>::Get() {

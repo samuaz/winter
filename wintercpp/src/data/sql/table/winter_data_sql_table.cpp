@@ -13,7 +13,7 @@
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
 #include "wintercpp/exception/generic/winter_internal_exception.h"
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 Table::Table(std::string name, TableType table_type, DatabaseType database_type) :
     name_(std::move(name)),

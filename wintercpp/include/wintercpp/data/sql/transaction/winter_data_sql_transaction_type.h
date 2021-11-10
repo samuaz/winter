@@ -4,7 +4,7 @@
 
 #ifndef WINTERCPP_WINTER_DATA_SQL_TRANSACTION_TYPE_H
 #define WINTERCPP_WINTER_DATA_SQL_TRANSACTION_TYPE_H
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 enum class TransactionIsolationType {
   DEFAULT = 0,

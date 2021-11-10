@@ -4,7 +4,7 @@
 
 #include <wintercpp/data/sql/statement/winter_data_sql_insert.h>
 #include <wintercpp/util/winter_string_util.h>
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 Insert::Insert(const std::string &query) :
     Statement<Insert>(query, StatementType::kInsert) {}

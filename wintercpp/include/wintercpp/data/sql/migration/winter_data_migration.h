@@ -23,10 +23,10 @@
 
 #include "string"
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 namespace fs = std::filesystem;
 using namespace winter;
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 struct MigrationTable : public virtual Table {
   MigrationTable() :
@@ -85,5 +85,5 @@ class DataBaseMigration {
 
 #include "winter_data_migration.tpp"
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 #endif	// WINTERCPP_WINTER_DATA_MIGRATION_H

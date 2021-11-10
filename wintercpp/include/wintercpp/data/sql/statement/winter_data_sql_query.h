@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Query final : public virtual Statement<Query> {
  public:
@@ -34,5 +34,5 @@ class Query final : public virtual Statement<Query> {
   using Statement<Query>::type_;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 #endif /* WINTER_DATA_SQL_QUERY */

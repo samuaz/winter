@@ -9,7 +9,7 @@
 
 #include <string>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 struct AbstractField {
   virtual const FieldType &type() const = 0;
@@ -18,6 +18,6 @@ struct AbstractField {
 
   virtual ~AbstractField() = default;
 };
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_DATA_SQL_ABSTRACT_FIELD_H

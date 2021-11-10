@@ -2,7 +2,7 @@
 // Created by Samuel Azcona on 14/03/2020.
 //
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename Children>
 Statement<Children>::Statement(std::string query) :
@@ -145,4 +145,4 @@ Children &Statement<Children>::This() {
   return dynamic_cast<Children &>(*this);
 }
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl

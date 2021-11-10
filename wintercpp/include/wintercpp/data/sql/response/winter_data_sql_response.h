@@ -14,7 +14,7 @@
 #include <string>
 #include <utility>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename TImplementation, typename TResultRow>
 class Response : public winter::templates::Response<
@@ -102,6 +102,6 @@ class Response : public winter::templates::Response<
   const int row_affected_{0};
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_RESPONSE */

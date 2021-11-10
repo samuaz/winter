@@ -4,7 +4,7 @@
 
 #include <wintercpp/data/sql/statement/winter_data_sql_update.h>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 Update::Update(const std::string &query) :
     Statement<Update>(query, StatementType::kUpdate) {}

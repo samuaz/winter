@@ -7,7 +7,7 @@
 
 #include <utility>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 Column::Column(Table &table, std::string column_name, FieldType column_type) :
     table_(std::move(table)),

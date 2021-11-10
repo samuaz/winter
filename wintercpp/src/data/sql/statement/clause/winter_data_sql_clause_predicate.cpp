@@ -7,27 +7,27 @@
 
 using namespace winter::util::string;
 
-winter::data::sql::Predicate::Predicate(
+winter::data::sql_impl::Predicate::Predicate(
     Column column,
-    std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> field,
-    winter::data::sql::Condition conditionOperator) :
+    std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField> field,
+    winter::data::sql_impl::Condition conditionOperator) :
     column_(std::move(column)),
     field_(std::move(field)),
     condition_(conditionOperator) {}
 
-const winter::data::sql::Column&
-winter::data::sql::Predicate::column()
+const winter::data::sql_impl::Column&
+winter::data::sql_impl::Predicate::column()
     const {
   return column_;
 }
 
-const std::shared_ptr<winter::data::sql::AbstractPreparedStatementField>&
-winter::data::sql::Predicate::field() const {
+const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>&
+winter::data::sql_impl::Predicate::field() const {
   return field_;
 }
 
-winter::data::sql::Condition
-winter::data::sql::Predicate::condition()
+winter::data::sql_impl::Condition
+winter::data::sql_impl::Predicate::condition()
     const {
   return condition_;
 }

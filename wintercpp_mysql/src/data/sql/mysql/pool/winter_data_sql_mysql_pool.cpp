@@ -4,7 +4,7 @@
 
 #include <wintercpp/data/sql/mysql/pool/winter_data_sql_mysql_pool.h>
 
-using namespace winter::data::sql::mysql::connection;
+using namespace winter::data::sql_impl::mysql::connection;
 using namespace winter::exception;
 
 Pool::Pool(

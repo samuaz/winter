@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Select final : public virtual Statement<Select> {
  public:
@@ -43,6 +43,6 @@ class Select final : public virtual Statement<Select> {
   void writeColumns();
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_SELECT */

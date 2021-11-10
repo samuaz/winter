@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class PreparedStatement {
  public:
@@ -113,6 +113,6 @@ class PreparedStatement {
   std::deque<std::shared_ptr<AbstractPreparedStatementField> >::iterator
   FindValue(const std::string &name);
 };
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_PREPARED_STATEMENT_H

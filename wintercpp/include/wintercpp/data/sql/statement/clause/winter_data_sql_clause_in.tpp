@@ -1,4 +1,4 @@
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename T>
 In<T>::In(std::vector<T> values) :
@@ -35,4 +35,4 @@ In<T>::Prepare() {
 	fields);
   }
 }
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl

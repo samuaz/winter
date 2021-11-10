@@ -5,7 +5,7 @@
 #ifndef WINTERCPP_DATA_SQL_STATEMENT_TYPE_H
 #define WINTERCPP_DATA_SQL_STATEMENT_TYPE_H
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 enum class StatementType {
   kNative = 0,

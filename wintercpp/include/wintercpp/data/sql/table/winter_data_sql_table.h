@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 enum class TableType {
   kTable,
@@ -122,6 +122,6 @@ struct TableComparator {
   operator()(const Table &lhs, const Table &rhs) const;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_TABLE */

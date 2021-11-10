@@ -5,7 +5,7 @@
 #include <string>
 #include <utility>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
 Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Transaction(
@@ -107,4 +107,4 @@ Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::~Tra
   }
 }
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl

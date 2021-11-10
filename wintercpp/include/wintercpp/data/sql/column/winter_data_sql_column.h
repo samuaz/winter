@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Table;
 class Column;
@@ -61,6 +61,6 @@ struct ColumnComparator {
   operator()(const Column &lhs, const Column &rhs) const;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_COLUMN */

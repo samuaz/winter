@@ -15,7 +15,7 @@
 #include "wintercpp/data/sql/statement/winter_data_sql_query.h"
 #include "wintercpp/exception/generic/winter_internal_exception.h"
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 using namespace winter::exception;
 
@@ -31,7 +31,7 @@ class ResultRow {
   virtual ~ResultRow() = default;
 
   DataTypeResult
-  operator[](const winter::data::sql::Column &column) const {
+  operator[](const winter::data::sql_impl::Column &column) const {
     auto column_name = column.name();
     return this->operator[](column_name);
   }
@@ -47,7 +47,7 @@ class ResultRow {
 
   template <typename T>
   winter::data::response::Response<T>
-  Value(const winter::data::sql::Column &column) const {
+  Value(const winter::data::sql_impl::Column &column) const {
     auto column_name = column.name();
     return Value(column_name);
   }
@@ -95,6 +95,6 @@ class ResultRow {
   };
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_RESULT_ROW */

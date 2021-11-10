@@ -14,7 +14,7 @@
 #include <queue>
 #include <utility>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Where : public virtual Clause {
  public:
@@ -22,7 +22,7 @@ class Where : public virtual Clause {
 
   explicit Where(Column column);
 
-  explicit Where(Column column, winter::data::sql::Condition);
+  explicit Where(Column column, winter::data::sql_impl::Condition);
 
   PreparedStatement Prepare() override;
 
@@ -55,11 +55,11 @@ class Where : public virtual Clause {
 
  private:
   const Column column_;
-  const std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> field_;
-  const winter::data::sql::Condition condition_{};
+  const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField> field_;
+  const winter::data::sql_impl::Condition condition_{};
   const bool _is_predicate = false;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CLAUSE_WHERE */

@@ -18,13 +18,13 @@
 #include <utility>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename T>
 class In : public virtual Clause {
  public:
   explicit In(std::vector<T> values);
-  explicit In(const winter::data::sql::Select &select);
+  explicit In(const winter::data::sql_impl::Select &select);
   PreparedStatement Prepare() override;
 
  private:
@@ -33,7 +33,7 @@ class In : public virtual Clause {
   bool has_clause_ = false;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_clause_in.tpp"
 

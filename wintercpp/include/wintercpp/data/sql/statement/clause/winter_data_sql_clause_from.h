@@ -11,7 +11,7 @@
 #include <memory>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class From : public virtual Clause {
  public:
@@ -25,6 +25,6 @@ class From : public virtual Clause {
   void GenerateStatement();
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CLAUSE_FROM */

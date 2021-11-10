@@ -19,7 +19,7 @@ typedef ::sql::Driver MYSQL_DRIVER;
 
 #include <string>
 
-namespace winter::data::sql::mysql::connection {
+namespace winter::data::sql_impl::mysql::connection {
 
 typedef std::map<std::string, std::string> ConnectionProperties;
 
@@ -70,7 +70,7 @@ class Config final {
   //::sql::mysql::MySQL_Driver &driver() const;
   MYSQL_DRIVER &driver() const;
 };
-}  // namespace winter::data::sql::mysql::connection
-typedef winter::data::sql::mysql::connection::Config MysqlConfig;
+}  // namespace winter::data::sql_impl::mysql::connection
+typedef winter::data::sql_impl::mysql::connection::Config MysqlConfig;
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H

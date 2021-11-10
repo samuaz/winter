@@ -9,7 +9,7 @@
 #include <vector>
 
 using namespace winter::exception;
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 PreparedStatement::PreparedStatement(
     const StatementType &statement_type,

@@ -30,13 +30,13 @@ typedef int32_t MYSQL_ISOLATION;
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/exception/database/winter_database_exception.h>
 
-namespace winter::data::sql::mysql::connection {
+namespace winter::data::sql_impl::mysql::connection {
 
 class Connection final : public virtual SQLConnection<Connection, ::sql::Connection, MysqlResponse> {
  public:
   using SQLConnection<Connection, ::sql::Connection, MysqlResponse>::SQLConnection;
 
-  static winter::data::sql::mysql::connection::Connection *Create(const winter::data::sql::mysql::connection::Config &mysql_config);
+  static winter::data::sql_impl::mysql::connection::Connection *Create(const winter::data::sql_impl::mysql::connection::Config &mysql_config);
 
   MysqlResponse Execute(const PreparedStatement &query) noexcept(false) override;
 
@@ -64,8 +64,8 @@ class Connection final : public virtual SQLConnection<Connection, ::sql::Connect
   MysqlResponse CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::PreparedStatement> &prep_stmt);
 };
 
-}  // namespace winter::data::sql::mysql::connection
+}  // namespace winter::data::sql_impl::mysql::connection
 
-typedef winter::data::sql::mysql::connection::Connection MysqlConnection;
+typedef winter::data::sql_impl::mysql::connection::Connection MysqlConnection;
 
 #endif /* WINTER_DATA_SQL_MYSQL_CONNECTION */

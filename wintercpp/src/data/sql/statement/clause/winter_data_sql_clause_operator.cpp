@@ -4,7 +4,7 @@
 
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 std::string
 GetCondition<Condition::EQ>::Get() {
@@ -92,7 +92,7 @@ GetCondition<Condition::NONE>::Get() {
 }
 
 std::string
-winter::data::sql::condition(enum Condition condition) {
+winter::data::sql_impl::condition(enum Condition condition) {
   switch (condition) {
     case Condition::EQ:
       return GetCondition<Condition::EQ>::Get();

@@ -6,7 +6,7 @@
 
 //#include "jdbc/mysql_driver.h"
 
-using namespace winter::data::sql::mysql::connection;
+using namespace winter::data::sql_impl::mysql::connection;
 
 MysqlConfig::Config(
     std::string host,
