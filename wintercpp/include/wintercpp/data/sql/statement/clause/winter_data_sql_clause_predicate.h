@@ -42,4 +42,4 @@ class Predicate {
 };
 }  // namespace winter::data::sql_impl
 
-#endif	//WINTERCPP_WINTER_DATA_SQL_CLAUSE_PREDICATE_H
+#endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_PREDICATE_H

@@ -14,14 +14,14 @@ Column::Column(Table &table, std::string column_name, FieldType column_type) :
     name_(std::move(column_name)),
     type_(column_type) {
   /**
-   **  Todo: 
+   **  Todo:
    **  I need to analyze if is good idea to register the column at the time you create it.
    **  The use case is that you have a column that is handled by the database, and you don't want to expose inside winter because is going to be available.
    **  But maybe for some reason you need to make it visible for specific function/query, if you register the column it would be available for all places and keep in memory affecting all the queries.
    **  So, if I don't register it automatically, it is all to you if you want to register it globally or just use it in that function scope.
    **  For now lets say that register the column need manual call to the table.RegisterColumn function.
    **/
-  //table.RegisterColumn(*this);
+  // table.RegisterColumn(*this);
 }
 
 Column::Column(const Column &column) :

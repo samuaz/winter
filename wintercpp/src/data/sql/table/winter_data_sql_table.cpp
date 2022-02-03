@@ -42,15 +42,15 @@ Table::RegisterColumn(const Column &col) {
     throw exception::WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ("column " + col.name() + " from table " + col.TableName() + " Cannot register in a different table " + this->name()));
   }
 
-  /** 
-     **  Todo: 
-     ** For now as we are not registering the column when is created, let's throw an exception if you try to register a column that already exists
-     ** If I move to register the column at creation time, this function should return the existing one if you try to register a column that already exist instead of throw
-    **/
+  /**
+   **  Todo:
+   ** For now as we are not registering the column when is created, let's throw an exception if you try to register a column that already exists
+   ** If I move to register the column at creation time, this function should return the existing one if you try to register a column that already exist instead of throw
+   **/
   // throw if the column already exists
   if (std::find(columns_.begin(), columns_.end(), col) != columns_.end()) {
     throw exception::WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ("column " + col.name() + " from table " + col.TableName() + " already exists"));
-    //return columns_.at(std::distance(columns_.begin(), std::find(columns_.begin(), columns_.end(), col)));
+    // return columns_.at(std::distance(columns_.begin(), std::find(columns_.begin(), columns_.end(), col)));
   }
 
   // add the new column

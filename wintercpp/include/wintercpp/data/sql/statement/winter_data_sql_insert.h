@@ -23,12 +23,12 @@ class Insert final : public virtual Statement<Insert> {
 
   using Statement<Insert>::prepared_statement;
   /*
-        template<typename T>
-        Insert &setId(const std::string &idAttributeName, const T &value, const
-        std::string &custom_value);
+	template<typename T>
+	Insert &setId(const std::string &idAttributeName, const T &value, const
+	std::string &custom_value);
 
-        template<typename T>
-        Insert &setId(const std::string &idAttributeName, const T &value);
+	template<typename T>
+	Insert &setId(const std::string &idAttributeName, const T &value);
       */
   // void GenerateId();
 

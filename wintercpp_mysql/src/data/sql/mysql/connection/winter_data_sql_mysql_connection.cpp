@@ -26,7 +26,7 @@ Connection::Execute(const PreparedStatement &query) noexcept(false) {
     Reconnect();
     return CreateResponse(query, GeneratePrepareStatement(query));
   } catch (::sql::SQLException &e) {
-    //return MysqlResponse(query.id(), query.type(), ResponseStatus::ERROR, e.what());
+    // return MysqlResponse(query.id(), query.type(), ResponseStatus::ERROR, e.what());
     throw SqlException::Create(__FILE__, __FUNCTION__, __LINE__, ("query: " + query.statement_template() + " " + e.what()), e.getErrorCode());
   }
 }
@@ -202,7 +202,7 @@ Connection::IsolationLevel(
     default:
       return ::sql::TRANSACTION_REPEATABLE_READ;
   }
-  ///return static_cast< ::sql::enum_transaction_isolation>(isolation);
+  /// return static_cast< ::sql::enum_transaction_isolation>(isolation);
 }
 
 void Connection::PrepareTransaction(const TransactionIsolationType &isolation) {

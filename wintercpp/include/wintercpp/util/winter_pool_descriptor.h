@@ -11,7 +11,7 @@ namespace winter::descriptor {
 
 class PoolDescriptor {
  public:
-  //PoolDescriptor();
+  // PoolDescriptor();
   PoolDescriptor(
       std::string name,
       unsigned int initialPoolSize,
