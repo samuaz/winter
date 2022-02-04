@@ -12,7 +12,7 @@ set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 FetchContent_Declare(
         openssl
         GIT_REPOSITORY https://github.com/openssl/openssl.git
-        GIT_TAG        OpenSSL-fips-1_2-stable
+        GIT_TAG        openssl-3.0
         GIT_PROGRESS   TRUE
         CONFIGURE_COMMAND config --prefix=${THIRD_PARTY_DIR}/openssl
         INSTALL_COMMAND make install_sw
