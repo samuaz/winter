@@ -67,4 +67,4 @@ execute_process(
 MESSAGE(STATUS "OPENSSL_CMD_ERROR:" ${openssl_install_result})
 MESSAGE(STATUS "OPENSSL_CMD_OUTPUT:" ${openssl_OUTPUT_VARIABLE})
 include_directories(${openssl_SOURCE_DIR}/include)
-set(WINTER_OPENSSL_LIB ${openssl_SOURCE_DIR}/libssl.a ${openssl_SOURCE_DIR}/libcrypto.a ${openssl_SOURCE_DIR}/libfips.a)
+set(WINTER_OPENSSL_LIB ${openssl_SOURCE_DIR}/libssl.a ${openssl_SOURCE_DIR}/libcrypto.a)
