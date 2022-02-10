@@ -55,7 +55,7 @@ endif ()
 ]]
 
 execute_process(
-        COMMAND ./config no-asm --prefix=${openssl_SOURCE_DIR}
+        COMMAND ./config fips no-asm --prefix=${openssl_SOURCE_DIR}
         WORKING_DIRECTORY ${openssl_SOURCE_DIR}
         RESULT_VARIABLE openssl_install_result
         OUTPUT_VARIABLE openssl_OUTPUT_VARIABLE)
