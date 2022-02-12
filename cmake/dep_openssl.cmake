@@ -12,7 +12,7 @@ set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 FetchContent_Declare(
         openssl
         GIT_REPOSITORY https://github.com/openssl/openssl.git
-        GIT_TAG        openssl-3.0
+        GIT_TAG        OpenSSL_1_1_1-stable
         GIT_PROGRESS   TRUE
         CONFIGURE_COMMAND config --prefix=${THIRD_PARTY_DIR}/openssl
         INSTALL_COMMAND make install_sw
@@ -55,7 +55,7 @@ endif ()
 ]]
 
 execute_process(
-        COMMAND ./config fips no-asm --prefix=${openssl_SOURCE_DIR}
+        COMMAND ./config --prefix=${openssl_SOURCE_DIR}
         WORKING_DIRECTORY ${openssl_SOURCE_DIR}
         RESULT_VARIABLE openssl_install_result
         OUTPUT_VARIABLE openssl_OUTPUT_VARIABLE)
@@ -68,3 +68,4 @@ MESSAGE(STATUS "OPENSSL_CMD_ERROR:" ${openssl_install_result})
 MESSAGE(STATUS "OPENSSL_CMD_OUTPUT:" ${openssl_OUTPUT_VARIABLE})
 include_directories(${openssl_SOURCE_DIR}/include)
 set(WINTER_OPENSSL_LIB ${openssl_SOURCE_DIR}/libssl.a ${openssl_SOURCE_DIR}/libcrypto.a)
+#set(WINTER_OPENSSL_LIB -lssl -lcrypto)
