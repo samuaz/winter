@@ -14,6 +14,8 @@ set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static")
 set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
 set(_LIBCPP_INLINE_VISIBILITY "")
 set(CMAKE_OPTIMIZE_DEPENDENCIES TRUE)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 
 option(APP_ENV "APP_ENV" local)
 message("***************************** ENVIRONMENT IS ${APP_ENV} **************************************")
