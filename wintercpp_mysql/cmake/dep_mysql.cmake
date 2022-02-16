@@ -66,12 +66,14 @@ execute_process(
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_ERROR:" ${mysql_client_RUN_ABI_CHECK_result})
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_OUTPUT:" ${mysql_client_RUN_ABI_CHECK_VARIABLE})
 
+if(USE_WINTER_OPENSSL)
+        set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/include -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/libcrypto.a -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
+else
+        set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
+endif()      
+
 execute_process(
-        if(USE_WINTER_OPENSSL)
-                COMMAND bash "-c" "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/include -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/libcrypto.a -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install"
-        else
-                COMMAND bash "-c" "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install"
-        endif ()
+        COMMAND bash "-c" ${MYSQL_CLIENT_COMMAND}
         WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/build
         RESULT_VARIABLE mysql_client_cmake_result
         OUTPUT_VARIABLE mysql_client_cmake_VARIABLE)
@@ -104,17 +106,20 @@ FetchContent_Declare(
         GIT_PROGRESS   TRUE
         SOURCE_DIR ${THIRD_PARTY_DIR}/mysql_connector_cpp
 )
+
 FetchContent_GetProperties(mysql_connector_cpp)
 if(NOT mysql_connector_cpp_POPULATED)
     FetchContent_Populate(mysql_connector_cpp)
 endif()
 
+if(USE_WINTER_OPENSSL)
+        set(MYSQL_CONNECTOR_COMMAND "cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/include -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/libcrypto.a -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install")
+else
+        set(MYSQL_CONNECTOR_COMMAND "cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install")
+endif()      
+
 execute_process(
-        if(USE_WINTER_OPENSSL)
-                COMMAND bash "-c" "cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/include -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/libcrypto.a -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install"
-        else
-                COMMAND bash "-c" "cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install"
-        endif()        
+        COMMAND bash "-c" ${MYSQL_CONNECTOR_COMMAND}
         WORKING_DIRECTORY ${mysql_connector_cpp_SOURCE_DIR}
         RESULT_VARIABLE mysql_cmake_result
         OUTPUT_VARIABLE mysql_cmake_VARIABLE)
@@ -125,6 +130,6 @@ include_directories(${mysql_connector_cpp_SOURCE_DIR}/install/include)
 include_directories(${THIRD_PARTY_DIR}/boost/)
 link_directories(${mysql_connector_cpp_SOURCE_DIR}/install)
 set(WINTER_MYSQL_CONNECTOR_LIB ${mysql_connector_cpp_SOURCE_DIR}/install/libmysqlcppconn-static.a)
-set(WINTER_MYSQL_DRIVER true CACHE INTERNAL "")
-set(WINTER_MARIADB_DRIVER false CACHE INTERNAL "")
+#set(WINTER_MYSQL_DRIVER true CACHE INTERNAL "")
+#set(WINTER_MARIADB_DRIVER false CACHE INTERNAL "")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h.in ${CMAKE_BINARY_DIR}/generated/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h)
