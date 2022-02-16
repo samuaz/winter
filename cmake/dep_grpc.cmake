@@ -4,7 +4,7 @@
 
 include(${CMAKE_CURRENT_LIST_DIR}/host_utils.cmake)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
-set(gRPC_SSL_PROVIDER package CACHE INTERNAL "")
+#set(gRPC_SSL_PROVIDER package CACHE INTERNAL "")
 
 ## HOT FIX FOR GRPC AND GCC 11 & CLAND 12
 ## re2 ##
