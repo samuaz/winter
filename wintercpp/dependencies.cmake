@@ -9,7 +9,7 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
-#include(${PARENT_DIR}/cmake/dep_openssl.cmake)
+include(${PARENT_DIR}/cmake/dep_openssl.cmake)
 include(${PARENT_DIR}/cmake/dep_protobuf.cmake)
 include(${PARENT_DIR}/cmake/dep_grpc.cmake)
 include(${PARENT_DIR}/cmake/dep_json.cmake)
