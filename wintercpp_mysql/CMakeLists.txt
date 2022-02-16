@@ -6,6 +6,7 @@
 ##      CONFIG BUILD      ##
 ############################
 project( wintercpp_mysql )
+
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
 set(CMAKE_CXX_STANDARD 20)
 add_compile_definitions(STATIC_CONCPP)
@@ -79,6 +80,12 @@ endforeach()
 
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 add_library(winter::mysql ALIAS ${PROJECT_NAME})
+add_library(winter::mariadb ALIAS ${PROJECT_NAME})
+
+if(winter::mariadb)
+    set(WINTER_MARIADB_DRIVER true CACHE INTERNAL "")
+endif()
+
 
 target_link_libraries(${PROJECT_NAME} winter::core ${WINTER_MYSQL_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
@@ -139,6 +146,7 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         FILES_MATCHING # install only matched files
         PATTERN "*.h*" # select header files
         )
+
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
         FILES_MATCHING # install only matched files
