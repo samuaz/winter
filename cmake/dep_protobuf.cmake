@@ -23,5 +23,5 @@ FetchContent_Declare(
 
 
 FetchContent_MakeAvailable(protobuf)
-
+set(PROTOBUF_ROOT_DIR ${protobuf_SOURCE_DIR} INTERNAL "")
 set(WINTER_PROTOBUF_LIB protobuf::libprotobuf)
