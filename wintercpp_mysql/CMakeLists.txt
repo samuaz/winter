@@ -12,7 +12,6 @@ set(CMAKE_CXX_STANDARD 20)
 add_compile_definitions(STATIC_CONCPP)
 option(WINTER_MARIADB_DRIVER "use mariadb connector as mysql driver" OFF)
 option(WINTER_MYSQL_DRIVER "use mysql connector as mysql driver" ON)
-set(WINTER_MYSQL_DRIVER ON)
 
 if(NOT WINTER_MARIADB_DRIVER AND NOT WINTER_MYSQL_DRIVER)
 ERROR("WINTER_MARIADB_DRIVER or WINTER_MYSQL_DRIVER need to be ON")

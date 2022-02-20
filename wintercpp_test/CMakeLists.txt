@@ -14,7 +14,6 @@ include(${PROJECT_SOURCE_DIR}/cmake/ClangFormat.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/astyle_format.cmake)
 include(GoogleTest)
 
-
 enable_testing()
 file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp *.tpp)
 
