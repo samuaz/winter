@@ -50,7 +50,7 @@ endif ()
 ]]
 
 execute_process(
-        COMMAND ./config no-asm --prefix=${openssl_SOURCE_DIR}/install
+        COMMAND ./config no-asm no-shared --prefix=${openssl_SOURCE_DIR}/install
         WORKING_DIRECTORY ${openssl_SOURCE_DIR}
         RESULT_VARIABLE openssl_install_result
         OUTPUT_VARIABLE openssl_OUTPUT_VARIABLE)
