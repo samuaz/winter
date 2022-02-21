@@ -67,7 +67,7 @@ MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_ERROR:" ${mysql_client_RUN_ABI_CH
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_OUTPUT:" ${mysql_client_RUN_ABI_CHECK_VARIABLE})
 
 if(USE_WINTER_OPENSSL)
-        set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/include -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/libcrypto.a -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
+        set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_SSL=${openssl_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/install/include -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libcrypto.a -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
 else()
         set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
 endif()      
@@ -75,8 +75,7 @@ endif()
 execute_process(
         COMMAND bash "-c" ${MYSQL_CLIENT_COMMAND}
         WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/build
-        RESULT_VARIABLE mysql_client_cmake_result
-        OUTPUT_VARIABLE mysql_client_cmake_VARIABLE)
+        RESULT_VARIABLE mysql_client_cmake_result)
 MESSAGE(STATUS "MYSQL_client_cmake_CMD_ERROR:" ${mysql_client_cmake_result})
 MESSAGE(STATUS "MYSQL_client_cmake_CMD_OUTPUT:" ${mysql_client_cmake_VARIABLE})
 
@@ -113,7 +112,7 @@ if(NOT mysql_connector_cpp_POPULATED)
 endif()
 
 if(USE_WINTER_OPENSSL)
-        set(MYSQL_CONNECTOR_COMMAND "cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/include -DWITH_SSL=${openssl_SOURCE_DIR} -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/libcrypto.a -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DMYSQLCLIENT_STATIC_LINKING=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install")
+        set(MYSQL_CONNECTOR_COMMAND "cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/install/include -DWITH_SSL=${openssl_SOURCE_DIR}/install -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libcrypto.a -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DMYSQLCLIENT_STATIC_LINKING=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install")
 else()
         set(MYSQL_CONNECTOR_COMMAND "cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DMYSQLCLIENT_STATIC_LINKING=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install")
 endif()      
@@ -133,3 +132,8 @@ set(WINTER_MYSQL_CONNECTOR_LIB ${mysql_connector_cpp_SOURCE_DIR}/install/libmysq
 set(WINTER_MYSQL_DRIVER true CACHE INTERNAL "")
 set(WINTER_MARIADB_DRIVER false CACHE INTERNAL "")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h.in ${CMAKE_BINARY_DIR}/generated/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h)
+
+
+#cmake -DMYSQL_CXXFLAGS=-stdlib=libc++ -DWITH_BOOST=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp_mysql/third_party/boost -DCMAKE_INSTALL_LIBDIR=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp_mysql/third_party/mysql_connector_cpp/install -DWITH_SSL=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp/third_party/openssl/install -DMYSQL_LIB_DIR=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp_mysql/third_party/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp_mysql/third_party/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DCMAKE_INSTALL_PREFIX=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp_mysql/third_party/mysql_connector_cpp/install && make install
+
+#cmake .. -DDOWNLOAD_BOOST=1 -DOPENSSL_INCLUDE_DIR=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp/third_party/openssl/include -DCRYPTO_LIBRARY=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp/third_party/openssl/install/lib/libcrypto.a -DOPENSSL_LIBRARY=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp/third_party/openssl/install/lib/libssl.a -DWITH_SSL=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp/third_party/openssl/install -DWITH_BOOST=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp_mysql/third_party/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=/home/samuaz/Projects/toc/mediamanager/third_party/winter/wintercpp_mysql/third_party/mysql_client/build/install -DWITH_UNIT_TESTS=OFF && make install

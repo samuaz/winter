@@ -15,7 +15,7 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/openssl/openssl.git
         GIT_TAG        OpenSSL_1_1_1-stable
         GIT_PROGRESS   TRUE
-        CONFIGURE_COMMAND config --prefix=${THIRD_PARTY_DIR}/openssl
+        CONFIGURE_COMMAND config --prefix=${THIRD_PARTY_DIR}/openssl/install
         INSTALL_COMMAND make install_sw
         SOURCE_DIR ${THIRD_PARTY_DIR}/openssl
 )
@@ -28,13 +28,7 @@ if(NOT openssl_POPULATED)
 endif()
 set(OPENSSL_USE_STATIC_LIBS TRUE CACHE INTERNAL "")
 set(USE_WINTER_OPENSSL TRUE CACHE INTERNAL "")
-set(OPENSSL_ROOT_DIR ${openssl_SOURCE_DIR}/install CACHE INTERNAL "")
-#set(OPENSSL_CRYPTO_LIBRARY ${openssl_SOURCE_DIR}/libcrypto.a CACHE INTERNAL "")
-#set(OPENSSL_SSL_LIBRARY ${openssl_SOURCE_DIR}/libssl.a CACHE INTERNAL "")
-#set(OPENSSL_INCLUDE_DIR ${openssl_SOURCE_DIR}/include CACHE INTERNAL "")
-#set(OPENSSL_LIBRARIES ${openssl_SOURCE_DIR} CACHE INTERNAL "")
-#link_directories("${openssl_SOURCE_DIR}/lib")
-#link_directories("${openssl_SOURCE_DIR}")
+
 
 #[[
 
@@ -56,7 +50,7 @@ endif ()
 ]]
 
 execute_process(
-        COMMAND ./config --prefix=${openssl_SOURCE_DIR}/install
+        COMMAND ./config no-asm --prefix=${openssl_SOURCE_DIR}/install
         WORKING_DIRECTORY ${openssl_SOURCE_DIR}
         RESULT_VARIABLE openssl_install_result
         OUTPUT_VARIABLE openssl_OUTPUT_VARIABLE)
@@ -67,7 +61,21 @@ execute_process(
         OUTPUT_VARIABLE openssl_OUTPUT_VARIABLE)
 MESSAGE(STATUS "OPENSSL_CMD_ERROR:" ${openssl_install_result})
 MESSAGE(STATUS "OPENSSL_CMD_OUTPUT:" ${openssl_OUTPUT_VARIABLE})
-include_directories(${openssl_SOURCE_DIR}/include)
+
 include(FindOpenSSL)
-set(WINTER_OPENSSL_LIB ${openssl_SOURCE_DIR}/libssl.so ${openssl_SOURCE_DIR}/libcrypto.so)
+if( OpenSSL_FOUND )
+    message("OPENSSL FOUND")
+    include_directories(${OPENSSL_INCLUDE_DIRS})
+    link_directories(${OPENSSL_LIBRARIES})
+    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
+endif ()
+set(OPENSSL_ROOT_DIR ${openssl_SOURCE_DIR}/install CACHE INTERNAL "")
+#set(OPENSSL_CRYPTO_LIBRARY ${openssl_SOURCE_DIR}/libcrypto.a CACHE INTERNAL "")
+#set(OPENSSL_SSL_LIBRARY ${openssl_SOURCE_DIR}/libssl.a CACHE INTERNAL "")
+#set(OPENSSL_INCLUDE_DIR ${openssl_SOURCE_DIR}/include CACHE INTERNAL "")
+#set(OPENSSL_LIBRARIES ${openssl_SOURCE_DIR} CACHE INTERNAL "")
+#link_directories("${openssl_SOURCE_DIR}/lib")
+#link_directories("${openssl_SOURCE_DIR}")
+#include_directories(${openssl_SOURCE_DIR}/include)
+set(WINTER_OPENSSL_LIB ${openssl_SOURCE_DIR}/install/lib/libssl.a ${openssl_SOURCE_DIR}/install/lib/libcrypto.a)
 #set(WINTER_OPENSSL_LIB -lssl -lcrypto)
