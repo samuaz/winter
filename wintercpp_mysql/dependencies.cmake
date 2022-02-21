@@ -8,8 +8,8 @@
 include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-include(${PARENT_DIR}/cmake/dep_openssl.cmake)
-#include(${PARENT_DIR}/cmake/dep_openssl_system.cmake)
+#include(${PARENT_DIR}/cmake/dep_openssl.cmake)
+include(${PARENT_DIR}/cmake/dep_openssl_system.cmake)
 
 
 if(WINTER_MYSQL_DRIVER)
