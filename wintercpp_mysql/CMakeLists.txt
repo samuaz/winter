@@ -11,13 +11,13 @@ get_filename_component(PARENT_DIR ../ ABSOLUTE)
 set(CMAKE_CXX_STANDARD 20)
 add_compile_definitions(STATIC_CONCPP)
 option(WINTER_MARIADB_DRIVER "use mariadb connector as mysql driver" OFF)
-option(WINTER_MYSQL_DRIVER "use mysql connector as mysql driver" ON)
+option(WINTER_MYSQL_DRIVER "use mysql connector as mysql driver" OFF)
 
-if(NOT WINTER_MARIADB_DRIVER AND NOT WINTER_MYSQL_DRIVER)
+if(NOT DEFINED WINTER_MARIADB_DRIVER AND NOT DEFINED WINTER_MYSQL_DRIVER)
 ERROR("WINTER_MARIADB_DRIVER or WINTER_MYSQL_DRIVER need to be ON")
 endif()
 
-if(WINTER_MARIADB_DRIVER AND WINTER_MYSQL_DRIVER)
+if(${WINTER_MARIADB_DRIVER} AND ${WINTER_MYSQL_DRIVER})
 ERROR("ERROR ONLY ONE MYSQOL DRIVER WINTER_MARIADB_DRIVER or WINTER_MYSQL_DRIVER CAN BE ON at the same time")
 endif()
 
@@ -82,11 +82,6 @@ endforeach()
 
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 add_library(winter::mysql ALIAS ${PROJECT_NAME})
-#add_library(winter::mariadb ALIAS ${PROJECT_NAME})
-
-if(winter::mariadb)
-    set(WINTER_MARIADB_DRIVER true CACHE INTERNAL "")
-endif()
 
 
 target_link_libraries(${PROJECT_NAME} winter::core ${WINTER_MYSQL_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source

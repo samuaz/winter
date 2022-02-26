@@ -3,7 +3,9 @@
 #
 
 set(BINARY wintercpp_test)
-
+set(WINTER_MARIADB_DRIVER true CACHE INTERNAL "WINTER_MARIADB_DRIVER")
+set(WINTER_MYSQL_DRIVER false CACHE INTERNAL "WINTER_MYSQL_DRIVER")
+#set(OPENSSL_CRYPTO_LIBRARY "/lib/libcrypto.a" CACHE INTERNAL "OPENSSL_CRYPTO_LIBRARY")
 ############################
 ##      DEPS              ##
 ############################
