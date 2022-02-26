@@ -3,7 +3,7 @@
 #
 
 set(BINARY wintercpp_test)
-set(WINTER_MARIADB_DRIVER true CACHE INTERNAL "WINTER_MARIADB_DRIVER")
+set(WINTER_MARIADB_DRIVER true)
 #set(OPENSSL_CRYPTO_LIBRARY "/lib/libcrypto.a" CACHE INTERNAL "OPENSSL_CRYPTO_LIBRARY")
 ############################
 ##      DEPS              ##
