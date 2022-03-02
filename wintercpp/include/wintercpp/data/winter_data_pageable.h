@@ -44,20 +44,68 @@ class Pageable {
       int row_total,
       std::vector<T> page_content);
 
+  /**
+   * @brief set the page size
+   * @param page_size
+   * @return (void)
+   */
   void set_page_size(int page_size);
+
+  /**
+   * @brief returns the page size
+   * @return int
+   */
   int page_size() const;
 
+  /**
+   * @brief set the page number
+   * @param int page_number
+   * @return (void)
+   */
   void set_page_number(int page_number);
+
+  /**
+   * @brief return the page number
+   * @return int
+   */
   int page_number() const;
 
+  /**
+   * @brief return the total number of pages
+   * @return int
+   */
   int page_total() const;
 
+  /**
+   * @brief set the total number of elements
+   * @param row_total
+   * @return (void)
+   */
   void set_row_total(int row_total);
+
+  /**
+   * @brief returns the total number of elements
+   * @return int
+   */
   int row_total() const;
 
+  /**
+   * @brief returns a vector of elements as a page_content
+   * @return std::vector<T>
+   */
   const std::vector<T> &page_content() const;
+
+  /**
+   * @brief set the page_content
+   * @param std::vector<T> Page_content
+   * @return (void)
+   */
   void set_page_content(const std::vector<T> &Page_content);
 
+  /**
+   * @brief returns the OffSet of the pages
+   * @return int
+   */
   int OffSet() const;
 
  private:

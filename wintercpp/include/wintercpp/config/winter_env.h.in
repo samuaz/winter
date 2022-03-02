@@ -1,6 +1,0 @@
-/**
- * dont mod this
- * this is used to get the environment from the config this value is set at build time
- * based on the app_env variable from cmake
- */
-#define WINTER_ENV "@APP_ENV@"

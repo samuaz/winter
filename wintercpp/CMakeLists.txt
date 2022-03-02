@@ -26,9 +26,6 @@ else ()
     set(APP_ENV local)
 endif (APP_ENV)
 
-execute_process(COMMAND rm -f ${CMAKE_BINARY_DIR}/generated)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/config/winter_env.h.in  ${CMAKE_BINARY_DIR}/generated/wintercpp/config/winter_env.h)
-include_directories(${CMAKE_BINARY_DIR}/generated)
 
 ############################
 ##      DEPS              ##

@@ -13,6 +13,11 @@
 
 namespace winter::data::response {
 
+/**
+ * This class represents a response that can or not contain the wrapper an optional object T, also implements a useful helper Error or Success creator
+ *
+ * @tparam T Entity wrapper object
+ */
 template <typename T>
 class Response final : public virtual winter::templates::
 			   Response<Response<T>, T, ResponseStatus> {
@@ -20,12 +25,30 @@ class Response final : public virtual winter::templates::
   using winter::templates::
       Response<winter::data::response::Response<T>, T, ResponseStatus>::Response;
 
+  /**
+   * @brief Create an Error Response, wrapper object is empty optional object
+   * @param string error message
+   * @return Response<T>
+   */
   static Response<T> Error(const std::string &message);
 
+  /**
+   * @brief Create a SUCCESS Response, wrapper object is mandatory
+   * @param string error message
+   * @return Response<T>
+   */
   static Response<T> Success(const std::optional<T> &entity, const std::string &message = "Success");
 
+  /**
+   * @brief Boolean that Returns true if object is present
+   * @return bool
+   */
   bool IsSuccess() const override;
 
+  /**
+   * @brief Boolean that Returns true if object is not present
+   * @return bool
+   */
   bool IsError() const override;
 
  private:
