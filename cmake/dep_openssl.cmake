@@ -6,7 +6,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/host_utils.cmake)
 include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
-set(gRPC_SSL_PROVIDER package CACHE INTERNAL "")
 
 ## openssl
 
@@ -26,8 +25,6 @@ if(NOT openssl_POPULATED)
     FetchContent_Populate(openssl)
     #add_subdirectory(${grpc_SOURCE_DIR} ${grpc_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
-set(OPENSSL_USE_STATIC_LIBS TRUE CACHE INTERNAL "")
-set(USE_WINTER_OPENSSL TRUE CACHE INTERNAL "")
 
 
 #[[
@@ -62,20 +59,15 @@ execute_process(
 MESSAGE(STATUS "OPENSSL_CMD_ERROR:" ${openssl_install_result})
 MESSAGE(STATUS "OPENSSL_CMD_OUTPUT:" ${openssl_OUTPUT_VARIABLE})
 
-include(FindOpenSSL)
-if( OpenSSL_FOUND )
-    message("OPENSSL FOUND")
-    include_directories(${OPENSSL_INCLUDE_DIRS})
-    link_directories(${OPENSSL_LIBRARIES})
-    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
-endif ()
 set(OPENSSL_ROOT_DIR ${openssl_SOURCE_DIR}/install CACHE INTERNAL "")
-#set(OPENSSL_CRYPTO_LIBRARY ${openssl_SOURCE_DIR}/libcrypto.a CACHE INTERNAL "")
-#set(OPENSSL_SSL_LIBRARY ${openssl_SOURCE_DIR}/libssl.a CACHE INTERNAL "")
-#set(OPENSSL_INCLUDE_DIR ${openssl_SOURCE_DIR}/include CACHE INTERNAL "")
-#set(OPENSSL_LIBRARIES ${openssl_SOURCE_DIR} CACHE INTERNAL "")
-#link_directories("${openssl_SOURCE_DIR}/lib")
-#link_directories("${openssl_SOURCE_DIR}")
-#include_directories(${openssl_SOURCE_DIR}/include)
-set(WINTER_OPENSSL_LIB ${openssl_SOURCE_DIR}/install/lib/libssl.a ${openssl_SOURCE_DIR}/install/lib/libcrypto.a)
-#set(WINTER_OPENSSL_LIB -lssl -lcrypto)
+set(OPENSSL_LIBRARIES ${OPENSSL_ROOT_DIR}/lib CACHE INTERNAL "")
+set(OPENSSL_INCLUDE_DIR ${OPENSSL_ROOT_DIR}/include CACHE INTERNAL "")
+set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.a CACHE INTERNAL "")
+set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.a CACHE INTERNAL "")
+set(OPENSSL_USE_STATIC_LIBS TRUE CACHE INTERNAL "")
+set(USE_WINTER_OPENSSL TRUE)
+set(gRPC_SSL_PROVIDER package CACHE INTERNAL "")
+
+link_directories("${OPENSSL_ROOT_DIR}/lib")
+include_directories(${OPENSSL_ROOT_DIR}/include)
+set(WINTER_OPENSSL_LIB ${OPENSSL_ROOT_DIR}/lib/libssl.a ${OPENSSL_ROOT_DIR}/lib/libcrypto.a)
