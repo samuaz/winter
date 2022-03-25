@@ -6,6 +6,7 @@
 #define WINTERCPP_WINTER_DATA_MIGRATION_H
 
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
+#include <wintercpp/data/sql/statement/winter_data_sql_query.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_values.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_insert.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_select.h>
