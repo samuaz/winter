@@ -12,7 +12,7 @@
 #include <queue>
 #include <utility>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Values : public virtual Clause {
  public:
@@ -36,6 +36,6 @@ class Values : public virtual Clause {
   std::deque<std::shared_ptr<AbstractPreparedStatementField> > _fields;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CLAUSE_VALUES */

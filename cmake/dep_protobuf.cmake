@@ -10,13 +10,18 @@ FetchContent_Declare(
         SOURCE_SUBDIR  cmake
         SOURCE_DIR ${THIRD_PARTY_DIR}/protobuf
 )
-set(protobuf_BUILD_TESTS OFF CACHE INTERNAL "")
-FetchContent_GetProperties(protobuf)
-if(NOT protobuf_POPULATED)
-    FetchContent_Populate(protobuf)
-    if (TARGET libprotobuf)
-        RETURN()
-    endif()
-    add_subdirectory(${protobuf_SOURCE_DIR}/cmake ${protobuf_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
+
+ set(protobuf_BUILD_TESTS OFF CACHE INTERNAL "")
+# FetchContent_GetProperties(protobuf)
+# if(NOT protobuf_POPULATED)
+#     FetchContent_Populate(protobuf)
+#     if (TARGET libprotobuf)
+#         RETURN()
+#     endif()
+#     add_subdirectory(${protobuf_SOURCE_DIR}/cmake ${protobuf_BINARY_DIR} EXCLUDE_FROM_ALL)
+# endif()
+
+
+FetchContent_MakeAvailable(protobuf)
+set(PROTOBUF_ROOT_DIR ${protobuf_SOURCE_DIR} INTERNAL "")
 set(WINTER_PROTOBUF_LIB protobuf::libprotobuf)

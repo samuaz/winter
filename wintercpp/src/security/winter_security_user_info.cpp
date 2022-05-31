@@ -5,7 +5,11 @@
 
 using namespace winter::security;
 
-UserSecurityInfo::UserSecurityInfo(std::string key, std::string user_id, std::string token, TokenStatus token_status) : key_(std::move(key)), user_id_(std::move(user_id)), token_(std::move(token)), token_status_(std::move(token_status)){};
+UserSecurityInfo::UserSecurityInfo(std::string key, std::string user_id, std::string token, TokenStatus token_status) :
+    key_(std::move(key)),
+    user_id_(std::move(user_id)),
+    token_(std::move(token)),
+    token_status_(std::move(token_status)){};
 
 const std::string&
 UserSecurityInfo::key() const {

@@ -15,14 +15,15 @@
 namespace winter::security {
 
 /**
-   * grpc interceptor i need to implement this to secure the services without
-   * need to call the security namespace
-   */
+ * grpc interceptor i need to implement this to secure the services without
+ * need to call the security namespace
+ */
 class AuthInterceptor : public grpc::experimental::Interceptor {
  public:
   grpc::experimental::ServerRpcInfo *info;
 
-  AuthInterceptor(grpc::experimental::ServerRpcInfo *info) : info(info) {}
+  AuthInterceptor(grpc::experimental::ServerRpcInfo *info) :
+      info(info) {}
 
   ~AuthInterceptor() {}
 

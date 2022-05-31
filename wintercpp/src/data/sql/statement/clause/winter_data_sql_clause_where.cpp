@@ -8,25 +8,28 @@
 
 using namespace winter::util::string;
 
-winter::data::sql::Where::Where(
-    const Predicate &predicate) : Clause("WHERE $where", "$where"),
-				  column_(predicate.column()),
-				  field_(predicate.field()),
-				  condition_(predicate.condition()),
-				  _is_predicate(true) {}
+winter::data::sql_impl::Where::Where(
+    const Predicate &predicate) :
+    Clause("WHERE $where", "$where"),
+    column_(predicate.column()),
+    field_(predicate.field()),
+    condition_(predicate.condition()),
+    _is_predicate(true) {}
 
-winter::data::sql::Where::Where(Column column) : Clause("WHERE $where", "$where"),
-						 column_(std::move(column)),
-						 condition_(winter::data::sql::Condition::NONE) {}
+winter::data::sql_impl::Where::Where(Column column) :
+    Clause("WHERE $where", "$where"),
+    column_(std::move(column)),
+    condition_(winter::data::sql_impl::Condition::NONE) {}
 
-winter::data::sql::Where::Where(
+winter::data::sql_impl::Where::Where(
     Column column,
-    winter::data::sql::Condition condition) : Clause("WHERE $where", "$where"),
-					      column_(std::move(column)),
-					      condition_(condition) {}
+    winter::data::sql_impl::Condition condition) :
+    Clause("WHERE $where", "$where"),
+    column_(std::move(column)),
+    condition_(condition) {}
 
-winter::data::sql::PreparedStatement
-winter::data::sql::Where::Prepare() {
+winter::data::sql_impl::PreparedStatement
+winter::data::sql_impl::Where::Prepare() {
   if (_is_predicate) {
     if (field_->IsCustomValue()) {
       BuildQuery() << column_->TableName() << Dot() << column_->name()

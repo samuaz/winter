@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 enum class Condition : int {
   NONE,
@@ -121,6 +121,6 @@ struct GetCondition<Condition::IS_NOT_NULL> {
 
 std::string condition(Condition condition);
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_OPERATOR_H

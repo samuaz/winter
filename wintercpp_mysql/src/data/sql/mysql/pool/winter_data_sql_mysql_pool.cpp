@@ -4,12 +4,13 @@
 
 #include <wintercpp/data/sql/mysql/pool/winter_data_sql_mysql_pool.h>
 
-using namespace winter::data::sql::mysql::connection;
+using namespace winter::data::sql_impl::mysql::connection;
 using namespace winter::exception;
 
 Pool::Pool(
     PoolDescriptor pool_descriptor,
-    std::optional<Config> mysql_config) : SinglePool(std::move(pool_descriptor), std::move(mysql_config)) {}
+    std::optional<Config> mysql_config) :
+    SinglePool(std::move(pool_descriptor), std::move(mysql_config)) {}
 
 MysqlConnection*
 Pool::CreateConn() {

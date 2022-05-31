@@ -32,39 +32,39 @@ class Connection final : public virtual winter::templates::
   static Connection *Create(const Config &redisConfig);
 
   /**
-       * set key and value to Save in redis
-       */
+   * set key and value to Save in redis
+   */
   void Set(const std::string &key, const std::string &value);
 
   /**
-       * get int value from key sync
-       * @param key
-       * @return
-       */
+   * get int value from key sync
+   * @param key
+   * @return
+   */
   int Int(const std::string &key);
 
   /**
-       *
-       * get string value from key sync
-       * @param key
-       * @return
-       */
+   *
+   * get string value from key sync
+   * @param key
+   * @return
+   */
   std::string String(const std::string &key);
 
   /**
-       *
-       * get string value from key with callback async
-       * @param key
-       * @return
-       */
+   *
+   * get string value from key with callback async
+   * @param key
+   * @return
+   */
   void StringCallback(
       const std::string &key,
       std::function<void(cpp_redis::reply &)> &reply_callback);
 
   /**
-       * remove key from redis
-       * @param key
-       */
+   * remove key from redis
+   * @param key
+   */
   void DelKey(const std::string &key);
 
   void DelKey(const std::vector<std::string> &key);

@@ -2,26 +2,29 @@
 // Created by Samuel Azcona on 14/03/2020.
 //
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename Children>
-Statement<Children>::Statement(std::string query) : statement_template_(std::move(query)),
-						    type_(StatementType::kNative) {}
+Statement<Children>::Statement(std::string query) :
+    statement_template_(std::move(query)),
+    type_(StatementType::kNative) {}
 
 template <typename Children>
 Statement<Children>::Statement(
     std::string statement_template,
-    const StatementType &statement_type) : statement_template_(std::move(statement_template)),
-					   type_(statement_type) {
+    const StatementType &statement_type) :
+    statement_template_(std::move(statement_template)),
+    type_(statement_type) {
   prepared_statement_ = std::make_unique<PreparedStatement>(type_, "", transaction_id_);
 }
 
 template <typename Children>
-Statement<Children>::Statement(const Statement &statement) : transaction_id_(statement.transaction_id_),
-							     statement_template_(statement.statement_template_),
-							     prepared_statement_(
-								 new PreparedStatement(*statement.prepared_statement_)),
-							     type_(statement.type_) {}
+Statement<Children>::Statement(const Statement &statement) :
+    transaction_id_(statement.transaction_id_),
+    statement_template_(statement.statement_template_),
+    prepared_statement_(
+	new PreparedStatement(*statement.prepared_statement_)),
+    type_(statement.type_) {}
 
 template <typename Children>
 StatementType
@@ -142,4 +145,4 @@ Children &Statement<Children>::This() {
   return dynamic_cast<Children &>(*this);
 }
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl

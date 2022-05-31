@@ -13,7 +13,7 @@
 
 #include <queue>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class And : public virtual Clause {
  public:
@@ -59,6 +59,6 @@ class And : public virtual Clause {
   const bool is_predicate_ = false;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CLAUSE_AND */

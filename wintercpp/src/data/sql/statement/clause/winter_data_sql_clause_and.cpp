@@ -8,25 +8,28 @@
 
 using namespace winter::util::string;
 
-winter::data::sql::And::And(
-    const Predicate &predicate) : Clause("AND $and", "$and"),
-				  column_(predicate.column()),
-				  field_(predicate.field()),
-				  condition_(predicate.condition()),
-				  is_predicate_(true) {}
+winter::data::sql_impl::And::And(
+    const Predicate &predicate) :
+    Clause("AND $and", "$and"),
+    column_(predicate.column()),
+    field_(predicate.field()),
+    condition_(predicate.condition()),
+    is_predicate_(true) {}
 
-winter::data::sql::And::And(Column column) : Clause("AND $and", "$and"),
-					     column_(std::move(column)),
-					     condition_(winter::data::sql::Condition::NONE) {}
+winter::data::sql_impl::And::And(Column column) :
+    Clause("AND $and", "$and"),
+    column_(std::move(column)),
+    condition_(winter::data::sql_impl::Condition::NONE) {}
 
-winter::data::sql::And::And(
+winter::data::sql_impl::And::And(
     Column column,
-    winter::data::sql::Condition condition) : Clause("AND $and", "$and"),
-					      column_(std::move(column)),
-					      condition_(condition) {}
+    winter::data::sql_impl::Condition condition) :
+    Clause("AND $and", "$and"),
+    column_(std::move(column)),
+    condition_(condition) {}
 
-winter::data::sql::PreparedStatement
-winter::data::sql::And::Prepare() {
+winter::data::sql_impl::PreparedStatement
+winter::data::sql_impl::And::Prepare() {
   if (is_predicate_) {
     if (field_->IsCustomValue()) {
       BuildQuery() << column_->TableName() << Dot() << column_->name()

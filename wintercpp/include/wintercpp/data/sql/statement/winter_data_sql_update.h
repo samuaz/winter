@@ -12,7 +12,7 @@
 #include <memory>
 #include <string>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Update : public virtual Statement<Update> {
  public:
@@ -32,6 +32,6 @@ class Update : public virtual Statement<Update> {
   using Statement<Update>::type_;
   const std::shared_ptr<Table> table_;
 };
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_UPDATE_H

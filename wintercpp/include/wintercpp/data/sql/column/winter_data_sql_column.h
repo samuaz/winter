@@ -15,26 +15,66 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Table;
 class Column;
 struct ColumnComparator;
 
+/**
+ * Column class represents a column on a database sql table
+ */
 class Column final {
  public:
+  /**
+   * @brief creates column object that represets a sql table column
+   * @param Table table
+   * @param String column_name
+   * @param FieldType column_type
+   */
   Column(Table &table, std::string column_name, FieldType column_type);
 
-  Column(const Column &c1) : table_(c1.table_), name_(c1.name_), type_(c1.type_){};
+  /**
+   * @brief creates column object that represets a sql table column from reference
+   * @param column
+   */
+  Column(const Column &column);
 
-  Column(const Column *c1) : table_(c1->table_), name_(c1->name_), type_(c1->type_){};
+  /**
+   * @brief creates column object that represets a sql table column from pointer
+   * @param Column
+   */
+  Column(const Column *column);
 
+  /**
+   * @brief equals override, this function determines if a column is equals to other by check the table name and column name
+   * @param Column
+   * @return boolean
+   */
+  bool operator==(const Column &column) const;
+
+  /**
+   * @brief returns a reference to the table that contains this column
+   * @return const Table
+   */
   const Table &table() const;
 
+  /**
+   * @brief returns the name of the table that contains this column
+   * @return std::string
+   */
   const std::string &TableName() const;
 
+  /**
+   * @brief returns the name of the column
+   * @return std::string
+   */
   const std::string &name() const;
 
+  /**
+   * @brief returns the datatype this column represents
+   * @return const FieldType
+   */
   const FieldType &type() const;
 
   const Column *
@@ -48,6 +88,9 @@ class Column final {
   const FieldType type_;
 };
 
+/**
+ * @brief Column comparator
+ */
 struct ColumnComparator {
   bool
   operator()(const std::shared_ptr<Column> &lhs, const std::shared_ptr<Column> &rhs) const;
@@ -59,6 +102,6 @@ struct ColumnComparator {
   operator()(const Column &lhs, const Column &rhs) const;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_COLUMN */

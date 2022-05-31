@@ -2,7 +2,8 @@
 
 using namespace winter::redis;
 
-Session::Session(std::function<std::shared_ptr<RedisConnection>()> redis_connection) : redis_connection_(std::move(redis_connection)) {}
+Session::Session(std::function<std::shared_ptr<RedisConnection>()> redis_connection) :
+    redis_connection_(std::move(redis_connection)) {}
 
 void Session::CreateSession(const winter::security::UserSecurityInfo &user_security_info) const {
   auto redis = redis_connection_();

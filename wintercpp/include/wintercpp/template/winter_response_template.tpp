@@ -4,16 +4,18 @@ using namespace winter::exception;
 template <typename TImplementation, typename TResultType, typename TStatusType>
 Response<TImplementation, TResultType, TStatusType>::Response(
     TStatusType status,
-    std::string message) : status_(status),
-			   message_(std::move(message)) {}
+    std::string message) :
+    status_(status),
+    message_(std::move(message)) {}
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
 Response<TImplementation, TResultType, TStatusType>::Response(
     const std::optional<TResultType> &result,
     TStatusType status,
-    std::string message) : result_(std::move(result)),
-			   status_(status),
-			   message_(std::move(message)) {}
+    std::string message) :
+    result_(std::move(result)),
+    status_(status),
+    message_(std::move(message)) {}
 
 template <typename TImplementation, typename TResultType, typename TStatusType>
 Response<TImplementation, TResultType, TStatusType>::operator bool()

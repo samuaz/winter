@@ -18,28 +18,28 @@
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Predicate {
  public:
   Predicate(
       Column column,
-      std::shared_ptr<winter::data::sql::AbstractPreparedStatementField>
+      std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
 	  field,
       Condition conditionOperator);
 
   const Column &column() const;
 
-  const std::shared_ptr<winter::data::sql::AbstractPreparedStatementField>
+  const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
       &field() const;
 
   Condition condition() const;
 
  private:
   Column column_;
-  std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> field_;
-  winter::data::sql::Condition condition_{};
+  std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField> field_;
+  winter::data::sql_impl::Condition condition_{};
 };
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
-#endif	//WINTERCPP_WINTER_DATA_SQL_CLAUSE_PREDICATE_H
+#endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_PREDICATE_H

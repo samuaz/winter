@@ -12,7 +12,7 @@
 #include <string>
 #include <utility>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class IStatement {
  public:
@@ -22,7 +22,7 @@ class IStatement {
 
   virtual std::string transaction_id() = 0;
 
-  //virtual void set_transaction_id(const std::string &id) = 0;
+  // virtual void set_transaction_id(const std::string &id) = 0;
 
  protected:
   virtual void BuildStatement() = 0;
@@ -34,7 +34,7 @@ class Statement : public virtual IStatement {
   StatementType type() override;
 
   std::string transaction_id() override;
-  /* 
+  /*
   void set_transaction_id(const std::string &transaction_id) override;
 
   Children &set_statement_template(const std::string &statement_template); */
@@ -94,7 +94,7 @@ class Statement : public virtual IStatement {
 template <typename Children>
 Statement<Children>::~Statement() = default;
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_statement.tpp"
 

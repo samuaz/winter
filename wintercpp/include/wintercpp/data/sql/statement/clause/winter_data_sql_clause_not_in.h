@@ -18,13 +18,13 @@
 #include <utility>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename T>
 class NotIn : public virtual Clause {
  public:
   explicit NotIn(std::vector<T> values);
-  explicit NotIn(const winter::data::sql::Select &select);
+  explicit NotIn(const winter::data::sql_impl::Select &select);
   PreparedStatement Prepare() override;
 
  private:
@@ -33,7 +33,7 @@ class NotIn : public virtual Clause {
   bool has_clause = false;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_clause_not_in.tpp"
 

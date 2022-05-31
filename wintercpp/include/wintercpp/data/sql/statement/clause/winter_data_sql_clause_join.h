@@ -8,7 +8,7 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 enum class JoinType : int {
   DEFAULT = 0,
@@ -31,6 +31,6 @@ class Join : public virtual Clause {
   std::string GenerateType();
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_JOIN_H

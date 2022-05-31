@@ -20,7 +20,8 @@ class WinterException : public std::logic_error {
   WinterException &operator=(const WinterException &) = delete;
 
  protected:
-  explicit WinterException(const string &message) noexcept : std::logic_error(message) {}
+  explicit WinterException(const string &message) noexcept :
+      std::logic_error(message) {}
 };
 
 template <typename T>
@@ -39,7 +40,8 @@ class WinterExceptionTemplate : public WinterException {
   }
 
  protected:
-  explicit WinterExceptionTemplate<T>(const string &message) noexcept : WinterException(message) {}
+  explicit WinterExceptionTemplate<T>(const string &message) noexcept :
+      WinterException(message) {}
 
  private:
   static std::stringstream message(const std::string &file, const std::string &function_name, int line, const std::string &err) {

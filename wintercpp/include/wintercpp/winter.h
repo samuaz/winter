@@ -16,12 +16,6 @@
 #include <wintercpp/data/sql/field/winter_data_sql_field.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
 #include <wintercpp/data/sql/migration/winter_data_migration.h>
-#include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection.h>
-#include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection_config.h>
-#include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_result_row.h>
-#include <wintercpp/data/sql/mysql/pool/winter_data_sql_mysql_pool.h>
-#include <wintercpp/data/sql/mysql/response/winter_data_sql_mysql_response.h>
-#include <wintercpp/data/sql/mysql/transaction/winter_data_sql_mysql_transaction.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>

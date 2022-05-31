@@ -8,7 +8,7 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 class Into : public virtual Clause {
  public:
   explicit Into(std::shared_ptr<Table> table);
@@ -18,6 +18,6 @@ class Into : public virtual Clause {
   std::shared_ptr<Table> table_;
   void GenerateStatement();
 };
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_INTO_H

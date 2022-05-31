@@ -5,7 +5,6 @@
 #include <wintercpp/boot/winter_boot.h>
 
 using namespace winter;
-using namespace winter::data::sql::mysql;
 
 std::unique_ptr<WinterBoot> WinterBoot::instance_;
 std::once_flag WinterBoot::m_once_;

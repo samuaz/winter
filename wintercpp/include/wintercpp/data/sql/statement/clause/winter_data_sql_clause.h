@@ -9,7 +9,7 @@
 
 #include <string>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Clause {
  public:
@@ -34,6 +34,6 @@ class Clause {
   std::string query_{};
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_H

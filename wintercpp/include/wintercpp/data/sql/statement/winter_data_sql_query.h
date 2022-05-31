@@ -14,11 +14,12 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class Query final : public virtual Statement<Query> {
  public:
-  explicit Query(StatementType statement_type, const std::string &query) : Statement<Query>(query, statement_type) {}
+  explicit Query(StatementType statement_type, const std::string &query) :
+      Statement<Query>(query, statement_type) {}
 
   ~Query() override = default;
 
@@ -33,5 +34,5 @@ class Query final : public virtual Statement<Query> {
   using Statement<Query>::type_;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 #endif /* WINTER_DATA_SQL_QUERY */

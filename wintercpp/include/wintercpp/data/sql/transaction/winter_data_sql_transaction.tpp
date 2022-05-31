@@ -5,16 +5,17 @@
 #include <string>
 #include <utility>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
 Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Transaction(
     std::shared_ptr<SQLConnection<TConnectionImpl, TConnectionType, TResponse> >
 	connection,
     TransactionIsolationType isolation_type,
-    bool partial_commit) : connection_(std::move(connection)),
-			   isolation_type_(isolation_type),
-			   partial_commit_(partial_commit) {
+    bool partial_commit) :
+    connection_(std::move(connection)),
+    isolation_type_(isolation_type),
+    partial_commit_(partial_commit) {
   connection_->PrepareTransaction(isolation_type_);
 }
 
@@ -106,4 +107,4 @@ Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::~Tra
   }
 }
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl

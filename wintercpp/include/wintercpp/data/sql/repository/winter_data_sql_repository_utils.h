@@ -5,7 +5,7 @@
 #ifndef WINTER_DATA_SQL_REPOSITORY_UTILS
 #define WINTER_DATA_SQL_REPOSITORY_UTILS
 
-#include <mysql/jdbc.h>
+//#include <mysql/jdbc.h>
 #include <wintercpp/data/repository/winter_data_repository.h>
 #include <wintercpp/data/response/winter_data_response.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
@@ -21,7 +21,7 @@
 
 #include "wintercpp/data/sql/table/winter_data_sql_uuid_table.h"
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 using namespace winter::exception;
 
@@ -72,7 +72,7 @@ Page(
 }
 
 template <typename TEntityClass, typename TIDType>
-inline winter::data::sql::Select
+inline winter::data::sql_impl::Select
 SelectById(const std::shared_ptr<Table> &table, TIDType id) {
   if (table->tableType() == TableType::kTable) {
     throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "TABLE " + table->name() + " IS NOT ID BASE TABLE");
@@ -83,7 +83,7 @@ SelectById(const std::shared_ptr<Table> &table, TIDType id) {
   // todo: add suport for hex and unhex ond postgresql
   switch (table->tableType()) {
     case TableType::kUUID: {
-      auto uuidTable = std::dynamic_pointer_cast<winter::data::sql::UUIDTable>(table);
+      auto uuidTable = std::dynamic_pointer_cast<winter::data::sql_impl::UUIDTable>(table);
       if (uuidTable->binary()) {
 	select << Where(Where::make_predicate(
 	    uuidTable->id(),
@@ -103,6 +103,6 @@ SelectById(const std::shared_ptr<Table> &table, TIDType id) {
   return select;
 }
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_REPOSITORY_UTILS */

@@ -9,7 +9,16 @@
 #ifndef WINTER_DATA_SQL_MYSQL_RESULT_ROW
 #define WINTER_DATA_SQL_MYSQL_RESULT_ROW
 
-#include <jdbc/cppconn/resultset.h>
+#include <wintercpp/data/sql/mysql/winter_sql_mysql_driver.h>
+
+#if WITH_MYSQL
+#include <mysql/jdbc.h>
+#elif WITH_MARIADB
+#include <mariadb/conncpp.hpp>
+#else
+#error "NO WINTER_MYSQL_DRIVER"
+#endif
+
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
@@ -20,12 +29,12 @@
 #include <string>
 #include <variant>
 
-namespace winter::data::sql::mysql {
+namespace winter::data::sql_impl::mysql {
 
-class ResultRow final : public virtual winter::data::sql::ResultRow<std::shared_ptr< ::sql::ResultSet> > {
+class ResultRow final : public virtual winter::data::sql_impl::ResultRow<std::shared_ptr< ::sql::ResultSet> > {
  public:
-  // using winter::data::sql::ResultRow<std::shared_ptr<::sql::ResultSet>>::operator[];
-  // using winter::data::sql::ResultRow<std::shared_ptr<::sql::ResultSet>>::Value;
+  // using winter::data::sql_impl::ResultRow<std::shared_ptr<::sql::ResultSet>>::operator[];
+  // using winter::data::sql_impl::ResultRow<std::shared_ptr<::sql::ResultSet>>::Value;
 
   explicit ResultRow(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::ResultSet> &result_set) {
     Create(prepared_statement, result_set);
@@ -63,7 +72,7 @@ class ResultRow final : public virtual winter::data::sql::ResultRow<std::shared_
       case FieldType::KDecimal:
       case FieldType::kTimeStamp:
       case FieldType::kString:
-	AddRow(value_name, result->getString(value_name));
+	AddRow(value_name, std::string(result->getString(value_name).c_str()));
 	break;
       case FieldType::kSchar:
       case FieldType::KShort:
@@ -97,8 +106,8 @@ class ResultRow final : public virtual winter::data::sql::ResultRow<std::shared_
   }
 };
 
-typedef winter::data::sql::mysql::ResultRow MysqlResultRow;
+typedef winter::data::sql_impl::mysql::ResultRow MysqlResultRow;
 
-}  // namespace winter::data::sql::mysql
+}  // namespace winter::data::sql_impl::mysql
 
 #endif /* WINTER_DATA_SQL_MYSQL_RESULT_ROW */

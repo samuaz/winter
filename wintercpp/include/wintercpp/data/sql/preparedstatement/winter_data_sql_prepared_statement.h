@@ -14,8 +14,9 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 class PreparedStatement {
  public:
@@ -29,7 +30,7 @@ class PreparedStatement {
   PreparedStatement(
       const StatementType &statement_type,
       std::string statement_template,
-      std::set<Column, ColumnComparator> columns_,
+      std::vector<Column> columns_,
       std::string id = winter::random::uuid());
 
   PreparedStatement(
@@ -92,13 +93,13 @@ class PreparedStatement {
 
   int SearchFieldIndex(const std::string &name);
 
-  const std::set<Column, ColumnComparator> &columns() const;
+  const std::vector<Column> &columns() const;
 
-  void columns(std::set<Column, ColumnComparator> columns);
+  void columns(std::vector<Column> columns);
 
   void AddColumn(const Column &column);
 
-  void AddColumn(const std::set<Column, ColumnComparator> &columns);
+  void AddColumn(const std::vector<Column> &columns);
 
   virtual ~PreparedStatement() = default;
 
@@ -107,11 +108,11 @@ class PreparedStatement {
   StatementType type_{};
   // std::shared_ptr<AbstractPreparedStatementField> _entityId;
   std::string statement_template_;
-  std::set<Column, ColumnComparator> columns_;
+  std::vector<Column> columns_;
   std::deque<std::shared_ptr<AbstractPreparedStatementField> > values_;
   std::deque<std::shared_ptr<AbstractPreparedStatementField> >::iterator
   FindValue(const std::string &name);
 };
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_PREPARED_STATEMENT_H

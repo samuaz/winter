@@ -10,9 +10,8 @@
 namespace winter::descriptor {
 
 class PoolDescriptor {
-
  public:
-  //PoolDescriptor();
+  // PoolDescriptor();
   PoolDescriptor(
       std::string name,
       unsigned int initialPoolSize,
@@ -30,7 +29,7 @@ class PoolDescriptor {
 
   bool usePool() const;
 
-private:
+ private:
   const std::string _name;
   const unsigned int _initialPoolSize;
   const unsigned int _maxPoolSize;

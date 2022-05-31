@@ -12,11 +12,13 @@
 #include <any>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
+#include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 enum class TableType {
   kTable,
@@ -48,11 +50,13 @@ class Table {
 
   const std::string &name() const;
 
-  //std::vector<Column> columns() const;
+  const std::vector<Column> &columns() const;
 
-  const std::set<Column, ColumnComparator> &columns() const;
+  bool operator==(const Table &table) const;
 
   TableType tableType() const;
+
+  std::optional<const Column *> FindColumnByName(const std::string &column_name) const;
 
   const Column &RegisterColumn(const Column &col);
 
@@ -102,10 +106,9 @@ class Table {
 
  protected:
   const std::string name_;
-  std::set<Column, ColumnComparator> columns_;
   const TableType type_;
   const DatabaseType database_type_;
-  // std::map<std::string, Column> columns_;
+  std::vector<Column> columns_;
 };
 
 struct TableComparator {
@@ -119,6 +122,6 @@ struct TableComparator {
   operator()(const Table &lhs, const Table &rhs) const;
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_TABLE */

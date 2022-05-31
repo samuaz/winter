@@ -5,19 +5,21 @@
 using namespace winter::data;
 
 template <typename T>
-Pageable<T>::Pageable(int page_size, int page_number, int row_total) : page_size_(page_size),
-								       page_number_(page_number),
-								       row_total_(row_total) {}
+Pageable<T>::Pageable(int page_size, int page_number, int row_total) :
+    page_size_(page_size),
+    page_number_(page_number),
+    row_total_(row_total) {}
 
 template <typename T>
 Pageable<T>::Pageable(
     int page_size,
     int page_number,
     int row_total,
-    std::vector<T> page_content) : page_size_(page_size),
-				   page_number_(page_number),
-				   row_total_(row_total),
-				   page_content_(std::move(page_content)) {}
+    std::vector<T> page_content) :
+    page_size_(page_size),
+    page_number_(page_number),
+    row_total_(row_total),
+    page_content_(std::move(page_content)) {}
 
 template <typename T>
 void Pageable<T>::set_page_size(int page_size) {

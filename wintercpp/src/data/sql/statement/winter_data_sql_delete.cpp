@@ -5,9 +5,10 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_delete.h>
 #include <wintercpp/util/winter_string_util.h>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
-Delete::Delete() : Statement<Delete>("Delete $columns", StatementType::kDelete) {
+Delete::Delete() :
+    Statement<Delete>("Delete $columns", StatementType::kDelete) {
   winter::util::string::replace(statement_template_, "$columns", "");
 }
 

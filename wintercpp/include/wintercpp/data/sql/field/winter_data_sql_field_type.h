@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
 struct Date {
   std::string value;
@@ -136,6 +136,6 @@ struct TypeField<DateTime> {
   static FieldType Get();
 };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_FIELD_TYPE */

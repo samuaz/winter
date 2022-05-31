@@ -3,3 +3,10 @@ BreakBeforeBinaryOperators: NonAssignment
 ColumnLimit: 0
 UseTab: Always
 IncludeBlocks: Regroup
+AlignTrailingComments: 'true'
+MaxEmptyLinesToKeep: '1'
+ReflowComments: 'true'
+SpacesBeforeTrailingComments: '2'
+BreakConstructorInitializers: AfterColon
+AllowAllConstructorInitializersOnNextLine: 'false'
+ConstructorInitializerAllOnOneLineOrOnePerLine: 'true'
