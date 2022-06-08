@@ -42,7 +42,7 @@ class ResultRow : public virtual winter::data::sql_impl::ResultRow<std::shared_p
 	for (const auto &column : columns) {
 	  std::string column_name = column->name();
 	  if (result_set->isNull(column_name)) {
-	   AddRow(column_name, std::nullopt);
+	    AddRow(column_name, std::nullopt);
 	  } else {
 	    CreateRow(column_name, column->type(), result_set);
 	  }

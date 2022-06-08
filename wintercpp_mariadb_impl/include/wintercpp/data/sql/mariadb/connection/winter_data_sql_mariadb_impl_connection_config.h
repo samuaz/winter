@@ -22,10 +22,10 @@ class Config : public virtual winter::data::sql_impl::mysql::connection::Config<
       const string& schema,
       bool optReconnect,
       int optConnectTimeout,
-      const ConnectionProperties& otherProperties
-      ) : winter::data::sql_impl::mysql::connection::Config<::sql::Driver*>(
-	  []() -> ::sql::Driver * {
-	      return ::sql::mariadb::get_driver_instance();
+      const ConnectionProperties& otherProperties) :
+      winter::data::sql_impl::mysql::connection::Config<::sql::Driver*>(
+	  []() -> ::sql::Driver* {
+	    return ::sql::mariadb::get_driver_instance();
 	  },
 	  host,
 	  port,

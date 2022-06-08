@@ -14,7 +14,11 @@ namespace winter::data::sql_impl::mysql {
 using namespace winter::data::sql_impl::mysql::connection;
 
 template <typename TConnection, typename TSqlConnection, typename TResponse>
-class Transaction : public winter::data::sql_impl::Transaction<winter::data::sql_impl::mysql::Transaction<TConnection, TSqlConnection, TResponse>, TConnection, TSqlConnection,TResponse> {
+class Transaction : public winter::data::sql_impl::Transaction<
+			      winter::data::sql_impl::mysql::Transaction<TConnection, TSqlConnection, TResponse>,
+			      TConnection,
+			      TSqlConnection,
+			      TResponse> {
  public:
   explicit Transaction(
       const std::shared_ptr<TConnection> &conn,
