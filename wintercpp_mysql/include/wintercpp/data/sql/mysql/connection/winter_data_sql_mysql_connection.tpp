@@ -63,7 +63,7 @@ MYSQL_CONNECTION_INTERFACE::CreateResponse(const PreparedStatement &prepared_sta
 	  do {
 	    result_rows.emplace_back(prepared_statement, result_set);
 	  } while (result_set->next());
-	  return MysqlResponse(prepared_statement.id(), prepared_statement.type(), result_rows, ResponseStatus::kSuccess, "SUCCESS", result_set->rowsCount());
+	  return TResponse(prepared_statement.id(), prepared_statement.type(), result_rows, ResponseStatus::kSuccess, "SUCCESS", result_set->rowsCount());
 	} else {
 	  return TResponse(prepared_statement.id(), prepared_statement.type(), ResponseStatus::kError, "No elements on resultset ");
 	}
@@ -229,7 +229,7 @@ void MYSQL_CONNECTION_INTERFACE::Rollback() const {
 }
 
 CONNECTION_TEMPLATES
-MYSQL_CONNECTION_INTERFACE *
+TChildren *
 MYSQL_CONNECTION_INTERFACE::Create(const TConfig &mysql_config) {
   /*  ::sql::ConnectOptionsMap connectionProperties;
 
@@ -264,5 +264,5 @@ MYSQL_CONNECTION_INTERFACE::Create(const TConfig &mysql_config) {
       throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());
     }
     */
-  throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__);
+  //throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__);
 }
