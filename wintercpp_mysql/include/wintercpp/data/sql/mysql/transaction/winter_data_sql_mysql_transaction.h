@@ -13,14 +13,14 @@ namespace winter::data::sql_impl::mysql {
 
 using namespace winter::data::sql_impl::mysql::connection;
 
-template <typename TConnection, typename TResponse>
-class Transaction : public virtual winter::data::sql_impl::Transaction<Transaction<TConnection, TResponse>, Connection,TConnection,TResponse> {
+template <typename TConnection, typename TSqlConnection, typename TResponse>
+class Transaction : public winter::data::sql_impl::Transaction<winter::data::sql_impl::mysql::Transaction<TConnection, TSqlConnection, TResponse>, TConnection, TSqlConnection,TResponse> {
  public:
   explicit Transaction(
       const std::shared_ptr<TConnection> &conn,
       TransactionIsolationType isolation = TransactionIsolationType::DEFAULT,
       bool partial_commit = false) :
-      winter::data::sql_impl::Transaction<Transaction, Connection, TConnection, TResponse>(conn, isolation, partial_commit) {}
+      winter::data::sql_impl::Transaction<winter::data::sql_impl::mysql::Transaction<TConnection, TSqlConnection, TResponse>, TConnection, TSqlConnection, TResponse>(conn, isolation, partial_commit) {}
 };
 
 }  // namespace winter::data::sql_impl::mysql

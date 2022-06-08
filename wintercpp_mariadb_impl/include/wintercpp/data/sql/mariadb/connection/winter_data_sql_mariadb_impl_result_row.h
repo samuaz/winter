@@ -11,7 +11,7 @@
 
 namespace winter::data::sql_impl::mysql::connection::mariadb_impl {
 
-#define MARIADB_RESULT_ROW_TEMPLATE_IMPL = winter::data::sql_impl::mysql::ResultRow<::sql::ResultSet>
+#define MARIADB_RESULT_ROW_TEMPLATE_IMPL winter::data::sql_impl::mysql::ResultRow<::sql::ResultSet>
 
 class ResultRow : public virtual MARIADB_RESULT_ROW_TEMPLATE_IMPL {
  public:

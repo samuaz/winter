@@ -13,11 +13,11 @@
 
 namespace winter::data::sql_impl::mysql::connection::mariadb_impl {
 
-#define MARIADB_POOL_IMPL = winter::data::sql_impl::mysql::connection::Pool<winter::data::sql_impl::mysql::connection::mariadb_impl::Connection, winter::data::sql_impl::mysql::connection::Config>
+#define MARIADB_POOL_IMPL winter::data::sql_impl::mysql::connection::Pool<winter::data::sql_impl::mysql::connection::mariadb_impl::Connection, winter::data::sql_impl::mysql::connection::mariadb_impl::Config>
 
 class Pool : public virtual MARIADB_POOL_IMPL {
  public:
-  Pool(const PoolDescriptor& poolDescriptor, const optional<connection::Config>& mysqlConfig) :
+  Pool(const PoolDescriptor& poolDescriptor, const optional<winter::data::sql_impl::mysql::connection::mariadb_impl::Config>& mysqlConfig) :
       MARIADB_POOL_IMPL(poolDescriptor, mysqlConfig) {}
 };
 

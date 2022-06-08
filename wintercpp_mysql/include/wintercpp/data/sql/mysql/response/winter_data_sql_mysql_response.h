@@ -14,8 +14,7 @@
 namespace winter::data::sql_impl::mysql {
 
 template <typename TResultRow>
-class Response : public virtual winter::data::sql_impl::
-		     Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow> {
+class Response : public winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow> {
  public:
   Response(
       std::string transaction_id,

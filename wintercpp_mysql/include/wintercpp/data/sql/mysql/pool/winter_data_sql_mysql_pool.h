@@ -22,7 +22,7 @@ namespace winter::data::sql_impl::mysql::connection {
 using namespace winter::templates;
 
 template <typename TConnection, typename TConfig>
-class Pool : public virtual SinglePool<
+class Pool : public SinglePool<
 		 Pool<TConnection, TConfig>,
 		 TConnection,
 		 TConfig> {
@@ -31,7 +31,7 @@ class Pool : public virtual SinglePool<
       TConnection,
       TConfig>;
 
- private:
+ protected:
   explicit Pool(
       const winter::descriptor::PoolDescriptor& pool_descriptor,
       std::optional<TConfig> mysql_config);

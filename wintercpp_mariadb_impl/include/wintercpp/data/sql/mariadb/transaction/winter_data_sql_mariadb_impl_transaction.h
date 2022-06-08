@@ -13,12 +13,12 @@
 
 namespace winter::data::sql_impl::mysql::mariadb_impl {
 
-#define MARIADB_TRANSACTION_IMPL = winter::data::sql_impl::mysql : Transaction<winter::data::sql_impl::mysql::connection::mariadb_impl::Connection>
+#define MARIADB_TRANSACTION_IMPL winter::data::sql_impl::mysql::Transaction<winter::data::sql_impl::mysql::connection::mariadb_impl::Connection, ::sql::Connection, winter::data::sql_impl::mysql::mariadb_impl::Response>
 
-class Transaction : public virtual winter::data::sql_impl::mysql : Transaction<winter::data::sql_impl::mysql::connection::mariadb_impl::Connection> {
+class Transaction : public virtual winter::data::sql_impl::mysql::Transaction<winter::data::sql_impl::mysql::connection::mariadb_impl::Connection, ::sql::Connection, winter::data::sql_impl::mysql::mariadb_impl::Response> {
  public:
   explicit Transaction(
-      const std::shared_ptr<Connection> &conn,
+      const std::shared_ptr<winter::data::sql_impl::mysql::connection::mariadb_impl::Connection> &conn,
       TransactionIsolationType isolation = TransactionIsolationType::DEFAULT,
       bool partial_commit = false) :
       MARIADB_TRANSACTION_IMPL(conn, isolation, partial_commit) {

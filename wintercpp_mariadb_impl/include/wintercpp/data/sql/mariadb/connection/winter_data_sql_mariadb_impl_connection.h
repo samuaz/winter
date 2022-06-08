@@ -8,13 +8,15 @@
 #include <wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection.h>
 #include <wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_result_row.h>
 #include <wintercpp/data/sql/mariadb/response/winter_data_sql_mariadb_impl_response.h>
+#include <wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection_config.h>
+
 #include <wintercpp/winter_mysql.h>
 
 #include <mariadb/conncpp.hpp>
 
 namespace winter::data::sql_impl::mysql::connection::mariadb_impl {
 
-#define MARIADB_CONNECTION_IMPL = winter::data::sql_impl::mysql::connection::Connection<::sql::Driver,                                                      \
+#define MARIADB_CONNECTION_IMPL winter::data::sql_impl::mysql::connection::Connection<::sql::Driver,                                                      \
 											winter::data::sql_impl::mysql::connection::mariadb_impl::Config,    \
 											int32_t,                                                            \
 											::sql::Connection,                                                  \

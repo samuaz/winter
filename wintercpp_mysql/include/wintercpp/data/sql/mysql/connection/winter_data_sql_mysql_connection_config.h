@@ -17,7 +17,7 @@ template <typename TDriver>
 class Config {
  public:
   Config(
-      std::function<TDriver()>,
+      std::function<TDriver()> driver,
       std::string host,
       int port,
       std::string user_name,
@@ -44,7 +44,7 @@ class Config {
   const ConnectionProperties &properties() const;
 
  private:
-  TDriver *_driver;
+  TDriver _driver;
   const std::string _host;
   const int _port;
   const std::string _user_name;

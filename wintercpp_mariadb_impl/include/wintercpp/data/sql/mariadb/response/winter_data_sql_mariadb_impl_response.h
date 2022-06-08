@@ -13,14 +13,14 @@
 
 namespace winter::data::sql_impl::mysql::mariadb_impl {
 
-#define MARIADB_RESPONSE_IMPL = winter::data::sql_impl::mysql::Response<winter::data::sql_impl::mysql::connection::mariadb_impl::ResultRow>
+#define MARIADB_RESPONSE_IMPL winter::data::sql_impl::mysql::Response<winter::data::sql_impl::mysql::connection::mariadb_impl::ResultRow>
 
 class Response : public virtual MARIADB_RESPONSE_IMPL {
  public:
   Response(const string& transactionId, StatementType type, ResponseStatus status, const string& message) :
       MARIADB_RESPONSE_IMPL(transactionId, type, status, message) {}
 
-  Response(const string& transactionId, StatementType type, const vector<TResultRow>& result, ResponseStatus status, const string& message, int rowAffected) :
+  Response(const string& transactionId, StatementType type, const vector<winter::data::sql_impl::mysql::connection::mariadb_impl::ResultRow>& result, ResponseStatus status, const string& message, int rowAffected) :
       MARIADB_RESPONSE_IMPL(transactionId, type, result, status, message, rowAffected) {}
 };
 }  // namespace winter::data::sql_impl::mysql::mariadb_impl
