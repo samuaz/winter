@@ -5,6 +5,7 @@
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 #include <wintercpp/exception/generic/winter_internal_exception.h>
 
+#include <algorithm>
 #include <utility>
 #include <vector>
 

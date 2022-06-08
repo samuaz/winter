@@ -22,7 +22,7 @@ using namespace winter::exception;
 class DataTypeResult {
  public:
   explicit DataTypeResult(winter::data::response::Response<DataType> res) :
-      res_(res) {}
+      res_(std::move(res)) {}
 
   template <typename T>
   T as() const;
@@ -62,7 +62,10 @@ class ResultRow {
   set_rows(const Rows &rows);
 
   void
-  AddRow(std::string name, const std::optional<DataType> &sqlType);
+  AddRow(const std::string &name, const std::optional<DataType> &sqlType);
+
+  void
+  AddRow(string name);
 
  private:
   Rows rows_;

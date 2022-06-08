@@ -66,8 +66,13 @@ ResultRow<TResultSet>::set_rows(const Rows &rows) {
 }
 
 template <typename TResultSet>
-void ResultRow<TResultSet>::AddRow(std::string name, const std::optional<DataType> &sqlType) {
-  rows_.insert(std::pair(name, sqlType));
+void ResultRow<TResultSet>::AddRow(const std::string &name, const std::optional<DataType> &sqlType) {
+  rows_.insert(std::pair(name, std::nullopt));
+}
+
+template <typename TResultSet>
+void ResultRow<TResultSet>::AddRow(std::string name) {
+  rows_.insert(std::pair(name, std::nullopt));
 }
 
 }  // namespace winter::data::sql_impl

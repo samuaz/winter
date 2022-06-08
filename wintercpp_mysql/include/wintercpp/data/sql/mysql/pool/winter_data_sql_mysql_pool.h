@@ -21,25 +21,26 @@ namespace winter::data::sql_impl::mysql::connection {
 
 using namespace winter::templates;
 
-class Pool final : public virtual SinglePool<
-		       Pool,
-		       winter::data::sql_impl::mysql::connection::Connection,
-		       Config> {
+template <typename TConnection, typename TConfig>
+class Pool : public virtual SinglePool<
+		 Pool<TConnection, TConfig>,
+		 TConnection,
+		 TConfig> {
   friend class SinglePool<
-      Pool,
-      winter::data::sql_impl::mysql::connection::Connection,
-      Config>;
+      Pool<TConnection, TConfig>,
+      TConnection,
+      TConfig>;
 
  private:
   explicit Pool(
-      winter::descriptor::PoolDescriptor pool_descriptor,
-      std::optional<Config> mysql_config);
-  winter::data::sql_impl::mysql::connection::Connection *CreateConn() override;
+      const winter::descriptor::PoolDescriptor& pool_descriptor,
+      std::optional<TConfig> mysql_config);
+  TConnection* CreateConn() override;
   ~Pool() override = default;
 };
 
 }  // namespace winter::data::sql_impl::mysql::connection
 
-typedef winter::data::sql_impl::mysql::connection::Pool MysqlPool;
-
+// typedef winter::data::sql_impl::mysql::connection::Pool MysqlPool;
+#include "winter_data_sql_mysql_pool.tpp"
 #endif /* WINTER_DATA_SQL_MYSQL_POOL */

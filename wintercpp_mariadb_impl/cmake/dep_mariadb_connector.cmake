@@ -35,5 +35,5 @@ MESSAGE(STATUS "mariadb_cmake_CMD_OUTPUT:" ${mariadb_cmake_VARIABLE})
 include_directories(${mariadb_connector_SOURCE_DIR}/install/include)
 link_directories(${mariadb_connector_SOURCE_DIR}/install/lib)
 
-set(WINTER_MARIADB_CONNECTOR_LIB ${mariadb_connector_SOURCE_DIR}/install/lib/libmariadbcpp.a ${mariadb_connector_SOURCE_DIR}/install/lib/mariadb/libmariadb.a )
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h.in ${CMAKE_BINARY_DIR}/generated/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h)
+set(WINTER_MARIADB_CONNECTOR_LIB ${mariadb_connector_SOURCE_DIR}/install/lib/libmariadbcpp.a ${mariadb_connector_SOURCE_DIR}/install/lib/mariadb/libmariadb.so.3)
+#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h.in ${CMAKE_BINARY_DIR}/generated/wintercpp/data/sql/mysql/winter_sql_mysql_driver.h)

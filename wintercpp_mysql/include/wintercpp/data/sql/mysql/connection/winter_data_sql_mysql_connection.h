@@ -7,20 +7,6 @@
 #ifndef WINTER_DATA_SQL_MYSQL_CONNECTION
 #define WINTER_DATA_SQL_MYSQL_CONNECTION
 
-#include <wintercpp/data/sql/mysql/winter_sql_mysql_driver.h>
-
-#if WITH_MYSQL
-#include <mysql/jdbc.h>
-typedef ::sql::mysql::MySQL_Driver MYSQL_DRIVER;
-typedef ::sql::transaction_isolation MYSQL_ISOLATION;
-#elif WITH_MARIADB
-#include <mariadb/conncpp.hpp>
-typedef ::sql::Driver MYSQL_DRIVER;
-typedef int32_t MYSQL_ISOLATION;
-#else
-#error "NO WINTER_MYSQL_DRIVER"
-#endif
-
 #include <wintercpp/data/response/winter_data_response.h>
 #include <wintercpp/data/response/winter_data_response_status.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_connection.h>
@@ -32,13 +18,17 @@ typedef int32_t MYSQL_ISOLATION;
 
 namespace winter::data::sql_impl::mysql::connection {
 
-class Connection final : public virtual SQLConnection<Connection, ::sql::Connection, MysqlResponse> {
+#define CONNECTION_TEMPLATES template <typename TDriver, typename TConfig, typename TIsolationType, typename TSqlConnection, typename TResponse, typename TpreparedStatement, typename TResultSet, typename TResultRow, typename TSqlException>
+#define MYSQL_CONNECTION_INTERFACE winter::data::sql_impl::mysql::connection::Connection<TDriver, TConfig, TIsolationType, TSqlConnection, TResponse, TpreparedStatement, TResultSet, TResultRow, TSqlException>
+
+CONNECTION_TEMPLATES
+class Connection : public virtual SQLConnection<MYSQL_CONNECTION_INTERFACE, TSqlConnection, TResponse> {
  public:
-  using SQLConnection<Connection, ::sql::Connection, MysqlResponse>::SQLConnection;
+  using SQLConnection<MYSQL_CONNECTION_INTERFACE, TSqlConnection, TResponse>::SQLConnection;
 
-  static winter::data::sql_impl::mysql::connection::Connection *Create(const winter::data::sql_impl::mysql::connection::Config &mysql_config);
+  static MYSQL_CONNECTION_INTERFACE *Create(const TConfig &mysql_config);
 
-  MysqlResponse Execute(const PreparedStatement &query) noexcept(false) override;
+  TResponse Execute(const PreparedStatement &query) noexcept(false) override;
 
   void PrepareTransaction(const TransactionIsolationType &isolation) override;
 
@@ -46,7 +36,7 @@ class Connection final : public virtual SQLConnection<Connection, ::sql::Connect
 
   void Rollback() const override;
 
-  std::shared_ptr< ::sql::PreparedStatement> GeneratePrepareStatement(
+  std::shared_ptr<TpreparedStatement> GeneratePrepareStatement(
       const PreparedStatement &query);
 
   virtual ~Connection() = default;
@@ -55,17 +45,14 @@ class Connection final : public virtual SQLConnection<Connection, ::sql::Connect
   void Reconnect();
 
  private:
-  /*   ::sql::transaction_isolation IsolationLevel(
-      const TransactionIsolationType &isolation); */
+  virtual TIsolationType IsolationLevel(
+      const TransactionIsolationType &isolation) = 0;
 
-  MYSQL_ISOLATION IsolationLevel(
-      const TransactionIsolationType &isolation);
-
-  MysqlResponse CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::PreparedStatement> &prep_stmt);
+  TResponse CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr<TpreparedStatement> &prep_stmt);
 };
 
 }  // namespace winter::data::sql_impl::mysql::connection
 
-typedef winter::data::sql_impl::mysql::connection::Connection MysqlConnection;
-
+// typedef winter::data::sql_impl::mysql::connection::Connection MysqlConnection;
+#include "winter_data_sql_mysql_connection.tpp"
 #endif /* WINTER_DATA_SQL_MYSQL_CONNECTION */

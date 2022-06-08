@@ -5,7 +5,7 @@
 ############################
 ##      CONFIG BUILD      ##
 ############################
-project( wintercpp_mysql )
+project( wintercpp_mariadb_impl )
 
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
 set(CMAKE_CXX_STANDARD 20)
@@ -18,11 +18,13 @@ set(_LIBCPP_INLINE_VISIBILITY "")
 set(CMAKE_OPTIMIZE_DEPENDENCIES TRUE)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+
 include_directories(${CMAKE_BINARY_DIR}/generated)
 
 ############################
 ##      DEPS              ##
 ############################
+include(dependencies.cmake)
 include(${PARENT_DIR}/cmake/ClangFormat.cmake)
 
 ############################
@@ -69,29 +71,29 @@ endforeach()
 #format_with_astyle_by_sources(${HEADERS})
 
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
-add_library(winter::mysql ALIAS ${PROJECT_NAME})
+add_library(winter::mariadb_impl ALIAS ${PROJECT_NAME})
 
 
-target_link_libraries(${PROJECT_NAME} winter::core ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
+target_link_libraries(${PROJECT_NAME} winter::mysql ${WINTER_MARIADB_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
 
 function(create_winter_header headerFiles)
     # Create empty output file
-    set(output ${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/winter_mysql.h)
+    set(output ${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/winter_mariadb_impl.h)
     file(WRITE ${output} "")
     # Iterate through input files
     file(APPEND ${output} "//\n")
     file(APPEND ${output} "// Created by AZCONA VARGAS, SAMUEL EDUARDO\n")
     file(APPEND ${output} "//\n")
-    file(APPEND ${output} "#ifndef WINTERC_WINTER_MYSQL_H\n")
-    file(APPEND ${output} "#define WINTERC_WINTER_MYSQL_H\n")
+    file(APPEND ${output} "#ifndef WINTERC_WINTER_MARIADB_H\n")
+    file(APPEND ${output} "#define WINTERC_WINTER_MARIADB_H\n")
     foreach(bin ${HEADERS})
         string(REGEX REPLACE "(.*)include/" "" filename ${bin})
-        IF(NOT ${filename} MATCHES "winter_mysql.h")
+        IF(NOT ${filename} MATCHES "winter_mariadb_impl.h")
         file(APPEND ${output} "#include <${filename}>\n")
         endif()
     endforeach()
-    file(APPEND ${output} "#endif // WINTERC_WINTER_MYSQL_H;\n")
+    file(APPEND ${output} "#endif // WINTERC_WINTER_MARIADB_H;\n")
 endfunction()
 
 create_winter_header(${HEADERS})
@@ -111,7 +113,10 @@ set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)   
-#target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include)
+#target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include)   
+
+MESSAGE("USING WINTER_MARIADB_DRIVER")
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mariadb_connector/install/include/)
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory

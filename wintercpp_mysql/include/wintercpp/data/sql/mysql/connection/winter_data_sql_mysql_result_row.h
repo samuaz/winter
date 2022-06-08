@@ -9,16 +9,6 @@
 #ifndef WINTER_DATA_SQL_MYSQL_RESULT_ROW
 #define WINTER_DATA_SQL_MYSQL_RESULT_ROW
 
-#include <wintercpp/data/sql/mysql/winter_sql_mysql_driver.h>
-
-#if WITH_MYSQL
-#include <mysql/jdbc.h>
-#elif WITH_MARIADB
-#include <mariadb/conncpp.hpp>
-#else
-#error "NO WINTER_MYSQL_DRIVER"
-#endif
-
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
@@ -31,25 +21,28 @@
 
 namespace winter::data::sql_impl::mysql {
 
-class ResultRow final : public virtual winter::data::sql_impl::ResultRow<std::shared_ptr< ::sql::ResultSet> > {
+template <typename TResultSet>
+class ResultRow : public virtual winter::data::sql_impl::ResultRow<std::shared_ptr<TResultSet>> {
  public:
   // using winter::data::sql_impl::ResultRow<std::shared_ptr<::sql::ResultSet>>::operator[];
   // using winter::data::sql_impl::ResultRow<std::shared_ptr<::sql::ResultSet>>::Value;
 
-  explicit ResultRow(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::ResultSet> &result_set) {
+  using winter::data::sql_impl::ResultRow<std::shared_ptr<TResultSet>>::AddRow;
+
+  explicit ResultRow(const PreparedStatement &prepared_statement, const std::shared_ptr<TResultSet> &result_set) {
     Create(prepared_statement, result_set);
   };
 
  private:
   void
-  Create(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::ResultSet> &result_set) override {
+  Create(const PreparedStatement &prepared_statement, const std::shared_ptr<TResultSet> &result_set) override {
     if (result_set != nullptr) {
       if (result_set->first()) {
 	auto columns = prepared_statement.columns();
 	for (const auto &column : columns) {
 	  std::string column_name = column->name();
 	  if (result_set->isNull(column_name)) {
-	    AddRow(column_name, std::nullopt);
+	   AddRow(column_name, std::nullopt);
 	  } else {
 	    CreateRow(column_name, column->type(), result_set);
 	  }
@@ -59,7 +52,7 @@ class ResultRow final : public virtual winter::data::sql_impl::ResultRow<std::sh
   };
 
   void
-  CreateRow(const std::string &value_name, FieldType type, const std::shared_ptr< ::sql::ResultSet> &result) {
+  CreateRow(const std::string &value_name, FieldType type, const std::shared_ptr<TResultSet> &result) {
     switch (type) {
       case FieldType::kNull: {
 	if (result->isNull(value_name)) {
@@ -106,7 +99,7 @@ class ResultRow final : public virtual winter::data::sql_impl::ResultRow<std::sh
   }
 };
 
-typedef winter::data::sql_impl::mysql::ResultRow MysqlResultRow;
+// typedef winter::data::sql_impl::mysql::ResultRow MysqlResultRow;
 
 }  // namespace winter::data::sql_impl::mysql
 

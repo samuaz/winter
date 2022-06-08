@@ -19,53 +19,56 @@ using namespace winter::exception;
 using namespace winter::data::sql_impl::mysql;
 using namespace winter::data::sql_impl::mysql::connection;
 
-MysqlResponse
-Connection::Execute(const PreparedStatement &query) noexcept(false) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
+CONNECTION_TEMPLATES
+TResponse
+MYSQL_CONNECTION_INTERFACE::Execute(const PreparedStatement &query) noexcept(false) {
+  std::scoped_lock<std::recursive_mutex> lock(MYSQL_CONNECTION_INTERFACE::conn_mtx());
   try {
     Reconnect();
     return CreateResponse(query, GeneratePrepareStatement(query));
-  } catch (::sql::SQLException &e) {
+  } catch (TSqlException &e) {
     // return MysqlResponse(query.id(), query.type(), ResponseStatus::ERROR, e.what());
     throw SqlException::Create(__FILE__, __FUNCTION__, __LINE__, ("query: " + query.statement_template() + " " + e.what()), e.getErrorCode());
   }
 }
 
-void Connection::Reconnect() {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
+CONNECTION_TEMPLATES
+void MYSQL_CONNECTION_INTERFACE::Reconnect() {
+  std::scoped_lock<std::recursive_mutex> lock(MYSQL_CONNECTION_INTERFACE::conn_mtx());
   try {
-    if (conn().isClosed()) {
-      conn().reconnect();
+    if (MYSQL_CONNECTION_INTERFACE::conn().isClosed()) {
+      MYSQL_CONNECTION_INTERFACE::conn().reconnect();
     }
-  } catch (::sql::SQLException &e) {
+  } catch (TSqlException &e) {
     throw SqlException::Create(__FILE__, __FUNCTION__, __LINE__, (std::string("cant connect to database, ") + e.what()), e.getErrorCode());
   }
 }
 
-MysqlResponse
-Connection::CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr< ::sql::PreparedStatement> &prep_stmt) {
+CONNECTION_TEMPLATES
+TResponse
+MYSQL_CONNECTION_INTERFACE::CreateResponse(const PreparedStatement &prepared_statement, const std::shared_ptr<TpreparedStatement> &prep_stmt) {
   if (prep_stmt != nullptr) {
-    auto no_result_query = [&](int update_count) -> MysqlResponse {
+    auto no_result_query = [&](int update_count) -> TResponse {
       if (update_count > 0) {
-	return MysqlResponse(prepared_statement.id(), prepared_statement.type(), {}, ResponseStatus::kSuccess, "SUCCESS", update_count);
+	return TResponse(prepared_statement.id(), prepared_statement.type(), {}, ResponseStatus::kSuccess, "SUCCESS", update_count);
       } else {
-	return MysqlResponse(prepared_statement.id(), prepared_statement.type(), {}, ResponseStatus::kSuccess, "SUCCESS, but No rows affected", update_count);
+	return TResponse(prepared_statement.id(), prepared_statement.type(), {}, ResponseStatus::kSuccess, "SUCCESS, but No rows affected", update_count);
       }
     };
 
-    auto result_query = [&](const std::shared_ptr< ::sql::ResultSet> &result_set) -> MysqlResponse {
+    auto result_query = [&](const std::shared_ptr<TResultSet> &result_set) -> TResponse {
       if (result_set != nullptr) {
 	if (result_set->first()) {
-	  std::vector<MysqlResultRow> result_rows;
+	  std::vector<TResultRow> result_rows;
 	  do {
 	    result_rows.emplace_back(prepared_statement, result_set);
 	  } while (result_set->next());
 	  return MysqlResponse(prepared_statement.id(), prepared_statement.type(), result_rows, ResponseStatus::kSuccess, "SUCCESS", result_set->rowsCount());
 	} else {
-	  return MysqlResponse(prepared_statement.id(), prepared_statement.type(), ResponseStatus::kError, "No elements on resultset ");
+	  return TResponse(prepared_statement.id(), prepared_statement.type(), ResponseStatus::kError, "No elements on resultset ");
 	}
       } else {
-	return MysqlResponse(prepared_statement.id(), prepared_statement.type(), ResponseStatus::kError, "::sql::ResultSet is null");
+	return TResponse(prepared_statement.id(), prepared_statement.type(), ResponseStatus::kError, "::sql::ResultSet is null");
       }
     };
 
@@ -78,30 +81,31 @@ Connection::CreateResponse(const PreparedStatement &prepared_statement, const st
       case StatementType::kTruncate:
 	return no_result_query(prep_stmt->executeUpdate());
       case StatementType::kSelect:
-	return result_query(std::shared_ptr< ::sql::ResultSet>(prep_stmt->executeQuery()));
+	return result_query(std::shared_ptr<TResultSet>(prep_stmt->executeQuery()));
       default: {
 	bool is_result_query = prep_stmt->execute();
 	if (is_result_query) {
-	  return result_query(std::shared_ptr< ::sql::ResultSet>(prep_stmt->getResultSet()));
+	  return result_query(std::shared_ptr<TResultSet>(prep_stmt->getResultSet()));
 	} else {
 	  return no_result_query(prep_stmt->getUpdateCount());
 	}
       }
     }
   }
-  return MysqlResponse(prepared_statement.id(), prepared_statement.type(), ResponseStatus::kError, "::sql::PreparedStatement is null");
+  return TResponse(prepared_statement.id(), prepared_statement.type(), ResponseStatus::kError, "::sql::PreparedStatement is null");
 }
 
-std::shared_ptr< ::sql::PreparedStatement>
-Connection::GeneratePrepareStatement(
+CONNECTION_TEMPLATES
+std::shared_ptr<TpreparedStatement>
+MYSQL_CONNECTION_INTERFACE::GeneratePrepareStatement(
     const PreparedStatement &query) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
-  std::shared_ptr< ::sql::PreparedStatement> _prep_stmt(
-      conn().prepareStatement(::sql::SQLString(query.statement_template())));
+  std::scoped_lock<std::recursive_mutex> lock(MYSQL_CONNECTION_INTERFACE::conn_mtx());
+  std::shared_ptr<TpreparedStatement> _prep_stmt(
+      MYSQL_CONNECTION_INTERFACE::conn().prepareStatement(query.statement_template()));
   auto values = query.values();
   for (std::size_t i = 0; i != values.size(); ++i) {
     auto field = values[i].get();
-    std::size_t position = i + 1;
+    int position = i + 1;
     switch (field->type()) {
       case FieldType::kNull:
 	_prep_stmt->setNull(position, 0);
@@ -185,8 +189,9 @@ Connection::IsolationLevel(
   return static_cast< ::sql::enum_transaction_isolation>(isolation);
 } */
 
-MYSQL_ISOLATION
-Connection::IsolationLevel(
+/*CONNECTION_TEMPLATES
+TIsolationType
+MYSQL_CONNECTION_INTERFACE::IsolationLevel(
     const TransactionIsolationType &isolation) {
   switch (isolation) {
     case TransactionIsolationType::DEFAULT:
@@ -203,26 +208,30 @@ Connection::IsolationLevel(
       return ::sql::TRANSACTION_REPEATABLE_READ;
   }
   /// return static_cast< ::sql::enum_transaction_isolation>(isolation);
+}*/
+
+CONNECTION_TEMPLATES
+void MYSQL_CONNECTION_INTERFACE::PrepareTransaction(const TransactionIsolationType &isolation) {
+  std::scoped_lock<std::recursive_mutex> lock(MYSQL_CONNECTION_INTERFACE::conn_mtx());
+  MYSQL_CONNECTION_INTERFACE::conn().setAutoCommit(false);
+  MYSQL_CONNECTION_INTERFACE::conn().setTransactionIsolation(IsolationLevel(isolation));
+  MYSQL_CONNECTION_INTERFACE::conn().createStatement()->execute("START TRANSACTION");
 }
 
-void Connection::PrepareTransaction(const TransactionIsolationType &isolation) {
-  std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
-  conn().setAutoCommit(false);
-  conn().setTransactionIsolation(IsolationLevel(isolation));
-  conn().createStatement()->execute("START TRANSACTION");
+CONNECTION_TEMPLATES
+void MYSQL_CONNECTION_INTERFACE::Commit() const {
+  MYSQL_CONNECTION_INTERFACE::conn().commit();
 }
 
-void Connection::Commit() const {
-  conn().commit();
+CONNECTION_TEMPLATES
+void MYSQL_CONNECTION_INTERFACE::Rollback() const {
+  MYSQL_CONNECTION_INTERFACE::conn().rollback();
 }
 
-void Connection::Rollback() const {
-  conn().rollback();
-}
-
-winter::data::sql_impl::mysql::connection::Connection *
-Connection::Create(const Config &mysql_config) {
-  ::sql::ConnectOptionsMap connectionProperties;
+CONNECTION_TEMPLATES
+MYSQL_CONNECTION_INTERFACE *
+MYSQL_CONNECTION_INTERFACE::Create(const TConfig &mysql_config) {
+/*  ::sql::ConnectOptionsMap connectionProperties;
 
   try {
 #if WITH_MYSQL
@@ -254,4 +263,6 @@ Connection::Create(const Config &mysql_config) {
   } catch (std::runtime_error &ex) {
     throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());
   }
+  */
+  throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__);
 }

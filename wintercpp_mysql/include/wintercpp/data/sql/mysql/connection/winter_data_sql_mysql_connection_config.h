@@ -5,31 +5,19 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H
 
-#include <wintercpp/data/sql/mysql/winter_sql_mysql_driver.h>
-
-#if WITH_MYSQL
-#include <mysql/jdbc.h>
-typedef ::sql::mysql::MySQL_Driver MYSQL_DRIVER;
-#elif WITH_MARIADB
-#include <mariadb/conncpp.hpp>
-typedef ::sql::Driver MYSQL_DRIVER;
-#else
-#error "NO WINTER_MYSQL_DRIVER"
-#endif
-
+#include <functional>
+#include <map>
 #include <string>
 
 namespace winter::data::sql_impl::mysql::connection {
 
 typedef std::map<std::string, std::string> ConnectionProperties;
 
-class Connection;
-
-class Config final {
-  friend class Connection;
-
+template <typename TDriver>
+class Config {
  public:
   Config(
+      std::function<TDriver()>,
       std::string host,
       int port,
       std::string user_name,
@@ -37,7 +25,7 @@ class Config final {
       std::string schema,
       bool opt_reconnect,
       int opt_connect_timeout,
-      const ConnectionProperties &other_properties = {});
+      ConnectionProperties other_properties = {});
 
   const std::string &host() const;
 
@@ -56,8 +44,7 @@ class Config final {
   const ConnectionProperties &properties() const;
 
  private:
-  //::sql::mysql::MySQL_Driver *_driver;
-  MYSQL_DRIVER *_driver;
+  TDriver *_driver;
   const std::string _host;
   const int _port;
   const std::string _user_name;
@@ -67,10 +54,11 @@ class Config final {
   const int _opt_connect_timeout;
   const ConnectionProperties _other_properties;
 
-  //::sql::mysql::MySQL_Driver &driver() const;
-  MYSQL_DRIVER &driver() const;
+  TDriver &driver() const;
 };
 }  // namespace winter::data::sql_impl::mysql::connection
-typedef winter::data::sql_impl::mysql::connection::Config MysqlConfig;
+// typedef winter::data::sql_impl::mysql::connection::Config MysqlConfig;
+
+#include "winter_data_sql_mysql_connection_config.tpp"
 
 #endif	// WINTERCPP_WINTER_DATA_SQL_MYSQL_CONNECTION_CONFIG_H

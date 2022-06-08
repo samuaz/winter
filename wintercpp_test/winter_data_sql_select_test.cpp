@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <wintercpp/winter.h>
+#include <wintercpp/winter_mariadb_impl.h>
 
 #include <memory>
 #include <optional>
@@ -92,3 +93,8 @@ TEST(winterSqlTable, canConstructSelecFromMultipleTables) {
   EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable2.col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
 }
 
+
+TEST(configCreation, canCreateMariaDBConfig) {
+
+  //winter::data::sql_impl::mysql::mariadb_impl::Config()
+}

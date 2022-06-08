@@ -13,34 +13,36 @@
 
 namespace winter::data::sql_impl::mysql {
 
-class Response final : public virtual winter::data::sql_impl::
-			   Response<winter::data::sql_impl::mysql::Response, MysqlResultRow> {
+template <typename TResultRow>
+class Response : public virtual winter::data::sql_impl::
+		     Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow> {
  public:
   Response(
       std::string transaction_id,
       StatementType type,
       winter::data::ResponseStatus status,
       std::string message) :
-      winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response, MysqlResultRow>(transaction_id, type, status, message) {}
+      winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow>(transaction_id, type, status, message) {}
 
   Response(
       std::string transaction_id,
       StatementType type,
-      std::vector<MysqlResultRow> result,
+      std::vector<TResultRow> result,
       winter::data::ResponseStatus status,
       std::string message,
       int row_affected) :
-      winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response, MysqlResultRow>(transaction_id, type, result, status, message, row_affected) {}
+      winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow>(transaction_id, type, result, status, message, row_affected) {}
 
-  static Response Error(const std::string &transactionId, StatementType type, const std::string &message);
+  static winter::data::sql_impl::mysql::Response<TResultRow> Error(const std::string &transactionId, StatementType type, const std::string &message);
 
-  static Response Success(const std::string &transactionId, StatementType type, const std::vector<MysqlResultRow> &result, int row_affected, const std::string &message = "Success");
+  static winter::data::sql_impl::mysql::Response<TResultRow> Success(const std::string &transactionId, StatementType type, const std::vector<TResultRow> &result, int row_affected, const std::string &message = "Success");
 
   ~Response();
 };
 
-typedef winter::data::sql_impl::mysql::Response MysqlResponse;
+// typedef winter::data::sql_impl::mysql::Response MysqlResponse;
 
 }  // namespace winter::data::sql_impl::mysql
+#include "winter_data_sql_mysql_response.tpp"
 
 #endif /* WINTER_DATA_SQL_MYSQL_RESPONSE */

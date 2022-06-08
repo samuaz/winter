@@ -4,6 +4,7 @@
 
 #include <wintercpp/util/winter_string_util.h>
 
+#include <algorithm>
 #include <locale>
 
 std::string
