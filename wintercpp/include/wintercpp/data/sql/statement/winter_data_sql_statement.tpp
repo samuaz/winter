@@ -2,7 +2,7 @@
 // Created by Samuel Azcona on 14/03/2020.
 //
 
-#include "wintercpp/data/sql/statement/winter_data_sql_statement.h"
+//#include "wintercpp/data/sql/statement/winter_data_sql_statement.h"
 namespace winter::data::sql_impl {
 
 template <typename Children>

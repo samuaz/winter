@@ -29,6 +29,8 @@ class ResultRow : public virtual winter::data::sql_impl::ResultRow<std::shared_p
 
   using winter::data::sql_impl::ResultRow<std::shared_ptr<TResultSet>>::AddRow;
 
+  ResultRow &operator=(const ResultRow &) = default;
+
   explicit ResultRow(const PreparedStatement &prepared_statement, const std::shared_ptr<TResultSet> &result_set) {
     Create(prepared_statement, result_set);
   };
