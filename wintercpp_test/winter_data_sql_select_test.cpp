@@ -96,5 +96,5 @@ TEST(winterSqlTable, canConstructSelecFromMultipleTables) {
 
 TEST(configCreation, canCreateMariaDBConfig) {
 
-  //winter::data::sql_impl::mysql::mariadb_impl::Config()
+  winter::data::sql_impl::mysql::mariadb_impl::Config();
 }

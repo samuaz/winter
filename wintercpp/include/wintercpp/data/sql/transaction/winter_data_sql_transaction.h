@@ -31,8 +31,7 @@ class ITransaction {
 
 template <
     typename TTransactionImpl,
-    typename TConnectionImpl,
-    typename TConnectionType,
+    typename TSQLConnection,
     typename TResponse>
 class Transaction : public virtual ITransaction {
  public:
@@ -44,7 +43,7 @@ class Transaction : public virtual ITransaction {
    * @return
    */
   explicit Transaction(
-      std::shared_ptr<SQLConnection<TConnectionImpl, TConnectionType, TResponse> > connection,
+      std::shared_ptr<TSQLConnection> connection,
       TransactionIsolationType isolation_type = TransactionIsolationType::DEFAULT,
       bool partial_commit = false);
 
@@ -119,7 +118,7 @@ class Transaction : public virtual ITransaction {
   ~Transaction();
 
  private:
-  std::shared_ptr<SQLConnection<TConnectionImpl, TConnectionType, TResponse> > connection_;
+  std::shared_ptr<TSQLConnection> connection_;
   TransactionIsolationType isolation_type_;
   bool partial_commit_;
   std::map<std::string, bool> operations_status_;

@@ -7,10 +7,12 @@
 
 namespace winter::data::sql_impl {
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
-Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Transaction(
-    std::shared_ptr<SQLConnection<TConnectionImpl, TConnectionType, TResponse> >
-	connection,
+#define TRANSACTION_TEMPLATE template <typename TTransactionImpl, typename TSQLConnection, typename TResponse>
+#define TRANSACTION Transaction<TTransactionImpl, TSQLConnection, TResponse>
+
+TRANSACTION_TEMPLATE
+TRANSACTION::Transaction(
+    std::shared_ptr<TSQLConnection> connection,
     TransactionIsolationType isolation_type,
     bool partial_commit) :
     connection_(std::move(connection)),
@@ -19,22 +21,22 @@ Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Tran
   connection_->PrepareTransaction(isolation_type_);
 }
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
+TRANSACTION_TEMPLATE
 TTransactionImpl &
-Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::This() {
+TRANSACTION::This() {
   return dynamic_cast<TTransactionImpl &>(*this);
 }
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
+TRANSACTION_TEMPLATE
 template <typename T>
-T Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Execute(
+T TRANSACTION::Execute(
     const std::function<T(TTransactionImpl &)> &statements) {
   return statements(This());
 }
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
+TRANSACTION_TEMPLATE
 TResponse
-Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Execute(
+TRANSACTION::Execute(
     const PreparedStatement &prepared_statement) {
   operations_status_.emplace(prepared_statement.id(), false);
   TResponse response = [&]() -> TResponse {
@@ -44,9 +46,9 @@ Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Exec
   return response;
 }
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
+TRANSACTION_TEMPLATE
 TResponse
-Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Execute(IStatement &statement) {
+TRANSACTION::Execute(IStatement &statement) {
   return Execute(statement.prepared_statement());
 }
 
@@ -66,29 +68,29 @@ TResponse Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TRespo
   Execute(statement);
 } */
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
+TRANSACTION_TEMPLATE
 TransactionIsolationType
-Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::isolation() const {
+TRANSACTION::isolation() const {
   return isolation_type_;
 }
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
-bool Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::ignore_error() const {
+TRANSACTION_TEMPLATE
+bool TRANSACTION::ignore_error() const {
   return partial_commit_;
 }
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
-void Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Commit() const {
+TRANSACTION_TEMPLATE
+void TRANSACTION::Commit() const {
   connection_->Commit();
 }
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
-void Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::Rollback() const {
+TRANSACTION_TEMPLATE
+void TRANSACTION::Rollback() const {
   connection_->Rollback();
 }
 
-template <typename TTransactionImpl, typename TConnectionImpl, typename TConnectionType, typename TResponse>
-Transaction<TTransactionImpl, TConnectionImpl, TConnectionType, TResponse>::~Transaction() {
+TRANSACTION_TEMPLATE
+TRANSACTION::~Transaction() {
   // if any of the operations_status fail that means returns false, we rollback then we commit
   // check in this way because any_of can give better performance than all_of, if we found the first false the loop ends.
   bool fail = std::any_of(

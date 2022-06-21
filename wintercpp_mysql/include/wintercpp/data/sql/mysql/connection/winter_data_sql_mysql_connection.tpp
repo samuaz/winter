@@ -264,5 +264,5 @@ MYSQL_CONNECTION_INTERFACE::Create(const TConfig &mysql_config) {
       throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, ex.what());
     }
     */
-  //throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__);
+  // throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__);
 }
