@@ -8,9 +8,9 @@
 
 #include <mariadb/conncpp.hpp>
 
-namespace winter::data::sql_impl::mysql::connection::mariadb_impl {
+namespace winter::data::mariadb::connection {
 
-#define MARIADB_RESULT_CONFIG_IMPL = winter::data::sql_impl::mysql::connection::mariadb_impl::Config<::sql::Driver>
+#define MARIADB_RESULT_CONFIG_IMPL = winter::data::mariadb::connection::Config<::sql::Driver>
 
 class Config : public virtual winter::data::sql_impl::mysql::connection::Config<::sql::Driver*> {
  public:
@@ -36,5 +36,5 @@ class Config : public virtual winter::data::sql_impl::mysql::connection::Config<
 	  optConnectTimeout,
 	  otherProperties) {}
 };
-}  // namespace winter::data::sql_impl::mysql::connection::mariadb_impl
+}  // namespace winter::data::mariadb::connection
 #endif	// WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_CONNECTION_CONFIG_H

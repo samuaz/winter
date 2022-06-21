@@ -67,7 +67,7 @@ ResultRow<TResultSet>::set_rows(const Rows &rows) {
 
 template <typename TResultSet>
 void ResultRow<TResultSet>::AddRow(const std::string &name, const std::optional<DataType> &sqlType) {
-  rows_.insert(std::pair(name, std::nullopt));
+  rows_.insert(std::pair(name, sqlType));
 }
 
 template <typename TResultSet>

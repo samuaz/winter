@@ -17,18 +17,18 @@ template <typename TResultRow>
 class Response : public winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow> {
  public:
   Response(
-      std::string transaction_id,
+      const std::string &transaction_id,
       StatementType type,
       winter::data::ResponseStatus status,
-      std::string message) :
+      const std::string& message) :
       winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow>(transaction_id, type, status, message) {}
 
   Response(
-      std::string transaction_id,
+      const std::string& transaction_id,
       StatementType type,
-      std::vector<TResultRow> result,
+      const std::vector<TResultRow>& result,
       winter::data::ResponseStatus status,
-      std::string message,
+      const std::string& message,
       int row_affected) :
       winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow>(transaction_id, type, result, status, message, row_affected) {}
 

@@ -73,23 +73,23 @@ class Response : public winter::templates::Response<
 
  protected:
   Response(
-      std::string transaction_id,
+      const std::string& transaction_id,
       StatementType type,
       winter::data::ResponseStatus status,
-      std::string message) :
+      const std::string& message) :
       winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(status, message),
-      transaction_id_(std::move(transaction_id)),
+      transaction_id_(transaction_id),
       type_(type) {}
 
   Response(
-      std::string transaction_id,
+      const std::string& transaction_id,
       StatementType type,
-      std::vector<TResultRow> result,
+      const std::vector<TResultRow>& result,
       winter::data::ResponseStatus status,
-      std::string message,
+      const std::string& message,
       int row_affected) :
       winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(result, status, message),
-      transaction_id_(std::move(transaction_id)),
+      transaction_id_(transaction_id),
       type_(type),
       row_affected_(row_affected) {}
 

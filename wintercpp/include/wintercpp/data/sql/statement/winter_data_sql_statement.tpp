@@ -2,6 +2,7 @@
 // Created by Samuel Azcona on 14/03/2020.
 //
 
+#include "wintercpp/data/sql/statement/winter_data_sql_statement.h"
 namespace winter::data::sql_impl {
 
 template <typename Children>
@@ -20,11 +21,11 @@ Statement<Children>::Statement(
 
 template <typename Children>
 Statement<Children>::Statement(const Statement &statement) :
-    transaction_id_(statement.transaction_id_),
     statement_template_(statement.statement_template_),
     prepared_statement_(
 	new PreparedStatement(*statement.prepared_statement_)),
-    type_(statement.type_) {}
+    type_(statement.type_),
+    transaction_id_(statement.transaction_id_) {}
 
 template <typename Children>
 StatementType

@@ -14,6 +14,7 @@
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_or.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_where.h"
+#include "wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection_config.h"
 
 using namespace winter;
 using namespace winter::data::sql_impl;
@@ -96,5 +97,16 @@ TEST(winterSqlTable, canConstructSelecFromMultipleTables) {
 
 TEST(configCreation, canCreateMariaDBConfig) {
 
-  winter::data::sql_impl::mysql::mariadb_impl::Config();
+  auto props = std::map<std::string, std::string>{};
+
+  winter::data::mariadb::connection::Config(
+    "0.0.0.0",
+    0,
+    "samuaz",
+    "samuaz",
+    "toc",
+    true,
+    0,
+    props
+  );
 }

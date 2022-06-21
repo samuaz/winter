@@ -9,14 +9,12 @@
 
 #include <mariadb/conncpp.hpp>
 
-namespace winter::data::sql_impl::mysql::connection::mariadb_impl {
+namespace winter::data::mariadb::connection {
 
-#define MARIADB_RESULT_ROW_TEMPLATE_IMPL winter::data::sql_impl::mysql::ResultRow<::sql::ResultSet>
-
-class ResultRow : public virtual MARIADB_RESULT_ROW_TEMPLATE_IMPL {
+class ResultRow : public virtual winter::data::sql_impl::mysql::ResultRow<::sql::ResultSet> {
  public:
   ResultRow(const data::sql_impl::PreparedStatement& preparedStatement, const shared_ptr<sql::ResultSet>& resultSet) :
-      MARIADB_RESULT_ROW_TEMPLATE_IMPL(preparedStatement, resultSet) {}
+      winter::data::sql_impl::mysql::ResultRow<::sql::ResultSet>(preparedStatement, resultSet) {}
 };
-}  // namespace winter::data::sql_impl::mysql::connection::mariadb_impl
+}  // namespace winter::data::mariadb::connection
 #endif	// WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_RESULT_ROW_H

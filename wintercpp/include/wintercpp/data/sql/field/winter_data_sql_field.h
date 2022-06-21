@@ -43,9 +43,9 @@ class Field : public virtual AbstractField {
   ~Field() override = default;
 
  protected:
+  std::string name_;
   T value_;
   FieldType type_;
-  std::string name_;
 };
 
 }  // namespace winter::data::sql_impl

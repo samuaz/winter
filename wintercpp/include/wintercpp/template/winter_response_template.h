@@ -8,6 +8,8 @@
 #include <wintercpp/data/response/winter_data_response_status.h>
 #include <wintercpp/exception/generic/winter_internal_exception.h>
 
+#include <concepts>
+#include <cstddef>
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -24,7 +26,7 @@ struct std::is_pointer<std::optional<std::shared_ptr<T> > > : std::true_type {
 };
 
 namespace winter::templates {
-template <typename TImplementation, typename TResultType, typename TStatusType>
+template <typename TImplementation, typename TResultType, typename TStatusType> requires std::is_enum_v<TStatusType>
 class Response {
  public:
   virtual ~Response() = default;
@@ -101,12 +103,12 @@ class Response {
   auto operator<<(const Functor &functor);
 
  protected:
-  Response(TStatusType status, std::string message);
+  Response(TStatusType status, const std::string &message);
 
   Response(
       const std::optional<TResultType> &result,
       TStatusType status,
-      std::string message);
+      const std::string &message);
 
   Response(const Response &) = default;
 
