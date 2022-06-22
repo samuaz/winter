@@ -3,6 +3,7 @@
 //
 
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 
 using namespace winter::data::sql_impl;
 
@@ -128,5 +129,9 @@ winter::data::sql_impl::condition(enum Condition condition) {
       return GetCondition<Condition::IS_NULL>::Get();
     case Condition::IS_NOT_NULL:
       return GetCondition<Condition::IS_NOT_NULL>::Get();
+    default: {
+      std::string message = "no value for condition index, please fix me" + std::to_string(static_cast<int>(condition));
+      throw winter::exception::WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, message);
+    }
   }
 }

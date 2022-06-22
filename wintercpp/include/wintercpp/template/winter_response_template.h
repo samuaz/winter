@@ -26,8 +26,11 @@ struct std::is_pointer<std::optional<std::shared_ptr<T> > > : std::true_type {
 };
 
 namespace winter::templates {
-template <typename TImplementation, typename TResultType, typename TStatusType> requires std::is_enum_v<TStatusType>
+template <typename TImplementation, typename TResultType, typename TStatusType>
+// requires std::is_enum_v<TStatusType>
 class Response {
+  static_assert(std::is_enum_v<TStatusType>);
+
  public:
   virtual ~Response() = default;
 

@@ -18,19 +18,19 @@ namespace winter::data::mariadb {
 class Response : public virtual MARIADB_RESPONSE_IMPL {
  public:
   Response(
-    const string& transactionId, 
-    StatementType type, 
-    ResponseStatus status, 
-    const string& message) :
+      const string& transactionId,
+      StatementType type,
+      ResponseStatus status,
+      const string& message) :
       MARIADB_RESPONSE_IMPL(transactionId, type, status, message) {}
 
   Response(
-    const string& transactionId, 
-    StatementType type, 
-    const vector<winter::data::mariadb::connection::ResultRow>& result, 
-    ResponseStatus status, 
-    const string& message, 
-    int rowAffected) :
+      const string& transactionId,
+      StatementType type,
+      const vector<winter::data::mariadb::connection::ResultRow>& result,
+      ResponseStatus status,
+      const string& message,
+      int rowAffected) :
       MARIADB_RESPONSE_IMPL(transactionId, type, result, status, message, rowAffected) {}
 };
 }  // namespace winter::data::mariadb
