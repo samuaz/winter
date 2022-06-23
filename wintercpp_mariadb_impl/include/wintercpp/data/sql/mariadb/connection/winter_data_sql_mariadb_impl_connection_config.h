@@ -10,8 +10,6 @@
 
 namespace winter::data::mariadb::connection {
 
-#define MARIADB_RESULT_CONFIG_IMPL = winter::data::mariadb::connection::Config<::sql::Driver>
-
 class Config : public virtual winter::data::sql_impl::mysql::connection::Config<::sql::Driver*> {
  public:
   Config(

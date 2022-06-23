@@ -43,6 +43,8 @@ class Config {
 
   const ConnectionProperties &properties() const;
 
+  TDriver &driver() const;
+
  private:
   TDriver _driver;
   const std::string _host;
@@ -53,8 +55,6 @@ class Config {
   const bool _opt_reconnect;
   const int _opt_connect_timeout;
   const ConnectionProperties _other_properties;
-
-  TDriver &driver() const;
 };
 }  // namespace winter::data::sql_impl::mysql::connection
 // typedef winter::data::sql_impl::mysql::connection::Config MysqlConfig;
