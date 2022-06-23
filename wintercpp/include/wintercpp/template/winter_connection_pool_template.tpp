@@ -1,4 +1,4 @@
-#include <winter_connection_pool_template.h>
+//#include <winter_connection_pool_template.h>
 
 #include <functional>
 namespace winter::templates {
