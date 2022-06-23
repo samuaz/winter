@@ -73,5 +73,5 @@ const ConnectionProperties& Config<TDriver>::properties() const {
 template <typename TDriver>
 TDriver&
 Config<TDriver>::driver() const {
-  return *_driver;
+  return _driver;
 }
