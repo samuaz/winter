@@ -18,15 +18,13 @@
 
 namespace winter::data::sql_impl::mysql::connection {
 
-#define CONNECTION_TEMPLATES template <typename TChildren, typename TDriver, typename TConfig, typename TIsolationType, typename TSqlConnection, typename TResponse, typename TpreparedStatement, typename TResultSet, typename TResultRow, typename TSqlException>
-#define MYSQL_CONNECTION_INTERFACE winter::data::sql_impl::mysql::connection::Connection<TChildren, TDriver, TConfig, TIsolationType, TSqlConnection, TResponse, TpreparedStatement, TResultSet, TResultRow, TSqlException>
+#define CONNECTION_TEMPLATES template <typename TDriver, typename TConfig, typename TIsolationType, typename TSqlConnection, typename TResponse, typename TpreparedStatement, typename TResultSet, typename TResultRow, typename TSqlException>
+#define MYSQL_CONNECTION_INTERFACE winter::data::sql_impl::mysql::connection::Connection<TDriver, TConfig, TIsolationType, TSqlConnection, TResponse, TpreparedStatement, TResultSet, TResultRow, TSqlException>
 
 CONNECTION_TEMPLATES
 class Connection : public virtual SQLConnection<MYSQL_CONNECTION_INTERFACE, TSqlConnection, TResponse> {
  public:
   using SQLConnection<MYSQL_CONNECTION_INTERFACE, TSqlConnection, TResponse>::SQLConnection;
-
-  static TChildren *Create(const TConfig &mysql_config);
 
   TResponse Execute(const PreparedStatement &query) noexcept(false) override;
 

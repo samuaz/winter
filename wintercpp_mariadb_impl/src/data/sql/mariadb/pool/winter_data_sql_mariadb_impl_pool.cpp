@@ -3,6 +3,7 @@
 //
 
 #include <wintercpp/data/sql/mariadb/pool/winter_data_sql_mariadb_impl_pool.h>
+#include "mariadb/conncpp/Connection.hpp"
 
 using namespace winter::data::mariadb::connection;
 
@@ -19,18 +20,18 @@ Pool::Pool(
 winter::data::mariadb::connection::Connection*
 Pool::CreateConn() {
   if (Pool::connection_config_) {
- ::sql::ConnectOptionsMap connectionProperties;
-      connectionProperties["hostName"] = Pool::connection_config_->host();
-      connectionProperties["user"] = Pool::connection_config_->user_name();
-      connectionProperties["password"] = Pool::connection_config_->password();
-      connectionProperties["schema"] = Pool::connection_config_->schema();
-      connectionProperties["port"] = std::to_string(Pool::connection_config_->port());
-      connectionProperties["OPT_RECONNECT"] = std::to_string(Pool::connection_config_->is_opt_reconnect());
-      connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(Pool::connection_config_->opt_connect_timeout());
+    ::sql::ConnectOptionsMap connectionProperties;
+    connectionProperties["hostName"] = Pool::connection_config_->host();
+    connectionProperties["user"] = Pool::connection_config_->user_name();
+    connectionProperties["password"] = Pool::connection_config_->password();
+    connectionProperties["schema"] = Pool::connection_config_->schema();
+    connectionProperties["port"] = std::to_string(Pool::connection_config_->port());
+    connectionProperties["OPT_RECONNECT"] = std::to_string(Pool::connection_config_->is_opt_reconnect());
+    connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(Pool::connection_config_->opt_connect_timeout());
 
-      std::string url = Pool::connection_config_->host() + ":" + std::to_string(Pool::connection_config_->port()) + "/" + Pool::connection_config_->schema();
+    std::string url = Pool::connection_config_->host() + ":" + std::to_string(Pool::connection_config_->port()) + "/" + Pool::connection_config_->schema();
 
-    return new winter::data::mariadb::connection::Connection(Pool::connection_config_->driver().connect("jdbc:mariadb://" + url, connectionProperties));
+    return new winter::data::mariadb::connection::Connection(Pool::connection_config_->driver()->connect("jdbc:mariadb://" + url, connectionProperties));
   }
   throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, "MYSQL connection_config not present");
 }

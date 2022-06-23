@@ -14,7 +14,7 @@
 
 namespace winter::data::mariadb::connection {
 
-#define MARIADB_CONNECTION_IMPL winter::data::sql_impl::mysql::connection::Connection<winter::data::mariadb::connection::Connection, \
+#define MARIADB_CONNECTION_IMPL winter::data::sql_impl::mysql::connection::Connection<      \
 										      ::sql::Driver,                                 \
 										      winter::data::mariadb::connection::Config,     \
 										      int32_t,                                       \
@@ -25,9 +25,13 @@ namespace winter::data::mariadb::connection {
 										      winter::data::mariadb::connection::ResultRow,  \
 										      ::sql::SQLException>
 
-// template <typename TDriver, typename TConfig, typename TIsolationType, typename TSqlConnection, typename TResponse, typename TpreparedStatement, typename TResultSet, typename TResultRow, typename TSqlException>
-class Connection : public virtual MARIADB_CONNECTION_IMPL {
- public:
+class Connection final : public virtual MARIADB_CONNECTION_IMPL {
+
+using MARIADB_CONNECTION_IMPL::Connection;
+
+
+ private:
+  int32_t IsolationLevel(const TransactionIsolationType &isolation) override;
 };
 }  // namespace winter::data::mariadb::connection
 #endif	// WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_CONNECTION_H

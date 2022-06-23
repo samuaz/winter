@@ -55,7 +55,7 @@ class SQLConnection : public winter::templates::
    */
   virtual void Rollback() const = 0;
 
- protected:
+ public:
   explicit SQLConnection(TConnectionType *conn) :
       winter::templates::Connection<TConnectionImpl, TConnectionType>(conn){};
 };
