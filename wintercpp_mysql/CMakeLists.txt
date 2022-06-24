@@ -27,30 +27,9 @@ include_directories(${CMAKE_BINARY_DIR}/generated)
 ############################
 include(${PARENT_DIR}/cmake/ClangFormat.cmake)
 
-############################
-##    CREATE EXECUTABLE   ##
-############################
-
-if (CMAKE_VERSION VERSION_LESS 3.12)
-    #add_definitions(STATIC_CONCPP)
-else ()
-    add_compile_definitions(STATIC_CONCPP)
-endif ()
-
 set(BUILD_SHARED_LIBS OFF)
 set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-static")
 set(DCMAKE_FIND_LIBRARY_SUFFIXES .a)
-
-############################
-##       FLAGS           ##
-############################
-if (UNIX AND NOT APPLE)
-    set(EXTRA_LIBRARY "-pthread -lstdc++ -lrt -lresolv")
-endif ()
-
-if (APPLE)
-    #set(EXTRA_LIBRARY "-pthread -lstdc++ -lresolv")
-endif ()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DDEBUG=TRUE)
@@ -70,11 +49,10 @@ endforeach()
 #format_with_astyle_by_sources(${SOURCES})
 #format_with_astyle_by_sources(${HEADERS})
 
-add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
+add_library(${PROJECT_NAME} INTERFACE ${HEADERS} ${SOURCES})
 add_library(winter::mysql ALIAS ${PROJECT_NAME})
-
-
-target_link_libraries(${PROJECT_NAME} winter::core ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include/)
+target_link_libraries(${PROJECT_NAME} INTERFACE winter::core)
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
 
 function(create_winter_header headerFiles)
@@ -100,20 +78,6 @@ create_winter_header(${HEADERS})
 
 set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
 
-# target_include_directories(${PROJECT_NAME} PUBLIC
-#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#         $<INSTALL_INTERFACE:include/${APP_NAME}>
-#         )
-
-# target_include_directories(${PROJECT_NAME} PUBLIC
-#         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated>
-#         $<INSTALL_INTERFACE:include/${APP_NAME}>
-#         )
-
-
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)   
-#target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/openssl/include)
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory

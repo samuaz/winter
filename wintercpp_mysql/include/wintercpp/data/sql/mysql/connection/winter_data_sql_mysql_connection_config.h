@@ -43,7 +43,7 @@ class Config {
 
   const ConnectionProperties &properties() const;
 
-  TDriver &driver() const;
+  const TDriver &driver() const;
 
  private:
   TDriver _driver;
