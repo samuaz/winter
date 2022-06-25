@@ -57,10 +57,6 @@
 #include <wintercpp/exception/security/winter_unauthenticated_exception.h>
 #include <wintercpp/exception/sql/winter_sql_exception.h>
 #include <wintercpp/model/winter_base.h>
-#include <wintercpp/redis/winter_redis_connection.h>
-#include <wintercpp/redis/winter_redis_connection_config.h>
-#include <wintercpp/redis/winter_redis_pool.h>
-#include <wintercpp/redis/winter_redis_session.h>
 #include <wintercpp/security/winter_security_jwt.h>
 #include <wintercpp/security/winter_security_session.h>
 #include <wintercpp/security/winter_security_token_status.h>

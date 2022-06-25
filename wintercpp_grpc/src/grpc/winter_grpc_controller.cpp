@@ -3,6 +3,11 @@
 //
 
 #include <wintercpp/grpc/winter_grpc_controller.h>
+#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
+#include <wintercpp/exception/database/winter_database_exception.h>
+#include <wintercpp/exception/security/winter_security_exception.h>
+#include <wintercpp/exception/sql/winter_sql_exception.h>
 
 using namespace winter::exception;
 
@@ -16,7 +21,7 @@ winter::GrpcController::responseEntity(
     status = grpc::Status(grpc::StatusCode::UNAUTHENTICATED, e.what());
   } catch (const WinterException &e) {
     status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
-  } catch (const DataException &e) {
+  } catch (const SqlException &e) {
     status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
   } catch (const std::runtime_error &e) {
     status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());

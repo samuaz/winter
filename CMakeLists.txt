@@ -44,4 +44,5 @@ add_subdirectory(wintercpp)
 add_subdirectory(wintercpp_mysql)
 add_subdirectory(wintercpp_mariadb_impl)
 add_subdirectory(wintercpp_grpc)
+add_subdirectory(wintercpp_redis)
 

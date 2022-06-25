@@ -7,7 +7,6 @@
 
 #include <grpcpp/grpcpp.h>
 #include <wintercpp/data/response/winter_data_response.h>
-#include <wintercpp/exception/security/winter_security_exception.h>
 
 namespace winter {
 

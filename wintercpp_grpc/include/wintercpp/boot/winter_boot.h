@@ -11,7 +11,6 @@
 
 #include <grpcpp/grpcpp.h>
 #include <wintercpp/grpc/winter_grpc_controller.h>
-#include <wintercpp/redis/winter_redis_pool.h>
 
 using grpc::Server;
 using grpc::ServerBuilder;

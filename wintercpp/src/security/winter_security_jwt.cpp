@@ -4,7 +4,6 @@
  * @YEAR 2019
  */
 
-#include <wintercpp/redis/winter_redis_connection.h>
 #include <wintercpp/security/winter_security_jwt.h>
 
 #include <cctype>
