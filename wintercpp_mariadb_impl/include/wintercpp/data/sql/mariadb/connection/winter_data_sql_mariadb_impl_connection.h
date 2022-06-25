@@ -14,21 +14,19 @@
 
 namespace winter::data::mariadb::connection {
 
-#define MARIADB_CONNECTION_IMPL winter::data::sql_impl::mysql::connection::Connection<      \
-										      ::sql::Driver,                                 \
-										      winter::data::mariadb::connection::Config,     \
-										      int32_t,                                       \
-										      ::sql::Connection,                             \
-										      winter::data::mariadb::Response,               \
-										      ::sql::PreparedStatement,                      \
-										      ::sql::ResultSet,                              \
-										      winter::data::mariadb::connection::ResultRow,  \
-										      ::sql::SQLException>
+#define MARIADB_CONNECTION_IMPL winter::data::sql_impl::mysql::connection::Connection< \
+    ::sql::Driver,                                                                     \
+    winter::data::mariadb::connection::Config,                                         \
+    int32_t,                                                                           \
+    ::sql::Connection,                                                                 \
+    winter::data::mariadb::Response,                                                   \
+    ::sql::PreparedStatement,                                                          \
+    ::sql::ResultSet,                                                                  \
+    winter::data::mariadb::connection::ResultRow,                                      \
+    ::sql::SQLException>
 
 class Connection final : public virtual MARIADB_CONNECTION_IMPL {
-
-using MARIADB_CONNECTION_IMPL::Connection;
-
+  using MARIADB_CONNECTION_IMPL::Connection;
 
  private:
   int32_t IsolationLevel(const TransactionIsolationType &isolation) override;

@@ -5,8 +5,6 @@
 #ifndef WINTERCPP_WINTER_JWT_H
 #define WINTERCPP_WINTER_JWT_H
 
-#include <grpcpp/impl/codegen/string_ref.h>
-#include <grpcpp/server_context.h>
 #include <wintercpp/exception/generic/winter_exception.h>
 #include <wintercpp/exception/security/winter_security_exception.h>
 #include <wintercpp/security/winter_security_token_status.h>

@@ -3,6 +3,7 @@
 //
 
 #include <wintercpp/data/sql/mariadb/pool/winter_data_sql_mariadb_impl_pool.h>
+
 #include "mariadb/conncpp/Connection.hpp"
 
 using namespace winter::data::mariadb::connection;
