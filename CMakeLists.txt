@@ -41,8 +41,9 @@ set(CMAKE_C_FLAGS_RELEASE "-Ofast -march=native -pipe -fno-unroll-loops -fmerge-
 ############################
 add_subdirectory(wintercpp_test)
 add_subdirectory(wintercpp)
+add_subdirectory(wintercpp_mysql_core)
+add_subdirectory(wintercpp_mariadb)
 add_subdirectory(wintercpp_mysql)
-add_subdirectory(wintercpp_mariadb_impl)
 add_subdirectory(wintercpp_grpc)
 add_subdirectory(wintercpp_redis)
 

@@ -22,7 +22,7 @@ add_executable(${BINARY} ${TEST_SOURCES})
 
 #add_test(NAME ${BINARY} COMMAND ${BINARY})
 
-target_link_libraries(${BINARY} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core winter::mariadb winter::grpc winter::redis)
+target_link_libraries(${BINARY} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core winter::mariadb winter::mysql winter::grpc winter::redis)
 
 format_with_clang_by_sources(${TEST_SOURCES})
 

@@ -28,10 +28,10 @@ class GrpcController {
 
  protected:
   /**
-       * auto Generate response for the grpc client also this is exception safe
-       * @param execute
-       * @return
-       */
+   * auto Generate response for the grpc client also this is exception safe
+   * @param execute
+   * @return
+   */
   grpc::Status responseEntity(const std::function<void()> &execute);
 };
 
