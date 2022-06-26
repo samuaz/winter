@@ -5,9 +5,9 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_RESULT_ROW_H
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_RESULT_ROW_H
 
-#include <wintercpp/winter_mysql.h>
+#include <wintercpp/winter_mysql_core.h>
 
-#include <mariadb/conncpp.hpp>
+#include <mysql/jdbc.h>
 #include <memory>
 
 namespace winter::data::mysql::connection {

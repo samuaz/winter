@@ -78,7 +78,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/in
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)   
 
 MESSAGE("USING WINTER_MARIADB_DRIVER")
-target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mariadb_connector/install/include/)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_connector_cpp/install/include/)
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory

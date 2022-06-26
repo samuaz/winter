@@ -6,7 +6,6 @@
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_TRANSACTION_H
 
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_impl_connection.h>
-#include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_connection.h>
 #include <wintercpp/winter_mysql_core.h>
 
 namespace winter::data::mysql {

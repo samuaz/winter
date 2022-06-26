@@ -2,14 +2,14 @@
 // Created by samuaz on 6/1/22.
 //
 
-#ifndef WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_RESPONSE_H
-#define WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_RESPONSE_H
+#ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_RESPONSE_H
+#define WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_RESPONSE_H
 
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_impl_result_row.h>
-#include <wintercpp/data/sql/mysql/response/winter_data_sql_mysql_response.h>
+#include <wintercpp/data/sql/mysql_core/response/winter_data_sql_mysql_response.h>
 #include <wintercpp/winter_mysql_core.h>
 
-#include <mariadb/conncpp.hpp>
+#include <mysql/jdbc.h>
 
 namespace winter::data::mysql {
 
@@ -27,7 +27,7 @@ class Response : public virtual MYSQL_RESPONSE_IMPL {
   Response(
       const string& transactionId,
       StatementType type,
-      const vector<winter::data::mariadb::connection::ResultRow>& result,
+      const vector<winter::data::mysql::connection::ResultRow>& result,
       ResponseStatus status,
       const string& message,
       int rowAffected) :

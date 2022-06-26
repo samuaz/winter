@@ -11,7 +11,7 @@
 #include <wintercpp/template/winter_connection_pool_template.h>
 #include <wintercpp/winter_mysql_core.h>
 
-#include <mariadb/conncpp.hpp>
+#include <mysql/jdbc.h>
 #include <memory>
 #include <mutex>
 #include <string>

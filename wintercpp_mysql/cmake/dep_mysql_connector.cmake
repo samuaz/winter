@@ -6,7 +6,7 @@ include(${PARENT_DIR}/cmake/host_utils.cmake)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 #set(WINTER_MARIADB_DRIVER false CACHE INTERNAL "WINTER_MARIADB_DRIVER")
 
-set(MYSQL_VERSION 8.0.27)
+set(MYSQL_VERSION 8.0.29)
 set(MYSQL_CONNECTOR_EXTENSION tar.gz)
 if (UNIX AND NOT APPLE)
     set(MYSQL_PLATFORM linux-glibc2.12)
@@ -66,6 +66,14 @@ execute_process(
          OUTPUT_VARIABLE mysql_client_RUN_ABI_CHECK_VARIABLE)
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_ERROR:" ${mysql_client_RUN_ABI_CHECK_result})
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_OUTPUT:" ${mysql_client_RUN_ABI_CHECK_VARIABLE})
+
+execute_process(
+         COMMAND bash "-c" "sed -e '/#include <memory>/ s/^#*/#/' -i logger.cc"
+         WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/client/logger.cc
+         RESULT_VARIABLE mysql_client_memory_result
+         OUTPUT_VARIABLE mysql_client_memory_VARIABLE)
+MESSAGE(STATUS "MYSQL_client_memory_CMD_ERROR:" ${mysql_client_memory_result})
+MESSAGE(STATUS "MYSQL_client_memory_CMD_OUTPUT:" ${mysql_client_memory_VARIABLE})
 
 if(USE_WINTER_OPENSSL)
         set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_SSL=${openssl_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/install/include -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libcrypto.a -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")

@@ -4,9 +4,8 @@
 
 #ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_CONNECTION_CONFIG_H
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_CONNECTION_CONFIG_H
+#include <mysql/jdbc.h>
 #include <wintercpp/winter_mysql_core.h>
-
-#include <mariadb/conncpp.hpp>
 
 namespace winter::data::mysql::connection {
 
@@ -23,7 +22,7 @@ class Config : public virtual winter::data::sql_impl::mysql::connection::Config<
       const ConnectionProperties& otherProperties) :
       winter::data::sql_impl::mysql::connection::Config<::sql::Driver*>(
 	  []() -> ::sql::Driver* {
-	    return ::sql::mariadb::get_driver_instance();
+	    return ::sql::mysql::get_driver_instance();
 	  },
 	  host,
 	  port,
