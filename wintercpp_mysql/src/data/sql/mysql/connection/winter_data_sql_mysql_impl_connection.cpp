@@ -3,7 +3,7 @@
 using namespace winter::data::mysql;
 
 ::sql::transaction_isolation winter::data::mysql::connection::Connection::IsolationLevel(const TransactionIsolationType &isolation) {
-    switch (isolation) {
+  switch (isolation) {
     case TransactionIsolationType::DEFAULT:
       return ::sql::enum_transaction_isolation::TRANSACTION_REPEATABLE_READ;
     case TransactionIsolationType::REPEATABLE_READ:

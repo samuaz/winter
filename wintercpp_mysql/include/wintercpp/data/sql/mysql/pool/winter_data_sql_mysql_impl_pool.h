@@ -5,13 +5,13 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_POOL_H
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_POOL_H
 
+#include <mysql/jdbc.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_impl_connection.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_impl_connection_config.h>
 #include <wintercpp/template/winter_connection_pool_singleton_template.h>
 #include <wintercpp/template/winter_connection_pool_template.h>
 #include <wintercpp/winter_mysql_core.h>
 
-#include <mysql/jdbc.h>
 #include <memory>
 #include <mutex>
 #include <string>

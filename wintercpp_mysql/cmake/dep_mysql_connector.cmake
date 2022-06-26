@@ -20,7 +20,7 @@ endif ()
 ## BOOST
 FetchContent_Declare(
         boost
-        URL https://boostorg.jfrog.io/artifactory/main/release/1.73.0/source/boost_1_73_0.tar.gz
+        URL https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.gz
         SOURCE_DIR ${THIRD_PARTY_DIR}/boost
 )
 FetchContent_GetProperties(boost)
@@ -67,18 +67,18 @@ execute_process(
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_ERROR:" ${mysql_client_RUN_ABI_CHECK_result})
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_OUTPUT:" ${mysql_client_RUN_ABI_CHECK_VARIABLE})
 
-execute_process(
-         COMMAND bash "-c" "sed -e '/#include <memory>/ s/^#*/#/' -i logger.cc"
-         WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/client/logger.cc
-         RESULT_VARIABLE mysql_client_memory_result
-         OUTPUT_VARIABLE mysql_client_memory_VARIABLE)
-MESSAGE(STATUS "MYSQL_client_memory_CMD_ERROR:" ${mysql_client_memory_result})
-MESSAGE(STATUS "MYSQL_client_memory_CMD_OUTPUT:" ${mysql_client_memory_VARIABLE})
+# execute_process(
+#          COMMAND bash "-c" "sed -e '/#include <memory>/ s/^#*/#/' -i logger.cc"
+#          WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/client/logger.cc
+#          RESULT_VARIABLE mysql_client_memory_result
+#          OUTPUT_VARIABLE mysql_client_memory_VARIABLE)
+# MESSAGE(STATUS "MYSQL_client_memory_CMD_ERROR:" ${mysql_client_memory_result})
+# MESSAGE(STATUS "MYSQL_client_memory_CMD_OUTPUT:" ${mysql_client_memory_VARIABLE})
 
 if(USE_WINTER_OPENSSL)
         set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_SSL=${openssl_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/install/include -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libcrypto.a -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
 else()
-        set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
+        set(MYSQL_CLIENT_COMMAND "cmake .. -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
 endif()      
 
 execute_process(
