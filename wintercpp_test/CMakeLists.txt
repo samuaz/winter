@@ -16,7 +16,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/astyle_format.cmake)
 include(GoogleTest)
 
 enable_testing()
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp *.tpp)
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES true *.h *.cpp *.tpp)
 
 add_executable(${BINARY} ${TEST_SOURCES})
 

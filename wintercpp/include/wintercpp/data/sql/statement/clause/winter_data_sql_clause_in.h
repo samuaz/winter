@@ -20,21 +20,21 @@
 
 namespace winter::data::sql_impl {
 
-template <typename T>
-class In : public virtual Clause {
- public:
-  explicit In(std::vector<T> values);
-  explicit In(const winter::data::sql_impl::Select &select);
-  PreparedStatement Prepare() override;
+    template<typename T>
+    class In : public virtual Clause {
+       public:
+        explicit In(std::vector<T> values);
+        explicit In(const winter::data::sql_impl::Select &select);
+        PreparedStatement Prepare() override;
 
- private:
-  std::vector<T> values_;
-  Select select_;
-  bool has_clause_ = false;
-};
+       private:
+        std::vector<T> values_;
+        Select select_;
+        bool has_clause_ = false;
+    };
 
 }  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_clause_in.tpp"
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_IN_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_CLAUSE_IN_H

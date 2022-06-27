@@ -9,15 +9,15 @@
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
 namespace winter::data::sql_impl {
-class Into : public virtual Clause {
- public:
-  explicit Into(std::shared_ptr<Table> table);
-  PreparedStatement Prepare() override;
+    class Into : public virtual Clause {
+       public:
+        explicit Into(std::shared_ptr<Table> table);
+        PreparedStatement Prepare() override;
 
- private:
-  std::shared_ptr<Table> table_;
-  void GenerateStatement();
-};
+       private:
+        std::shared_ptr<Table> table_;
+        void GenerateStatement();
+    };
 }  // namespace winter::data::sql_impl
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_INTO_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_CLAUSE_INTO_H

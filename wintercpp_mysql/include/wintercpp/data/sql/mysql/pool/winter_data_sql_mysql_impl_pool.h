@@ -20,23 +20,23 @@
 
 namespace winter::data::mysql::connection {
 
-class Pool : public virtual winter::templates::SinglePool<
-		 winter::data::mysql::connection::Pool,
-		 winter::data::mysql::connection::Connection,
-		 winter::data::mysql::connection::Config> {
-  friend class SinglePool<
-      winter::data::mysql::connection::Pool,
-      winter::data::mysql::connection::Connection,
-      winter::data::mysql::connection::Config>;
+    class Pool :
+        public virtual winter::templates::SinglePool<
+            winter::data::mysql::connection::Pool,
+            winter::data::mysql::connection::Connection,
+            winter::data::mysql::connection::Config> {
+        friend class SinglePool<winter::data::mysql::connection::Pool,
+                                winter::data::mysql::connection::Connection,
+                                winter::data::mysql::connection::Config>;
 
- protected:
-  explicit Pool(
-      const winter::descriptor::PoolDescriptor& pool_descriptor,
-      std::optional<winter::data::mysql::connection::Config> mysql_config);
-  winter::data::mysql::connection::Connection* CreateConn() override;
-  ~Pool() override = default;
-};
+       protected:
+        explicit Pool(const winter::descriptor::PoolDescriptor& pool_descriptor,
+                      std::optional<winter::data::mysql::connection::Config>
+                          mysql_config);
+        winter::data::mysql::connection::Connection* CreateConn() override;
+        ~Pool() override = default;
+    };
 
 }  // namespace winter::data::mysql::connection
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_POOL_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_POOL_H

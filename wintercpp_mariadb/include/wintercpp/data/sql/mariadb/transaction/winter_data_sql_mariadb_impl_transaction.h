@@ -10,23 +10,26 @@
 
 namespace winter::data::mariadb {
 
-using namespace winter::data::sql_impl::mysql::connection;
+    using namespace winter::data::sql_impl::mysql::connection;
 
-class Transaction : public virtual winter::data::sql_impl::Transaction<
-			winter::data::mariadb::Transaction,
-			winter::data::mariadb::connection::Connection,
-			winter::data::mariadb::Response> {
- public:
-  Transaction(
-      const shared_ptr<winter::data::mariadb::connection::Connection>& connection,
-      TransactionIsolationType isolationType,
-      bool partialCommit) :
-      winter::data::sql_impl::Transaction<
-	  winter::data::mariadb::Transaction,
-	  winter::data::mariadb::connection::Connection,
-	  winter::data::mariadb::Response>(connection, isolationType, partialCommit) {}
-};
+    class Transaction :
+        public virtual winter::data::sql_impl::Transaction<
+            winter::data::mariadb::Transaction,
+            winter::data::mariadb::connection::Connection,
+            winter::data::mariadb::Response> {
+       public:
+        Transaction(
+            const shared_ptr<winter::data::mariadb::connection::Connection>&
+                connection,
+            TransactionIsolationType isolationType,
+            bool partialCommit) :
+            winter::data::sql_impl::Transaction<
+                winter::data::mariadb::Transaction,
+                winter::data::mariadb::connection::Connection,
+                winter::data::mariadb::Response>(
+                connection, isolationType, partialCommit) {}
+    };
 
 }  // namespace winter::data::mariadb
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_TRANSACTION_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_TRANSACTION_H

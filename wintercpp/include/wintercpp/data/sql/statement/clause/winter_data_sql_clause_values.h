@@ -14,27 +14,31 @@
 
 namespace winter::data::sql_impl {
 
-class Values : public virtual Clause {
- public:
-  explicit Values(std::deque<std::shared_ptr<AbstractPreparedStatementField> > fields);
+    class Values : public virtual Clause {
+       public:
+        explicit Values(
+            std::deque<std::shared_ptr<AbstractPreparedStatementField> >
+                fields);
 
-  PreparedStatement Prepare() override;
+        PreparedStatement Prepare() override;
 
-  template <typename T>
-  static std::shared_ptr<PreparedStatementField<T> >
-  Add(const Column &column, T value) {
-    return std::make_shared<PreparedStatementField<T> >(column->name(), value);
-  }
+        template<typename T>
+        static std::shared_ptr<PreparedStatementField<T> > Add(
+            const Column &column, T value) {
+            return std::make_shared<PreparedStatementField<T> >(column->name(),
+                                                                value);
+        }
 
-  template <typename T>
-  static std::shared_ptr<PreparedStatementField<T> >
-  Add(const Column &column, T value, const std::string &custom_value) {
-    return std::make_shared<PreparedStatementField<T> >(column->name(), value, custom_value);
-  }
+        template<typename T>
+        static std::shared_ptr<PreparedStatementField<T> > Add(
+            const Column &column, T value, const std::string &custom_value) {
+            return std::make_shared<PreparedStatementField<T> >(
+                column->name(), value, custom_value);
+        }
 
- private:
-  std::deque<std::shared_ptr<AbstractPreparedStatementField> > _fields;
-};
+       private:
+        std::deque<std::shared_ptr<AbstractPreparedStatementField> > _fields;
+    };
 
 }  // namespace winter::data::sql_impl
 

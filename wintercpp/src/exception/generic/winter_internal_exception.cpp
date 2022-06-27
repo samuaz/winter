@@ -7,5 +7,6 @@
 #include <wintercpp/exception/generic/winter_internal_exception.h>
 using namespace winter::exception;
 
-WinterInternalException::WinterInternalException(const string &message) noexcept :
+WinterInternalException::WinterInternalException(const string &message) noexcept
+    :
     WinterExceptionTemplate<WinterInternalException>(message) {}

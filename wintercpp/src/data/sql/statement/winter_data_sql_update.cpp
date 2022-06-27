@@ -14,8 +14,9 @@ Update::Update(std::shared_ptr<Table> table) :
     table_(std::move(table)) {}
 
 void Update::BuildStatement() {
-  if (table_) {
-    winter::util::string::replace(statement_template_, "$table", table_->name());
-  }
-  prepared_statement_->set_statement_template(statement_template_);
+    if (table_) {
+        winter::util::string::replace(
+            statement_template_, "$table", table_->name());
+    }
+    prepared_statement_->set_statement_template(statement_template_);
 }

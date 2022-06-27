@@ -9,25 +9,23 @@ using namespace winter::util::string;
 
 winter::data::sql_impl::Predicate::Predicate(
     Column column,
-    std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField> field,
+    std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
+        field,
     winter::data::sql_impl::Condition conditionOperator) :
     column_(std::move(column)),
-    field_(std::move(field)),
-    condition_(conditionOperator) {}
+    field_(std::move(field)), condition_(conditionOperator) {}
 
 const winter::data::sql_impl::Column&
-winter::data::sql_impl::Predicate::column()
-    const {
-  return column_;
+winter::data::sql_impl::Predicate::column() const {
+    return column_;
 }
 
 const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>&
 winter::data::sql_impl::Predicate::field() const {
-  return field_;
+    return field_;
 }
 
-winter::data::sql_impl::Condition
-winter::data::sql_impl::Predicate::condition()
+winter::data::sql_impl::Condition winter::data::sql_impl::Predicate::condition()
     const {
-  return condition_;
+    return condition_;
 }

@@ -6,82 +6,66 @@
 
 using namespace winter::data::sql_impl;
 
-FieldType
-TypeField<uint8_t>::Get() {
-  return FieldType::kUchar;
+FieldType TypeField<uint8_t>::Get() {
+    return FieldType::kUchar;
 }
 
-FieldType
-TypeField<int8_t>::Get() {
-  return FieldType::kSchar;
+FieldType TypeField<int8_t>::Get() {
+    return FieldType::kSchar;
 }
 
-FieldType
-TypeField<char>::Get() {
-  return FieldType::kChar;
+FieldType TypeField<char>::Get() {
+    return FieldType::kChar;
 }
 
-FieldType
-TypeField<uint16_t>::Get() {
-  return FieldType::kUshort;
+FieldType TypeField<uint16_t>::Get() {
+    return FieldType::kUshort;
 }
 
-FieldType
-TypeField<int16_t>::Get() {
-  return FieldType::KShort;
+FieldType TypeField<int16_t>::Get() {
+    return FieldType::KShort;
 }
 
-FieldType
-TypeField<uint32_t>::Get() {
-  return FieldType::KUint;
+FieldType TypeField<uint32_t>::Get() {
+    return FieldType::KUint;
 }
 
-FieldType
-TypeField<int32_t>::Get() {
-  return FieldType::kInt;
+FieldType TypeField<int32_t>::Get() {
+    return FieldType::kInt;
 }
 
-FieldType
-TypeField<uint64_t>::Get() {
-  return FieldType::kUlong;
+FieldType TypeField<uint64_t>::Get() {
+    return FieldType::kUlong;
 }
 
-FieldType
-TypeField<int64_t>::Get() {
-  return FieldType::kLong;
+FieldType TypeField<int64_t>::Get() {
+    return FieldType::kLong;
 }
 
-FieldType
-TypeField<std::string>::Get() {
-  return FieldType::kString;
+FieldType TypeField<std::string>::Get() {
+    return FieldType::kString;
 }
 
-FieldType
-TypeField<bool>::Get() {
-  return FieldType::kBoolean;
+FieldType TypeField<bool>::Get() {
+    return FieldType::kBoolean;
 }
 
-FieldType
-TypeField<char *>::Get() {
-  return FieldType::kString;
+FieldType TypeField<char *>::Get() {
+    return FieldType::kString;
 }
 
-FieldType
-TypeField<char const *>::Get() {
-  return FieldType::kString;
+FieldType TypeField<char const *>::Get() {
+    return FieldType::kString;
 }
 
-FieldType
-TypeField<std::istream *>::Get() {
-  return FieldType::kBlob;
+FieldType TypeField<std::istream *>::Get() {
+    return FieldType::kBlob;
 }
 
-FieldType
-TypeField<Date>::Get() {
-  return FieldType::kDate;
+FieldType TypeField<Date>::Get() {
+    return FieldType::kDate;
 }
 
-FieldType
-TypeField<DateTime>::Get() {
-  return FieldType::kDateTime;
+FieldType TypeField<DateTime>::Get() {
+    return FieldType::kDateTime;
 }

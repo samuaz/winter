@@ -13,33 +13,47 @@
 
 namespace winter::data::sql_impl::mysql {
 
-template <typename TResultRow>
-class Response : public winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow> {
- public:
-  Response(
-      const std::string &transaction_id,
-      StatementType type,
-      winter::data::ResponseStatus status,
-      const std::string &message) :
-      winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow>(transaction_id, type, status, message) {}
+    template<typename TResultRow>
+    class Response :
+        public winter::data::sql_impl::Response<
+            winter::data::sql_impl::mysql::Response<TResultRow>,
+            TResultRow> {
+       public:
+        Response(const std::string &transaction_id,
+                 StatementType type,
+                 winter::data::ResponseStatus status,
+                 const std::string &message) :
+            winter::data::sql_impl::Response<
+                winter::data::sql_impl::mysql::Response<TResultRow>,
+                TResultRow>(transaction_id, type, status, message) {}
 
-  Response(
-      const std::string &transaction_id,
-      StatementType type,
-      const std::vector<TResultRow> &result,
-      winter::data::ResponseStatus status,
-      const std::string &message,
-      int row_affected) :
-      winter::data::sql_impl::Response<winter::data::sql_impl::mysql::Response<TResultRow>, TResultRow>(transaction_id, type, result, status, message, row_affected) {}
+        Response(const std::string &transaction_id,
+                 StatementType type,
+                 const std::vector<TResultRow> &result,
+                 winter::data::ResponseStatus status,
+                 const std::string &message,
+                 int row_affected) :
+            winter::data::sql_impl::Response<
+                winter::data::sql_impl::mysql::Response<TResultRow>,
+                TResultRow>(
+                transaction_id, type, result, status, message, row_affected) {}
 
-  static winter::data::sql_impl::mysql::Response<TResultRow> Error(const std::string &transactionId, StatementType type, const std::string &message);
+        static winter::data::sql_impl::mysql::Response<TResultRow> Error(
+            const std::string &transactionId,
+            StatementType type,
+            const std::string &message);
 
-  static winter::data::sql_impl::mysql::Response<TResultRow> Success(const std::string &transactionId, StatementType type, const std::vector<TResultRow> &result, int row_affected, const std::string &message = "Success");
+        static winter::data::sql_impl::mysql::Response<TResultRow> Success(
+            const std::string &transactionId,
+            StatementType type,
+            const std::vector<TResultRow> &result,
+            int row_affected,
+            const std::string &message = "Success");
 
-  ~Response();
-};
+        ~Response();
+    };
 
-// typedef winter::data::sql_impl::mysql::Response MysqlResponse;
+    // typedef winter::data::sql_impl::mysql::Response MysqlResponse;
 
 }  // namespace winter::data::sql_impl::mysql
 #include "winter_data_sql_mysql_response.tpp"

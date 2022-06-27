@@ -20,23 +20,23 @@
 
 namespace winter::data::mariadb::connection {
 
-class Pool : public virtual winter::templates::SinglePool<
-		 winter::data::mariadb::connection::Pool,
-		 winter::data::mariadb::connection::Connection,
-		 winter::data::mariadb::connection::Config> {
-  friend class SinglePool<
-      winter::data::mariadb::connection::Pool,
-      winter::data::mariadb::connection::Connection,
-      winter::data::mariadb::connection::Config>;
+    class Pool :
+        public virtual winter::templates::SinglePool<
+            winter::data::mariadb::connection::Pool,
+            winter::data::mariadb::connection::Connection,
+            winter::data::mariadb::connection::Config> {
+        friend class SinglePool<winter::data::mariadb::connection::Pool,
+                                winter::data::mariadb::connection::Connection,
+                                winter::data::mariadb::connection::Config>;
 
- protected:
-  explicit Pool(
-      const winter::descriptor::PoolDescriptor& pool_descriptor,
-      std::optional<winter::data::mariadb::connection::Config> mysql_config);
-  winter::data::mariadb::connection::Connection* CreateConn() override;
-  ~Pool() override = default;
-};
+       protected:
+        explicit Pool(const winter::descriptor::PoolDescriptor& pool_descriptor,
+                      std::optional<winter::data::mariadb::connection::Config>
+                          mysql_config);
+        winter::data::mariadb::connection::Connection* CreateConn() override;
+        ~Pool() override = default;
+    };
 
 }  // namespace winter::data::mariadb::connection
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_POOL_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_POOL_H

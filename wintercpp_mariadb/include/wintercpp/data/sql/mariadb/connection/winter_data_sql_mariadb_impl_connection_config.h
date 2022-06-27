@@ -10,29 +10,30 @@
 
 namespace winter::data::mariadb::connection {
 
-class Config : public virtual winter::data::sql_impl::mysql::connection::Config<::sql::Driver*> {
- public:
-  Config(
-      const string& host,
-      int port,
-      const string& userName,
-      const string& password,
-      const string& schema,
-      bool optReconnect,
-      int optConnectTimeout,
-      const ConnectionProperties& otherProperties) :
-      winter::data::sql_impl::mysql::connection::Config<::sql::Driver*>(
-	  []() -> ::sql::Driver* {
-	    return ::sql::mariadb::get_driver_instance();
-	  },
-	  host,
-	  port,
-	  userName,
-	  password,
-	  schema,
-	  optReconnect,
-	  optConnectTimeout,
-	  otherProperties) {}
-};
+    class Config :
+        public virtual winter::data::sql_impl::mysql::connection::Config<
+            ::sql::Driver*> {
+       public:
+        Config(const string& host,
+               int port,
+               const string& userName,
+               const string& password,
+               const string& schema,
+               bool optReconnect,
+               int optConnectTimeout,
+               const ConnectionProperties& otherProperties) :
+            winter::data::sql_impl::mysql::connection::Config<::sql::Driver*>(
+                []() -> ::sql::Driver* {
+                    return ::sql::mariadb::get_driver_instance();
+                },
+                host,
+                port,
+                userName,
+                password,
+                schema,
+                optReconnect,
+                optConnectTimeout,
+                otherProperties) {}
+    };
 }  // namespace winter::data::mariadb::connection
-#endif	// WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_CONNECTION_CONFIG_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_CONNECTION_CONFIG_H

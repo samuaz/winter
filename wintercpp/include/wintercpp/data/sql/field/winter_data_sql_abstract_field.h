@@ -11,13 +11,13 @@
 
 namespace winter::data::sql_impl {
 
-struct AbstractField {
-  virtual const FieldType &type() const = 0;
+    struct AbstractField {
+        virtual const FieldType& type() const = 0;
 
-  virtual const std::string &name() const = 0;
+        virtual const std::string& name() const = 0;
 
-  virtual ~AbstractField() = default;
-};
+        virtual ~AbstractField() = default;
+    };
 }  // namespace winter::data::sql_impl
 
-#endif	// WINTERCPP_DATA_SQL_ABSTRACT_FIELD_H
+#endif  // WINTERCPP_DATA_SQL_ABSTRACT_FIELD_H

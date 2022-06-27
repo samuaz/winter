@@ -15,20 +15,25 @@
 
 namespace winter::redis {
 
-class Session final : virtual public winter::security::Session {
- public:
-  Session(std::function<std::shared_ptr<RedisConnection>()> redis_connection);
+    class Session final : virtual public winter::security::Session {
+       public:
+        Session(
+            std::function<std::shared_ptr<RedisConnection>()> redis_connection);
 
-  void CreateSession(const winter::security::UserSecurityInfo &user_security_info) const override;
+        void CreateSession(const winter::security::UserSecurityInfo
+                               &user_security_info) const override;
 
-  void RemoveSession(const winter::security::UserSecurityInfo &user_security_info) const override;
+        void RemoveSession(const winter::security::UserSecurityInfo
+                               &user_security_info) const override;
 
-  bool IsValid(const winter::security::UserSecurityInfo &user_security_info) const override;
+        bool IsValid(const winter::security::UserSecurityInfo
+                         &user_security_info) const override;
 
- private:
-  const std::function<std::shared_ptr<RedisConnection>()> redis_connection_;
-};
+       private:
+        const std::function<std::shared_ptr<RedisConnection>()>
+            redis_connection_;
+    };
 
 }  // namespace winter::redis
 
-#endif	// __WINTER_REDIS_SESSION_H__
+#endif  // __WINTER_REDIS_SESSION_H__

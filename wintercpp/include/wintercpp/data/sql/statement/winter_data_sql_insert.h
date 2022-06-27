@@ -13,35 +13,35 @@
 
 namespace winter::data::sql_impl {
 
-class Insert final : public virtual Statement<Insert> {
- public:
-  Insert();
+    class Insert final : public virtual Statement<Insert> {
+       public:
+        Insert();
 
-  explicit Insert(const std::string &query);
+        explicit Insert(const std::string &query);
 
-  explicit Insert(std::shared_ptr<Table> table);
+        explicit Insert(std::shared_ptr<Table> table);
 
-  using Statement<Insert>::prepared_statement;
-  /*
-	template<typename T>
-	Insert &setId(const std::string &idAttributeName, const T &value, const
-	std::string &custom_value);
+        using Statement<Insert>::prepared_statement;
+        /*
+              template<typename T>
+              Insert &setId(const std::string &idAttributeName, const T &value,
+           const std::string &custom_value);
 
-	template<typename T>
-	Insert &setId(const std::string &idAttributeName, const T &value);
-      */
-  // void GenerateId();
+              template<typename T>
+              Insert &setId(const std::string &idAttributeName, const T &value);
+            */
+        // void GenerateId();
 
-  ~Insert() override = default;
+        ~Insert() override = default;
 
- protected:
-  void BuildStatement() override;
+       protected:
+        void BuildStatement() override;
 
- private:
-  using Statement<Insert>::prepared_statement_;
-  using Statement<Insert>::type_;
-  const std::shared_ptr<Table> table_;
-};
+       private:
+        using Statement<Insert>::prepared_statement_;
+        using Statement<Insert>::type_;
+        const std::shared_ptr<Table> table_;
+    };
 }  // namespace winter::data::sql_impl
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_INSERT_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_INSERT_H

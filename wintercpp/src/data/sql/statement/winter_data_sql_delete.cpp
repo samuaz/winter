@@ -9,9 +9,9 @@ using namespace winter::data::sql_impl;
 
 Delete::Delete() :
     Statement<Delete>("Delete $columns", StatementType::kDelete) {
-  winter::util::string::replace(statement_template_, "$columns", "");
+    winter::util::string::replace(statement_template_, "$columns", "");
 }
 
 void Delete::BuildStatement() {
-  prepared_statement_->set_statement_template(statement_template_);
+    prepared_statement_->set_statement_template(statement_template_);
 }

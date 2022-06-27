@@ -8,23 +8,23 @@
 #include <string>
 namespace winter::redis {
 
-class Config final {
- public:
-  Config(std::string host, const size_t &port, std::string password);
+    class Config final {
+       public:
+        Config(std::string host, const size_t &port, std::string password);
 
-  const std::string &host() const;
+        const std::string &host() const;
 
-  size_t port() const;
+        size_t port() const;
 
-  const std::string &password() const;
+        const std::string &password() const;
 
- private:
-  const std::string host_;
-  const size_t port_;
-  const std::string password_;
-};
+       private:
+        const std::string host_;
+        const size_t port_;
+        const std::string password_;
+    };
 }  // namespace winter::redis
 
 typedef winter::redis::Config RedisConfig;
 
-#endif	// WINTERCPP_WINTER_REDIS_CONNECTION_CONFIG_H
+#endif  // WINTERCPP_WINTER_REDIS_CONNECTION_CONFIG_H

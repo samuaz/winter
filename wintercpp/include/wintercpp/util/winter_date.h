@@ -17,62 +17,62 @@
  */
 namespace winter {
 
-class Date {
- public:
-  Date();
+    class Date {
+       public:
+        Date();
 
-  explicit Date(const std::string &date);
+        explicit Date(const std::string &date);
 
-  Date(int year, int month, int day);
+        Date(int year, int month, int day);
 
-  Date(int year, int month, int day, int hour, int minute, int second);
+        Date(int year, int month, int day, int hour, int minute, int second);
 
-  int year() const;
+        int year() const;
 
-  void year(int year);
+        void year(int year);
 
-  int month() const;
+        int month() const;
 
-  void month(int month);
+        void month(int month);
 
-  int day() const;
+        int day() const;
 
-  void day(int day);
+        void day(int day);
 
-  int hour() const;
+        int hour() const;
 
-  void hour(int hour);
+        void hour(int hour);
 
-  int minute() const;
+        int minute() const;
 
-  void minute(int minute);
+        void minute(int minute);
 
-  int second() const;
+        int second() const;
 
-  void second(int second);
+        void second(int second);
 
-  bool operator==(const Date &ref) const;
+        bool operator==(const Date &ref) const;
 
-  bool operator!=(const Date &ref) const;
+        bool operator!=(const Date &ref) const;
 
-  bool operator<(const Date &rhs) const;
+        bool operator<(const Date &rhs) const;
 
-  bool operator>(const Date &rhs) const;
+        bool operator>(const Date &rhs) const;
 
-  bool operator<=(const Date &rhs) const;
+        bool operator<=(const Date &rhs) const;
 
-  bool operator>=(const Date &rhs) const;
+        bool operator>=(const Date &rhs) const;
 
-  std::string toString() const;
+        std::string toString() const;
 
- private:
-  int _year = 0;
-  int _month = 0;
-  int _day = 0;
-  int _hour = 0;
-  int _minute = 0;
-  int _second = 0;
-};
+       private:
+        int _year = 0;
+        int _month = 0;
+        int _day = 0;
+        int _hour = 0;
+        int _minute = 0;
+        int _second = 0;
+    };
 
 }  // namespace winter
-#endif	// USER_DATE_H
+#endif  // USER_DATE_H

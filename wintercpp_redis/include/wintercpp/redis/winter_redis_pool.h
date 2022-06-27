@@ -15,18 +15,19 @@
 
 namespace winter::redis {
 
-class Pool final : public virtual winter::templates::SinglePool<Pool, winter::redis::Connection, Config> {
-  friend class SinglePool<Pool, winter::redis::Connection, Config>;
+    class Pool final :
+        public virtual winter::templates::
+            SinglePool<Pool, winter::redis::Connection, Config> {
+        friend class SinglePool<Pool, winter::redis::Connection, Config>;
 
- private:
-  explicit Pool(
-      winter::descriptor::PoolDescriptor pool_descriptor,
-      std::optional<Config> redis_config);
-  winter::redis::Connection *CreateConn() override;
-  ~Pool() override = default;
-};
+       private:
+        explicit Pool(winter::descriptor::PoolDescriptor pool_descriptor,
+                      std::optional<Config> redis_config);
+        winter::redis::Connection* CreateConn() override;
+        ~Pool() override = default;
+    };
 }  // namespace winter::redis
 
 typedef winter::redis::Pool RedisPool;
 
-#endif	// WINTERCPP_WINTER_REDIS_POOL_H
+#endif  // WINTERCPP_WINTER_REDIS_POOL_H

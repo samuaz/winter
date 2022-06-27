@@ -11,10 +11,11 @@
 
 namespace winter::exception {
 
-class UnauthenticatedException final : public WinterExceptionTemplate<UnauthenticatedException> {
- public:
-  explicit UnauthenticatedException(const string &message) noexcept;
-};
+    class UnauthenticatedException final :
+        public WinterExceptionTemplate<UnauthenticatedException> {
+       public:
+        explicit UnauthenticatedException(const string &message) noexcept;
+    };
 }  // namespace winter::exception
 
-#endif	// WINTER_UNAUTHENTICATED_EXCEPTION_H
+#endif  // WINTER_UNAUTHENTICATED_EXCEPTION_H

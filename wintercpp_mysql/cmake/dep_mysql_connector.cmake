@@ -67,13 +67,6 @@ execute_process(
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_ERROR:" ${mysql_client_RUN_ABI_CHECK_result})
 MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_OUTPUT:" ${mysql_client_RUN_ABI_CHECK_VARIABLE})
 
-# execute_process(
-#          COMMAND bash "-c" "sed -e '/#include <memory>/ s/^#*/#/' -i logger.cc"
-#          WORKING_DIRECTORY ${mysql_client_SOURCE_DIR}/client/logger.cc
-#          RESULT_VARIABLE mysql_client_memory_result
-#          OUTPUT_VARIABLE mysql_client_memory_VARIABLE)
-# MESSAGE(STATUS "MYSQL_client_memory_CMD_ERROR:" ${mysql_client_memory_result})
-# MESSAGE(STATUS "MYSQL_client_memory_CMD_OUTPUT:" ${mysql_client_memory_VARIABLE})
 
 if(USE_WINTER_OPENSSL)
         set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_SSL=${openssl_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/install/include -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libcrypto.a -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
@@ -91,21 +84,6 @@ MESSAGE(STATUS "MYSQL_client_cmake_CMD_OUTPUT:" ${mysql_client_cmake_VARIABLE})
 #add_subdirectory(${mysql_client_SOURCE_DIR} ${mysql_client_BINARY_DIR})
 set(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX_OLD} CACHE BOOL "install prefix" FORCE)
 endif()
-
-
-##### CONNECTOR
-
-## SOME CONFIGS
-# set(MYSQL_CXXFLAGS -stdlib=libc++ CACHE INTERNAL "")
-# set(WITH_BOOST ${THIRD_PARTY_DIR}/boost CACHE INTERNAL "")
-# set(WITH_JDBC ON CACHE INTERNAL "")
-# set(BUILD_STATIC ON CACHE INTERNAL "")
-# set(WITH_SSL=${openssl_SOURCE_DIR} CACHE INTERNAL "")
-# set(INSTALL_INCLUDE_DIR ${mysql_connector_cpp_SOURCE_DIR}/install CACHE INTERNAL "")  # Forces the value
-# set(INSTALL_LIB_DIR ${mysql_connector_cpp_SOURCE_DIR}/install CACHE INTERNAL "")  # Forces the value
-# set(INSTALL_DOC_DIR ${mysql_connector_cpp_SOURCE_DIR}/install CACHE INTERNAL "")  # Forces the value
-# set(MYSQL_LIB_DIR ${THIRD_PARTY_DIR}/mysql_client/build/install/lib CACHE INTERNAL "")
-# set(MYSQL_INCLUDE_DIR ${THIRD_PARTY_DIR}/mysql_client/build/install/include CACHE INTERNAL "")
 
 FetchContent_Declare(
         mysql_connector_cpp

@@ -9,8 +9,8 @@
 #include <string>
 
 namespace winter::uuid {
-std::string generateUUID();
+    std::string generateUUID();
 
-std::istringstream generateUUIDBlob();
+    std::istringstream generateUUIDBlob();
 }  // namespace winter::uuid
-#endif	// WINTERC_WINTER_UUID_GENERATOR_H
+#endif  // WINTERC_WINTER_UUID_GENERATOR_H
