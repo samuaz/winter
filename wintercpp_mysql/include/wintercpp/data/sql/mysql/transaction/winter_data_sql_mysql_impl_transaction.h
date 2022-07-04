@@ -20,9 +20,9 @@ namespace winter::data::mysql {
        public:
         Transaction(
             const shared_ptr<winter::data::mysql::connection::Connection>&
-                connection,
+                                     connection,
             TransactionIsolationType isolationType,
-            bool partialCommit) :
+            bool                     partialCommit) :
             winter::data::sql_impl::Transaction<
                 winter::data::mysql::Transaction,
                 winter::data::mysql::connection::Connection,

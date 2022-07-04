@@ -30,9 +30,9 @@ namespace winter::data::sql_impl {
              typename TTransaction,
              typename TResultRow>
     inline TEntityClass FindById(
-        const std::shared_ptr<Table> &table,
-        TIDType id,
-        TTransaction &transaction,
+        const std::shared_ptr<Table>                        &table,
+        TIDType                                              id,
+        TTransaction                                        &transaction,
         std::function<TEntityClass(std::vector<TResultRow>)> entityGenerator) {
         if (table->tableType() == TableType::kTable) {
             auto message = "TABLE " + table->name() + " IS NOT ID BASE TABLE";
@@ -48,7 +48,7 @@ namespace winter::data::sql_impl {
              typename TResultRow>
     std::vector<TEntityClass> FindAll(
         const std::shared_ptr<Table> &table,
-        TTransaction &transaction,
+        TTransaction                 &transaction,
         std::function<std::vector<TEntityClass>(std::vector<TResultRow>)>
             entityGenerator) {
         return entityGenerator(Select() << From(table) >> transaction);
@@ -56,7 +56,7 @@ namespace winter::data::sql_impl {
 
     template<typename TTransaction>
     inline int Count(const std::shared_ptr<Table> &table,
-                     TTransaction &transaction) {
+                     TTransaction                 &transaction) {
         auto res = Select("SELECT COUNT(*) AS Count FROM " + table->name())
                    >> transaction;
         if (res) {
@@ -72,10 +72,10 @@ namespace winter::data::sql_impl {
              typename TResultRow>
     inline winter::data::Pageable<TEntityClass> Page(
         const std::shared_ptr<Table> &table,
-        int page_size,
-        int page_number,
-        const std::string &order_by,
-        TTransaction &transaction,
+        int                           page_size,
+        int                           page_number,
+        const std::string            &order_by,
+        TTransaction                 &transaction,
         std::function<std::vector<TEntityClass>(std::vector<TResultRow>)>
             entityGenerator) {
         return winter::data::Pageable<TEntityClass>(

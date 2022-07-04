@@ -13,8 +13,8 @@
 using namespace winter;
 
 Date::Date() {
-    time_t now = time(0);
-    tm *ltm = localtime(&now);
+    time_t            now = time(0);
+    tm               *ltm = localtime(&now);
     std::stringstream date;
 
     _year = 1 + ltm->tm_year;
@@ -93,12 +93,12 @@ void Date::second(int second) {
 
 std::string Date::toString() const {
     std::stringstream ss;
-    std::string sYear(std::to_string(_year));
-    std::string sMonth(std::to_string(_month));
-    std::string sDay(std::to_string(_day));
-    std::string sHour(std::to_string(_hour));
-    std::string sMin(std::to_string(_minute));
-    std::string sSec(std::to_string(_second));
+    std::string       sYear(std::to_string(_year));
+    std::string       sMonth(std::to_string(_month));
+    std::string       sDay(std::to_string(_day));
+    std::string       sHour(std::to_string(_hour));
+    std::string       sMin(std::to_string(_minute));
+    std::string       sSec(std::to_string(_second));
 
     std::string *values[] = {&sYear, &sMonth, &sDay, &sHour, &sMin, &sSec};
 

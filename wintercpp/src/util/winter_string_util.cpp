@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <locale>
 
-std::string winter::util::string::replace(std::string &str,
+std::string winter::util::string::replace(std::string       &str,
                                           const std::string &from,
                                           const std::string &to) {
     size_t start_pos = str.find(from);
@@ -17,7 +17,7 @@ std::string winter::util::string::replace(std::string &str,
     return str;
 }
 
-std::string winter::util::string::replace_value(std::string str,
+std::string winter::util::string::replace_value(std::string        str,
                                                 const std::string &from,
                                                 const std::string &to) {
     size_t start_pos = str.find(from);

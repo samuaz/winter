@@ -19,7 +19,7 @@ namespace winter::security {
 
     class Jwt {
        public:
-        Jwt(string secretKey,
+        Jwt(string               secretKey,
             std::chrono::seconds tokenExp,
             std::chrono::seconds refreshTokenExp);
 
@@ -41,13 +41,13 @@ namespace winter::security {
         std::string Encode(const std::string &password) const;
 
        private:
-        const std::string secret_key_;
+        const std::string          secret_key_;
         const std::chrono::seconds token_exp_;
         const std::chrono::seconds refresh_token_exp_;
-        const std::string algorithm_ = "HS512";
-        std::string createToken(const std::string &key,
-                                const std::string &value,
-                                std::chrono::seconds expire_time) const;
+        const std::string          algorithm_ = "HS512";
+        std::string                createToken(const std::string   &key,
+                                               const std::string   &value,
+                                               std::chrono::seconds expire_time) const;
     };
 
 }  // namespace winter::security

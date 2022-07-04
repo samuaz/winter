@@ -10,7 +10,7 @@ using namespace winter::util::string;
 winter::data::sql_impl::Predicate::Predicate(
     Column column,
     std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
-        field,
+                                      field,
     winter::data::sql_impl::Condition conditionOperator) :
     column_(std::move(column)),
     field_(std::move(field)), condition_(conditionOperator) {}

@@ -8,7 +8,7 @@
 using namespace winter::exception;
 
 winter::redis::Pool::Pool(winter::descriptor::PoolDescriptor pool_descriptor,
-                          std::optional<Config> redis_config) :
+                          std::optional<Config>              redis_config) :
     SinglePool(std::move(pool_descriptor), std::move(redis_config)) {}
 
 winter::redis::Connection* winter::redis::Pool::CreateConn() {

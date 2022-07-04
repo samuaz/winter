@@ -7,7 +7,7 @@
 std::string winter::data::sql_impl::CommaSeparatedValue(
     const std::vector<std::string> &elements) {
     std::string statement {};
-    auto elementsSize = elements.size();
+    auto        elementsSize = elements.size();
     for (size_t i = 0; i < elementsSize; i++) {
         auto e = elements[i];
         statement += e += std::string(
@@ -19,11 +19,10 @@ std::string winter::data::sql_impl::CommaSeparatedValue(
 std::string winter::data::sql_impl::CommaSeparatedEqualValue(
     const std::vector<std::string> &elements) {
     std::string statement {};
-    auto elementsSize = elements.size();
+    auto        elementsSize = elements.size();
     for (size_t i = 0; i < elementsSize; i++) {
         auto e = elements[i];
-        statement += e += Equal() += PlaceHolder() +=
-            std::string((i == elementsSize - 1 ? Nothing() : Comma()));
+        statement += e += Equal() += PlaceHolder() += std::string((i == elementsSize - 1 ? Nothing() : Comma()));
     }
     return statement;
 }
@@ -36,17 +35,15 @@ std::string winter::data::sql_impl::CommaSeparatedEqualValue(
 std::string winter::data::sql_impl::commaSeparatedEqualValue(
     const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
         &columns) {
-    std::string values {};
+    std::string   values {};
     unsigned long size = columns.size();
     for (unsigned long i = 0; i < size; i++) {
         auto row = columns[i];
         if (row->IsCustomValue()) {
-            values += row->name() + Equal() +=
-                row->custom_value()
-                + std::string(i == size - 1 ? Nothing() : Comma());
+            values += row->name() + Equal() += row->custom_value()
+                                               + std::string(i == size - 1 ? Nothing() : Comma());
         } else {
-            values += row->name() + Equal() += PlaceHolder() +=
-                std::string(i == size - 1 ? Nothing() : Comma());
+            values += row->name() + Equal() += PlaceHolder() += std::string(i == size - 1 ? Nothing() : Comma());
         }
     }
     return values;
@@ -55,17 +52,15 @@ std::string winter::data::sql_impl::commaSeparatedEqualValue(
 std::string winter::data::sql_impl::CommaSeparatedStatement(
     const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
         &columns) {
-    std::string values {};
+    std::string   values {};
     unsigned long size = columns.size();
     for (unsigned long i = 0; i < size; i++) {
         auto row = columns[i];
         if (row->IsCustomValue()) {
-            values += Space() +=
-                row->custom_value()
-                + std::string(i == size - 1 ? Nothing() : Comma());
+            values += Space() += row->custom_value()
+                                 + std::string(i == size - 1 ? Nothing() : Comma());
         } else {
-            values += PlaceHolder() +=
-                std::string(i == size - 1 ? Nothing() : Comma());
+            values += PlaceHolder() += std::string(i == size - 1 ? Nothing() : Comma());
         }
     }
     return values;
@@ -73,18 +68,16 @@ std::string winter::data::sql_impl::CommaSeparatedStatement(
 
 std::string winter::data::sql_impl::CommaSeparatedStatement(
     const winter::data::sql_impl::PreparedStatement &prepared_statement) {
-    std::string values {};
-    auto columns = prepared_statement.values();
+    std::string   values {};
+    auto          columns = prepared_statement.values();
     unsigned long size = columns.size();
     for (unsigned long i = 0; i < size; i++) {
         auto row = columns[i];
         if (row->IsCustomValue()) {
-            values += Space() +=
-                row->custom_value()
-                + std::string(i == size - 1 ? Nothing() : Comma());
+            values += Space() += row->custom_value()
+                                 + std::string(i == size - 1 ? Nothing() : Comma());
         } else {
-            values += PlaceHolder() +=
-                std::string(i == size - 1 ? Nothing() : Comma());
+            values += PlaceHolder() += std::string(i == size - 1 ? Nothing() : Comma());
         }
     }
     return values;
@@ -93,8 +86,7 @@ std::string winter::data::sql_impl::CommaSeparatedStatement(
 std::string winter::data::sql_impl::CommaSeparatedPlaceHolder(size_t size) {
     std::string values {};
     for (size_t i = 0; i < size; i++) {
-        values += PlaceHolder() +=
-            std::string(i == size - 1 ? Nothing() : Comma());
+        values += PlaceHolder() += std::string(i == size - 1 ? Nothing() : Comma());
     }
     return values;
 }

@@ -25,8 +25,8 @@ namespace winter::security {
        public:
         static GrpcJwt &instance();
 
-        static GrpcJwt &init(const string &key,
-                             const string &secret_key,
+        static GrpcJwt &init(const string        &key,
+                             const string        &secret_key,
                              std::chrono::seconds token_exp,
                              std::chrono::seconds refresh_token_exp);
 
@@ -46,7 +46,7 @@ namespace winter::security {
 
         UserSecurityInfo Secure(const grpc::ServerContext &context) const;
 
-        UserSecurityInfo Secure(const grpc::ServerContext &context,
+        UserSecurityInfo Secure(const grpc::ServerContext       &context,
                                 const winter::security::Session &session) const;
 
         std::string ExtractTokenFromGrpcMetadata(
@@ -54,13 +54,13 @@ namespace winter::security {
             const;
 
        private:
-        GrpcJwt(const string key,
-                string secretKey,
+        GrpcJwt(const string         key,
+                string               secretKey,
                 std::chrono::seconds token_exp,
                 std::chrono::seconds refresh_token_exp);
-        const std::string _key;
+        const std::string                      _key;
         static inline std::unique_ptr<GrpcJwt> instance_;
-        static inline std::once_flag m_once_;
+        static inline std::once_flag           m_once_;
     };
 
 }  // namespace winter::security

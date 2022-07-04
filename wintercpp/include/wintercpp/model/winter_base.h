@@ -54,8 +54,8 @@ namespace winter {
 
        protected:
         std::string _id;
-        Date _creationDate;
-        Date _modificationDate;
+        Date        _creationDate;
+        Date        _modificationDate;
     };
 }  // namespace winter
 

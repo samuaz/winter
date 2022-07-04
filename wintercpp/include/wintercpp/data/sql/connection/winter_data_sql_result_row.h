@@ -36,7 +36,8 @@ namespace winter::data::sql_impl {
     class ResultRow {
        public:
         virtual void Create(const PreparedStatement &prepared_statement,
-                            const TResultSet &result_set) = 0;
+                            const TResultSet        &result_set)
+            = 0;
 
         ResultRow &operator=(const ResultRow &) = default;
 
@@ -60,7 +61,7 @@ namespace winter::data::sql_impl {
 
         const Rows &set_rows(const Rows &rows);
 
-        void AddRow(const std::string &name,
+        void AddRow(const std::string             &name,
                     const std::optional<DataType> &sqlType);
 
         void AddRow(string name);

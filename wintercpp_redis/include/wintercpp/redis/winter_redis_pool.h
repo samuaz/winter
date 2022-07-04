@@ -22,7 +22,7 @@ namespace winter::redis {
 
        private:
         explicit Pool(winter::descriptor::PoolDescriptor pool_descriptor,
-                      std::optional<Config> redis_config);
+                      std::optional<Config>              redis_config);
         winter::redis::Connection* CreateConn() override;
         ~Pool() override = default;
     };

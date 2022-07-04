@@ -20,7 +20,7 @@ namespace winter::redis {
 
        private:
         const std::string host_;
-        const size_t port_;
+        const size_t      port_;
         const std::string password_;
     };
 }  // namespace winter::redis

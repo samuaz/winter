@@ -27,8 +27,7 @@ void AuthInterceptor::Intercept(
                 std::string value = itr->second.data();
                 std::string token = value.erase(pos, erase.length());
 
-                TokenStatus tokenStatus =
-                    security::GrpcJwt::instance().ValidateToken(token);
+                TokenStatus tokenStatus = security::GrpcJwt::instance().ValidateToken(token);
 
                 if (tokenStatus.isValid()) {
                     methods->Proceed();

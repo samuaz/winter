@@ -22,7 +22,8 @@ namespace winter::security {
        public:
         grpc::experimental::ServerRpcInfo *info;
 
-        AuthInterceptor(grpc::experimental::ServerRpcInfo *info) : info(info) {}
+        AuthInterceptor(grpc::experimental::ServerRpcInfo *info) :
+            info(info) {}
 
         ~AuthInterceptor() {}
 

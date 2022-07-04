@@ -14,12 +14,12 @@
 
 using namespace winter::security;
 
-std::string Jwt::createToken(const std::string &key,
-                             const std::string &value,
+std::string Jwt::createToken(const std::string   &key,
+                             const std::string   &value,
                              std::chrono::seconds expire_time) const {
     using namespace jwt::params;
     jwt::jwt_object obj {algorithm(algorithm_), secret(secret_key_)};
-    auto now = std::chrono::system_clock::now();
+    auto            now = std::chrono::system_clock::now();
     obj.add_claim(key, value)
         .add_claim("iat", now)
         .add_claim("exp", (now + expire_time));
@@ -40,7 +40,7 @@ std::string Jwt::CreateRefreshToken(const std::string &key,
 std::string Jwt::ValueFromKey(const std::string &key,
                               const std::string &token) const {
     using namespace jwt::params;
-    jwt::jwt_object dec_obj = DecodeToken(token);
+    jwt::jwt_object  dec_obj = DecodeToken(token);
     jwt::jwt_payload payload = dec_obj.payload();
     return payload.get_claim_value<std::string>(key);
 }
@@ -56,8 +56,7 @@ std::string Jwt::Encode(const std::string &password) const {
 
 jwt::jwt_object Jwt::DecodeToken(const std::string &token) const {
     using namespace jwt::params;
-    jwt::jwt_object dec_obj =
-        jwt::decode(token, algorithms({algorithm_}), secret(secret_key_));
+    jwt::jwt_object dec_obj = jwt::decode(token, algorithms({algorithm_}), secret(secret_key_));
     return dec_obj;
 }
 
@@ -106,7 +105,7 @@ void Jwt::StripUnicode(string &str) const {
               str.end());
 }
 
-Jwt::Jwt(string secretKey,
+Jwt::Jwt(string               secretKey,
          std::chrono::seconds tokenExp,
          std::chrono::seconds refreshTokenExp) :
     secret_key_(std::move(secretKey)),

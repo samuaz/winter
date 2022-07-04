@@ -18,8 +18,8 @@ namespace winter::templates {
     // requires std::is_enum_v<TStatusType>
     Response<TImplementation, TResultType, TStatusType>::Response(
         const std::optional<TResultType> &result,
-        TStatusType status,
-        const std::string &message) :
+        TStatusType                       status,
+        const std::string                &message) :
         result_(result),
         status_(status), message_(message) {}
 

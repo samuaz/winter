@@ -26,7 +26,7 @@ namespace winter::data::sql_impl {
             Column column,
             std::shared_ptr<
                 winter::data::sql_impl::AbstractPreparedStatementField> field,
-            Condition conditionOperator);
+            Condition                                                   conditionOperator);
 
         const Column& column() const;
 
@@ -39,7 +39,7 @@ namespace winter::data::sql_impl {
        private:
         Column column_;
         std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
-            field_;
+                                          field_;
         winter::data::sql_impl::Condition condition_ {};
     };
 }  // namespace winter::data::sql_impl

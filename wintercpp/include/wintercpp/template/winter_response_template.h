@@ -108,8 +108,8 @@ namespace winter::templates {
         Response(TStatusType status, const std::string &message);
 
         Response(const std::optional<TResultType> &result,
-                 TStatusType status,
-                 const std::string &message);
+                 TStatusType                       status,
+                 const std::string                &message);
 
         Response(const Response &) = default;
 

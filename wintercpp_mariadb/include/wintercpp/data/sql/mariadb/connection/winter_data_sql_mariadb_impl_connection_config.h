@@ -14,13 +14,13 @@ namespace winter::data::mariadb::connection {
         public virtual winter::data::sql_impl::mysql::connection::Config<
             ::sql::Driver*> {
        public:
-        Config(const string& host,
-               int port,
-               const string& userName,
-               const string& password,
-               const string& schema,
-               bool optReconnect,
-               int optConnectTimeout,
+        Config(const string&               host,
+               int                         port,
+               const string&               userName,
+               const string&               password,
+               const string&               schema,
+               bool                        optReconnect,
+               int                         optConnectTimeout,
                const ConnectionProperties& otherProperties) :
             winter::data::sql_impl::mysql::connection::Config<::sql::Driver*>(
                 []() -> ::sql::Driver* {

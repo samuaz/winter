@@ -29,9 +29,9 @@ namespace winter::exception {
        public:
         static T Create(const std::string &file,
                         const std::string &function_name,
-                        int line,
+                        int                line,
                         const std::string &err,
-                        int err_code) {
+                        int                err_code) {
             auto msg = message(file, function_name, line, err);
             msg << " with err code " << err_code;
             return T(msg.str());
@@ -39,7 +39,7 @@ namespace winter::exception {
 
         static T Create(const std::string &file,
                         const std::string &function_name,
-                        int line,
+                        int                line,
                         const std::string &err) {
             return T(message(file, function_name, line, err).str());
         }
@@ -51,7 +51,7 @@ namespace winter::exception {
        private:
         static std::stringstream message(const std::string &file,
                                          const std::string &function_name,
-                                         int line,
+                                         int                line,
                                          const std::string &err) {
             std::stringstream ss;
             ss << "Exception " << typeid(T).name() << " " << err << " in file "

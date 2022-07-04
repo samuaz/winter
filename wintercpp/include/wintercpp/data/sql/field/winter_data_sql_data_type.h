@@ -21,7 +21,7 @@ namespace winter::data::sql_impl {
                          bool,
                          std::string,
                          std::istream *>
-        DataType;
+                                                            DataType;
     typedef std::map<std::string, std::optional<DataType> > Rows;
 }  // namespace winter::data::sql_impl
 

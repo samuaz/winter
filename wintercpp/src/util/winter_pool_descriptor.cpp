@@ -12,11 +12,11 @@ using namespace winter::descriptor;
                                    _poolTimeout(60),
                                    _usePool(true) {} */
 
-PoolDescriptor::PoolDescriptor(std::string name,
+PoolDescriptor::PoolDescriptor(std::string  name,
                                unsigned int initialPoolSize,
                                unsigned int maxPoolSize,
                                unsigned int poolTimeout,
-                               bool usePool) :
+                               bool         usePool) :
     _name(std::move(name)),
     _initialPoolSize(initialPoolSize), _maxPoolSize(maxPoolSize),
     _poolTimeout(poolTimeout), _usePool(usePool) {}

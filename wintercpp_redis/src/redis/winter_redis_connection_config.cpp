@@ -4,9 +4,9 @@
 
 #include <wintercpp/redis/winter_redis_connection_config.h>
 
-winter::redis::Config::Config(std::string host,
+winter::redis::Config::Config(std::string   host,
                               const size_t &port,
-                              std::string password) :
+                              std::string   password) :
     host_(std::move(host)),
     port_(port), password_(std::move(password)) {}
 

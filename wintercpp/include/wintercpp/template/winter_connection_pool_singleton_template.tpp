@@ -24,7 +24,7 @@ namespace winter::templates {
     SinglePool<TImplementation, TConnectionType, TConnectionConfig>
         &SinglePool<TImplementation, TConnectionType, TConnectionConfig>::Init(
             const winter::descriptor::PoolDescriptor &pool_descriptor,
-            const std::optional<TConnectionConfig> &connection_config) {
+            const std::optional<TConnectionConfig>   &connection_config) {
         std::call_once(m_once_, [&]() {
             std::cout << "starting: " << typeid(SinglePool).name() << "\n";
             instance_.reset(
@@ -48,7 +48,7 @@ namespace winter::templates {
              typename TConnectionConfig>
     SinglePool<TImplementation, TConnectionType, TConnectionConfig>::SinglePool(
         winter::descriptor::PoolDescriptor pool_descriptor,
-        std::optional<TConnectionConfig> connection_config) :
+        std::optional<TConnectionConfig>   connection_config) :
         winter::templates::ConnectionPool<TConnectionType>(
             std::move(pool_descriptor)),
         connection_config_(std::move(connection_config)) {};

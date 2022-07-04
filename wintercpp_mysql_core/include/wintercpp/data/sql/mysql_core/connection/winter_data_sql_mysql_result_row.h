@@ -34,13 +34,13 @@ namespace winter::data::sql_impl::mysql {
         using winter::data::sql_impl::ResultRow<
             std::shared_ptr<TResultSet>>::AddRow;
 
-        explicit ResultRow(const PreparedStatement &prepared_statement,
+        explicit ResultRow(const PreparedStatement           &prepared_statement,
                            const std::shared_ptr<TResultSet> &result_set) {
             Create(prepared_statement, result_set);
         };
 
        private:
-        void Create(const PreparedStatement &prepared_statement,
+        void Create(const PreparedStatement           &prepared_statement,
                     const std::shared_ptr<TResultSet> &result_set) override {
             if (result_set != nullptr) {
                 if (result_set->first()) {
@@ -57,8 +57,8 @@ namespace winter::data::sql_impl::mysql {
             }
         };
 
-        void CreateRow(const std::string &value_name,
-                       FieldType type,
+        void CreateRow(const std::string                 &value_name,
+                       FieldType                          type,
                        const std::shared_ptr<TResultSet> &result) {
             switch (type) {
                 case FieldType::kNull: {

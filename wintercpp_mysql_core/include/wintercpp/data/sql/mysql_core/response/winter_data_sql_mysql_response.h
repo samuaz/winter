@@ -19,20 +19,20 @@ namespace winter::data::sql_impl::mysql {
             winter::data::sql_impl::mysql::Response<TResultRow>,
             TResultRow> {
        public:
-        Response(const std::string &transaction_id,
-                 StatementType type,
+        Response(const std::string           &transaction_id,
+                 StatementType                type,
                  winter::data::ResponseStatus status,
-                 const std::string &message) :
+                 const std::string           &message) :
             winter::data::sql_impl::Response<
                 winter::data::sql_impl::mysql::Response<TResultRow>,
                 TResultRow>(transaction_id, type, status, message) {}
 
-        Response(const std::string &transaction_id,
-                 StatementType type,
+        Response(const std::string             &transaction_id,
+                 StatementType                  type,
                  const std::vector<TResultRow> &result,
-                 winter::data::ResponseStatus status,
-                 const std::string &message,
-                 int row_affected) :
+                 winter::data::ResponseStatus   status,
+                 const std::string             &message,
+                 int                            row_affected) :
             winter::data::sql_impl::Response<
                 winter::data::sql_impl::mysql::Response<TResultRow>,
                 TResultRow>(
@@ -40,15 +40,15 @@ namespace winter::data::sql_impl::mysql {
 
         static winter::data::sql_impl::mysql::Response<TResultRow> Error(
             const std::string &transactionId,
-            StatementType type,
+            StatementType      type,
             const std::string &message);
 
         static winter::data::sql_impl::mysql::Response<TResultRow> Success(
-            const std::string &transactionId,
-            StatementType type,
+            const std::string             &transactionId,
+            StatementType                  type,
             const std::vector<TResultRow> &result,
-            int row_affected,
-            const std::string &message = "Success");
+            int                            row_affected,
+            const std::string             &message = "Success");
 
         ~Response();
     };

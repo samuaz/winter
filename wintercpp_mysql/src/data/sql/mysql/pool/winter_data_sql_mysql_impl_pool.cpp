@@ -19,15 +19,12 @@ winter::data::mysql::connection::Connection* Pool::CreateConn() {
     if (Pool::connection_config_) {
         ::sql::ConnectOptionsMap connectionProperties;
         connectionProperties["hostName"] = Pool::connection_config_->host();
-        connectionProperties["userName"] =
-            Pool::connection_config_->user_name();
+        connectionProperties["userName"] = Pool::connection_config_->user_name();
         connectionProperties["password"] = Pool::connection_config_->password();
         connectionProperties["schema"] = Pool::connection_config_->schema();
         connectionProperties["port"] = Pool::connection_config_->port();
-        connectionProperties["OPT_RECONNECT"] =
-            Pool::connection_config_->is_opt_reconnect();
-        connectionProperties["OPT_CONNECT_TIMEOUT"] =
-            Pool::connection_config_->opt_connect_timeout();
+        connectionProperties["OPT_RECONNECT"] = Pool::connection_config_->is_opt_reconnect();
+        connectionProperties["OPT_CONNECT_TIMEOUT"] = Pool::connection_config_->opt_connect_timeout();
         auto otherProps = Pool::connection_config_->properties();
         connectionProperties.insert(otherProps.begin(), otherProps.end());
         return new winter::data::mysql::connection::Connection(

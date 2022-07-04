@@ -5,7 +5,8 @@ namespace winter::data::sql_impl {
         Clause("IN ($IN_VALUE)", "$IN_VALUE"), values_(std::move(values)) {}
 
     template<typename T>
-    In<T>::In(const Select &select) : select_(select), has_clause_(true) {}
+    In<T>::In(const Select &select) :
+        select_(select), has_clause_(true) {}
 
     template<typename T>
     PreparedStatement In<T>::Prepare() {

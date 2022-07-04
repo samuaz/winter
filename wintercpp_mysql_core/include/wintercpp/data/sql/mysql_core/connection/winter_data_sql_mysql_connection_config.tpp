@@ -6,14 +6,14 @@ using namespace winter::data::sql_impl::mysql::connection;
 
 template<typename TDriver>
 Config<TDriver>::Config(std::function<TDriver()> driver,
-                        std::string host,
-                        int port,
-                        std::string user_name,
-                        std::string password,
-                        std::string schema,
-                        bool opt_reconnect,
-                        int opt_connect_timeout,
-                        ConnectionProperties other_properties) :
+                        std::string              host,
+                        int                      port,
+                        std::string              user_name,
+                        std::string              password,
+                        std::string              schema,
+                        bool                     opt_reconnect,
+                        int                      opt_connect_timeout,
+                        ConnectionProperties     other_properties) :
     _driver(driver()),
     _host(std::move(host)), _port(port), _user_name(std::move(user_name)),
     _password(std::move(password)), _schema(std::move(schema)),

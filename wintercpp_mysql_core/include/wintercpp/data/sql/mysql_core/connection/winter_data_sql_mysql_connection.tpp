@@ -59,7 +59,7 @@ void MYSQL_CONNECTION_INTERFACE::Reconnect() {
 
 CONNECTION_TEMPLATES
 TResponse MYSQL_CONNECTION_INTERFACE::CreateResponse(
-    const PreparedStatement& prepared_statement,
+    const PreparedStatement&                   prepared_statement,
     const std::shared_ptr<TpreparedStatement>& prep_stmt) {
     if (prep_stmt != nullptr) {
         switch (prepared_statement.type()) {
@@ -96,7 +96,7 @@ TResponse MYSQL_CONNECTION_INTERFACE::CreateResponse(
 
 CONNECTION_TEMPLATES
 TResponse MYSQL_CONNECTION_INTERFACE::ResultQuery(
-    const PreparedStatement& prepared_statement,
+    const PreparedStatement&           prepared_statement,
     const std::shared_ptr<TResultSet>& result_set) const {
     if (result_set != nullptr) {
         if (result_set->first()) {
@@ -164,7 +164,7 @@ MYSQL_CONNECTION_INTERFACE::GeneratePrepareStatement(
     // declared on the query creation
     for (std::size_t i = 0; i != values.size(); ++i) {
         auto field = values[i].get();
-        int position = i + 1;
+        int  position = i + 1;
         switch (field->type()) {
             case FieldType::kNull: _prep_stmt->setNull(position, 0); break;
             case FieldType::kBigInt:

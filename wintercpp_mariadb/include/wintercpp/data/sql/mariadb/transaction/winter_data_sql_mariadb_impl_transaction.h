@@ -20,9 +20,9 @@ namespace winter::data::mariadb {
        public:
         Transaction(
             const shared_ptr<winter::data::mariadb::connection::Connection>&
-                connection,
+                                     connection,
             TransactionIsolationType isolationType,
-            bool partialCommit) :
+            bool                     partialCommit) :
             winter::data::sql_impl::Transaction<
                 winter::data::mariadb::Transaction,
                 winter::data::mariadb::connection::Connection,

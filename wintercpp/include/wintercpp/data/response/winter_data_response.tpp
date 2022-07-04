@@ -8,7 +8,7 @@ namespace winter::data::response {
 
     template<typename T>
     Response<T> Response<T>::Success(const std::optional<T> &entity,
-                                     const std::string &message) {
+                                     const std::string      &message) {
         return Response<T>(entity, ResponseStatus::kSuccess, message);
     }
 

@@ -23,10 +23,10 @@ namespace winter::data::sql_impl {
      */
     class ITransaction {
        public:
-        virtual void Rollback() const = 0;
-        virtual void Commit() const = 0;
+        virtual void                     Rollback() const = 0;
+        virtual void                     Commit() const = 0;
         virtual TransactionIsolationType isolation() const = 0;
-        virtual bool ignore_error() const = 0;
+        virtual bool                     ignore_error() const = 0;
     };
 
     template<typename TTransactionImpl,
@@ -47,9 +47,8 @@ namespace winter::data::sql_impl {
          * @return
          */
         explicit Transaction(std::shared_ptr<TSQLConnection> connection,
-                             TransactionIsolationType isolation_type =
-                                 TransactionIsolationType::DEFAULT,
-                             bool partial_commit = false);
+                             TransactionIsolationType        isolation_type = TransactionIsolationType::DEFAULT,
+                             bool                            partial_commit = false);
 
         /**
          * Execute the SQL statements lamda function, this lamda need to receive
@@ -141,10 +140,10 @@ namespace winter::data::sql_impl {
 
        private:
         std::shared_ptr<TSQLConnection> connection_;
-        TransactionIsolationType isolation_type_;
-        bool partial_commit_;
-        std::map<std::string, bool> operations_status_;
-        TTransactionImpl &This();
+        TransactionIsolationType        isolation_type_;
+        bool                            partial_commit_;
+        std::map<std::string, bool>     operations_status_;
+        TTransactionImpl               &This();
 
         void status(const ResponseStatus &status);
     };

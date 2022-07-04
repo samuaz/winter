@@ -43,7 +43,7 @@ namespace winter::data::response {
          * @return Response<T>
          */
         static Response<T> Success(const std::optional<T> &entity,
-                                   const std::string &message = "Success");
+                                   const std::string      &message = "Success");
 
         /**
          * @brief Boolean that Returns true if object is present

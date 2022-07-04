@@ -17,7 +17,7 @@ winter::data::sql_impl::And::And(Column column) :
     Clause("AND $and", "$and"), column_(std::move(column)),
     condition_(winter::data::sql_impl::Condition::NONE) {}
 
-winter::data::sql_impl::And::And(Column column,
+winter::data::sql_impl::And::And(Column                            column,
                                  winter::data::sql_impl::Condition condition) :
     Clause("AND $and", "$and"),
     column_(std::move(column)), condition_(condition) {}

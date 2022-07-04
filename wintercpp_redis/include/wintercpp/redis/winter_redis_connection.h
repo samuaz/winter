@@ -58,7 +58,7 @@ namespace winter::redis {
          * @return
          */
         void StringCallback(
-            const std::string &key,
+            const std::string                       &key,
             std::function<void(cpp_redis::reply &)> &reply_callback);
 
         /**

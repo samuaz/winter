@@ -47,8 +47,8 @@ namespace winter::data::sql_impl {
         Children &Value(const Column &row, const T value);
 
         template<typename T>
-        Children &Value(const Column &row,
-                        const T value,
+        Children &Value(const Column      &row,
+                        const T            value,
                         const std::string &custom_value);
 
         const PreparedStatement &prepared_statement() override;
@@ -81,18 +81,18 @@ namespace winter::data::sql_impl {
 
        protected:
         explicit Statement(std::string query);
-        Statement(std::string statement_template,
+        Statement(std::string          statement_template,
                   const StatementType &statement_type);
         Statement(const Statement &statement);
         Statement &operator=(const Statement &) = default;
 
-        std::string statement_template_;
+        std::string                        statement_template_;
         std::unique_ptr<PreparedStatement> prepared_statement_;
-        const StatementType type_ {};
+        const StatementType                type_ {};
 
        private:
         const std::string transaction_id_ = winter::random::uuid();
-        Children &This();
+        Children         &This();
     };
 
     template<typename Children>

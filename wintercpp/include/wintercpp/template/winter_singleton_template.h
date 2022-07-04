@@ -24,5 +24,5 @@
    private:                                                                  \
     _CLASSNAME_() = default;                                                 \
     static inline std::unique_ptr<_CLASSNAME_> _instance;                    \
-    static inline std::once_flag _m_once;
+    static inline std::once_flag               _m_once;
 #endif  // WINTERCPP_WINTER_SINGLETON_TEMPLATE_H

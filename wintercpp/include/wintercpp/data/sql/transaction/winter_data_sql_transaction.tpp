@@ -15,8 +15,8 @@ namespace winter::data::sql_impl {
 
     TRANSACTION_TEMPLATE
     TRANSACTION::Transaction(std::shared_ptr<TSQLConnection> connection,
-                             TransactionIsolationType isolation_type,
-                             bool partial_commit) :
+                             TransactionIsolationType        isolation_type,
+                             bool                            partial_commit) :
         connection_(std::move(connection)),
         isolation_type_(isolation_type), partial_commit_(partial_commit) {
         connection_->PrepareTransaction(isolation_type_);

@@ -38,8 +38,8 @@ namespace winter {
 
         static void init(const std::string &host, const std::string &port);
 
-        static void onInit(const std::string &host,
-                           const std::string &port,
+        static void onInit(const std::string           &host,
+                           const std::string           &port,
                            const std::function<void()> &initFunction);
 
         static void registerController(grpc::Service *controller);
@@ -48,10 +48,10 @@ namespace winter {
 
        private:
         WinterBoot();
-        static void runServer(const std::string &host, const std::string &port);
-        static ServerBuilder builder_;
+        static void                        runServer(const std::string &host, const std::string &port);
+        static ServerBuilder               builder_;
         static std::unique_ptr<WinterBoot> instance_;
-        static std::once_flag m_once_;
+        static std::once_flag              m_once_;
     };
 
 }  // namespace winter

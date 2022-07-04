@@ -28,8 +28,8 @@ namespace winter::data::sql_impl {
 
         template<typename T>
         static Predicate make_predicate(const Column &column,
-                                        Condition condition,
-                                        T value) {
+                                        Condition     condition,
+                                        T             value) {
             return Predicate(column,
                              std::make_shared<PreparedStatementField<T> >(
                                  column->name(), value),
@@ -37,9 +37,9 @@ namespace winter::data::sql_impl {
         }
 
         template<typename T>
-        static Predicate make_predicate(const Column &column,
-                                        Condition condition,
-                                        T value,
+        static Predicate make_predicate(const Column      &column,
+                                        Condition          condition,
+                                        T                  value,
                                         const std::string &custom_value) {
             return Predicate(column,
                              std::make_shared<PreparedStatementField<T> >(
@@ -51,9 +51,9 @@ namespace winter::data::sql_impl {
         const Column column_;
         const std::shared_ptr<
             winter::data::sql_impl::AbstractPreparedStatementField>
-            field_;
+                                                field_;
         const winter::data::sql_impl::Condition condition_ {};
-        const bool _is_predicate = false;
+        const bool                              _is_predicate = false;
     };
 
 }  // namespace winter::data::sql_impl

@@ -21,8 +21,8 @@ namespace winter::data::sql_impl {
 
        private:
         std::vector<std::shared_ptr<Table>> tables_;
-        std::vector<Column> columns_;
-        void GenerateStatement();
+        std::vector<Column>                 columns_;
+        void                                GenerateStatement();
     };
 
 }  // namespace winter::data::sql_impl

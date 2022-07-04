@@ -30,7 +30,8 @@ namespace winter::data::sql_impl {
     using namespace winter::data::sql_impl;
 
     struct MigrationTable : public virtual Table {
-        MigrationTable() : Table("db_migrations", DatabaseType::kGeneric) {}
+        MigrationTable() :
+            Table("db_migrations", DatabaseType::kGeneric) {}
 
         const Column id = Long("id");
         const Column name = String("name");
@@ -56,13 +57,13 @@ namespace winter::data::sql_impl {
     class DataBaseMigration {
        public:
         explicit DataBaseMigration(
-            std::vector<Migration> migrations_sql,
+            std::vector<Migration>                            migrations_sql,
             std::function<std::shared_ptr<TConnectionType>()> readWriteDb) :
             path_(std::nullopt),
             migrations_sql_(std::move(migrations_sql)),
             read_write_db_(std::move(readWriteDb)) {}
         DataBaseMigration(
-            std::string path,
+            std::string                                       path,
             std::function<std::shared_ptr<TConnectionType>()> readWriteDb) :
             path_(std::move(path)),
             read_write_db_(std::move(readWriteDb)) {}
@@ -71,13 +72,12 @@ namespace winter::data::sql_impl {
 
        private:
         const std::optional<std::string> path_;
-        const std::vector<Migration> migrations_sql_;
+        const std::vector<Migration>     migrations_sql_;
 
         std::function<std::shared_ptr<TConnectionType>()> read_write_db_;
-        std::shared_ptr<MigrationTable> migration_table_ =
-            std::make_shared<MigrationTable>();
-        std::vector<fs::directory_entry> MigrationsFiles() const;
-        std::vector<Migration> Migrations() const;
+        std::shared_ptr<MigrationTable>                   migration_table_ = std::make_shared<MigrationTable>();
+        std::vector<fs::directory_entry>                  MigrationsFiles() const;
+        std::vector<Migration>                            Migrations() const;
 
         Migration CreateMigrationTable() const;
     };

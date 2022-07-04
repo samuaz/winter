@@ -28,7 +28,7 @@ namespace winter::data::sql_impl {
     template<typename TResultSet>
     DataTypeResult ResultRow<TResultSet>::operator[](
         const winter::data::sql_impl::Column &column) const {
-        auto column_name = column.name();
+        auto         column_name = column.name();
         return this->operator[](column_name);
     }
 
@@ -75,7 +75,7 @@ namespace winter::data::sql_impl {
     }
 
     template<typename TResultSet>
-    void ResultRow<TResultSet>::AddRow(const std::string &name,
+    void ResultRow<TResultSet>::AddRow(const std::string             &name,
                                        const std::optional<DataType> &sqlType) {
         rows_.insert(std::pair(name, sqlType));
     }

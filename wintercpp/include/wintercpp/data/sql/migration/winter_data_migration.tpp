@@ -21,9 +21,8 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                             std::to_string(migration.Hash())))
                             >> transaction;
             if (! response) {
-                auto migrationResponse =
-                    (Query(StatementType::kCreate, migration.script)
-                     >> transaction);
+                auto migrationResponse = (Query(StatementType::kCreate, migration.script)
+                                          >> transaction);
                 migrationResponse.template Then<void>(
                     [&](void) -> void {
                         Insert(migration_table_) << Values(
@@ -49,7 +48,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
 template<typename TConnectionType, typename TTransactionType>
 std::vector<fs::directory_entry>
 DataBaseMigration<TConnectionType, TTransactionType>::MigrationsFiles() const {
-    auto dir = fs::directory_iterator(path_.value());
+    auto                             dir = fs::directory_iterator(path_.value());
     std::vector<fs::directory_entry> paths;
     if (dir->exists()) {
         for (const auto &entry : fs::directory_iterator(path_.value())) {
@@ -73,8 +72,8 @@ DataBaseMigration<TConnectionType, TTransactionType>::Migrations() const {
         std::vector<Migration> migrations;
         for (const auto &entry : MigrationsFiles()) {
             std::ifstream ifs(entry.path());
-            std::string name(fs::path(entry).filename());
-            std::string content((std::istreambuf_iterator<char>(ifs)),
+            std::string   name(fs::path(entry).filename());
+            std::string   content((std::istreambuf_iterator<char>(ifs)),
                                 (std::istreambuf_iterator<char>()));
             migrations.emplace_back(name, content);
         }

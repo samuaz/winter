@@ -7,9 +7,9 @@
 using namespace winter;
 
 redis::Connection *redis::Connection::Create(const redis::Config &redisConfig) {
-    auto *client = new cpp_redis::client;
+    auto       *client = new cpp_redis::client;
     const auto &host = redisConfig.host();
-    auto port = redisConfig.port();
+    auto        port = redisConfig.port();
     const auto &password = redisConfig.password();
     client->auth(password);
     client->connect(host, port);
@@ -43,7 +43,7 @@ std::string redis::Connection::String(const std::string &key) {
 }
 
 void redis::Connection::StringCallback(
-    const std::string &key,
+    const std::string                       &key,
     std::function<void(cpp_redis::reply &)> &reply_callback) {
     std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
     Reconnect();
@@ -53,7 +53,7 @@ void redis::Connection::StringCallback(
 
 void redis::Connection::DelKey(const std::string &key) {
     std::scoped_lock<std::recursive_mutex> lock(conn_mtx());
-    std::vector<std::string> keys = {key};
+    std::vector<std::string>               keys = {key};
     Reconnect();
     conn().del(keys);
     conn().commit();

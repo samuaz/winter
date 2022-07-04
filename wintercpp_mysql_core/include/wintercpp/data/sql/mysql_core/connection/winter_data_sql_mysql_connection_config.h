@@ -17,14 +17,14 @@ namespace winter::data::sql_impl::mysql::connection {
     class Config {
        public:
         Config(std::function<TDriver()> driver,
-               std::string host,
-               int port,
-               std::string user_name,
-               std::string password,
-               std::string schema,
-               bool opt_reconnect,
-               int opt_connect_timeout,
-               ConnectionProperties other_properties = {});
+               std::string              host,
+               int                      port,
+               std::string              user_name,
+               std::string              password,
+               std::string              schema,
+               bool                     opt_reconnect,
+               int                      opt_connect_timeout,
+               ConnectionProperties     other_properties = {});
 
         const std::string& host() const;
 
@@ -45,14 +45,14 @@ namespace winter::data::sql_impl::mysql::connection {
         const TDriver& driver() const;
 
        private:
-        TDriver _driver;
-        const std::string _host;
-        const int _port;
-        const std::string _user_name;
-        const std::string _password;
-        const std::string _schema;
-        const bool _opt_reconnect;
-        const int _opt_connect_timeout;
+        TDriver                    _driver;
+        const std::string          _host;
+        const int                  _port;
+        const std::string          _user_name;
+        const std::string          _password;
+        const std::string          _schema;
+        const bool                 _opt_reconnect;
+        const int                  _opt_connect_timeout;
         const ConnectionProperties _other_properties;
     };
 }  // namespace winter::data::sql_impl::mysql::connection

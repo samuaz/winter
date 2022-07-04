@@ -15,8 +15,8 @@
 
 using namespace winter::data::sql_impl;
 
-Table::Table(std::string name,
-             TableType table_type,
+Table::Table(std::string  name,
+             TableType    table_type,
              DatabaseType database_type) :
     name_(std::move(name)),
     type_(table_type), database_type_(database_type) {}
@@ -75,7 +75,7 @@ const Column &Table::RegisterColumn(const Column &col) {
 }
 
 const Column &Table::RegisterColumn(const std::string &name,
-                                    FieldType fieldType) {
+                                    FieldType          fieldType) {
     return RegisterColumn(Column(*this, name, fieldType));
 }
 
@@ -174,6 +174,14 @@ const Column &Table::Enum(const std::string &name) {
 const Column &Table::Blob(const std::string &name) {
     return RegisterColumn(name, FieldType::kBlob);
 }
+
+bool Table::operator< (const Table& table) const {
+    std::stringstream left, right;
+    left << this->name();
+    right << table.name();
+    return left.str() < right.str();
+}
+
 
 Table::~Table() {}
 

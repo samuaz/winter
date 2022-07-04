@@ -17,7 +17,7 @@ namespace winter::data::sql_impl {
     class On : public virtual Clause {
        public:
         explicit On(const Column &l_column,
-                    Condition condition,
+                    Condition     condition,
                     const Column &r_column);
         explicit On(const Column &l_column, Condition condition);
         PreparedStatement Prepare() override;

@@ -22,12 +22,9 @@ winter::data::mariadb::connection::Connection* Pool::CreateConn() {
         connectionProperties["user"] = Pool::connection_config_->user_name();
         connectionProperties["password"] = Pool::connection_config_->password();
         connectionProperties["schema"] = Pool::connection_config_->schema();
-        connectionProperties["port"] =
-            std::to_string(Pool::connection_config_->port());
-        connectionProperties["OPT_RECONNECT"] =
-            std::to_string(Pool::connection_config_->is_opt_reconnect());
-        connectionProperties["OPT_CONNECT_TIMEOUT"] =
-            std::to_string(Pool::connection_config_->opt_connect_timeout());
+        connectionProperties["port"] = std::to_string(Pool::connection_config_->port());
+        connectionProperties["OPT_RECONNECT"] = std::to_string(Pool::connection_config_->is_opt_reconnect());
+        connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(Pool::connection_config_->opt_connect_timeout());
 
         std::string url = Pool::connection_config_->host() + ":"
                           + std::to_string(Pool::connection_config_->port())

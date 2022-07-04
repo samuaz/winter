@@ -29,8 +29,8 @@ namespace winter::data::sql_impl {
 
        private:
         std::vector<T> values_;
-        Select select_;
-        bool has_clause = false;
+        Select         select_;
+        bool           has_clause = false;
     };
 
 }  // namespace winter::data::sql_impl

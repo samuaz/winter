@@ -84,10 +84,12 @@ namespace winter::data::sql_impl {
             return this;
         }
 
+        bool operator< (const Column& column) const;
+
        private:
-        const Table &table_;
+        const Table      &table_;
         const std::string name_;
-        const FieldType type_;
+        const FieldType   type_;
     };
 
     /**

@@ -41,9 +41,10 @@ namespace winter::data {
          * @param page_number the name of the page
          * @param order_by criteria to sort the page order
          */
-        virtual Pageable<TEntityClass> Page(int page_size,
-                                            int page_number,
-                                            const std::string &order_by) = 0;
+        virtual Pageable<TEntityClass> Page(int                page_size,
+                                            int                page_number,
+                                            const std::string &order_by)
+            = 0;
 
         /**
          * @brief Returns the total count of elements of given repository table
@@ -74,7 +75,8 @@ namespace winter::data {
          * @return Response<TEntityClass>
          */
         virtual std::optional<TEntityClass> CreateEntity(
-            const TResultSetType &) = 0;
+            const TResultSetType &)
+            = 0;
 
         /**
          * @brief Returns a single TEntityClass from TResultSetType, if there is

@@ -46,7 +46,8 @@ namespace winter::data::sql_impl {
          * @return
          */
         virtual void PrepareTransaction(
-            const TransactionIsolationType &isolation) = 0;
+            const TransactionIsolationType &isolation)
+            = 0;
 
         /**
          * @brief Manuall commit the transaction

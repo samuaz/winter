@@ -15,8 +15,8 @@
 using namespace winter::security;
 using namespace winter::exception;
 
-GrpcJwt &GrpcJwt::init(const string &key,
-                       const string &secret_key,
+GrpcJwt &GrpcJwt::init(const string        &key,
+                       const string        &secret_key,
                        std::chrono::seconds token_exp,
                        std::chrono::seconds refresh_token_exp) {
     std::call_once(m_once_, [&]() {
@@ -39,8 +39,8 @@ GrpcJwt &GrpcJwt::instance() {
     return *instance_;
 }
 
-GrpcJwt::GrpcJwt(string key,
-                 string secretKey,
+GrpcJwt::GrpcJwt(string               key,
+                 string               secretKey,
                  std::chrono::seconds token_exp,
                  std::chrono::seconds refresh_token_exp) :
     Jwt(std::move(secretKey), token_exp, refresh_token_exp),
@@ -48,7 +48,7 @@ GrpcJwt::GrpcJwt(string key,
 
 std::string GrpcJwt::ExtractTokenFromGrpcMetadata(
     const std::multimap<grpc::string_ref, grpc::string_ref> &metadata) const {
-    auto map = metadata;
+    auto                                                        map = metadata;
     std::multimap<grpc::string_ref, grpc::string_ref>::iterator itr;
     for (itr = map.begin(); itr != map.end(); ++itr) {
         if (itr->first == "Authorization" || itr->first == "authorization") {
@@ -82,8 +82,7 @@ std::string GrpcJwt::ExtractTokenFromGrpcMetadata(
 }
 
 UserSecurityInfo GrpcJwt::Secure(const grpc::ServerContext &context) const {
-    std::string token =
-        GrpcJwt::ExtractTokenFromGrpcMetadata(context.client_metadata());
+    std::string token = GrpcJwt::ExtractTokenFromGrpcMetadata(context.client_metadata());
 
     TokenStatus tokenStatus = GrpcJwt::ValidateToken(token);
 
@@ -96,7 +95,7 @@ UserSecurityInfo GrpcJwt::Secure(const grpc::ServerContext &context) const {
 }
 
 UserSecurityInfo GrpcJwt::Secure(const grpc::ServerContext &context,
-                                 const Session &session) const {
+                                 const Session             &session) const {
     UserSecurityInfo userSecurityInfo = Secure(context);
 
     if (! session.IsValid(userSecurityInfo)) {

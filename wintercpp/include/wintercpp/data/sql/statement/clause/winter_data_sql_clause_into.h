@@ -16,7 +16,7 @@ namespace winter::data::sql_impl {
 
        private:
         std::shared_ptr<Table> table_;
-        void GenerateStatement();
+        void                   GenerateStatement();
     };
 }  // namespace winter::data::sql_impl
 

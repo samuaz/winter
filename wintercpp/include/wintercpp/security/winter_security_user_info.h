@@ -20,7 +20,7 @@ namespace winter::security {
         const std::string& key() const;
         const std::string& user_id() const;
         const std::string& token() const;
-        TokenStatus& token_status() const;
+        TokenStatus&       token_status() const;
 
        private:
         const std::string key_;

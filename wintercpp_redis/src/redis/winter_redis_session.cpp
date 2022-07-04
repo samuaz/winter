@@ -20,7 +20,7 @@ void Session::RemoveSession(
 
 bool Session::IsValid(
     const winter::security::UserSecurityInfo &user_security_info) const {
-    auto redis = redis_connection_();
+    auto        redis = redis_connection_();
     std::string redisSessionToken = redis->String(user_security_info.user_id());
 
     if (redisSessionToken.empty()) { return false; }

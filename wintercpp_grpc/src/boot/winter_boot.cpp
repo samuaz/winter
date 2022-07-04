@@ -7,8 +7,8 @@
 using namespace winter;
 
 std::unique_ptr<WinterBoot> WinterBoot::instance_;
-std::once_flag WinterBoot::m_once_;
-ServerBuilder WinterBoot::builder_;
+std::once_flag              WinterBoot::m_once_;
+ServerBuilder               WinterBoot::builder_;
 
 void WinterBoot::init(const std::string &host, const std::string &port) {
     getInstance();
@@ -46,8 +46,8 @@ void WinterBoot::runServer(const std::string &host, const std::string &port) {
 
 WinterBoot::~WinterBoot() = default;
 
-void WinterBoot::onInit(const std::string &host,
-                        const std::string &port,
+void WinterBoot::onInit(const std::string           &host,
+                        const std::string           &port,
                         const std::function<void()> &initFunction) {
     initFunction();
     init(host, port);

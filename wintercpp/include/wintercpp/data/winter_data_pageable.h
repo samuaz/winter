@@ -40,9 +40,9 @@ namespace winter::data {
          * @param row_total Total elements of all pages
          * @param page_content vector with the requested content
          */
-        Pageable(int page_size,
-                 int page_number,
-                 int row_total,
+        Pageable(int            page_size,
+                 int            page_number,
+                 int            row_total,
                  std::vector<T> page_content);
 
         /**
@@ -110,9 +110,9 @@ namespace winter::data {
         int OffSet() const;
 
        private:
-        int page_size_;
-        int page_number_;
-        int row_total_;
+        int            page_size_;
+        int            page_number_;
+        int            row_total_;
         std::vector<T> page_content_;
     };
 

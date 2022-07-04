@@ -75,7 +75,7 @@ namespace winter::templates {
 #endif
                 AddConn(CreateConn());
             } else {
-                int intents = 0;
+                int                       intents = 0;
                 std::chrono::milliseconds waitTme(500);
                 while (available_connections_.empty()) {
 #if DEBUG

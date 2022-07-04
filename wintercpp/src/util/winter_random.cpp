@@ -11,19 +11,17 @@ using namespace winter::exception;
 
 std::size_t winter::random::StreamSize(const std::stringstream &s) {
     std::streambuf *buf = s.rdbuf();
-    std::streampos pos =
-        buf->pubseekoff(0, std::ios_base::cur, std::ios_base::in);
-    std::streampos end =
-        buf->pubseekoff(0, std::ios_base::end, std::ios_base::in);
+    std::streampos  pos = buf->pubseekoff(0, std::ios_base::cur, std::ios_base::in);
+    std::streampos  end = buf->pubseekoff(0, std::ios_base::end, std::ios_base::in);
     buf->pubseekpos(pos, std::ios_base::in);
     return end - pos;
 }
 
 unsigned int winter::random::randomChar(const bool onlyABC, bool onlyHex) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    std::random_device              rd;
+    std::mt19937                    gen(rd());
     std::uniform_int_distribution<> dis(0, 255);
-    auto character = dis(gen);
+    auto                            character = dis(gen);
 
     // only numbers or letters
     if (onlyABC) {
@@ -46,7 +44,7 @@ unsigned int winter::random::randomChar(const bool onlyABC, bool onlyHex) {
 std::string winter::random::generateHex(const unsigned int len) {
     std::stringstream ss;
     for (unsigned int i = 0; i < len; i++) {
-        const auto rc = randomChar(true, true);
+        const auto        rc = randomChar(true, true);
         std::stringstream hexstream;
         hexstream << std::hex << rc;
         auto hex = hexstream.str();
@@ -57,13 +55,13 @@ std::string winter::random::generateHex(const unsigned int len) {
 
 std::string winter::random::timeNowHex() {
     std::stringstream stream;
-    std::time_t result = std::time(nullptr);
+    std::time_t       result = std::time(nullptr);
     stream << std::hex << result;
     return stream.str();
 }
 
 std::string winter::random::highResolutionClockHex() {
-    auto now = std::chrono::high_resolution_clock::now();
+    auto              now = std::chrono::high_resolution_clock::now();
     std::stringstream stream;
     stream << std::hex
            << std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -91,9 +89,7 @@ std::string winter::random::uuid(bool dashed) {
         throw WinterInternalException::Create(
             __FILE__, __FUNCTION__, __LINE__, "wrong uuid generation");
     }
-    const bool dash[] = {false, false, false, false, false, false, false,
-                         false, true,  false, false, false, true,  false,
-                         false, false, true,  false, false, false, true};
+    const bool dash[] = {false, false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false, true};
     if (dashed) {
         std::string finalId;
         for (unsigned long i = 0; i < idSize; i++) {
@@ -125,11 +121,11 @@ std::string winter::random::uuidNoDashed() {
 }
 
 std::string winter::random::uuidRandom() {
-    static random_device dev;
-    static mt19937 rng(dev());
+    static random_device          dev;
+    static mt19937                rng(dev());
     uniform_int_distribution<int> dist(0, 15);
-    const char *v = "0123456789abcdef";
-    const bool dash[] = {false,
+    const char                   *v = "0123456789abcdef";
+    const bool                    dash[] = {false,
                          false,
                          false,
                          false,
@@ -145,7 +141,7 @@ std::string winter::random::uuidRandom() {
                          false,
                          false,
                          false};
-    string res;
+    string                        res;
     for (bool i : dash) {
         if (i) res += "-";
         res += v[dist(rng)];

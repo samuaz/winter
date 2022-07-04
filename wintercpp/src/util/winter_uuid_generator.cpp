@@ -5,11 +5,10 @@
 #include <wintercpp/util/winter_uuid_generator.h>
 
 std::string winter::uuid::generateUUID() {
-    const std::string CHARS =
-        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    std::string uuid = std::string(36, ' ');
-    int rnd = 0;
-    int r = 0;
+    const std::string CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    std::string       uuid = std::string(36, ' ');
+    int               rnd = 0;
+    int               r = 0;
 
     uuid[8] = '-';
     uuid[13] = '-';
@@ -31,7 +30,7 @@ std::string winter::uuid::generateUUID() {
 }
 
 std::istringstream winter::uuid::generateUUIDBlob() {
-    std::string value(generateUUID());
+    std::string        value(generateUUID());
     std::istringstream uuid(value);
     return uuid;
 }

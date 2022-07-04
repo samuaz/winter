@@ -53,8 +53,13 @@ const std::string &Column::TableName() const {
 }
 
 bool Column::operator==(const Column &column) const {
-    return this->TableName() == column.TableName()
-           && this->name_ == column.name_;
+    return this->TableName() == column.TableName() && this->name_ == column.name_;
+}
+
+bool Column::operator<(const Column &column) const {
+    std::string left = this->TableName() + this->name();
+    std::string right = column.TableName() + column.name();
+    return (left < right);
 }
 
 bool ColumnComparator::operator()(const std::shared_ptr<Column> &lhs,

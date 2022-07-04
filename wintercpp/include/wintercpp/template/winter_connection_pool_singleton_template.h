@@ -25,7 +25,7 @@ namespace winter::templates {
 
         static SinglePool &Init(
             const winter::descriptor::PoolDescriptor &pool_descriptor,
-            const std::optional<TConnectionConfig> &connection_config);
+            const std::optional<TConnectionConfig>   &connection_config);
 
         static std::shared_ptr<TConnectionType> Connection();
 
@@ -39,7 +39,7 @@ namespace winter::templates {
 
        protected:
         explicit SinglePool(winter::descriptor::PoolDescriptor pool_descriptor,
-                            std::optional<TConnectionConfig> connection_config);
+                            std::optional<TConnectionConfig>   connection_config);
 
         static inline std::unique_ptr<SinglePool> instance_;
 

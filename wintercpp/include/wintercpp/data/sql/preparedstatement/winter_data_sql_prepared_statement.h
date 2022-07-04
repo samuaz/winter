@@ -23,25 +23,25 @@ namespace winter::data::sql_impl {
         PreparedStatement() = default;
 
         PreparedStatement(const StatementType &statement_type,
-                          std::string statement_template,
-                          std::string id = winter::random::uuid());
+                          std::string          statement_template,
+                          std::string          id = winter::random::uuid());
 
         PreparedStatement(const StatementType &statement_type,
-                          std::string statement_template,
-                          std::vector<Column> columns_,
-                          std::string id = winter::random::uuid());
+                          std::string          statement_template,
+                          std::vector<Column>  columns_,
+                          std::string          id = winter::random::uuid());
 
         PreparedStatement(
-            const StatementType &statement_type,
-            std::string query,
+            const StatementType                                         &statement_type,
+            std::string                                                  query,
             std::deque<std::shared_ptr<AbstractPreparedStatementField> > values,
-            std::string id = winter::random::uuid());
+            std::string                                                  id = winter::random::uuid());
 
         PreparedStatement(
-            const StatementType &statement_type,
-            std::string statement_template,
+            const StatementType                                   &statement_type,
+            std::string                                            statement_template,
             const std::shared_ptr<AbstractPreparedStatementField> &value,
-            std::string id = winter::random::uuid());
+            std::string                                            id = winter::random::uuid());
 
         const std::string &id() const;
 
@@ -103,11 +103,11 @@ namespace winter::data::sql_impl {
         virtual ~PreparedStatement() = default;
 
        private:
-        std::string id_ {};
+        std::string   id_ {};
         StatementType type_ {};
         // std::shared_ptr<AbstractPreparedStatementField> _entityId;
-        std::string statement_template_;
-        std::vector<Column> columns_;
+        std::string                                                  statement_template_;
+        std::vector<Column>                                          columns_;
         std::deque<std::shared_ptr<AbstractPreparedStatementField> > values_;
         std::deque<std::shared_ptr<AbstractPreparedStatementField> >::iterator
         FindValue(const std::string &name);

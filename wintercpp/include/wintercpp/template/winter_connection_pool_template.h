@@ -23,22 +23,22 @@ namespace winter::templates {
     class ConnectionPool {
        public:
         std::shared_ptr<TConnection> Conn();
-        void ReleaseConn(TConnection *conn);
+        void                         ReleaseConn(TConnection *conn);
         virtual ~ConnectionPool();
 
        protected:
         explicit ConnectionPool(
             winter::descriptor::PoolDescriptor pool_descriptor);
         winter::descriptor::PoolDescriptor pool_descriptor_;
-        void InitPool();
+        void                               InitPool();
 
        private:
-        std::recursive_mutex pool_mtx_;
+        std::recursive_mutex      pool_mtx_;
         std::deque<TConnection *> available_connections_;
         std::deque<TConnection *> in_use_connections_;
-        void CheckConnections();
-        void AddConn(TConnection *conn, bool release = false);
-        virtual TConnection *CreateConn() = 0;
+        void                      CheckConnections();
+        void                      AddConn(TConnection *conn, bool release = false);
+        virtual TConnection      *CreateConn() = 0;
     };
 
 };  // namespace winter::templates

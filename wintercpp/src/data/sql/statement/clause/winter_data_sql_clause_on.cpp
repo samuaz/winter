@@ -7,7 +7,7 @@
 #include <wintercpp/util/winter_string_util.h>
 
 winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
-                               winter::data::sql_impl::Condition condition,
+                               winter::data::sql_impl::Condition     condition,
                                const winter::data::sql_impl::Column &r_column) :
     Clause("ON $lcolumn $condition $rcolumn", "$lcolumn $condition $rcolumn") {
     set_statement_template(winter::util::string::replace_value(
@@ -23,7 +23,7 @@ winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
 }
 
 winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
-                               winter::data::sql_impl::Condition condition) :
+                               winter::data::sql_impl::Condition     condition) :
     Clause("ON $lcolumn $condition", "$lcolumn $condition") {
     set_statement_template(winter::util::string::replace_value(
         statement_template(),

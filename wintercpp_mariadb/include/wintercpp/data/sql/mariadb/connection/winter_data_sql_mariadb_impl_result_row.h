@@ -17,7 +17,7 @@ namespace winter::data::mariadb::connection {
             ::sql::ResultSet> {
        public:
         ResultRow(const data::sql_impl::PreparedStatement& preparedStatement,
-                  const std::shared_ptr<sql::ResultSet>& resultSet) :
+                  const std::shared_ptr<sql::ResultSet>&   resultSet) :
             winter::data::sql_impl::mysql::ResultRow<::sql::ResultSet>(
                 preparedStatement, resultSet) {}
     };

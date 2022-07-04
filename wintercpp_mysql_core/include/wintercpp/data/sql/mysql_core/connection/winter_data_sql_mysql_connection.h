@@ -64,18 +64,19 @@ namespace winter::data::sql_impl::mysql::connection {
 
        private:
         virtual TIsolationType IsolationLevel(
-            const TransactionIsolationType &isolation) = 0;
+            const TransactionIsolationType &isolation)
+            = 0;
 
         TResponse CreateResponse(
-            const PreparedStatement &prepared_statement,
+            const PreparedStatement                   &prepared_statement,
             const std::shared_ptr<TpreparedStatement> &prep_stmt);
 
         TResponse ResultQuery(
-            const PreparedStatement &prepared_statement,
+            const PreparedStatement           &prepared_statement,
             const std::shared_ptr<TResultSet> &result_set) const;
 
         TResponse NoResultQuery(const PreparedStatement &prepared_statement,
-                                int update_count) const;
+                                int                      update_count) const;
     };
 
 }  // namespace winter::data::sql_impl::mysql::connection

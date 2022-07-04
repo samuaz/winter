@@ -37,7 +37,8 @@ namespace winter::templates {
         }
 
        protected:
-        explicit Connection(TConnectionType *conn) : conn_(conn) {}
+        explicit Connection(TConnectionType *conn) :
+            conn_(conn) {}
 
         constexpr TConnectionType &conn() const {
             if (conn_ == nullptr) {
@@ -55,14 +56,15 @@ namespace winter::templates {
         }
 
        private:
-        const std::string id_ {winter::random::generateHex(10)};
+        const std::string                      id_ {winter::random::generateHex(10)};
         const std::unique_ptr<TConnectionType> conn_;
-        std::recursive_mutex conn_mtx_ {};
+        std::recursive_mutex                   conn_mtx_ {};
     };
 
     template<typename ConnectionImpl, typename ConnectionType>
     struct MatchConn {
-        explicit MatchConn(const std::string &id) : id_(id) {}
+        explicit MatchConn(const std::string &id) :
+            id_(id) {}
 
         bool operator()(const Connection<ConnectionType> &obj) const {
             return obj.id_ == id_;

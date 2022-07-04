@@ -10,7 +10,11 @@
 
 namespace winter::data::sql_impl {
 
-    enum class JoinType : int { DEFAULT = 0, INNER, LEFT, RIGHT, CROSS };
+    enum class JoinType : int { DEFAULT = 0,
+                                INNER,
+                                LEFT,
+                                RIGHT,
+                                CROSS };
 
     class Join : public virtual Clause {
        public:
@@ -20,9 +24,9 @@ namespace winter::data::sql_impl {
 
        private:
         std::shared_ptr<Table> table_;
-        JoinType type_;
-        void GenerateStatement();
-        std::string GenerateType();
+        JoinType               type_;
+        void                   GenerateStatement();
+        std::string            GenerateType();
     };
 
 }  // namespace winter::data::sql_impl

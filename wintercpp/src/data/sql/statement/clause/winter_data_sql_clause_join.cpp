@@ -7,7 +7,7 @@
 #include <wintercpp/util/winter_string_util.h>
 
 winter::data::sql_impl::Join::Join(std::shared_ptr<Table> table,
-                                   JoinType type) :
+                                   JoinType               type) :
     Clause("$type JOIN $table", "$table"),
     table_(std::move(table)), type_(type) {
     set_statement_template(winter::util::string::replace_value(

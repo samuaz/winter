@@ -63,22 +63,22 @@ namespace winter::data::sql_impl {
         };
 
        protected:
-        Response(const std::string& transaction_id,
-                 StatementType type,
+        Response(const std::string&           transaction_id,
+                 StatementType                type,
                  winter::data::ResponseStatus status,
-                 const std::string& message) :
+                 const std::string&           message) :
             winter::templates::Response<TImplementation,
                                         std::vector<TResultRow>,
                                         winter::data::ResponseStatus>(status,
                                                                       message),
             transaction_id_(transaction_id), type_(type) {}
 
-        Response(const std::string& transaction_id,
-                 StatementType type,
+        Response(const std::string&             transaction_id,
+                 StatementType                  type,
                  const std::vector<TResultRow>& result,
-                 winter::data::ResponseStatus status,
-                 const std::string& message,
-                 int row_affected) :
+                 winter::data::ResponseStatus   status,
+                 const std::string&             message,
+                 int                            row_affected) :
             winter::templates::Response<TImplementation,
                                         std::vector<TResultRow>,
                                         winter::data::ResponseStatus>(
@@ -90,9 +90,9 @@ namespace winter::data::sql_impl {
         Response& operator=(const Response&) = default;
 
        private:
-        const std::string transaction_id_ {};
+        const std::string   transaction_id_ {};
         const StatementType type_ {0};
-        const int row_affected_ {0};
+        const int           row_affected_ {0};
     };
 
 }  // namespace winter::data::sql_impl

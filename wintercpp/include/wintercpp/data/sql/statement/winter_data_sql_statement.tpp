@@ -10,12 +10,11 @@ namespace winter::data::sql_impl {
         statement_template_(std::move(query)), type_(StatementType::kNative) {}
 
     template<typename Children>
-    Statement<Children>::Statement(std::string statement_template,
+    Statement<Children>::Statement(std::string          statement_template,
                                    const StatementType &statement_type) :
         statement_template_(std::move(statement_template)),
         type_(statement_type) {
-        prepared_statement_ =
-            std::make_unique<PreparedStatement>(type_, "", transaction_id_);
+        prepared_statement_ = std::make_unique<PreparedStatement>(type_, "", transaction_id_);
     }
 
     template<typename Children>
@@ -66,8 +65,8 @@ namespace winter::data::sql_impl {
 
     template<typename Children>
     template<typename T>
-    Children &Statement<Children>::Value(const Column &row,
-                                         const T value,
+    Children &Statement<Children>::Value(const Column      &row,
+                                         const T            value,
                                          const std::string &custom_value) {
         prepared_statement_->AddValue(
             new PreparedStatementField<T>(row->name(), value, custom_value));

@@ -38,8 +38,8 @@ namespace winter::data::sql_impl {
 
        protected:
         std::string name_;
-        T value_;
-        FieldType type_;
+        T           value_;
+        FieldType   type_;
     };
 
 }  // namespace winter::data::sql_impl

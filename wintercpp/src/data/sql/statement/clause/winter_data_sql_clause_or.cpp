@@ -17,7 +17,7 @@ winter::data::sql_impl::Or::Or(Column column) :
     Clause("OR $or", "$or"), column_(std::move(column)),
     condition_(winter::data::sql_impl::Condition::NONE) {}
 
-winter::data::sql_impl::Or::Or(Column column,
+winter::data::sql_impl::Or::Or(Column                            column,
                                winter::data::sql_impl::Condition condition) :
     Clause("OR $or", "$or"),
     column_(std::move(column)), condition_(condition) {}

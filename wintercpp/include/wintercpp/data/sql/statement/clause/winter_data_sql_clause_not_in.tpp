@@ -6,7 +6,8 @@ namespace winter::data::sql_impl {
         values_(std::move(values)) {}
 
     template<typename T>
-    NotIn<T>::NotIn(const Select &select) : select_(select), has_clause(true) {}
+    NotIn<T>::NotIn(const Select &select) :
+        select_(select), has_clause(true) {}
 
     template<typename T>
     PreparedStatement NotIn<T>::Prepare() {

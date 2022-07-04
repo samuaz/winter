@@ -17,7 +17,9 @@ namespace winter::security {
      * @enum INVALID
      * status response from token
      */
-    enum class TokenStatusType { VALID = 0, EXPIRED = 1, INVALID = 2 };
+    enum class TokenStatusType { VALID = 0,
+                                 EXPIRED = 1,
+                                 INVALID = 2 };
 
     /**
      * @struct TokenStatus
@@ -34,7 +36,7 @@ namespace winter::security {
 
        private:
         const TokenStatusType status_;
-        const std::string message_;
+        const std::string     message_;
     };
 
 }  // namespace winter::security
