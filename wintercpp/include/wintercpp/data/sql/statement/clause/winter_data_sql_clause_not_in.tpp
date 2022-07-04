@@ -20,7 +20,7 @@ namespace winter::data::sql_impl {
                     select_.prepared_statement().statement_template()),
                 select_.prepared_statement().values());
         } else {
-            std::deque<std::shared_ptr<AbstractPreparedStatementField> > fields;
+            std::vector<std::shared_ptr<AbstractPreparedStatementField> > fields;
             for (const auto &value : values_) {
                 fields.push_back(
                     std::make_shared<PreparedStatementField<T> >(value));

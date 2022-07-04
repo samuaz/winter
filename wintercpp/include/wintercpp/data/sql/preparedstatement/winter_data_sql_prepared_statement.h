@@ -10,7 +10,6 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_type.h>
 #include <wintercpp/util/winter_random.h>
 
-#include <deque>
 #include <memory>
 #include <set>
 #include <string>
@@ -34,7 +33,7 @@ namespace winter::data::sql_impl {
         PreparedStatement(
             const StatementType                                         &statement_type,
             std::string                                                  query,
-            std::deque<std::shared_ptr<AbstractPreparedStatementField> > values,
+            std::vector<std::shared_ptr<AbstractPreparedStatementField> > values,
             std::string                                                  id = winter::random::uuid());
 
         PreparedStatement(
@@ -47,11 +46,11 @@ namespace winter::data::sql_impl {
 
         void set_id(const std::string &id);
 
-        const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
+        const std::vector<std::shared_ptr<AbstractPreparedStatementField> >
             &values() const;
 
         void set_values(
-            const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
+            const std::vector<std::shared_ptr<AbstractPreparedStatementField> >
                 &values);
 
         PreparedStatement &AddValue(AbstractPreparedStatementField *field);
@@ -108,8 +107,8 @@ namespace winter::data::sql_impl {
         // std::shared_ptr<AbstractPreparedStatementField> _entityId;
         std::string                                                  statement_template_;
         std::vector<Column>                                          columns_;
-        std::deque<std::shared_ptr<AbstractPreparedStatementField> > values_;
-        std::deque<std::shared_ptr<AbstractPreparedStatementField> >::iterator
+        std::vector<std::shared_ptr<AbstractPreparedStatementField> > values_;
+        std::vector<std::shared_ptr<AbstractPreparedStatementField> >::iterator
         FindValue(const std::string &name);
     };
 }  // namespace winter::data::sql_impl

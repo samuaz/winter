@@ -27,8 +27,8 @@ namespace winter::data::sql_impl {
 
     enum class DatabaseType { kGeneric,
                               kMysql,
-                              KPostgresql 
-                              };
+                              KPostgresql
+    };
 
     class Table;
     struct TableComparator;
@@ -103,14 +103,14 @@ namespace winter::data::sql_impl {
 
         const Column &Blob(const std::string &name);
 
-        bool operator< (const Table& table) const;
+        bool operator<(const Table &table) const;
 
         virtual ~Table();
 
        protected:
-        const std::string   name_;
-        const TableType     type_;
-        const DatabaseType  database_type_;
+        const std::string  name_;
+        const TableType    type_;
+        const DatabaseType database_type_;
         // using vector to keep insertion order, added uniqueness check on registercolumn function
         std::vector<Column> columns_;
     };

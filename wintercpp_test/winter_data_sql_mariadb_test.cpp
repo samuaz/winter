@@ -54,11 +54,6 @@ TEST(configCreation, canCreateMariaDBConfig) {
 
     auto table = Table("db_migrations", TableType::kTable, DatabaseType::kMysql);
 
-    auto column1 = Column(table, "name", FieldType::kString);
-    auto column2 = Column(table, "namet", FieldType::kString);
-
-    std::cout << "la columna 1 es menor que la 2 " << (column1 < column2) << std::endl;
-
     auto statement = PreparedStatement(StatementType::kNative, "SELECT * FROM db_migrations")
                          .AddColumn(Column(table, "name", FieldType::kString))
                          .AddColumn(Column(table, "name", FieldType::kString));

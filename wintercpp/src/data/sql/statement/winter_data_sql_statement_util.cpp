@@ -33,7 +33,7 @@ std::string winter::data::sql_impl::CommaSeparatedEqualValue(
 }
 
 std::string winter::data::sql_impl::commaSeparatedEqualValue(
-    const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
+    const std::vector<std::shared_ptr<AbstractPreparedStatementField> >
         &columns) {
     std::string   values {};
     unsigned long size = columns.size();
@@ -50,7 +50,7 @@ std::string winter::data::sql_impl::commaSeparatedEqualValue(
 }
 
 std::string winter::data::sql_impl::CommaSeparatedStatement(
-    const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
+    const std::vector<std::shared_ptr<AbstractPreparedStatementField> >
         &columns) {
     std::string   values {};
     unsigned long size = columns.size();

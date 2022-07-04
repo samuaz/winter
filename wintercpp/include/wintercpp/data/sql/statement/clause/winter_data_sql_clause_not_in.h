@@ -12,7 +12,6 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
-#include <deque>
 #include <memory>
 #include <string>
 #include <utility>

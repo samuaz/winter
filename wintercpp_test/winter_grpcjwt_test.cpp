@@ -9,7 +9,6 @@
 
 #include <algorithm>
 #include <chrono>
-#include <deque>
 #include <iostream>
 #include <memory>
 #include <mutex>

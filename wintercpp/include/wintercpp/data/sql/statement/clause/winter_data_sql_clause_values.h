@@ -9,7 +9,7 @@
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause.h>
 
-#include <queue>
+#include <vector>
 #include <utility>
 
 namespace winter::data::sql_impl {
@@ -17,7 +17,7 @@ namespace winter::data::sql_impl {
     class Values : public virtual Clause {
        public:
         explicit Values(
-            std::deque<std::shared_ptr<AbstractPreparedStatementField> >
+            std::vector<std::shared_ptr<AbstractPreparedStatementField> >
                 fields);
 
         PreparedStatement Prepare() override;
@@ -37,7 +37,7 @@ namespace winter::data::sql_impl {
         }
 
        private:
-        std::deque<std::shared_ptr<AbstractPreparedStatementField> > _fields;
+        std::vector<std::shared_ptr<AbstractPreparedStatementField> > _fields;
     };
 
 }  // namespace winter::data::sql_impl

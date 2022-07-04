@@ -9,7 +9,6 @@
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement.h>
 
-#include <deque>
 #include <iostream>
 #include <map>
 

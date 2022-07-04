@@ -29,7 +29,7 @@ PreparedStatement::PreparedStatement(const StatementType &statement_type,
 PreparedStatement::PreparedStatement(
     const StatementType                                         &statement_type,
     std::string                                                  query,
-    std::deque<std::shared_ptr<AbstractPreparedStatementField> > values,
+    std::vector<std::shared_ptr<AbstractPreparedStatementField> > values,
     std::string                                                  id) :
     id_(std::move(id)),
     type_(statement_type), statement_template_(std::move(query)),
@@ -70,13 +70,13 @@ void PreparedStatement::set_statement_template(
     statement_template_ = statement_template;
 }
 
-const std::deque<std::shared_ptr<AbstractPreparedStatementField> >
+const std::vector<std::shared_ptr<AbstractPreparedStatementField> >
     &PreparedStatement::values() const {
     return values_;
 }
 
 void PreparedStatement::set_values(
-    const deque<std::shared_ptr<AbstractPreparedStatementField> > &values) {
+    const std::vector<std::shared_ptr<AbstractPreparedStatementField> > &values) {
     values_ = values;
 }
 
@@ -123,7 +123,7 @@ const AbstractPreparedStatementField &Prepare::entityId() const {
 }
 */
 
-std::deque<std::shared_ptr<AbstractPreparedStatementField> >::iterator
+std::vector<std::shared_ptr<AbstractPreparedStatementField> >::iterator
 PreparedStatement::FindValue(const std::string &name) {
     return std::find_if(
         values_.begin(),

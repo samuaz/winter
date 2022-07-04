@@ -16,7 +16,7 @@ namespace winter::data::sql_impl {
     class Set : public virtual Clause {
        public:
         explicit Set(
-            std::deque<std::shared_ptr<AbstractPreparedStatementField> >
+            std::vector<std::shared_ptr<AbstractPreparedStatementField> >
                 fields);
 
         PreparedStatement Prepare() override;
@@ -36,7 +36,7 @@ namespace winter::data::sql_impl {
         }
 
        private:
-        std::deque<std::shared_ptr<AbstractPreparedStatementField> > fields_;
+        std::vector<std::shared_ptr<AbstractPreparedStatementField> > fields_;
     };
 }  // namespace winter::data::sql_impl
 

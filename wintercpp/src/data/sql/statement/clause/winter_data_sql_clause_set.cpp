@@ -9,7 +9,7 @@
 #include <utility>
 
 winter::data::sql_impl::Set::Set(
-    std::deque<std::shared_ptr<
+    std::vector<std::shared_ptr<
         winter::data::sql_impl::AbstractPreparedStatementField> > fields) :
     Clause("SET $fields", "$fields"),
     fields_(std::move(fields)) {}

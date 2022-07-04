@@ -7,9 +7,8 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
-#include <deque>
 winter::data::sql_impl::Values::Values(
-    std::deque<std::shared_ptr<
+    std::vector<std::shared_ptr<
         winter::data::sql_impl::AbstractPreparedStatementField> > fields) :
     Clause("($columns) VALUES ($set_values)", "$set_values"),
     _fields(std::move(fields)) {}
