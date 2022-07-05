@@ -4,7 +4,9 @@ FROM alpine:3.16.0
 #  && groupadd docker \
 #  && usermod -aG docker vscode
 
-RUN addgroup -S docker && adduser -S vscode -s /bin/bash -G docker
+RUN addgroup -S docker \ 
+&& addgroup -g 1000 -S vscode \
+&& adduser -u 1000 -D -S vscode -s /bin/bash -G docker
 
  # remember to keep package list sorted
 RUN echo "  ---> Install packages" \
