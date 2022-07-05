@@ -10,25 +10,25 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
-class Delete final : public virtual Statement<Delete> {
- public:
-  Delete();
+    class Delete final : public virtual Statement<Delete> {
+       public:
+        Delete();
 
-  using Statement<Delete>::prepared_statement;
-  using Statement<Delete>::operator<<;
+        using Statement<Delete>::prepared_statement;
+        using Statement<Delete>::operator<<;
 
-  ~Delete() override = default;
+        ~Delete() override = default;
 
- protected:
-  void BuildStatement() override;
+       protected:
+        void BuildStatement() override;
 
- private:
-  using Statement<Delete>::prepared_statement_;
-  using Statement<Delete>::type_;
-};
+       private:
+        using Statement<Delete>::prepared_statement_;
+        using Statement<Delete>::type_;
+    };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_DELETE_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_DELETE_H

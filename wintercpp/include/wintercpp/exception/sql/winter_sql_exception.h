@@ -11,10 +11,11 @@
 
 namespace winter::exception {
 
-class SqlException final : public virtual WinterExceptionTemplate<SqlException> {
- public:
-  explicit SqlException(const string &message) noexcept;
-};
+    class SqlException final :
+        public virtual WinterExceptionTemplate<SqlException> {
+       public:
+        explicit SqlException(const string &message) noexcept;
+    };
 
 }  // namespace winter::exception
 

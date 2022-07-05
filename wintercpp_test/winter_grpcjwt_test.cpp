@@ -5,10 +5,10 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <wintercpp/winter.h>
+#include <wintercpp/winter_grpc.h>
 
 #include <algorithm>
 #include <chrono>
-#include <deque>
 #include <iostream>
 #include <memory>
 #include <mutex>
@@ -17,7 +17,6 @@
 
 #include "jwt/jwt.hpp"
 #include "wintercpp/security/winter_security_token_status.h"
-#include "wintercpp/winter.h"
 
 namespace {
 

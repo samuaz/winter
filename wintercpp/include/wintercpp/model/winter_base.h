@@ -19,44 +19,44 @@
 
 namespace winter {
 
-class Base {
- public:
-  Base();
-  const std::string &id() const;
+    class Base {
+       public:
+        Base();
+        const std::string &id() const;
 
-  void id(const std::string &id);
+        void id(const std::string &id);
 
-  const Date &creationDate() const;
+        const Date &creationDate() const;
 
-  void creationDate(const Date &creationDate);
+        void creationDate(const Date &creationDate);
 
-  const Date &modificationDate() const;
+        const Date &modificationDate() const;
 
-  void setModificationDate(const Date &modificationDate);
+        void setModificationDate(const Date &modificationDate);
 
-  bool operator==(const Base &rhs) const;
+        bool operator==(const Base &rhs) const;
 
-  bool operator!=(const Base &rhs) const;
+        bool operator!=(const Base &rhs) const;
 
-  bool operator<(const Base &rhs) const;
+        bool operator<(const Base &rhs) const;
 
-  bool operator>(const Base &rhs) const;
+        bool operator>(const Base &rhs) const;
 
-  bool operator<=(const Base &rhs) const;
+        bool operator<=(const Base &rhs) const;
 
-  bool operator>=(const Base &rhs) const;
+        bool operator>=(const Base &rhs) const;
 
-  virtual bool equals(Base *ref) const = 0;
+        virtual bool equals(Base *ref) const = 0;
 
-  virtual ~Base();
+        virtual ~Base();
 
-  explicit Base(std::string id);
+        explicit Base(std::string id);
 
- protected:
-  std::string _id;
-  Date _creationDate;
-  Date _modificationDate;
-};
+       protected:
+        std::string _id;
+        Date        _creationDate;
+        Date        _modificationDate;
+    };
 }  // namespace winter
 
-#endif	// USER_BASE_H
+#endif  // USER_BASE_H

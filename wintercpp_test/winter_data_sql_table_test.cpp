@@ -12,8 +12,8 @@
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
 
 using namespace winter;
-using namespace winter::data::sql;
-using namespace winter::data::sql::mysql;
+using namespace winter::data::sql_impl;
+
 struct TestTable : public UUIDTable {
   TestTable() : UUIDTable("TestTable", true, DatabaseType::kGeneric) {}
   const Column col1 = String("col1");

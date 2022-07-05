@@ -14,35 +14,35 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
-class Select final : public virtual Statement<Select> {
- public:
-  Select();
+    class Select final : public virtual Statement<Select> {
+       public:
+        Select();
 
-  explicit Select(std::vector<Column> columns);
+        explicit Select(std::vector<Column> columns);
 
-  explicit Select(const std::string &query);
+        explicit Select(const std::string &query);
 
-  Select &operator<<(std::vector<Column> columns);
+        Select &operator<<(std::vector<Column> columns);
 
-  using Statement<Select>::prepared_statement;
-  using Statement<Select>::operator<<;
+        using Statement<Select>::prepared_statement;
+        using Statement<Select>::operator<<;
 
-  ~Select() override = default;
+        ~Select() override = default;
 
- protected:
-  void BuildStatement() override;
+       protected:
+        void BuildStatement() override;
 
- private:
-  using Statement<Select>::prepared_statement_;
-  using Statement<Select>::type_;
-  std::vector<Column> columns_;
-  //  std::vector<std::shared_ptr<Table> > tables_;
+       private:
+        using Statement<Select>::prepared_statement_;
+        using Statement<Select>::type_;
+        std::vector<Column> columns_;
+        //  std::vector<std::shared_ptr<Table> > tables_;
 
-  void writeColumns();
-};
+        void writeColumns();
+    };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_SELECT */

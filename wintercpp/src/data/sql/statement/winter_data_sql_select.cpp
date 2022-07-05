@@ -8,7 +8,7 @@
 
 #include <vector>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
 Select::Select(const std::string &query) :
     Statement<Select>(query, StatementType::kSelect) {}
@@ -21,29 +21,26 @@ Select::Select(std::vector<Column> columns) :
     columns_(std::move(columns)) {}
 
 void Select::writeColumns() {
-  if (columns_.empty()) {
-    winter::util::string::replace(statement_template_, "$columns", "*");
-    return;
-  }
+    if (columns_.empty()) {
+        winter::util::string::replace(statement_template_, "$columns", "*");
+        return;
+    }
 
-  std::vector<std::string> columns;
-  for (auto const &col : columns_) {
-    columns.push_back(col->TableName() + "." + col->name());
-  }
-  winter::util::string::replace(
-      statement_template_,
-      "$columns",
-      CommaSeparatedValue(columns));
-  prepared_statement_->columns(columns_);
+    std::vector<std::string> columns;
+    for (auto const &col : columns_) {
+        columns.push_back(col->TableName() + "." + col->name());
+    }
+    winter::util::string::replace(
+        statement_template_, "$columns", CommaSeparatedValue(columns));
+    prepared_statement_->columns(columns_);
 }
 
-Select &
-Select::operator<<(std::vector<Column> columns) {
-  columns_ = std::move(columns);
-  return *this;
+Select &Select::operator<<(std::vector<Column> columns) {
+    columns_ = std::move(columns);
+    return *this;
 }
 
 void Select::BuildStatement() {
-  writeColumns();
-  prepared_statement_->set_statement_template(statement_template_);
+    writeColumns();
+    prepared_statement_->set_statement_template(statement_template_);
 }

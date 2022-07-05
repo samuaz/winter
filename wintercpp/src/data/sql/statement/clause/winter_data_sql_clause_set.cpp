@@ -8,21 +8,18 @@
 
 #include <utility>
 
-winter::data::sql::Set::Set(
-    std::deque<
-	std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> >
-	fields) :
+winter::data::sql_impl::Set::Set(
+    std::vector<std::shared_ptr<
+        winter::data::sql_impl::AbstractPreparedStatementField> > fields) :
     Clause("SET $fields", "$fields"),
     fields_(std::move(fields)) {}
 
-winter::data::sql::PreparedStatement
-winter::data::sql::Set::Prepare() {
-  set_statement_template(winter::util::string::replace_value(
-      statement_template(),
-      param(),
-      winter::data::sql::commaSeparatedEqualValue(fields_)));
-  return winter::data::sql::PreparedStatement(
-      StatementType::kClause,
-      statement_template(),
-      fields_);
+winter::data::sql_impl::PreparedStatement
+winter::data::sql_impl::Set::Prepare() {
+    set_statement_template(winter::util::string::replace_value(
+        statement_template(),
+        param(),
+        winter::data::sql_impl::commaSeparatedEqualValue(fields_)));
+    return winter::data::sql_impl::PreparedStatement(
+        StatementType::kClause, statement_template(), fields_);
 }

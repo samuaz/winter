@@ -7,9 +7,9 @@ function(winter_create_sql_migration dir)
     # Iterate through input files
     file(APPEND ${output} "#include <vector>\n")
     file(APPEND ${output} "#include <wintercpp/data/sql/migration/winter_data_migration.h>\n")
-    file(APPEND ${output} "namespace winter::data::sql {\n")
-    file(APPEND ${output} "std::vector<winter::data::sql::Migration> winter_db_migrations(){\n")
-    file(APPEND ${output} "std::vector<winter::data::sql::Migration> migrations;\n")
+    file(APPEND ${output} "namespace winter::data::sql_impl {\n")
+    file(APPEND ${output} "std::vector<winter::data::sql_impl::Migration> winter_db_migrations(){\n")
+    file(APPEND ${output} "std::vector<winter::data::sql_impl::Migration> migrations;\n")
     foreach(bin ${bins})
         # Get short filename
         string(REGEX MATCH "([^/]+)$" filename ${bin})

@@ -4,7 +4,9 @@
 
 #include <gtest/gtest.h>
 #include <wintercpp/winter.h>
+#include <wintercpp/winter_mariadb_impl.h>
 
+#include <iostream>
 #include <memory>
 #include <optional>
 
@@ -13,10 +15,10 @@
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_or.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_where.h"
+#include "wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection_config.h"
 
 using namespace winter;
-using namespace winter::data::sql;
-using namespace winter::data::sql::mysql;
+using namespace winter::data::sql_impl;
 struct QueryTestTable : public UUIDTable {
   QueryTestTable() : UUIDTable("QueryTestTable", true, DatabaseType::kGeneric) {}
   const Column col1 = String("col1");
@@ -39,7 +41,7 @@ TEST(winterSqlTable, canConstructSelectQuery) {
 
   std::shared_ptr<QueryTestTable> testTable = std::shared_ptr<QueryTestTable>(new QueryTestTable());
 
-  auto query = Select() << From(testTable) << Where(Where::make_predicate(testTable->col1, winter::data::sql::Condition::EQ, "samuel"));
+  auto query = Select() << From(testTable) << Where(Where::make_predicate(testTable->col1, winter::data::sql_impl::Condition::EQ, "samuel"));
 
   EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT * FROM QueryTestTable WHERE QueryTestTable.col1 = ?");
 }
@@ -48,7 +50,7 @@ TEST(winterSqlTable, canConstructSelectQueryWhereAndOr) {
 
   std::shared_ptr<QueryTestTable> testTable = std::shared_ptr<QueryTestTable>(new QueryTestTable());
 
-  auto query = Select() << From(testTable) << Where(Where::make_predicate(testTable->col1, winter::data::sql::Condition::EQ, "samuel")) << And(And::MakePredicate(testTable->col2, winter::data::sql::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable->col1, winter::data::sql::Condition::EQ, "Eduardo"));
+  auto query = Select() << From(testTable) << Where(Where::make_predicate(testTable->col1, winter::data::sql_impl::Condition::EQ, "samuel")) << And(And::MakePredicate(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
 
   EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT * FROM QueryTestTable WHERE QueryTestTable.col1 = ? AND QueryTestTable.col2 = ? OR QueryTestTable.col1 = ?");
 }
@@ -58,7 +60,7 @@ TEST(winterSqlTable, canConstructSelectQueryWhereWithoutPredicate) {
 
   std::shared_ptr<QueryTestTable> testTable = std::shared_ptr<QueryTestTable>(new QueryTestTable());
 
-  auto query = Select() << From(testTable) << Where(testTable->col3, winter::data::sql::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable->col1, winter::data::sql::Condition::EQ, "Eduardo"));
+  auto query = Select() << From(testTable) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
 
   EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT * FROM QueryTestTable WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable.col1 = ?");
 }
@@ -68,7 +70,7 @@ TEST(winterSqlTable, canConstructSelectPartialFieldsQueryWhereWithoutPredicate) 
 
   std::shared_ptr<QueryTestTable> testTable = std::shared_ptr<QueryTestTable>(new QueryTestTable());
 
-  auto query = Select({testTable->col1, testTable->col2, testTable->col3}) << From(testTable) << Where(testTable->col3, winter::data::sql::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable->col1, winter::data::sql::Condition::EQ, "Eduardo"));
+  auto query = Select({testTable->col1, testTable->col2, testTable->col3}) << From(testTable) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
 
   EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable.col2, QueryTestTable.col3 FROM QueryTestTable WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable.col1 = ?");
 }
@@ -77,7 +79,7 @@ TEST(winterSqlTable, canConstructSelectOneFieldQueryWhereWithoutPredicate) {
 
   std::shared_ptr<QueryTestTable> testTable = std::shared_ptr<QueryTestTable>(new QueryTestTable());
 
-  auto query = Select({testTable->col1}) << From(testTable) << Where(testTable->col3, winter::data::sql::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable->col1, winter::data::sql::Condition::EQ, "Eduardo"));
+  auto query = Select({testTable->col1}) << From(testTable) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
 
   EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1 FROM QueryTestTable WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable.col1 = ?");
 }
@@ -88,8 +90,7 @@ TEST(winterSqlTable, canConstructSelecFromMultipleTables) {
   std::shared_ptr<QueryTestTable2> testTable2 = std::shared_ptr<QueryTestTable2>(new QueryTestTable2());
 
 
-  auto query = Select({testTable->col1, testTable2->col3}) << From({testTable, testTable2}) << Where(testTable->col3, winter::data::sql::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable2->col1, winter::data::sql::Condition::EQ, "Eduardo"));
+  auto query = Select({testTable->col1, testTable2->col3}) << From({testTable, testTable2}) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable2->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
 
   EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable2.col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
 }
-

@@ -14,42 +14,52 @@
 using namespace std;
 namespace winter::exception {
 
-class WinterException : public std::logic_error {
- public:
-  WinterException(const WinterException &) = delete;
-  WinterException &operator=(const WinterException &) = delete;
+    class WinterException : public std::logic_error {
+       public:
+        WinterException(const WinterException &) = delete;
+        WinterException &operator=(const WinterException &) = delete;
 
- protected:
-  explicit WinterException(const string &message) noexcept :
-      std::logic_error(message) {}
-};
+       protected:
+        explicit WinterException(const string &message) noexcept :
+            std::logic_error(message) {}
+    };
 
-template <typename T>
-class WinterExceptionTemplate : public WinterException {
- public:
-  static T
-  Create(const std::string &file, const std::string &function_name, int line, const std::string &err, int err_code) {
-    auto msg = message(file, function_name, line, err);
-    msg << " with err code " << err_code;
-    return T(msg.str());
-  }
+    template<typename T>
+    class WinterExceptionTemplate : public WinterException {
+       public:
+        static T Create(const std::string &file,
+                        const std::string &function_name,
+                        int                line,
+                        const std::string &err,
+                        int                err_code) {
+            auto msg = message(file, function_name, line, err);
+            msg << " with err code " << err_code;
+            return T(msg.str());
+        }
 
-  static T
-  Create(const std::string &file, const std::string &function_name, int line, const std::string &err) {
-    return T(message(file, function_name, line, err).str());
-  }
+        static T Create(const std::string &file,
+                        const std::string &function_name,
+                        int                line,
+                        const std::string &err) {
+            return T(message(file, function_name, line, err).str());
+        }
 
- protected:
-  explicit WinterExceptionTemplate<T>(const string &message) noexcept :
-      WinterException(message) {}
+       protected:
+        explicit WinterExceptionTemplate<T>(const string &message) noexcept :
+            WinterException(message) {}
 
- private:
-  static std::stringstream message(const std::string &file, const std::string &function_name, int line, const std::string &err) {
-    std::stringstream ss;
-    ss << "Exception " << typeid(T).name() << " " << err << " in file " << file << " function name " << function_name << " on line number " << line;
-    return ss;
-  }
-};
+       private:
+        static std::stringstream message(const std::string &file,
+                                         const std::string &function_name,
+                                         int                line,
+                                         const std::string &err) {
+            std::stringstream ss;
+            ss << "Exception " << typeid(T).name() << " " << err << " in file "
+               << file << " function name " << function_name
+               << " on line number " << line;
+            return ss;
+        }
+    };
 }  // namespace winter::exception
 
-#endif	// WINTER_EXCEPTION_H
+#endif  // WINTER_EXCEPTION_H

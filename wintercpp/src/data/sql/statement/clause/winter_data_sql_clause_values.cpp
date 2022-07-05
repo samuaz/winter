@@ -7,33 +7,27 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
-#include <deque>
-winter::data::sql::Values::Values(
-    std::deque<
-	std::shared_ptr<winter::data::sql::AbstractPreparedStatementField> >
-	fields) :
+winter::data::sql_impl::Values::Values(
+    std::vector<std::shared_ptr<
+        winter::data::sql_impl::AbstractPreparedStatementField> > fields) :
     Clause("($columns) VALUES ($set_values)", "$set_values"),
     _fields(std::move(fields)) {}
 
-winter::data::sql::PreparedStatement
-winter::data::sql::Values::Prepare() {
-  std::vector<std::string> columns;
-  for (const auto &field : _fields) {
-    columns.push_back(field->name());
-  }
+winter::data::sql_impl::PreparedStatement
+winter::data::sql_impl::Values::Prepare() {
+    std::vector<std::string> columns;
+    for (const auto &field : _fields) { columns.push_back(field->name()); }
 
-  set_statement_template(winter::util::string::replace_value(
-      statement_template(),
-      "$columns",
-      winter::data::sql::CommaSeparatedValue(columns)));
+    set_statement_template(winter::util::string::replace_value(
+        statement_template(),
+        "$columns",
+        winter::data::sql_impl::CommaSeparatedValue(columns)));
 
-  set_statement_template(winter::util::string::replace_value(
-      statement_template(),
-      param(),
-      winter::data::sql::CommaSeparatedStatement(_fields)));
+    set_statement_template(winter::util::string::replace_value(
+        statement_template(),
+        param(),
+        winter::data::sql_impl::CommaSeparatedStatement(_fields)));
 
-  return winter::data::sql::PreparedStatement(
-      StatementType::kClause,
-      statement_template(),
-      _fields);
+    return winter::data::sql_impl::PreparedStatement(
+        StatementType::kClause, statement_template(), _fields);
 }

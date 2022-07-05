@@ -16,10 +16,11 @@
 using namespace std;
 namespace winter::exception {
 
-class WinterInternalException final : public WinterExceptionTemplate<WinterInternalException> {
- public:
-  explicit WinterInternalException(const string &message) noexcept;
-};
+    class WinterInternalException final :
+        public WinterExceptionTemplate<WinterInternalException> {
+       public:
+        explicit WinterInternalException(const string &message) noexcept;
+    };
 }  // namespace winter::exception
 
-#endif	// WINTER_INTERNAL_EXCEPTION_H
+#endif  // WINTER_INTERNAL_EXCEPTION_H

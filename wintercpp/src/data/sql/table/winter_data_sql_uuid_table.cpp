@@ -4,26 +4,23 @@
 
 #include <wintercpp/data/sql/table/winter_data_sql_uuid_table.h>
 
-using namespace winter::data::sql;
+using namespace winter::data::sql_impl;
 
-UUIDTable::UUIDTable(const std::string &name, bool binary, DatabaseType database_type) :
+UUIDTable::UUIDTable(const std::string &name,
+                     bool               binary,
+                     DatabaseType       database_type) :
     Table(name, TableType::kUUID, database_type),
-    id_(RegisterColumn("id", FieldType::kString)),
-    binary_(binary) {}
+    id_(RegisterColumn("id", FieldType::kString)), binary_(binary) {}
 
-std::string
-UUIDTable::GenerateId() const {
-  if (binary_) {
-    return winter::random::uuidNoDashed();
-  }
-  return winter::random::uuidDashed();
+std::string UUIDTable::GenerateId() const {
+    if (binary_) { return winter::random::uuidNoDashed(); }
+    return winter::random::uuidDashed();
 }
 
 bool UUIDTable::binary() const {
-  return binary_;
+    return binary_;
 }
 
-const Column &
-UUIDTable::id() const {
-  return id_;
+const Column &UUIDTable::id() const {
+    return id_;
 }

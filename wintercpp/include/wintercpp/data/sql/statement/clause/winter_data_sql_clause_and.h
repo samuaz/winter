@@ -13,52 +13,46 @@
 
 #include <queue>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
-class And : public virtual Clause {
- public:
-  explicit And(const Predicate &predicate);
+    class And : public virtual Clause {
+       public:
+        explicit And(const Predicate &predicate);
 
-  explicit And(Column column);
+        explicit And(Column column);
 
-  explicit And(Column column, Condition);
+        explicit And(Column column, Condition);
 
-  PreparedStatement Prepare() override;
+        PreparedStatement Prepare() override;
 
-  template <typename T>
-  static Predicate
-  MakePredicate(const Column &column, Condition condition, T value) {
-    return Predicate(
-	column,
-	std::make_shared<PreparedStatementField<T> >(
-	    column->name(),
-	    value),
-	condition);
-  }
+        template<typename T>
+        static Predicate MakePredicate(const Column &column,
+                                       Condition     condition,
+                                       T             value) {
+            return Predicate(column,
+                             std::make_shared<PreparedStatementField<T> >(
+                                 column->name(), value),
+                             condition);
+        }
 
-  template <typename T>
-  static Predicate
-  MakePredicate(
-      const Column &column,
-      Condition condition,
-      T value,
-      const std::string &custom_value) {
-    return Predicate(
-	column,
-	std::make_shared<PreparedStatementField<T> >(
-	    column->name(),
-	    value,
-	    custom_value),
-	condition);
-  }
+        template<typename T>
+        static Predicate MakePredicate(const Column      &column,
+                                       Condition          condition,
+                                       T                  value,
+                                       const std::string &custom_value) {
+            return Predicate(column,
+                             std::make_shared<PreparedStatementField<T> >(
+                                 column->name(), value, custom_value),
+                             condition);
+        }
 
- private:
-  const Column column_;
-  const std::shared_ptr<AbstractPreparedStatementField> field_;
-  const Condition condition_{};
-  const bool is_predicate_ = false;
-};
+       private:
+        const Column                                          column_;
+        const std::shared_ptr<AbstractPreparedStatementField> field_;
+        const Condition                                       condition_ {};
+        const bool                                            is_predicate_ = false;
+    };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CLAUSE_AND */

@@ -8,47 +8,41 @@
 #include <wintercpp/data/sql/field/winter_data_sql_abstract_field.h>
 #include <wintercpp/data/sql/field/winter_data_sql_data_type.h>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
-template <typename T>
-class Field : public virtual AbstractField {
- public:
-  explicit Field(T value) :
-      value_(std::move(value)),
-      type_(TypeField<T>::Get()) {}
+    template<typename T>
+    class Field : public virtual AbstractField {
+       public:
+        explicit Field(T value) :
+            value_(std::move(value)), type_(TypeField<T>::Get()) {}
 
-  Field(std::string name, T value) :
-      name_(std::move(name)),
-      value_(std::move(value)),
-      type_(TypeField<T>::Get()) {}
+        Field(std::string name, T value) :
+            name_(std::move(name)), value_(std::move(value)),
+            type_(TypeField<T>::Get()) {}
 
-  Field(const Field &field) :
-      value_(field.value_),
-      type_(field.type_),
-      name_(field.name_) {}
+        Field(const Field &field) :
+            value_(field.value_), type_(field.type_), name_(field.name_) {}
 
-  explicit Field(const Field *field) :
-      value_(field->value_),
-      type_(field->type_),
-      name_(field->name_) {}
+        explicit Field(const Field *field) :
+            value_(field->value_), type_(field->type_), name_(field->name_) {}
 
-  const T &value() const;
+        const T &value() const;
 
-  const FieldType &type() const override;
+        const FieldType &type() const override;
 
-  const std::string &name() const override;
+        const std::string &name() const override;
 
-  void value(T value);
+        void value(T value);
 
-  ~Field() override = default;
+        ~Field() override = default;
 
- protected:
-  T value_;
-  FieldType type_;
-  std::string name_;
-};
+       protected:
+        std::string name_;
+        T           value_;
+        FieldType   type_;
+    };
 
-}  // namespace winter::data::sql
+}  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_field.tpp"
 

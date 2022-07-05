@@ -10,7 +10,7 @@
 
 #define CONCATE_(X, Y) X##Y  // Fixed the double '_' from previous code
 #define CONCATE(MACRO, NUMBER) CONCATE_(MACRO, NUMBER)
-#define VA_MACRO(MACRO, ...)            \
-  CONCATE(MACRO, NUM_ARGS(__VA_ARGS__)) \
-  (__VA_ARGS__)
-#endif	// WINTERCPP_WINTER_MACRO_H
+#define VA_MACRO(MACRO, ...)              \
+    CONCATE(MACRO, NUM_ARGS(__VA_ARGS__)) \
+    (__VA_ARGS__)
+#endif  // WINTERCPP_WINTER_MACRO_H

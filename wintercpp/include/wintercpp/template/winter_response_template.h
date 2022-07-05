@@ -8,6 +8,8 @@
 #include <wintercpp/data/response/winter_data_response_status.h>
 #include <wintercpp/exception/generic/winter_internal_exception.h>
 
+#include <concepts>
+#include <cstddef>
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -15,118 +17,121 @@
 #include <string>
 #include <type_traits>
 
-template <typename T>
-struct std::is_pointer<std::shared_ptr<T> > : std::true_type {
-};
+template<typename T>
+struct std::is_pointer<std::shared_ptr<T> > : std::true_type {};
 
-template <typename T>
-struct std::is_pointer<std::optional<std::shared_ptr<T> > > : std::true_type {
-};
+template<typename T>
+struct std::is_pointer<std::optional<std::shared_ptr<T> > > : std::true_type {};
 
 namespace winter::templates {
-template <typename TImplementation, typename TResultType, typename TStatusType>
-class Response {
- public:
-  virtual ~Response() = default;
+    template<typename TImplementation,
+             typename TResultType,
+             typename TStatusType>
+    // requires std::is_enum_v<TStatusType>
+    class Response {
+        static_assert(std::is_enum_v<TStatusType>);
 
-  virtual bool IsSuccess() const = 0;
+       public:
+        virtual ~Response() = default;
 
-  virtual bool IsError() const = 0;
+        virtual bool IsSuccess() const = 0;
 
-  explicit operator bool() const noexcept;
+        virtual bool IsError() const = 0;
 
-  bool HasValue() const noexcept;
+        explicit operator bool() const noexcept;
 
-  auto operator->();
+        bool HasValue() const noexcept;
 
-  auto operator->() const;
+        auto operator->();
 
-  auto operator()();
+        auto operator->() const;
 
-  auto operator()() const;
+        auto operator()();
 
-  auto operator*();
+        auto operator()() const;
 
-  auto operator*() const;
+        auto operator*();
 
-  auto Value();
+        auto operator*() const;
 
-  auto Value() const;
+        auto Value();
 
-  TStatusType status() const;
+        auto Value() const;
 
-  const std::string &message() const;
+        TStatusType status() const;
 
-  const std::optional<TResultType> &result() const;
+        const std::string &message() const;
 
-  auto ReturnOrThrow();
+        const std::optional<TResultType> &result() const;
 
-  template <typename T>
-  T Then(
-      const std::function<T(void)> &on_success,
-      const std::function<T(void)> &on_error);
+        auto ReturnOrThrow();
 
-  template <typename T>
-  T Then(
-      const std::function<T(const TImplementation &)> &on_success,
-      const std::function<T(const TImplementation &)> &on_error);
+        template<typename T>
+        T Then(const std::function<T(void)> &on_success,
+               const std::function<T(void)> &on_error);
 
-  template <typename T>
-  T Then(const std::function<T(const TImplementation &)> &execute);
+        template<typename T>
+        T Then(const std::function<T(const TImplementation &)> &on_success,
+               const std::function<T(const TImplementation &)> &on_error);
 
-  template <typename T>
-  T Then(const std::function<T(void)> &execute);
+        template<typename T>
+        T Then(const std::function<T(const TImplementation &)> &execute);
 
-  template <typename T>
-  std::optional<T> OnSuccess(
-      const std::function<std::optional<T>(void)> &callback);
+        template<typename T>
+        T Then(const std::function<T(void)> &execute);
 
-  template <typename T>
-  std::optional<T> OnSuccess(
-      const std::function<std::optional<T>(const TImplementation &)>
-	  &callback);
+        template<typename T>
+        std::optional<T> OnSuccess(
+            const std::function<std::optional<T>(void)> &callback);
 
-  template <typename T>
-  std::optional<T> OnError(
-      const std::function<std::optional<T>(void)> &callback);
+        template<typename T>
+        std::optional<T> OnSuccess(
+            const std::function<std::optional<T>(const TImplementation &)>
+                &callback);
 
-  template <typename T>
-  std::optional<T> OnError(
-      const std::function<std::optional<T>(const TImplementation &)> &callback);
+        template<typename T>
+        std::optional<T> OnError(
+            const std::function<std::optional<T>(void)> &callback);
 
-  template <typename Functor>
-  auto operator>>(const Functor &functor);
+        template<typename T>
+        std::optional<T> OnError(
+            const std::function<std::optional<T>(const TImplementation &)>
+                &callback);
 
-  template <typename Functor>
-  auto operator<<(const Functor &functor);
+        template<typename Functor>
+        auto operator>>(const Functor &functor);
 
- protected:
-  Response(TStatusType status, std::string message);
+        template<typename Functor>
+        auto operator<<(const Functor &functor);
 
-  Response(
-      const std::optional<TResultType> &result,
-      TStatusType status,
-      std::string message);
+       protected:
+        Response(TStatusType status, const std::string &message);
 
-  Response(const Response &) = default;
+        Response(const std::optional<TResultType> &result,
+                 TStatusType                       status,
+                 const std::string                &message);
 
-  Response &operator=(const Response &) = default;
+        Response(const Response &) = default;
 
-  const std::optional<TResultType> result_;
+        Response &operator=(const Response &) = default;
 
-  const TStatusType status_{};
+        const std::optional<TResultType> result_;
 
-  const std::string message_{};
+        const TStatusType status_ {};
 
- private:
-  TImplementation &This();
+        const std::string message_ {};
 
-  template <typename T = TResultType, std::enable_if_t<!std::is_pointer<T>::value> * = nullptr>
-  bool HasValue() const;
+       private:
+        TImplementation &This();
 
-  template <typename T = TResultType, std::enable_if_t<std::is_pointer<T>::value> * = nullptr>
-  bool HasValue() const;
-};
+        template<typename T = TResultType,
+                 std::enable_if_t<! std::is_pointer<T>::value> * = nullptr>
+        bool HasValue() const;
+
+        template<typename T = TResultType,
+                 std::enable_if_t<std::is_pointer<T>::value> * = nullptr>
+        bool HasValue() const;
+    };
 
 }  // namespace winter::templates
 

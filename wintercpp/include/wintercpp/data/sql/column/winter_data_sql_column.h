@@ -15,52 +15,95 @@
 #include <string>
 #include <vector>
 
-namespace winter::data::sql {
+namespace winter::data::sql_impl {
 
-class Table;
-class Column;
-struct ColumnComparator;
+    class Table;
+    class Column;
+    struct ColumnComparator;
 
-class Column final {
- public:
-  Column(Table &table, std::string column_name, FieldType column_type);
+    /**
+     * Column class represents a column on a database sql table
+     */
+    class Column final {
+       public:
+        /**
+         * @brief creates column object that represets a sql table column
+         * @param Table table
+         * @param String column_name
+         * @param FieldType column_type
+         */
+        Column(Table &table, std::string column_name, FieldType column_type);
 
-  Column(const Column &column);
+        /**
+         * @brief creates column object that represets a sql table column from
+         * reference
+         * @param column
+         */
+        Column(const Column &column);
 
-  Column(const Column *column);
-  
-  bool operator==(const Column &column) const;
+        /**
+         * @brief creates column object that represets a sql table column from
+         * pointer
+         * @param Column
+         */
+        Column(const Column *column);
 
-  const Table &table() const;
+        /**
+         * @brief equals override, this function determines if a column is
+         * equals to other by check the table name and column name
+         * @param Column
+         * @return boolean
+         */
+        bool operator==(const Column &column) const;
 
-  const std::string &TableName() const;
+        /**
+         * @brief returns a reference to the table that contains this column
+         * @return const Table
+         */
+        const Table &table() const;
 
-  const std::string &name() const;
+        /**
+         * @brief returns the name of the table that contains this column
+         * @return std::string
+         */
+        const std::string &TableName() const;
 
-  const FieldType &type() const;
+        /**
+         * @brief returns the name of the column
+         * @return std::string
+         */
+        const std::string &name() const;
 
-  const Column *
-  operator->() const {
-    return this;
-  }
+        /**
+         * @brief returns the datatype this column represents
+         * @return const FieldType
+         */
+        const FieldType &type() const;
 
- private:
-  const Table &table_;
-  const std::string name_;
-  const FieldType type_;
-};
+        const Column *operator->() const {
+            return this;
+        }
 
-struct ColumnComparator {
-  bool
-  operator()(const std::shared_ptr<Column> &lhs, const std::shared_ptr<Column> &rhs) const;
+        bool operator< (const Column& column) const;
 
-  bool
-  operator()(Column *lhs, Column *rhs) const;
+       private:
+        const Table      &table_;
+        const std::string name_;
+        const FieldType   type_;
+    };
 
-  bool
-  operator()(const Column &lhs, const Column &rhs) const;
-};
+    /**
+     * @brief Column comparator
+     */
+    struct ColumnComparator {
+        bool operator()(const std::shared_ptr<Column> &lhs,
+                        const std::shared_ptr<Column> &rhs) const;
 
-}  // namespace winter::data::sql
+        bool operator()(Column *lhs, Column *rhs) const;
+
+        bool operator()(const Column &lhs, const Column &rhs) const;
+    };
+
+}  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_COLUMN */
