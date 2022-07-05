@@ -15,6 +15,7 @@ RUN echo "  ---> Install packages" \
     && apk --update add \
         alpine-sdk \
         ninja \
+        ncurses \
         gdb \
         git \
         wget \

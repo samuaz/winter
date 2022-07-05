@@ -71,7 +71,7 @@ MESSAGE(STATUS "MYSQL_client_RUN_ABI_CHECK_CMD_OUTPUT:" ${mysql_client_RUN_ABI_C
 if(USE_WINTER_OPENSSL)
         set(MYSQL_CLIENT_COMMAND "cmake .. -DDOWNLOAD_BOOST=1 -DWITH_SSL=${openssl_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/install/include -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libcrypto.a -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
 else()
-        set(MYSQL_CLIENT_COMMAND "cmake .. -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITH_SSL=/usr/local/Cellar/openssl@1.1/1.1.1p -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
+        set(MYSQL_CLIENT_COMMAND "cmake .. -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DWITH_SSL=system -DWITHOUT_SERVER=ON -DBUILD_CONFIG=mysql_release -DINSTALL_STATIC_LIBRARIES=ON -DCMAKE_INSTALL_PREFIX=${mysql_client_SOURCE_DIR}/build/install -DWITH_UNIT_TESTS=OFF && make install")
 endif()      
 
 execute_process(
