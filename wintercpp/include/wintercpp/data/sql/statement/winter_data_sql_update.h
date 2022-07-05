@@ -14,24 +14,24 @@
 
 namespace winter::data::sql_impl {
 
-class Update : public virtual Statement<Update> {
- public:
-  explicit Update(const std::string &query);
+    class Update : public virtual Statement<Update> {
+       public:
+        explicit Update(const std::string &query);
 
-  explicit Update(std::shared_ptr<Table> table);
+        explicit Update(std::shared_ptr<Table> table);
 
-  using Statement<Update>::prepared_statement;
+        using Statement<Update>::prepared_statement;
 
-  ~Update() override = default;
+        ~Update() override = default;
 
- protected:
-  void BuildStatement() override;
+       protected:
+        void BuildStatement() override;
 
- private:
-  using Statement<Update>::prepared_statement_;
-  using Statement<Update>::type_;
-  const std::shared_ptr<Table> table_;
-};
+       private:
+        using Statement<Update>::prepared_statement_;
+        using Statement<Update>::type_;
+        const std::shared_ptr<Table> table_;
+    };
 }  // namespace winter::data::sql_impl
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_UPDATE_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_UPDATE_H

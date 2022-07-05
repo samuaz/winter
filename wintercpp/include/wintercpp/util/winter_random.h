@@ -3,38 +3,38 @@
 //
 #pragma once
 #ifndef WINTERCPP_WINTER_RANDOM_H
-#define WINTERCPP_WINTER_RANDOM_H
+#    define WINTERCPP_WINTER_RANDOM_H
 
-#include <chrono>
-#include <ctime>
-#include <iostream>
-#include <random>
-#include <sstream>
-#include <string>
+#    include <chrono>
+#    include <ctime>
+#    include <iostream>
+#    include <random>
+#    include <sstream>
+#    include <string>
 
 namespace winter::random {
-using namespace std;
+    using namespace std;
 
-unsigned int randomChar(bool onlyABC, bool onlyHex);
+    unsigned int randomChar(bool onlyABC, bool onlyHex);
 
-std::string generateHex(unsigned int len);
+    std::string generateHex(unsigned int len);
 
-string uuidRandom();
+    string uuidRandom();
 
-string timeNowHex();
+    string timeNowHex();
 
-string highResolutionClockHex();
+    string highResolutionClockHex();
 
-string uuid(bool dashed);
+    string uuid(bool dashed);
 
-string uuid();
+    string uuid();
 
-string uuidDashed();
+    string uuidDashed();
 
-string uuidNoDashed();
+    string uuidNoDashed();
 
-std::size_t StreamSize(const std::stringstream &s);
+    std::size_t StreamSize(const std::stringstream &s);
 
 }  // namespace winter::random
 
-#endif	// WINTERCPP_WINTER_RANDOM_H
+#endif  // WINTERCPP_WINTER_RANDOM_H

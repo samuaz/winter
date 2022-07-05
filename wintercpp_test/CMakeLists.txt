@@ -1,7 +1,7 @@
 #
 # Created by AZCONA VARGAS, SAMUEL EDUARDO
 #
-
+set(CMAKE_CXX_STANDARD 17)
 set(BINARY wintercpp_test)
 set(WINTER_MARIADB_DRIVER true CACHE INTERNAL "WINTER_MARIADB_DRIVER")
 #set(OPENSSL_CRYPTO_LIBRARY "/lib/libcrypto.a" CACHE INTERNAL "OPENSSL_CRYPTO_LIBRARY")
@@ -16,13 +16,13 @@ include(${PROJECT_SOURCE_DIR}/cmake/astyle_format.cmake)
 include(GoogleTest)
 
 enable_testing()
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp *.tpp)
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES true *.h *.cpp *.tpp)
 
 add_executable(${BINARY} ${TEST_SOURCES})
 
 #add_test(NAME ${BINARY} COMMAND ${BINARY})
 
-target_link_libraries(${BINARY} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core winter::mysql)
+target_link_libraries(${BINARY} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core winter::mariadb winter::mysql winter::grpc winter::redis)
 
 format_with_clang_by_sources(${TEST_SOURCES})
 
@@ -35,65 +35,3 @@ add_custom_command(
 )
 
 gtest_discover_tests(${BINARY})
-
-
-#[[
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/mysql_connector_cpp_include/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/boost>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/mysql_client/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/openssl/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/jwt/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/json/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/grpc/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/protobuf/src>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/yaml_cpp/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/cpp_redis/includes>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}_test>
-        )
-
-
-target_include_directories(${CMAKE_PROJECT_NAME}_test PUBLIC
-        $<BUILD_INTERFACE:/home/samuaz/projects/toc/winter/wintercpp/third_party/cpp_redis/tacopie/includes>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-        )]]

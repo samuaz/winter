@@ -11,11 +11,12 @@
 
 namespace winter::exception {
 
-class SecurityException final : public WinterExceptionTemplate<SecurityException> {
- public:
-  explicit SecurityException(const string &message) noexcept;
-};
+    class SecurityException final :
+        public WinterExceptionTemplate<SecurityException> {
+       public:
+        explicit SecurityException(const string &message) noexcept;
+    };
 
 }  // namespace winter::exception
 
-#endif	// WINTER_SECURITY_EXCEPTION_H
+#endif  // WINTER_SECURITY_EXCEPTION_H

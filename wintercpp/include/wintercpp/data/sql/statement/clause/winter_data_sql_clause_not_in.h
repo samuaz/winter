@@ -12,7 +12,6 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
-#include <deque>
 #include <memory>
 #include <string>
 #include <utility>
@@ -20,21 +19,21 @@
 
 namespace winter::data::sql_impl {
 
-template <typename T>
-class NotIn : public virtual Clause {
- public:
-  explicit NotIn(std::vector<T> values);
-  explicit NotIn(const winter::data::sql_impl::Select &select);
-  PreparedStatement Prepare() override;
+    template<typename T>
+    class NotIn : public virtual Clause {
+       public:
+        explicit NotIn(std::vector<T> values);
+        explicit NotIn(const winter::data::sql_impl::Select &select);
+        PreparedStatement Prepare() override;
 
- private:
-  std::vector<T> values_;
-  Select select_;
-  bool has_clause = false;
-};
+       private:
+        std::vector<T> values_;
+        Select         select_;
+        bool           has_clause = false;
+    };
 
 }  // namespace winter::data::sql_impl
 
 #include "winter_data_sql_clause_not_in.tpp"
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_NOT_IN_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_CLAUSE_NOT_IN_H

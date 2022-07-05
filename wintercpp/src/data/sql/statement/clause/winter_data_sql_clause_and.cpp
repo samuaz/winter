@@ -8,53 +8,47 @@
 
 using namespace winter::util::string;
 
-winter::data::sql_impl::And::And(
-    const Predicate &predicate) :
-    Clause("AND $and", "$and"),
-    column_(predicate.column()),
-    field_(predicate.field()),
-    condition_(predicate.condition()),
+winter::data::sql_impl::And::And(const Predicate &predicate) :
+    Clause("AND $and", "$and"), column_(predicate.column()),
+    field_(predicate.field()), condition_(predicate.condition()),
     is_predicate_(true) {}
 
 winter::data::sql_impl::And::And(Column column) :
-    Clause("AND $and", "$and"),
-    column_(std::move(column)),
+    Clause("AND $and", "$and"), column_(std::move(column)),
     condition_(winter::data::sql_impl::Condition::NONE) {}
 
-winter::data::sql_impl::And::And(
-    Column column,
-    winter::data::sql_impl::Condition condition) :
+winter::data::sql_impl::And::And(Column                            column,
+                                 winter::data::sql_impl::Condition condition) :
     Clause("AND $and", "$and"),
-    column_(std::move(column)),
-    condition_(condition) {}
+    column_(std::move(column)), condition_(condition) {}
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::And::Prepare() {
-  if (is_predicate_) {
-    if (field_->IsCustomValue()) {
-      BuildQuery() << column_->TableName() << Dot() << column_->name()
-		   << Space() << condition(condition_) << Space()
-		   << field_->custom_value();
-      return PreparedStatement(
-	  StatementType::kClause,
-	  replace_value(statement_template(), param(), query()),
-	  field_);
-    } else {
-      BuildQuery() << column_->TableName() << Dot() << column_->name()
-		   << Space() << condition(condition_) << Space()
-		   << PlaceHolder();
-      return PreparedStatement(
-	  StatementType::kClause,
-	  replace_value(statement_template(), param(), query()),
-	  field_);
+    if (is_predicate_) {
+        if (field_->IsCustomValue()) {
+            BuildQuery() << column_->TableName() << Dot() << column_->name()
+                         << Space() << condition(condition_) << Space()
+                         << field_->custom_value();
+            return PreparedStatement(
+                StatementType::kClause,
+                replace_value(statement_template(), param(), query()),
+                field_);
+        } else {
+            BuildQuery() << column_->TableName() << Dot() << column_->name()
+                         << Space() << condition(condition_) << Space()
+                         << PlaceHolder();
+            return PreparedStatement(
+                StatementType::kClause,
+                replace_value(statement_template(), param(), query()),
+                field_);
+        }
     }
-  }
 
-  BuildQuery() << column_->TableName() << Dot() << column_->name()
-	       << ((condition_ != Condition::NONE)
-		       ? Space() + condition(condition_)
-		       : "");
-  return PreparedStatement(
-      StatementType::kClause,
-      replace_value(statement_template(), param(), query()));
+    BuildQuery() << column_->TableName() << Dot() << column_->name()
+                 << ((condition_ != Condition::NONE)
+                         ? Space() + condition(condition_)
+                         : "");
+    return PreparedStatement(
+        StatementType::kClause,
+        replace_value(statement_template(), param(), query()));
 }

@@ -3,7 +3,6 @@
 //
 #ifndef WINTERC_WINTER_H
 #define WINTERC_WINTER_H
-#include <wintercpp/boot/winter_boot.h>
 #include <wintercpp/data/repository/winter_data_repository.h>
 #include <wintercpp/data/response/winter_data_response.h>
 #include <wintercpp/data/response/winter_data_response_status.h>
@@ -57,15 +56,8 @@
 #include <wintercpp/exception/security/winter_security_exception.h>
 #include <wintercpp/exception/security/winter_unauthenticated_exception.h>
 #include <wintercpp/exception/sql/winter_sql_exception.h>
-#include <wintercpp/grpc/winter_grpc_controller.h>
 #include <wintercpp/model/winter_base.h>
-#include <wintercpp/redis/winter_redis_connection.h>
-#include <wintercpp/redis/winter_redis_connection_config.h>
-#include <wintercpp/redis/winter_redis_pool.h>
-#include <wintercpp/redis/winter_redis_session.h>
-#include <wintercpp/security/winter_security_auth_interceptor.h>
 #include <wintercpp/security/winter_security_jwt.h>
-#include <wintercpp/security/winter_security_jwt_grpc.h>
 #include <wintercpp/security/winter_security_session.h>
 #include <wintercpp/security/winter_security_token_status.h>
 #include <wintercpp/security/winter_security_user_info.h>

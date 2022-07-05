@@ -16,91 +16,84 @@
 
 namespace winter::data::sql_impl {
 
-template <typename TImplementation, typename TResultRow>
-class Response : public winter::templates::Response<
-		     TImplementation,
-		     std::vector<TResultRow>,
-		     winter::data::ResponseStatus> {
-  using winter::templates::Response<
-      TImplementation,
-      std::vector<TResultRow>,
-      winter::data::ResponseStatus>::Value;
+    template<typename TImplementation, typename TResultRow>
+    class Response :
+        public winter::templates::Response<TImplementation,
+                                           std::vector<TResultRow>,
+                                           winter::data::ResponseStatus> {
+        using winter::templates::Response<TImplementation,
+                                          std::vector<TResultRow>,
+                                          winter::data::ResponseStatus>::Value;
 
-  using winter::templates::Response<
-      TImplementation,
-      std::vector<TResultRow>,
-      winter::data::ResponseStatus>::status;
+        using winter::templates::Response<TImplementation,
+                                          std::vector<TResultRow>,
+                                          winter::data::ResponseStatus>::status;
 
- public:
-  virtual ~Response() = default;
+       public:
+        virtual ~Response() = default;
 
-  int row_affected() const {
-    return row_affected_;
-  }
+        int row_affected() const {
+            return row_affected_;
+        }
 
-  const std::string&
-  transaction_id() const {
-    return transaction_id_;
-  }
+        const std::string& transaction_id() const {
+            return transaction_id_;
+        }
 
-  StatementType
-  type() const {
-    return type_;
-  }
+        StatementType type() const {
+            return type_;
+        }
 
-  std::optional<TResultRow>
-  RequireSingleOrNullopt() const {
-    return winter::data::response::RequireSingleOrNullopt(Value()).Value();
-  }
+        std::optional<TResultRow> RequireSingleOrNullopt() const {
+            return winter::data::response::RequireSingleOrNullopt(Value())
+                .Value();
+        }
 
-  std::optional<TResultRow>
-  FirstOrNullopt() const {
-    return winter::data::response::FirstOrNullopt(Value()).Value();
-  }
+        std::optional<TResultRow> FirstOrNullopt() const {
+            return winter::data::response::FirstOrNullopt(Value()).Value();
+        }
 
-  bool
-  IsSuccess() const override {
-    if (status() == ResponseStatus::kError) {
-      return false;
-    }
-    return true;
-  };
+        bool IsSuccess() const override {
+            if (status() == ResponseStatus::kError) { return false; }
+            return true;
+        };
 
-  bool
-  IsError() const override {
-    return !IsSuccess();
-  };
+        bool IsError() const override {
+            return ! IsSuccess();
+        };
 
- protected:
-  Response(
-      std::string transaction_id,
-      StatementType type,
-      winter::data::ResponseStatus status,
-      std::string message) :
-      winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(status, message),
-      transaction_id_(std::move(transaction_id)),
-      type_(type) {}
+       protected:
+        Response(const std::string&           transaction_id,
+                 StatementType                type,
+                 winter::data::ResponseStatus status,
+                 const std::string&           message) :
+            winter::templates::Response<TImplementation,
+                                        std::vector<TResultRow>,
+                                        winter::data::ResponseStatus>(status,
+                                                                      message),
+            transaction_id_(transaction_id), type_(type) {}
 
-  Response(
-      std::string transaction_id,
-      StatementType type,
-      std::vector<TResultRow> result,
-      winter::data::ResponseStatus status,
-      std::string message,
-      int row_affected) :
-      winter::templates::Response<TImplementation, std::vector<TResultRow>, winter::data::ResponseStatus>(result, status, message),
-      transaction_id_(std::move(transaction_id)),
-      type_(type),
-      row_affected_(row_affected) {}
+        Response(const std::string&             transaction_id,
+                 StatementType                  type,
+                 const std::vector<TResultRow>& result,
+                 winter::data::ResponseStatus   status,
+                 const std::string&             message,
+                 int                            row_affected) :
+            winter::templates::Response<TImplementation,
+                                        std::vector<TResultRow>,
+                                        winter::data::ResponseStatus>(
+                result, status, message),
+            transaction_id_(transaction_id), type_(type),
+            row_affected_(row_affected) {}
 
-  Response(const Response&) = default;
-  Response& operator=(const Response&) = default;
+        Response(const Response&) = default;
+        Response& operator=(const Response&) = default;
 
- private:
-  const std::string transaction_id_{};
-  const StatementType type_{0};
-  const int row_affected_{0};
-};
+       private:
+        const std::string   transaction_id_ {};
+        const StatementType type_ {0};
+        const int           row_affected_ {0};
+    };
 
 }  // namespace winter::data::sql_impl
 

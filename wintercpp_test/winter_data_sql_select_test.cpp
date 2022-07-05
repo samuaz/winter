@@ -4,7 +4,9 @@
 
 #include <gtest/gtest.h>
 #include <wintercpp/winter.h>
+#include <wintercpp/winter_mariadb_impl.h>
 
+#include <iostream>
 #include <memory>
 #include <optional>
 
@@ -13,6 +15,7 @@
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_or.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_where.h"
+#include "wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection_config.h"
 
 using namespace winter;
 using namespace winter::data::sql_impl;
@@ -91,4 +94,3 @@ TEST(winterSqlTable, canConstructSelecFromMultipleTables) {
 
   EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable2.col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
 }
-

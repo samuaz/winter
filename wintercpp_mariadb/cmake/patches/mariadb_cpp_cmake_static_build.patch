@@ -1,0 +1,48 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4a758d7..1d3f806 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -371,7 +371,11 @@ IF(WIN32)
+   ADD_OPTION(WITH_SIGNCODE "Digitally sign files" OFF)
+   MESSAGE(STATUS "Generate MSI package: ${WITH_MSI}")
+   MESSAGE(STATUS "Sign MSI package: ${WITH_SIGNCODE}")
+-ENDIF()
++ELSE()
++  ADD_OPTION(MARIADB_LINK_DYNAMIC "Link Connector/C library dynamically" ON)  
++ENDIF()  
++
++ADD_OPTION(BUILD_SHARED_LIBS "Build as a shared library" ON)
+ 
+ ADD_CUSTOM_TARGET(DEPENDENCIES_FOR_PACKAGE)
+ IF(NOT WITH_SSL)
+@@ -437,7 +441,7 @@ CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/src/maconncpp.def.in
+                ${CMAKE_SOURCE_DIR}/src/maconncpp.def)
+ 
+ # Dynamic linking is default on non-Windows
+-IF(MARIADB_LINK_DYNAMIC OR NOT WIN32)# OR USE_SYSTEM_INSTALLED_LIB)
++IF(MARIADB_LINK_DYNAMIC)
+   IF(USE_SYSTEM_INSTALLED_LIB)
+     SET(MARIADB_CLIENT_TARGET_NAME mariadb)
+   ELSE()
+@@ -449,11 +453,19 @@ ELSE()
+   MESSAGE(STATUS "Linking Connector/C library statically(${MARIADB_CLIENT_TARGET_NAME})")
+ ENDIF()
+ 
++IF(BUILD_SHARED_LIBS)
++  SET(LIBRARY_TYPE SHARED)
++  MESSAGE(STATUS "Building as a shared library")
++ELSE()
++  SET(LIBRARY_TYPE STATIC)
++  MESSAGE(STATUS "Building as a static library")
++ENDIF()
++
+ IF(WIN32)
+-  ADD_LIBRARY(${LIBRARY_NAME} SHARED ${MACPP_SOURCES} ${CMAKE_SOURCE_DIR}/src/maconncpp.def ${CMAKE_SOURCE_DIR}/src/maconncpp.rc)
++  ADD_LIBRARY(${LIBRARY_NAME} ${LIBRARY_TYPE} ${MACPP_SOURCES} ${CMAKE_SOURCE_DIR}/src/maconncpp.def ${CMAKE_SOURCE_DIR}/src/maconncpp.rc)
+ ELSE()
+ #  MESSAGE(STATUS "Version script: ${CMAKE_SOURCE_DIR}/src/maconncpp.def")
+-  ADD_LIBRARY(${LIBRARY_NAME} SHARED ${MACPP_SOURCES})
++  ADD_LIBRARY(${LIBRARY_NAME} ${LIBRARY_TYPE} ${MACPP_SOURCES})
+   IF(APPLE)
+     SET_TARGET_PROPERTIES(${LIBRARY_NAME} PROPERTIES LINK_FLAGS "-Wl")
+   ELSE()

@@ -1,0 +1,83 @@
+diff --git a/external/zlib/gzclose.c b/external/zlib/gzclose.c
+index caeb99a..050ac0e 100644
+--- a/external/zlib/gzclose.c
++++ b/external/zlib/gzclose.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include "gzguts.h"
++#include <unistd.h>
+ 
+ /* gzclose() is in a separate file so that it is linked in only if it is used.
+    That way the other gzclose functions can be used instead to avoid linking in
+diff --git a/external/zlib/gzlib.c b/external/zlib/gzlib.c
+index dddaf26..2bd8a27 100644
+--- a/external/zlib/gzlib.c
++++ b/external/zlib/gzlib.c
+@@ -4,6 +4,8 @@
+  */
+ 
+ #include "gzguts.h"
++#include <unistd.h>
++
+ 
+ #if defined(_WIN32) && !defined(__BORLANDC__)
+ #  define LSEEK _lseeki64
+diff --git a/external/zlib/gzread.c b/external/zlib/gzread.c
+index 884c9bf..8da9037 100644
+--- a/external/zlib/gzread.c
++++ b/external/zlib/gzread.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include "gzguts.h"
++#include <unistd.h>
+ 
+ /* Local functions */
+ local int gz_load OF((gz_statep, unsigned char *, unsigned, unsigned *));
+diff --git a/external/zlib/gzwrite.c b/external/zlib/gzwrite.c
+index a8ffc8f..3de878e 100644
+--- a/external/zlib/gzwrite.c
++++ b/external/zlib/gzwrite.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include "gzguts.h"
++#include <unistd.h>
+ 
+ /* Local functions */
+ local int gz_init OF((gz_statep));
+diff --git a/libmariadb/CMakeLists.txt b/libmariadb/CMakeLists.txt
+index b9be23f..dd8a0b9 100644
+--- a/libmariadb/CMakeLists.txt
++++ b/libmariadb/CMakeLists.txt
+@@ -4,6 +4,7 @@ INCLUDE_DIRECTORIES(${CC_SOURCE_DIR}/include
+ ADD_DEFINITIONS(-D HAVE_COMPRESS)
+ ADD_DEFINITIONS(-D LIBMARIADB)
+ ADD_DEFINITIONS(-D THREAD)
++ADD_OPTION(BUILD_SHARED_LIBS "Build as a shared library" ON)
+ 
+ IF(APPLE)
+   ADD_DEFINITIONS(-D _XOPEN_SOURCE)
+@@ -417,11 +418,19 @@ ENDIF()
+ ADD_LIBRARY(mariadbclient STATIC  ${MARIADB_OBJECTS} ${EMPTY_FILE})
+ TARGET_LINK_LIBRARIES(mariadbclient ${SYSTEM_LIBS})
+ 
++IF(BUILD_SHARED_LIBS)
++  SET(LIBRARY_TYPE SHARED)
++  MESSAGE(STATUS "Building as a shared library")
++ELSE()
++  SET(LIBRARY_TYPE STATIC)
++  MESSAGE(STATUS "Building as a static library")
++ENDIF()
++
+ IF(UNIX)
+-  ADD_LIBRARY(libmariadb SHARED ${libmariadb_RC} ${MARIADB_OBJECTS} ${EMPTY_FILE})
++  ADD_LIBRARY(libmariadb ${LIBRARY_TYPE} ${libmariadb_RC} ${MARIADB_OBJECTS} ${EMPTY_FILE})
+   SET_TARGET_PROPERTIES(libmariadb PROPERTIES COMPILE_FLAGS "${CMAKE_SHARED_LIBRARY_C_FLAGS}")
+ ELSE()
+-  ADD_LIBRARY(libmariadb SHARED ${libmariadb_RC} ${MARIADB_OBJECTS} mariadbclient.def)
++  ADD_LIBRARY(libmariadb ${LIBRARY_TYPE} ${libmariadb_RC} ${MARIADB_OBJECTS} mariadbclient.def)
+   SET_TARGET_PROPERTIES(libmariadb PROPERTIES LINKER_LANGUAGE C)
+ ENDIF()
+ 

@@ -11,11 +11,11 @@
 
 namespace winter::exception {
 
-class DataException final : public WinterExceptionTemplate<DataException> {
- public:
-  explicit DataException(const string &message) noexcept;
-};
+    class DataException final : public WinterExceptionTemplate<DataException> {
+       public:
+        explicit DataException(const string &message) noexcept;
+    };
 
 }  // namespace winter::exception
 
-#endif	// WINTER_DATABASE_EXCEPTION_H
+#endif  // WINTER_DATABASE_EXCEPTION_H

@@ -9,6 +9,8 @@ set(APP_NAME wintercpp)
 set(APP_VERSION 0.1)
 set(APP_DESCRIPTION "c++ framework to build microservices")
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED TRUE)
 project(${APP_NAME} VERSION ${APP_VERSION} DESCRIPTION ${APP_DESCRIPTION})
 option(ALPINE_BUILD "Use ALPINE_BUILD" FALSE)
 option(BUILD_LIB "Use BUILD_LIB" FALSE)
@@ -39,4 +41,9 @@ set(CMAKE_C_FLAGS_RELEASE "-Ofast -march=native -pipe -fno-unroll-loops -fmerge-
 ############################
 add_subdirectory(wintercpp_test)
 add_subdirectory(wintercpp)
+add_subdirectory(wintercpp_mysql_core)
+add_subdirectory(wintercpp_mariadb)
 add_subdirectory(wintercpp_mysql)
+add_subdirectory(wintercpp_grpc)
+add_subdirectory(wintercpp_redis)
+

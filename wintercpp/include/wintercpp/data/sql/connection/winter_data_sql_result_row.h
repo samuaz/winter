@@ -17,56 +17,58 @@
 
 namespace winter::data::sql_impl {
 
-using namespace winter::exception;
+    using namespace winter::exception;
 
-class DataTypeResult {
- public:
-  explicit DataTypeResult(winter::data::response::Response<DataType> res) :
-      res_(res) {}
+    class DataTypeResult {
+       public:
+        explicit DataTypeResult(
+            winter::data::response::Response<DataType> res) :
+            res_(std::move(res)) {}
 
-  template <typename T>
-  T as() const;
+        template<typename T>
+        T as() const;
 
- private:
-  winter::data::response::Response<DataType> res_;
-};
+       private:
+        winter::data::response::Response<DataType> res_;
+    };
 
-template <typename TResultSet>
-class ResultRow {
- public:
-  virtual void Create(const PreparedStatement &prepared_statement, const TResultSet &result_set) = 0;
+    template<typename TResultSet>
+    class ResultRow {
+       public:
+        virtual void Create(const PreparedStatement &prepared_statement,
+                            const TResultSet        &result_set)
+            = 0;
 
-  ResultRow &operator=(const ResultRow &) = default;
+        ResultRow &operator=(const ResultRow &) = default;
 
-  virtual ~ResultRow() = default;
+        virtual ~ResultRow() = default;
 
-  DataTypeResult
-  operator[](const winter::data::sql_impl::Column &column) const;
+        DataTypeResult operator[](
+            const winter::data::sql_impl::Column &column) const;
 
-  DataTypeResult
-  operator[](const std::string &column_name) const;
+        DataTypeResult operator[](const std::string &column_name) const;
 
-  template <typename T>
-  winter::data::response::Response<T>
-  Value(const winter::data::sql_impl::Column &column) const;
+        template<typename T>
+        winter::data::response::Response<T> Value(
+            const winter::data::sql_impl::Column &column) const;
 
-  template <typename T>
-  winter::data::response::Response<T>
-  Value(const std::string &column_name) const;
+        template<typename T>
+        winter::data::response::Response<T> Value(
+            const std::string &column_name) const;
 
- protected:
-  const Rows &
-  rows() const;
+       protected:
+        const Rows &rows() const;
 
-  const Rows &
-  set_rows(const Rows &rows);
+        const Rows &set_rows(const Rows &rows);
 
-  void
-  AddRow(std::string name, const std::optional<DataType> &sqlType);
+        void AddRow(const std::string             &name,
+                    const std::optional<DataType> &sqlType);
 
- private:
-  Rows rows_;
-};
+        void AddRow(string name);
+
+       private:
+        Rows rows_;
+    };
 
 }  // namespace winter::data::sql_impl
 

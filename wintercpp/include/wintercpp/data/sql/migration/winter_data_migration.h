@@ -25,66 +25,64 @@
 #include "string"
 
 namespace winter::data::sql_impl {
-namespace fs = std::filesystem;
-using namespace winter;
-using namespace winter::data::sql_impl;
+    namespace fs = std::filesystem;
+    using namespace winter;
+    using namespace winter::data::sql_impl;
 
-struct MigrationTable : public virtual Table {
-  MigrationTable() :
-      Table("db_migrations", DatabaseType::kGeneric) {}
+    struct MigrationTable : public virtual Table {
+        MigrationTable() :
+            Table("db_migrations", DatabaseType::kGeneric) {}
 
-  const Column id = Long("id");
-  const Column name = String("name");
-  const Column script = String("script");
-  const Column hash = String("hash");
-};
+        const Column id = Long("id");
+        const Column name = String("name");
+        const Column script = String("script");
+        const Column hash = String("hash");
+    };
 
-struct Migration {
-  std::string name;
-  std::string script;
+    struct Migration {
+        std::string name;
+        std::string script;
 
-  Migration(std::string name, std::string script) :
-      name(std::move(name)),
-      script(std::move(script)) {}
+        Migration(std::string name, std::string script) :
+            name(std::move(name)), script(std::move(script)) {}
 
-  [[nodiscard]] std::size_t
-  Hash() const {
-    // return h1 ^ (h2 << 1);
-    return std::hash<std::string>()(script);
-    ;
-  }
-};
+        [[nodiscard]] std::size_t Hash() const {
+            // return h1 ^ (h2 << 1);
+            return std::hash<std::string>()(script);
+            ;
+        }
+    };
 
-template <typename TConnectionType, typename TTransactionType>
-class DataBaseMigration {
- public:
-  explicit DataBaseMigration(
-      std::vector<Migration> migrations_sql,
-      std::function<std::shared_ptr<TConnectionType>()> readWriteDb) :
-      path_(std::nullopt),
-      migrations_sql_(std::move(migrations_sql)),
-      read_write_db_(std::move(readWriteDb)) {}
-  DataBaseMigration(
-      std::string path,
-      std::function<std::shared_ptr<TConnectionType>()> readWriteDb) :
-      path_(std::move(path)),
-      read_write_db_(std::move(readWriteDb)) {}
+    template<typename TConnectionType, typename TTransactionType>
+    class DataBaseMigration {
+       public:
+        explicit DataBaseMigration(
+            std::vector<Migration>                            migrations_sql,
+            std::function<std::shared_ptr<TConnectionType>()> readWriteDb) :
+            path_(std::nullopt),
+            migrations_sql_(std::move(migrations_sql)),
+            read_write_db_(std::move(readWriteDb)) {}
+        DataBaseMigration(
+            std::string                                       path,
+            std::function<std::shared_ptr<TConnectionType>()> readWriteDb) :
+            path_(std::move(path)),
+            read_write_db_(std::move(readWriteDb)) {}
 
-  void execute();
+        void execute();
 
- private:
-  const std::optional<std::string> path_;
-  const std::vector<Migration> migrations_sql_;
+       private:
+        const std::optional<std::string> path_;
+        const std::vector<Migration>     migrations_sql_;
 
-  std::function<std::shared_ptr<TConnectionType>()> read_write_db_;
-  std::shared_ptr<MigrationTable> migration_table_ = std::make_shared<MigrationTable>();
-  std::vector<fs::directory_entry> MigrationsFiles() const;
-  std::vector<Migration> Migrations() const;
+        std::function<std::shared_ptr<TConnectionType>()> read_write_db_;
+        std::shared_ptr<MigrationTable>                   migration_table_ = std::make_shared<MigrationTable>();
+        std::vector<fs::directory_entry>                  MigrationsFiles() const;
+        std::vector<Migration>                            Migrations() const;
 
-  Migration CreateMigrationTable() const;
-};
+        Migration CreateMigrationTable() const;
+    };
 
 #include "winter_data_migration.tpp"
 
 }  // namespace winter::data::sql_impl
-#endif	// WINTERCPP_WINTER_DATA_MIGRATION_H
+#endif  // WINTERCPP_WINTER_DATA_MIGRATION_H

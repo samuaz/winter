@@ -7,43 +7,36 @@
 using namespace winter::descriptor;
 
 /* PoolDescriptor::PoolDescriptor() : _name("GENERIC_POOL_DESCRIPTOR"),
-				   _initialPoolSize(5),
-				   _maxPoolSize(10),
-				   _poolTimeout(60),
-				   _usePool(true) {} */
+                                   _initialPoolSize(5),
+                                   _maxPoolSize(10),
+                                   _poolTimeout(60),
+                                   _usePool(true) {} */
 
-PoolDescriptor::PoolDescriptor(
-    std::string name,
-    unsigned int initialPoolSize,
-    unsigned int maxPoolSize,
-    unsigned int poolTimeout,
-    bool usePool) :
+PoolDescriptor::PoolDescriptor(std::string  name,
+                               unsigned int initialPoolSize,
+                               unsigned int maxPoolSize,
+                               unsigned int poolTimeout,
+                               bool         usePool) :
     _name(std::move(name)),
-    _initialPoolSize(initialPoolSize),
-    _maxPoolSize(maxPoolSize),
-    _poolTimeout(poolTimeout),
-    _usePool(usePool) {}
+    _initialPoolSize(initialPoolSize), _maxPoolSize(maxPoolSize),
+    _poolTimeout(poolTimeout), _usePool(usePool) {}
 
-const std::string&
-PoolDescriptor::name() const {
-  return _name;
+const std::string& PoolDescriptor::name() const {
+    return _name;
 }
 
-unsigned int
-PoolDescriptor::initialPoolSize() const {
-  return _initialPoolSize;
+unsigned int PoolDescriptor::initialPoolSize() const {
+    return _initialPoolSize;
 }
 
-unsigned int
-PoolDescriptor::maxPoolSize() const {
-  return _maxPoolSize;
+unsigned int PoolDescriptor::maxPoolSize() const {
+    return _maxPoolSize;
 }
 
-unsigned int
-PoolDescriptor::poolTimeout() const {
-  return _poolTimeout;
+unsigned int PoolDescriptor::poolTimeout() const {
+    return _poolTimeout;
 }
 
 bool PoolDescriptor::usePool() const {
-  return _usePool;
+    return _usePool;
 }

@@ -10,27 +10,25 @@
 
 namespace winter::data::sql_impl {
 
-enum class JoinType : int {
-  DEFAULT = 0,
-  INNER,
-  LEFT,
-  RIGHT,
-  CROSS
-};
+    enum class JoinType : int { DEFAULT = 0,
+                                INNER,
+                                LEFT,
+                                RIGHT,
+                                CROSS };
 
-class Join : public virtual Clause {
- public:
-  explicit Join(std::shared_ptr<Table> table, JoinType type);
-  explicit Join(std::shared_ptr<Table> table);
-  PreparedStatement Prepare() override;
+    class Join : public virtual Clause {
+       public:
+        explicit Join(std::shared_ptr<Table> table, JoinType type);
+        explicit Join(std::shared_ptr<Table> table);
+        PreparedStatement Prepare() override;
 
- private:
-  std::shared_ptr<Table> table_;
-  JoinType type_;
-  void GenerateStatement();
-  std::string GenerateType();
-};
+       private:
+        std::shared_ptr<Table> table_;
+        JoinType               type_;
+        void                   GenerateStatement();
+        std::string            GenerateType();
+    };
 
 }  // namespace winter::data::sql_impl
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_JOIN_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_CLAUSE_JOIN_H

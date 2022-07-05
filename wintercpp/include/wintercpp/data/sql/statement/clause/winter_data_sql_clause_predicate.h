@@ -1,9 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2021. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam
+ *lacinia accumsan. Etiam sed turpis ac ipsum condimentum fringilla. Maecenas
+ *magna. Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque
+ *sagittis ligula eget metus. Vestibulum commodo. Ut rhoncus gravida arcu.
  ******************************************************************************/
 
 //
@@ -20,26 +20,28 @@
 
 namespace winter::data::sql_impl {
 
-class Predicate {
- public:
-  Predicate(
-      Column column,
-      std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
-	  field,
-      Condition conditionOperator);
+    class Predicate {
+       public:
+        Predicate(
+            Column column,
+            std::shared_ptr<
+                winter::data::sql_impl::AbstractPreparedStatementField> field,
+            Condition                                                   conditionOperator);
 
-  const Column &column() const;
+        const Column& column() const;
 
-  const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
-      &field() const;
+        const std::shared_ptr<
+            winter::data::sql_impl::AbstractPreparedStatementField>&
+        field() const;
 
-  Condition condition() const;
+        Condition condition() const;
 
- private:
-  Column column_;
-  std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField> field_;
-  winter::data::sql_impl::Condition condition_{};
-};
+       private:
+        Column column_;
+        std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
+                                          field_;
+        winter::data::sql_impl::Condition condition_ {};
+    };
 }  // namespace winter::data::sql_impl
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_PREDICATE_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_CLAUSE_PREDICATE_H

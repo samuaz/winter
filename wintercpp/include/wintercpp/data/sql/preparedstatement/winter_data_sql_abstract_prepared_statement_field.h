@@ -8,11 +8,11 @@
 #include <wintercpp/data/sql/field/winter_data_sql_abstract_field.h>
 
 namespace winter::data::sql_impl {
-struct AbstractPreparedStatementField : public virtual AbstractField {
-  virtual const std::string &custom_value() const = 0;
+    struct AbstractPreparedStatementField : public virtual AbstractField {
+        virtual const std::string& custom_value() const = 0;
 
-  virtual bool IsCustomValue() = 0;
-};
+        virtual bool IsCustomValue() = 0;
+    };
 }  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_ABSTRACT_PREPARED_STATEMENT_FIELD */

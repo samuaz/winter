@@ -11,29 +11,29 @@
 
 namespace winter::data::sql_impl {
 
-class Clause {
- public:
-  Clause &operator<<(const std::string &rvalue);
+    class Clause {
+       public:
+        Clause &operator<<(const std::string &rvalue);
 
-  const std::string &query() const;
+        const std::string &query() const;
 
-  std::string param();
+        std::string param();
 
-  std::string statement_template();
+        std::string statement_template();
 
-  virtual PreparedStatement Prepare() = 0;
+        virtual PreparedStatement Prepare() = 0;
 
- protected:
-  Clause &BuildQuery();
-  Clause(std::string statement_template, std::string param);
-  void set_statement_template(const std::string &statement_template);
+       protected:
+        Clause &BuildQuery();
+        Clause(std::string statement_template, std::string param);
+        void set_statement_template(const std::string &statement_template);
 
- private:
-  std::string statement_template_{};
-  const std::string param_{};
-  std::string query_{};
-};
+       private:
+        std::string       statement_template_ {};
+        const std::string param_ {};
+        std::string       query_ {};
+    };
 
 }  // namespace winter::data::sql_impl
 
-#endif	// WINTERCPP_WINTER_DATA_SQL_CLAUSE_H
+#endif  // WINTERCPP_WINTER_DATA_SQL_CLAUSE_H
