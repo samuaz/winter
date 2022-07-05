@@ -27,10 +27,10 @@ PreparedStatement::PreparedStatement(const StatementType &statement_type,
     columns_(std::move(columns)) {}
 
 PreparedStatement::PreparedStatement(
-    const StatementType                                         &statement_type,
-    std::string                                                  query,
+    const StatementType                                          &statement_type,
+    std::string                                                   query,
     std::vector<std::shared_ptr<AbstractPreparedStatementField> > values,
-    std::string                                                  id) :
+    std::string                                                   id) :
     id_(std::move(id)),
     type_(statement_type), statement_template_(std::move(query)),
     values_(std::move(values)) {}

@@ -14,6 +14,8 @@ RUN echo "  ---> Install packages" \
     && apk upgrade \
     && apk --update add \
         alpine-sdk \
+        ninja \
+        gdb \
         git \
         wget \
         curl \

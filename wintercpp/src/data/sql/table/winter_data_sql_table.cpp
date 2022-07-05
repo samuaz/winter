@@ -175,13 +175,12 @@ const Column &Table::Blob(const std::string &name) {
     return RegisterColumn(name, FieldType::kBlob);
 }
 
-bool Table::operator< (const Table& table) const {
+bool Table::operator<(const Table &table) const {
     std::stringstream left, right;
     left << this->name();
     right << table.name();
     return left.str() < right.str();
 }
-
 
 Table::~Table() {}
 

@@ -84,7 +84,7 @@ namespace winter::data::sql_impl {
             return this;
         }
 
-        bool operator< (const Column& column) const;
+        bool operator<(const Column &column) const;
 
        private:
         const Table      &table_;

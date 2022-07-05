@@ -31,10 +31,10 @@ namespace winter::data::sql_impl {
                           std::string          id = winter::random::uuid());
 
         PreparedStatement(
-            const StatementType                                         &statement_type,
-            std::string                                                  query,
+            const StatementType                                          &statement_type,
+            std::string                                                   query,
             std::vector<std::shared_ptr<AbstractPreparedStatementField> > values,
-            std::string                                                  id = winter::random::uuid());
+            std::string                                                   id = winter::random::uuid());
 
         PreparedStatement(
             const StatementType                                   &statement_type,
@@ -105,8 +105,8 @@ namespace winter::data::sql_impl {
         std::string   id_ {};
         StatementType type_ {};
         // std::shared_ptr<AbstractPreparedStatementField> _entityId;
-        std::string                                                  statement_template_;
-        std::vector<Column>                                          columns_;
+        std::string                                                   statement_template_;
+        std::vector<Column>                                           columns_;
         std::vector<std::shared_ptr<AbstractPreparedStatementField> > values_;
         std::vector<std::shared_ptr<AbstractPreparedStatementField> >::iterator
         FindValue(const std::string &name);

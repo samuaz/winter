@@ -9,8 +9,8 @@
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause.h>
 
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace winter::data::sql_impl {
 
