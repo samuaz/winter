@@ -13,6 +13,8 @@ RUN echo "  ---> Install packages" \
     && apk update \
     && apk upgrade \
     && apk --update add \
+        git \
+        openssh \
         bash \
         build-base \
         cmake \
