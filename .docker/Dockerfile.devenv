@@ -13,8 +13,13 @@ RUN echo "  ---> Install packages" \
     && apk update \
     && apk upgrade \
     && apk --update add \
+        alpine-sdk \
         git \
+        wget \
+        curl \
         openssh \
+        pkgconfig \
+        openssl \
         bash \
         build-base \
         cmake \
