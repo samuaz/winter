@@ -21,7 +21,7 @@ RUN echo "  ---> Install packages" \
         numactl-dev \
         libc-dev \
         libc6-compat \ 
-        gcompat \
+        #gcompat \
         ncurses \
         ncurses-dev \
         openldap \
@@ -72,5 +72,9 @@ RUN echo "  ---> Install packages" \
 #  echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
 #  apk del curl && \
 #  rm -rf glibc.apk glibc-bin.apk /var/cache/apk/*
+
+RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
+&& wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk \
+&& apk add glibc-${GLIBC_VERSION}.apk
 
 USER vscode
