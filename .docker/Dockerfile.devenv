@@ -15,8 +15,15 @@ RUN echo "  ---> Install packages" \
     && apk --update add \
         alpine-sdk \
         ninja \
+        numactl-dev \
+        libc6-dev \
+        libc-dev \
+        libc6-compat \ 
+        gcompat \
         ncurses \
+        ncurses-dev \
         openldap \
+        libsasl \
         gdb \
         git \
         wget \
