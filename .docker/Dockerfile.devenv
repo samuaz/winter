@@ -17,6 +17,7 @@ RUN echo "  ---> Install packages" \
     && apk --update add \
         alpine-sdk \
         ninja \
+        eudev-dev \
         numactl-dev \
         libc-dev \
         libc6-compat \ 
@@ -24,11 +25,16 @@ RUN echo "  ---> Install packages" \
         ncurses \
         ncurses-dev \
         openldap \
+        openldap-dev \
+        cyrus-sasl-dev \
+        doxygen \
         libsasl \
         gdb \
         git \
         wget \
         curl \
+        curl-dev \
+        zstd-dev \
         openssh \
         pkgconfig \
         openssl \
