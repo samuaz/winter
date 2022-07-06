@@ -16,6 +16,7 @@ RUN echo "  ---> Install packages" \
         alpine-sdk \
         ninja \
         ncurses \
+        openldap \
         gdb \
         git \
         wget \
