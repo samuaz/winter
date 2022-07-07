@@ -12,6 +12,7 @@ cmake \
 clang \
 gdb \
 libssl-dev \
-git
+git \
+pkg-config \
 
 USER vscode
