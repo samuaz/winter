@@ -13,6 +13,6 @@ clang \
 gdb \
 libssl-dev \
 git \
-pkg-config \
+pkg-config
 
 USER vscode
