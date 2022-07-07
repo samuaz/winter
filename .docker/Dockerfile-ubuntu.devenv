@@ -15,9 +15,9 @@ git \
 pkg-config \
 wget
 
-RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1l-1ubuntu1.5_amd64.deb \
-&& dpkg -i libssl1.1_1.1.1l-1ubuntu1.5_amd64.deb \
-&& wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl-dev_1.1.1l-1ubuntu1.5_amd64.deb \
-&& dpkg -i libssl-dev_1.1.1l-1ubuntu1.5_amd64.deb
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1l-1ubuntu1_amd64.deb \
+&& dpkg -i libssl1.1_1.1.1l-1ubuntu1_amd64.deb \
+&& wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl-dev_1.1.1l-1ubuntu1_amd64.deb \
+&& dpkg -i libssl-dev_1.1.1l-1ubuntu1_amd64.deb
 
 USER vscode
