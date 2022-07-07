@@ -11,6 +11,7 @@ RUN apt update -y \
 cmake \
 clang \
 gdb \
-libssl-dev
+libssl-dev \
+git
 
 USER vscode
