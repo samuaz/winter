@@ -6,8 +6,8 @@ RUN useradd -s /bin/bash -m vscode \
   && groupadd docker \
   && usermod -aG docker vscode
 
-RUN apt update \ 
-&& apt install build-essential \
+RUN apt update -y \ 
+&& apt install -y build-essential \
 cmake \
 clang \
 gdb \
