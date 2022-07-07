@@ -1,0 +1,16 @@
+FROM ubuntu:22.04
+
+ENV GLIBC_VERSION 2.35-r0
+
+RUN useradd -s /bin/bash -m vscode \
+  && groupadd docker \
+  && usermod -aG docker vscode
+
+RUN apt update \ 
+&& apt install build-essential \
+cmake \
+clang \
+gdb \
+libssl-dev
+
+USER vscode
