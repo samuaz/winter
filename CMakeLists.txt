@@ -15,7 +15,12 @@ project(${APP_NAME} VERSION ${APP_VERSION} DESCRIPTION ${APP_DESCRIPTION})
 option(ALPINE_BUILD "Use ALPINE_BUILD" FALSE)
 option(BUILD_LIB "Use BUILD_LIB" FALSE)
 option(HOST_OS "HOST_OS")
-option(WITH_TEST "HOST_OS")
+option(WINTER_WITH_TEST "Enable building TESTS" OFF)
+option(WINTER_WITH_GRPC "Enable building GRPC" OFF)
+option(WINTER_WITH_MARIADB "Enable building MARIADB" OFF)
+option(WINTER_WITH_MYSQL "Enable building MYSQL" OFF)
+option(WINTER_WITH_REDIS "Enable building REDIS" OFF)
+
 
 # Set a default build type if none was specified
 set(default_build_type "Release")
@@ -42,13 +47,29 @@ set(CMAKE_C_FLAGS_RELEASE "-Ofast -march=native -pipe -fno-unroll-loops -fmerge-
 ############################
 add_subdirectory(wintercpp)
 add_subdirectory(wintercpp_mysql_core)
+
+IF (WINTER_WITH_MARIADB)
+add_subdirectory(wintercpp_mariadb)
+ENDIF(WINTER_WITH_MARIADB)
+
+IF (WINTER_WITH_MYSQL)
+add_subdirectory(wintercpp_mysql)
+ENDIF(WINTER_WITH_MYSQL)
+
+IF (WINTER_WITH_GRPC)
+add_subdirectory(wintercpp_grpc)
+ENDIF(WINTER_WITH_GRPC)
+
+IF (WINTER_WITH_REDIS)
+add_subdirectory(wintercpp_redis)
+ENDIF(WINTER_WITH_REDIS)
+
+IF (WINTER_WITH_TEST)
+add_subdirectory(wintercpp_test)
 add_subdirectory(wintercpp_mariadb)
 add_subdirectory(wintercpp_mysql)
 add_subdirectory(wintercpp_grpc)
 add_subdirectory(wintercpp_redis)
-IF (BUILD_TESTING)
-add_executable(TestOne TestOne.cpp)
-add_subdirectory(wintercpp_test)
-ENDIF(BUILD_TESTING)
+ENDIF(WINTER_WITH_TEST)
 
 
