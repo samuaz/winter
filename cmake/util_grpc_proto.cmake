@@ -22,7 +22,7 @@ set(protobuf_BUILD_TESTS OFF)
          SOURCE_DIR ${THIRD_PARTY_DIR}/grpc_plugin
  )
 
-FetchContent_MakeAvailable(protobuf_compiler, grpc_plugin)
+FetchContent_MakeAvailable(protobuf_compiler grpc_plugin)
 
 # for some reason the 3 steps together dont work so i split it
 
