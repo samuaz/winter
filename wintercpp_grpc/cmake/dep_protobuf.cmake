@@ -12,6 +12,7 @@ FetchContent_Declare(
 )
 
  set(protobuf_BUILD_TESTS OFF CACHE INTERNAL "")
+ set(gRPC_PROTOBUF_PROVIDER package CACHE INTERNAL "")
 # FetchContent_GetProperties(protobuf)
 # if(NOT protobuf_POPULATED)
 #     FetchContent_Populate(protobuf)
