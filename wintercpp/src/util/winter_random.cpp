@@ -126,21 +126,21 @@ std::string winter::random::uuidRandom() {
     uniform_int_distribution<int> dist(0, 15);
     const char                   *v = "0123456789abcdef";
     const bool                    dash[] = {false,
-                         false,
-                         false,
-                         false,
-                         true,
-                         false,
-                         true,
-                         false,
-                         true,
-                         false,
-                         true,
-                         false,
-                         false,
-                         false,
-                         false,
-                         false};
+                                            false,
+                                            false,
+                                            false,
+                                            true,
+                                            false,
+                                            true,
+                                            false,
+                                            true,
+                                            false,
+                                            true,
+                                            false,
+                                            false,
+                                            false,
+                                            false,
+                                            false};
     string                        res;
     for (bool i : dash) {
         if (i) res += "-";

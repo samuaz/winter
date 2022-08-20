@@ -10,7 +10,7 @@ template<typename TConnectionType, typename TTransactionType>
 void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
     TTransactionType transaction(read_write_db_());
     transaction.template Execute<void>([&](TTransactionType
-                                           & transaction) -> auto {
+                                           & transaction) -> auto{
         Query(StatementType::kCreate, CreateMigrationTable().script)
             >> transaction;
         for (const auto &migration : Migrations()) {

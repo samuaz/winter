@@ -15,6 +15,7 @@ project(${APP_NAME} VERSION ${APP_VERSION} DESCRIPTION ${APP_DESCRIPTION})
 option(ALPINE_BUILD "Use ALPINE_BUILD" FALSE)
 option(BUILD_LIB "Use BUILD_LIB" FALSE)
 option(HOST_OS "HOST_OS")
+option(WITH_TEST "HOST_OS")
 
 # Set a default build type if none was specified
 set(default_build_type "Release")
@@ -39,11 +40,15 @@ set(CMAKE_C_FLAGS_RELEASE "-Ofast -march=native -pipe -fno-unroll-loops -fmerge-
 ############################
 ##       END FLAGS        ##
 ############################
-add_subdirectory(wintercpp_test)
 add_subdirectory(wintercpp)
 add_subdirectory(wintercpp_mysql_core)
 add_subdirectory(wintercpp_mariadb)
 add_subdirectory(wintercpp_mysql)
 add_subdirectory(wintercpp_grpc)
 add_subdirectory(wintercpp_redis)
+IF (BUILD_TESTING)
+add_executable(TestOne TestOne.cpp)
+add_subdirectory(wintercpp_test)
+ENDIF(BUILD_TESTING)
+
 
