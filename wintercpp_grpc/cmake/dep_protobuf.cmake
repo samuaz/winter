@@ -1,7 +1,7 @@
 #
 # Created by AZCONA VARGAS, SAMUEL EDUARDO
 #
-include(${CMAKE_CURRENT_LIST_DIR}/host_utils.cmake)
+include(${PARENT_DIR}/cmake/host_utils.cmake)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 FetchContent_Declare(
         protobuf
