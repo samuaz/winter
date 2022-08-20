@@ -11,7 +11,7 @@ set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 # create grpc_cpp_plugin build dir
 execute_process(
-        COMMAND mkdir -p build
+        COMMAND bash "-c" "mkdir -p build"
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_plugin_build_dir_creation_result
         OUTPUT_VARIABLE grpc_plugin_build_dir_creation_result_output)
@@ -21,7 +21,7 @@ MESSAGE(STATUS "grpc_plugin_build_dir_creation_output:" ${grpc_plugin_build_dir_
 
 # create grpc_cpp_plugin cmake configuration
 execute_process(
-        COMMAND cmake ..
+        COMMAND bash "-c" "cmake .."
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}/build
         RESULT_VARIABLE grpc_plugin_cmake_result
         OUTPUT_VARIABLE grpc_plugin_cmake_result_output)
@@ -30,7 +30,7 @@ MESSAGE(STATUS "grpc_plugin_cmake_CMD_OUTPUT:" ${grpc_plugin_cmake_result_output
 
 # create grpc_cpp_plugin build
 execute_process(
-        COMMAND make grpc_cpp_plugin
+        COMMAND bash "-c" "make grpc_cpp_plugin"
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}/build
         RESULT_VARIABLE grpc_plugin_make_result
         OUTPUT_VARIABLE grpc_plugin_make_output)
@@ -39,7 +39,7 @@ MESSAGE(STATUS "grpc_plugin_make_CMD_OUTPUT:" ${grpc_plugin_make_output})
 
 # create grpc_cpp_plugin copy to thirparty dir
 execute_process(
-        COMMAND mkdir -p ${THIRD_PARTY_DIR}/grpc_plugin
+        COMMAND bash "-c" "mkdir -p ${THIRD_PARTY_DIR}/grpc_plugin"
         COMMAND cp ${grpc_SOURCE_DIR}/build/grpc_cpp_plugin ${THIRD_PARTY_DIR}/grpc_plugin
         COMMAND cp ${grpc_SOURCE_DIR}/build/libgrpc_plugin_support.a ${THIRD_PARTY_DIR}/grpc_plugin
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}/build
