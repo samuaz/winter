@@ -5,9 +5,10 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_TRANSACTION_H
 #define WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_TRANSACTION_H
 
-#include <wintercpp/winter.h>
 #include <wintercpp/winter_mysql_core.h>
 #include <wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection.h>
+#include <wintercpp/data/sql/mariadb/response/winter_data_sql_mariadb_impl_response.h>
+#include <wintercpp/winter.h>
 
 namespace winter::data::mariadb {
 
@@ -22,8 +23,8 @@ namespace winter::data::mariadb {
         Transaction(
             const shared_ptr<winter::data::mariadb::connection::Connection>&
                                      connection,
-            TransactionIsolationType isolationType,
-            bool                     partialCommit) :
+            TransactionIsolationType isolationType = TransactionIsolationType::DEFAULT,
+            bool                     partialCommit = false) :
             winter::data::sql_impl::Transaction<
                 winter::data::mariadb::Transaction,
                 winter::data::mariadb::connection::Connection,
