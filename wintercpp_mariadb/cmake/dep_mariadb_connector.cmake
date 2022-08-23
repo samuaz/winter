@@ -11,7 +11,7 @@ set(MARIADB_LINK_DYNAMIC OFF CACHE INTERNAL "")
 FetchContent_Declare(
         mariadb_connector
         GIT_REPOSITORY https://github.com/mariadb-corporation/mariadb-connector-cpp.git
-        GIT_TAG        1.1.1
+        GIT_TAG        master
         SOURCE_SUBDIR  cmake
         SOURCE_DIR ${THIRD_PARTY_DIR}/mariadb_connector
 )
