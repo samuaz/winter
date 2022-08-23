@@ -28,10 +28,12 @@ namespace winter::data::sql_impl {
         virtual bool                     ignore_error() const = 0;
     };
 
-    template<typename TTransactionImpl,
-             typename TSQLConnection,
+    template<typename TSQLConnection,
              typename TResponse>
     class Transaction : public virtual ITransaction {
+        
+        using TTransactionImpl = Transaction<TSQLConnection, TResponse>;
+     
        public:
         /**
          * @brief

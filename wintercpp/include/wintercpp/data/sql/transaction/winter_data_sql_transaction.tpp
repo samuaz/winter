@@ -8,10 +8,9 @@
 namespace winter::data::sql_impl {
 
 #define TRANSACTION_TEMPLATE            \
-    template<typename TTransactionImpl, \
-             typename TSQLConnection,   \
+    template<typename TSQLConnection,   \
              typename TResponse>
-#define TRANSACTION Transaction<TTransactionImpl, TSQLConnection, TResponse>
+#define TRANSACTION Transaction<TSQLConnection, TResponse>
 
     TRANSACTION_TEMPLATE
     TRANSACTION::Transaction(std::shared_ptr<TSQLConnection> connection,
@@ -23,7 +22,7 @@ namespace winter::data::sql_impl {
     }
 
     TRANSACTION_TEMPLATE
-    TTransactionImpl &TRANSACTION::This() {
+    TRANSACTION &TRANSACTION::This() {
         return dynamic_cast<TTransactionImpl &>(*this);
     }
 

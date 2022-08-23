@@ -10,27 +10,7 @@
 #include <wintercpp/winter_mysql_core.h>
 
 namespace winter::data::mysql {
-
-    using namespace winter::data::sql_impl::mysql::connection;
-
-    class Transaction :
-        public virtual winter::data::sql_impl::Transaction<
-            winter::data::mysql::Transaction,
-            winter::data::mysql::connection::Connection,
-            winter::data::mysql::Response> {
-       public:
-        Transaction(
-            const shared_ptr<winter::data::mysql::connection::Connection>&
-                                     connection,
-            TransactionIsolationType isolationType = TransactionIsolationType::DEFAULT,
-            bool                     partialCommit = false) :
-            winter::data::sql_impl::Transaction<
-                winter::data::mysql::Transaction,
-                winter::data::mysql::connection::Connection,
-                winter::data::mysql::Response>(
-                connection, isolationType, partialCommit) {}
-    };
-
+    typedef winter::data::sql_impl::Transaction<winter::data::mysql::connection::Connection, winter::data::mysql::Response> Transaction;
 }  // namespace winter::data::mysql
 
 #endif  // WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_TRANSACTION_H

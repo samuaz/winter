@@ -11,26 +11,7 @@
 #include <wintercpp/winter.h>
 
 namespace winter::data::mariadb {
-
-    using namespace winter::data::sql_impl::mysql::connection;
-
-    class Transaction :
-        public virtual winter::data::sql_impl::Transaction<
-            winter::data::mariadb::Transaction,
-            winter::data::mariadb::connection::Connection,
-            winter::data::mariadb::Response> {
-       public:
-        Transaction(
-            const shared_ptr<winter::data::mariadb::connection::Connection>&
-                                     connection,
-            TransactionIsolationType isolationType = TransactionIsolationType::DEFAULT,
-            bool                     partialCommit = false) :
-            winter::data::sql_impl::Transaction<
-                winter::data::mariadb::Transaction,
-                winter::data::mariadb::connection::Connection,
-                winter::data::mariadb::Response>(
-                connection, isolationType, partialCommit) {}
-    };
+    typedef winter::data::sql_impl::Transaction<winter::data::mariadb::connection::Connection, winter::data::mariadb::Response> Transaction;
 
 }  // namespace winter::data::mariadb
 
