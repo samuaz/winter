@@ -1,0 +1,11 @@
+--- test/framework/test_asserts.h
++++ test/framework/test_asserts.h
+@@ -35,6 +35,7 @@
+ #define __TESTASSERTS_H_
+ 
+ #include "conncpp/ResultSet.hpp"
++#include <cstring>
+ 
+ #include "../common/ccppTypes.h"
+ 
+

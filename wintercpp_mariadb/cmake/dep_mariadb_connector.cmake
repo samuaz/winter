@@ -49,6 +49,22 @@ MESSAGE(STATUS "mariadb_c_patches_CMD_ERROR:" ${mariadb_c_patches_result})
 MESSAGE(STATUS "mariadb_c_patches_CMD_OUTPUT:" ${mariadb_c_patches_VARIABLE})
 
 execute_process(
+        COMMAND bash "-c" "patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/mariadb_fix_missing_cstring_test_asserts.patch"
+        WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}/
+        RESULT_VARIABLE mariadb_c_patches_result
+        OUTPUT_VARIABLE mariadb_c_patches_VARIABLE)
+MESSAGE(STATUS "mariadb_c_patches_CMD_ERROR:" ${mariadb_c_patches_result})
+MESSAGE(STATUS "mariadb_c_patches_CMD_OUTPUT:" ${mariadb_c_patches_VARIABLE})
+
+execute_process(
+        COMMAND bash "-c" "patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/mariadb_fix_missing_cstring.patch"
+        WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}/
+        RESULT_VARIABLE mariadb_c_patches_result
+        OUTPUT_VARIABLE mariadb_c_patches_VARIABLE)
+MESSAGE(STATUS "mariadb_c_patches_CMD_ERROR:" ${mariadb_c_patches_result})
+MESSAGE(STATUS "mariadb_c_patches_CMD_OUTPUT:" ${mariadb_c_patches_VARIABLE})
+
+execute_process(
         COMMAND bash "-c" "cmake -DBUILD_SHARED_LIBS=OFF -DMARIADB_LINK_DYNAMIC=OFF -DINSTALL_LIB_SUFFIX=${mariadb_connector_SOURCE_DIR}/install -DCMAKE_INSTALL_PREFIX=${mariadb_connector_SOURCE_DIR}/install && make install"
         WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}
         RESULT_VARIABLE mariadb_cmake_result
