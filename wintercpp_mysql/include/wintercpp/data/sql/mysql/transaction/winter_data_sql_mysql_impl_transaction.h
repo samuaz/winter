@@ -5,6 +5,7 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_TRANSACTION_H
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_TRANSACTION_H
 
+#include <wintercpp/winter.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_impl_connection.h>
 #include <wintercpp/winter_mysql_core.h>
 
@@ -21,8 +22,8 @@ namespace winter::data::mysql {
         Transaction(
             const shared_ptr<winter::data::mysql::connection::Connection>&
                                      connection,
-            TransactionIsolationType isolationType,
-            bool                     partialCommit) :
+            TransactionIsolationType isolationType = TransactionIsolationType::DEFAULT,
+            bool                     partialCommit = false) :
             winter::data::sql_impl::Transaction<
                 winter::data::mysql::Transaction,
                 winter::data::mysql::connection::Connection,
