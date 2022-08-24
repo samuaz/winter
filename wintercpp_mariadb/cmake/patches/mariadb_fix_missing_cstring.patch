@@ -1,5 +1,5 @@
---- test/unit/classes/resultset.cpp
-+++ test/unit/classes/resultset.cpp
+--- /test/unit/classes/resultset.cpp
++++ /test/unit/classes/resultset.cpp
 @@ -40,6 +40,7 @@
  #include "conncpp/Types.hpp"
  #include "conncpp/Connection.hpp"
