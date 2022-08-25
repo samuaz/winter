@@ -33,7 +33,6 @@ namespace winter::data::sql_impl {
     DataTypeResult ResultRow<TResultSet>::operator[](
         const std::string &column_name) const {
         if (rows_.find(column_name) == rows_.end()) {
-                      << std::endl;
             return DataTypeResult(
                 winter::data::response::Response<DataType>::Error(
                     "value for column " + column_name + " not found"));
