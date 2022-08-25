@@ -31,9 +31,8 @@ namespace winter::data::sql_impl {
     template<typename TSQLConnection,
              typename TResponse>
     class Transaction : public virtual ITransaction {
-        
         using TTransactionImpl = Transaction<TSQLConnection, TResponse>;
-     
+
        public:
         /**
          * @brief

@@ -7,8 +7,8 @@
 
 namespace winter::data::sql_impl {
 
-#define TRANSACTION_TEMPLATE            \
-    template<typename TSQLConnection,   \
+#define TRANSACTION_TEMPLATE          \
+    template<typename TSQLConnection, \
              typename TResponse>
 #define TRANSACTION Transaction<TSQLConnection, TResponse>
 
