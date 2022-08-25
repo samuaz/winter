@@ -15,12 +15,9 @@ namespace winter::data::sql_impl {
 
     template<typename T>
     T DataTypeResult::as() const {
-        std::cout << "preguntando si hay resultado" << std::endl;
         if (res_) {
-            std::cout << "si hay resultado imprimiendo" << std::endl;
             return std::get<T>(res_.Value());
         }
-        std::cout << "no hay resultado, tirando excepcion" << std::endl;
         throw WinterInternalException::Create(
             __FILE__, __FUNCTION__, __LINE__, res_.message());
     }
@@ -36,13 +33,11 @@ namespace winter::data::sql_impl {
     DataTypeResult ResultRow<TResultSet>::operator[](
         const std::string &column_name) const {
         if (rows_.find(column_name) == rows_.end()) {
-            std::cout << "no se encontro la columna " << column_name
                       << std::endl;
             return DataTypeResult(
                 winter::data::response::Response<DataType>::Error(
                     "value for column " + column_name + " not found"));
         } else {
-            std::cout << "encontrada la columna " << column_name << std::endl;
             return DataTypeResult(
                 winter::data::response::Response<DataType>::Success(
                     rows_.at(column_name)));
