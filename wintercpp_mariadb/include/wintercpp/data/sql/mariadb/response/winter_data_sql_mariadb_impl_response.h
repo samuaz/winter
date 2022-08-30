@@ -7,7 +7,7 @@
 
 #include <wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_result_row.h>
 #include <wintercpp/winter_mysql_core.h>
-
+#include <wintercpp/winter.h>
 #include <mariadb/conncpp.hpp>
 
 namespace winter::data::mariadb {

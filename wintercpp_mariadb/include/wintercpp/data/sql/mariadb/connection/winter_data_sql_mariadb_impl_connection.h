@@ -14,7 +14,7 @@
 
 namespace winter::data::mariadb::connection {
 
-using namespace sql_impl;
+    using namespace sql_impl;
 
 #define MARIADB_CONNECTION_IMPL                            \
     winter::data::sql_impl::mysql::connection::Connection< \

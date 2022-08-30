@@ -30,28 +30,28 @@ namespace winter::data::sql_impl {
                                           winter::data::ResponseStatus>::status;
 
        public:
-        //virtual ~Response() = default;
+        // virtual ~Response() = default;
 
-            static Response Error(
-        const std::string &transactionId,
-        StatementType      type,
-        const std::string &message) {
-        return {transactionId, type, ResponseStatus::kError, message};
-    }
+        static Response Error(
+            const std::string& transactionId,
+            StatementType      type,
+            const std::string& message) {
+            return {transactionId, type, ResponseStatus::kError, message};
+        }
 
-    static Response Success(
-        const std::string             &transactionId,
-        StatementType                  type,
-        const std::vector<TResultRow> &result,
-        int                            row_affected,
-        const std::string             &message) {
-        return {transactionId,
-                type,
-                result,
-                ResponseStatus::kSuccess,
-                message,
-                row_affected};
-    }
+        static Response Success(
+            const std::string&             transactionId,
+            StatementType                  type,
+            const std::vector<TResultRow>& result,
+            int                            row_affected,
+            const std::string&             message) {
+            return {transactionId,
+                    type,
+                    result,
+                    ResponseStatus::kSuccess,
+                    message,
+                    row_affected};
+        }
 
         int row_affected() const {
             return row_affected_;
