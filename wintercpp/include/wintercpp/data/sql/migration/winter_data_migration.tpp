@@ -25,7 +25,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                << "db_migrations"
                <<" WHERE "
                << " hash "
-               << " " << GetCondition<Condition::EQ>::Get() << " " << migration.Hash() << " ) as name;";
+               << " " << GetCondition<Condition::EQ>::Get() << " " << migration.Hash() << " ) as found;";
            // auto response = Query(StatementType::kNative, ss.str()) >> transaction;
             /*            auto response = Select() << From(migration_table_)
                                                  << Where(Where::make_predicate(
@@ -33,17 +33,18 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                                         Condition::EQ,
                                                         std::to_string(migration.Hash())))
                                         >> transaction;*/
-            auto columns = std::vector<Column>{migration_table_->name};
+            auto columnFound = Column(*migration_table_, "found", FieldType::kBoolean);
+            auto columns = std::vector<Column>{columnFound};
             auto response = Select(ss.str()) << columns >> transaction;
             auto resultRow = response.RequireSingleOrNullopt();
            // resultRow->AddRow("name");
 
             if (resultRow.has_value()) {
                 const auto &value = resultRow.value();
-                auto exists = value[migration_table_->name].template as<std::string>();
+                auto exists = value[columnFound].template as<bool>();
 
 
-            if (exists == "0") {
+            if (!exists) {
                 auto migrationResponse = (Query(StatementType::kCreate, migration.script)
                                           >> transaction);
                 migrationResponse.template Then<void>(
