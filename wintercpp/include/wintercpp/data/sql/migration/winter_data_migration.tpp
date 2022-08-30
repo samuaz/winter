@@ -4,6 +4,7 @@
 
 #include <memory>
 
+#include "winter_data_migration.h"
 #include "wintercpp/data/response/winter_data_response_status.h"
 
 template<typename TConnectionType, typename TTransactionType>
@@ -13,7 +14,8 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                            & transaction) -> auto{
         Query(StatementType::kCreate, CreateMigrationTable().script)
             >> transaction;
-        for (const auto &migration : Migrations()) {
+        auto migrations = Migrations();
+        for (const auto &migration : migrations) {
             auto response = Select() << From(migration_table_)
                                      << Where(Where::make_predicate(
                                             migration_table_->hash,
@@ -33,6 +35,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                              Values::Add(migration_table_->hash,
                                          std::to_string(migration.Hash()))})
                             >> transaction;
+                        std::cout << "migracion correcta guardada" << std::endl;
                     },
                     [&](void) -> void {
                         std::cerr

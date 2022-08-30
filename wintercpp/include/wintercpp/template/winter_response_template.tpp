@@ -180,6 +180,7 @@ namespace winter::templates {
         const std::function<T(void)> &on_success,
         const std::function<T(void)> &on_error) {
         if (HasValue() || IsSuccess()) {
+            std::cout << "ejecutando then on success" << std::endl;
             return on_success();
         } else {
             return on_error();
@@ -195,6 +196,7 @@ namespace winter::templates {
         const std::function<T(const TImplementation &)> &on_success,
         const std::function<T(const TImplementation &)> &on_error) {
         if (HasValue() || IsSuccess()) {
+            std::cout << "ejecutando then on success" << std::endl;
             return on_success(This());
         } else {
             return on_error(This());
@@ -208,6 +210,7 @@ namespace winter::templates {
     template<typename T>
     T Response<TImplementation, TResultType, TStatusType>::Then(
         const std::function<T(const TImplementation &)> &execute) {
+        std::cout << "ejecutando then execute" << std::endl;
         return execute(This());
     }
 
@@ -218,6 +221,7 @@ namespace winter::templates {
     template<typename T>
     T Response<TImplementation, TResultType, TStatusType>::Then(
         const std::function<T(void)> &execute) {
+        std::cout << "ejecutando then execute" << std::endl;
         return execute();
     }
 
