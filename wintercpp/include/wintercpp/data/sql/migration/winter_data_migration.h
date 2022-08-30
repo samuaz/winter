@@ -34,7 +34,7 @@ namespace winter::data::sql_impl {
             Table("db_migrations", DatabaseType::kGeneric) {}
 
         const Column id = Long("id");
-        const Column name = String("name");
+        const Column script_name = String("name");
         const Column script = String("script");
         const Column hash = String("hash");
     };

@@ -4,6 +4,7 @@
 
 #include <wintercpp/winter.h>
 
+#include <functional>
 #include <memory>
 #include <sstream>
 
@@ -22,9 +23,9 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
             std::stringstream ss;
             // TODO: CREATE A PROPER CLAUSE WITH API FOR THIS
             ss << "SELECT EXISTS(SELECT 1 FROM "
-               << "db_migrations"
+               << migration_table_->name()
                <<" WHERE "
-               << " hash "
+               << migration_table_->hash.name()
                << " " << GetCondition<Condition::EQ>::Get() << " " << migration.Hash() << " ) as found;";
            // auto response = Query(StatementType::kNative, ss.str()) >> transaction;
             /*            auto response = Select() << From(migration_table_)
@@ -50,14 +51,13 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                 migrationResponse.template Then<void>(
                     [&](void) -> void {
                         Insert(migration_table_) << Values(
-                            {Values::Add(migration_table_->name,
+                            {Values::Add(migration_table_->script_name,
                                          migration.name),
                              Values::Add(migration_table_->script,
                                          migration.script),
                              Values::Add(migration_table_->hash,
                                          std::to_string(migration.Hash()))})
                             >> transaction;
-                        std::cout << "migracion correcta guardada" << std::endl;
                     },
                     [&](void) -> void {
                         std::cerr
@@ -68,7 +68,8 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
             }
             } else {
                 std::cerr
-                    << "EXITING,DB MIGRATION FAIL NOT RESULTS ON MIGRATION CHECK: " << migration.name
+                    << "EXITING,DB MIGRATION FAIL NOT RESULTS ON MIGRATION CHECK: " 
+                    << migration.name
                     << std::endl;
                 exit(EXIT_FAILURE);
             }
