@@ -41,6 +41,7 @@ namespace winter::data::sql_impl {
             return connection_->Execute(prepared_statement);
         }();
         operations_status_[prepared_statement.id()] = response.IsSuccess();
+
         return response;
     }
 

@@ -2,7 +2,10 @@
 //
 // Created by samuaz on 5/30/21.
 
+#include <wintercpp/winter.h>
+
 #include <memory>
+#include <sstream>
 
 #include "winter_data_migration.h"
 #include "wintercpp/data/response/winter_data_response_status.h"
@@ -16,13 +19,31 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
             >> transaction;
         auto migrations = Migrations();
         for (const auto &migration : migrations) {
-            auto response = Select() << From(migration_table_)
-                                     << Where(Where::make_predicate(
-                                            migration_table_->hash,
-                                            Condition::EQ,
-                                            std::to_string(migration.Hash())))
-                            >> transaction;
-            if (! response) {
+            std::stringstream ss;
+            // TODO: CREATE A PROPER CLAUSE WITH API FOR THIS
+            ss << "SELECT EXISTS(SELECT 1 FROM "
+               << "db_migrations"
+               <<" WHERE "
+               << " hash "
+               << " " << GetCondition<Condition::EQ>::Get() << " " << migration.Hash() << " ) as name;";
+           // auto response = Query(StatementType::kNative, ss.str()) >> transaction;
+            /*            auto response = Select() << From(migration_table_)
+                                                 << Where(Where::make_predicate(
+                                                        migration_table_->hash,
+                                                        Condition::EQ,
+                                                        std::to_string(migration.Hash())))
+                                        >> transaction;*/
+            auto columns = std::vector<Column>{migration_table_->name};
+            auto response = Select(ss.str()) << columns >> transaction;
+            auto resultRow = response.RequireSingleOrNullopt();
+           // resultRow->AddRow("name");
+
+            if (resultRow.has_value()) {
+                const auto &value = resultRow.value();
+                auto exists = value[migration_table_->name].template as<std::string>();
+
+
+            if (exists == "0") {
                 auto migrationResponse = (Query(StatementType::kCreate, migration.script)
                                           >> transaction);
                 migrationResponse.template Then<void>(
@@ -43,6 +64,12 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                             << std::endl;
                         exit(EXIT_FAILURE);
                     });
+            }
+            } else {
+                std::cerr
+                    << "EXITING,DB MIGRATION FAIL NOT RESULTS ON MIGRATION CHECK: " << migration.name
+                    << std::endl;
+                exit(EXIT_FAILURE);
             }
         }
     });
