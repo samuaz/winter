@@ -30,7 +30,7 @@ namespace winter::data::mysql::connection {
 
        private:
         ::sql::transaction_isolation IsolationLevel(
-            const TransactionIsolationType &isolation) override;
+            const sql_impl::TransactionIsolationType &isolation) override;
     };
 }  // namespace winter::data::mysql::connection
 #endif  // WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_CONNECTION_H

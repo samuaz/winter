@@ -24,10 +24,10 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
             // TODO: CREATE A PROPER CLAUSE WITH API FOR THIS
             ss << "SELECT EXISTS(SELECT 1 FROM "
                << migration_table_->name()
-               <<" WHERE "
+               << " WHERE "
                << migration_table_->hash.name()
                << " " << GetCondition<Condition::EQ>::Get() << " " << migration.Hash() << " ) as found;";
-           // auto response = Query(StatementType::kNative, ss.str()) >> transaction;
+            // auto response = Query(StatementType::kNative, ss.str()) >> transaction;
             /*            auto response = Select() << From(migration_table_)
                                                  << Where(Where::make_predicate(
                                                         migration_table_->hash,
@@ -35,40 +35,39 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                                         std::to_string(migration.Hash())))
                                         >> transaction;*/
             auto columnFound = Column(*migration_table_, "found", FieldType::kBoolean);
-            auto columns = std::vector<Column>{columnFound};
+            auto columns = std::vector<Column> {columnFound};
             auto response = Select(ss.str()) << columns >> transaction;
             auto resultRow = response.RequireSingleOrNullopt();
-           // resultRow->AddRow("name");
+            // resultRow->AddRow("name");
 
             if (resultRow.has_value()) {
                 const auto &value = resultRow.value();
-                auto exists = value[columnFound].template as<bool>();
+                auto        exists = value[columnFound].template as<bool>();
 
-
-            if (!exists) {
-                auto migrationResponse = (Query(StatementType::kCreate, migration.script)
-                                          >> transaction);
-                migrationResponse.template Then<void>(
-                    [&](void) -> void {
-                        Insert(migration_table_) << Values(
-                            {Values::Add(migration_table_->script_name,
-                                         migration.name),
-                             Values::Add(migration_table_->script,
-                                         migration.script),
-                             Values::Add(migration_table_->hash,
-                                         std::to_string(migration.Hash()))})
-                            >> transaction;
-                    },
-                    [&](void) -> void {
-                        std::cerr
-                            << "EXITING,DB MIGRATION FAIL: " << migration.name
-                            << std::endl;
-                        exit(EXIT_FAILURE);
-                    });
-            }
+                if (! exists) {
+                    auto migrationResponse = (Query(StatementType::kCreate, migration.script)
+                                              >> transaction);
+                    migrationResponse.template Then<void>(
+                        [&](void) -> void {
+                            Insert(migration_table_) << Values(
+                                {Values::Add(migration_table_->script_name,
+                                             migration.name),
+                                 Values::Add(migration_table_->script,
+                                             migration.script),
+                                 Values::Add(migration_table_->hash,
+                                             std::to_string(migration.Hash()))})
+                                >> transaction;
+                        },
+                        [&](void) -> void {
+                            std::cerr
+                                << "EXITING,DB MIGRATION FAIL: " << migration.name
+                                << std::endl;
+                            exit(EXIT_FAILURE);
+                        });
+                }
             } else {
                 std::cerr
-                    << "EXITING,DB MIGRATION FAIL NOT RESULTS ON MIGRATION CHECK: " 
+                    << "EXITING,DB MIGRATION FAIL NOT RESULTS ON MIGRATION CHECK: "
                     << migration.name
                     << std::endl;
                 exit(EXIT_FAILURE);
