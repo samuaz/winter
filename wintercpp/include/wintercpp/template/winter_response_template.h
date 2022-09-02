@@ -98,8 +98,7 @@ namespace winter::templates {
             const std::function<std::optional<T>(const TImplementation &)>
                 &callback);
 
-        template<typename T>
-        std::optional<T> OnError(
+        void OnError(
             const std::function<void(void)>
                 &callback);
 
