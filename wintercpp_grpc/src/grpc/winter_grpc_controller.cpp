@@ -24,8 +24,8 @@ grpc::Status winter::GrpcController::responseEntity(
         status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
     } catch (const std::runtime_error &e) {
         status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
-    } catch (...) {
-        status = grpc::Status(grpc::StatusCode::UNKNOWN, "UNKNOWN ERROR");
+    } catch (const std::exception &e) {
+        status = grpc::Status(grpc::StatusCode::UNKNOWN, e.what());
     }
     return status;
 }
