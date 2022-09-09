@@ -19,7 +19,7 @@ FetchContent_Declare(
 FetchContent_Declare(
         grpc
         GIT_REPOSITORY https://github.com/grpc/grpc.git
-        GIT_TAG        v1.48.0
+        GIT_TAG        v1.48.1
         GIT_PROGRESS   TRUE 
         SOURCE_DIR ${THIRD_PARTY_DIR}/grpc
 )
