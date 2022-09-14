@@ -53,7 +53,7 @@ set(grpc_plugin_SOURCE_DIR ${THIRD_PARTY_DIR}/grpc_plugin)
 # protobuf compiler 
 FetchContent_Declare(
         protobuf_compiler
-        URL https://github.com/protocolbuffers/protobuf/releases/download/v21.5/protoc-21.5-${HOST_OS}-${HOST_ARCHITECTURE}.zip
+        URL https://github.com/protocolbuffers/protobuf/releases/download/v3.18.0/protoc-3.18.0-${HOST_OS}-${HOST_ARCHITECTURE}.zip
         SOURCE_DIR ${THIRD_PARTY_DIR}/protobuf_compiler
 )
 
