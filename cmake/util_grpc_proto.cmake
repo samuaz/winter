@@ -40,8 +40,17 @@ MESSAGE(STATUS "grpc_plugin_make_CMD_OUTPUT:" ${grpc_plugin_make_output})
 # create grpc_cpp_plugin copy to thirparty dir
 execute_process(
         COMMAND bash "-c" "mkdir -p ${THIRD_PARTY_DIR}/grpc_plugin"
-        COMMAND cp ${grpc_SOURCE_DIR}/build/grpc_cpp_plugin ${THIRD_PARTY_DIR}/grpc_plugin/
-        COMMAND cp ${grpc_SOURCE_DIR}/build/libgrpc_plugin_support.a ${THIRD_PARTY_DIR}/grpc_plugin/
+        WORKING_DIRECTORY ${grpc_SOURCE_DIR}/build
+        RESULT_VARIABLE grpc_plugin_mkdir_result
+        OUTPUT_VARIABLE grpc_plugin_mkdir_out)
+MESSAGE(STATUS "grpc_plugin_mkdir_ERROR:" ${grpc_plugin_mkdir_result})
+MESSAGE(STATUS "grpc_plugin_mkdir_OUTPUT:" ${grpc_plugin_mkdir_out})
+set(grpc_plugin_SOURCE_DIR ${THIRD_PARTY_DIR}/grpc_plugin)
+
+# create grpc_cpp_plugin copy to thirparty dir
+execute_process(
+        COMMAND bash "-c" "cp ${grpc_SOURCE_DIR}/build/grpc_cpp_plugin ${THIRD_PARTY_DIR}/grpc_plugin/"
+        COMMAND bash "-c" "cp ${grpc_SOURCE_DIR}/build/libgrpc_plugin_support.a ${THIRD_PARTY_DIR}/grpc_plugin/"
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}/build
         RESULT_VARIABLE grpc_plugin_install_result
         OUTPUT_VARIABLE grpc_plugin_install_out)
