@@ -10,7 +10,7 @@ FetchContent_Declare(
         SOURCE_SUBDIR  cmake
         SOURCE_DIR ${THIRD_PARTY_DIR}/protobuf
 )
-
+set (Protobuf_USE_STATIC_LIBS ON )
 set(protobuf_BUILD_TESTS OFF CACHE INTERNAL "")
 set(gRPC_PROTOBUF_PROVIDER package CACHE INTERNAL "")
 # FetchContent_GetProperties(protobuf)
@@ -48,4 +48,5 @@ set(Protobuf_ROOT_DIR ${protobuf_SOURCE_DIR}/install CACHE INTERNAL "")
 set(Protobuf_LIBRARIES ${protobuf_SOURCE_DIR}/install/lib)
 set(Protobuf_PROTOC_LIBRARY ${protobuf_SOURCE_DIR}/install/lib/libprotoc.a)
 set(Protobuf_INCLUDE_DIR ${protobuf_SOURCE_DIR}/install/include)
-set(WINTER_PROTOBUF_LIB ${Protobuf_LIBRARIES}/libprotobuf.a ${Protobuf_LIBRARIES}/libprotoc.a)
+#set(WINTER_PROTOBUF_LIB ${Protobuf_LIBRARIES}/libprotobuf.a ${Protobuf_LIBRARIES}/libprotoc.a)
+set(WINTER_PROTOBUF_LIB protobuf::libprotobuf)

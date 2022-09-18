@@ -75,6 +75,7 @@ set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)   
+target_include_directories(${PROJECT_NAME} INTERFACE ${Protobuf_INCLUDE_DIR})
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
