@@ -44,7 +44,7 @@ execute_process(
 MESSAGE(STATUS "protobuf_install_CMD_ERROR:" ${protobuf_install_result})
 MESSAGE(STATUS "protobuf_install_CMD_OUTPUT:" ${protobuf_install_VARIABLE})
 
-set(PROTOBUF_ROOT_DIR ${protobuf_SOURCE_DIR}/install CACHE INTERNAL "")
+set(Protobuf_ROOT_DIR ${protobuf_SOURCE_DIR}/install CACHE INTERNAL "")
 set(Protobuf_LIBRARIES ${protobuf_SOURCE_DIR}/install/lib)
 set(Protobuf_PROTOC_LIBRARY ${protobuf_SOURCE_DIR}/install/lib/libprotoc.a)
 set(Protobuf_INCLUDE_DIR ${protobuf_SOURCE_DIR}/install/include)
