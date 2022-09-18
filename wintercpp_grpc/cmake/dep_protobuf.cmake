@@ -22,7 +22,7 @@ set(gRPC_PROTOBUF_PROVIDER package CACHE INTERNAL "")
 #     add_subdirectory(${protobuf_SOURCE_DIR}/cmake ${protobuf_BINARY_DIR} EXCLUDE_FROM_ALL)
 # endif()
 
-
 FetchContent_MakeAvailable(protobuf)
+include_directories(${protobuf_INCLUDE_DIRS})
 set(PROTOBUF_ROOT_DIR ${protobuf_SOURCE_DIR} INTERNAL "")
 set(WINTER_PROTOBUF_LIB protobuf::libprotobuf)
