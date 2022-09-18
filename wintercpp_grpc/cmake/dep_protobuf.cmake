@@ -12,7 +12,7 @@ FetchContent_Declare(
 )
 
 set(protobuf_BUILD_TESTS OFF CACHE INTERNAL "")
-#set(gRPC_PROTOBUF_PROVIDER package CACHE INTERNAL "")
+set(gRPC_PROTOBUF_PROVIDER package CACHE INTERNAL "")
 # FetchContent_GetProperties(protobuf)
 # if(NOT protobuf_POPULATED)
 #     FetchContent_Populate(protobuf)
@@ -23,5 +23,5 @@ set(protobuf_BUILD_TESTS OFF CACHE INTERNAL "")
 # endif()
 
 FetchContent_MakeAvailable(protobuf)
-set(PROTOBUF_ROOT_DIR ${protobuf_SOURCE_DIR} INTERNAL "")
+set(PROTOBUF_ROOT_DIR ${protobuf_SOURCE_DIR} CACHE INTERNAL "")
 set(WINTER_PROTOBUF_LIB protobuf::libprotobuf)
