@@ -6,17 +6,15 @@
 ## CONFIG BUILD SYSTEM HOST ##
 ###############################
 
-if (UNIX AND NOT APPLE)
-
 # Store in CMAKE_DEB_HOST_ARCH var the current build architecture
 execute_process(
      COMMAND bash "-c" "uname -m"
      OUTPUT_VARIABLE CMAKE_HOST_ARCH
      OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-
 MESSAGE(STATUS "ARCHITECTURE IS" ${CMAKE_HOST_ARCH})
 
+if (UNIX AND NOT APPLE)
 set(HOST_OS "linux" CACHE INTERNAL "")
 set(HOST_OS_2 "linux" CACHE INTERNAL "")
 set(MYSQL_PLATFORM linux-glibc2.12)
