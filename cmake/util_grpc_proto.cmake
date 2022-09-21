@@ -9,6 +9,8 @@ set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 # for some reason the 3 steps together dont work so i split it
 
+MESSAGE(STATUS "USING GRPC SOURCE DIR" ${grpc_SOURCE_DIR})
+
 # create grpc_cpp_plugin build dir
 execute_process(
         COMMAND bash "-c" "mkdir -p build"
