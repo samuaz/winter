@@ -14,8 +14,11 @@ execute_process(COMMAND
   OUTPUT_VARIABLE CMAKE_HOST_ARCH
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-set(HOST_OS "linux")
-set(HOST_OS_2 "linux")
+
+MESSAGE(STATUS "ARCHITECTURE IS ${CMAKE_HOST_ARCH}")
+
+set(HOST_OS "linux" CACHE INTERNAL "")
+set(HOST_OS_2 "linux" CACHE INTERNAL "")
 set(MYSQL_PLATFORM linux-glibc2.12)
 if(${CMAKE_HOST_ARCH} MATCHES "^(x86_64|X64)$")
      set(HOST_ARCHITECTURE "x86_64" CACHE INTERNAL "")
@@ -41,9 +44,9 @@ elseif(${CMAKE_HOST_ARCH} MATCHES "^(aarch64|aarch_64|arm64|aarch64_be|armv8b|ar
     set(HOST_ARCHITECTURE_2 "aarch64" CACHE INTERNAL "")
 endif()
     set(CMAKE_MACOSX_RPATH 1)
-    set(HOST_OS "osx")
-    set(HOST_OS_2 "macos")
-    set(MYSQL_PLATFORM macos10.14)
+    set(HOST_OS "osx" CACHE INTERNAL "")
+    set(HOST_OS_2 "macos" CACHE INTERNAL "")
+    set(MYSQL_PLATFORM macos10.14 CACHE INTERNAL "")
 endif ()
 
 MESSAGE("Building for ${HOST_OS} and architecture ${HOST_ARCHITECTURE} original architecture is ${CMAKE_HOST_ARCH}")
