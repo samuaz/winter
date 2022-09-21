@@ -13,7 +13,7 @@ MESSAGE(STATUS "USING GRPC SOURCE DIR" ${grpc_SOURCE_DIR})
 
 # create grpc_cpp_plugin build dir
 execute_process(
-        COMMAND bash "-c" "mkdir -p build"
+        COMMAND bash "-c" "mkdir build"
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_plugin_build_dir_creation_result
         OUTPUT_VARIABLE grpc_plugin_build_dir_creation_result_output)
