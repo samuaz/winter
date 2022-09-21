@@ -2,11 +2,12 @@
 # Created by AZCONA VARGAS, SAMUEL EDUARDO
 #
 include(${PARENT_DIR}/cmake/host_utils.cmake)
+set(WINTER_PROTOBUF_VERSION 21.6)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 FetchContent_Declare(
         protobuf
         GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git
-        GIT_TAG        v3.18.0
+        GIT_TAG        v${WINTER_PROTOBUF_VERSION}
         SOURCE_SUBDIR  cmake
         SOURCE_DIR ${THIRD_PARTY_DIR}/protobuf
 )
