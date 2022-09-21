@@ -98,6 +98,10 @@ namespace winter::templates {
             const std::function<std::optional<T>(const TImplementation &)>
                 &callback);
 
+        void OnError(
+            const std::function<void(void)>
+                &callback);
+
         template<typename Functor>
         auto operator>>(const Functor &functor);
 

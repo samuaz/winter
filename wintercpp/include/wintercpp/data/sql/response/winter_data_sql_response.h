@@ -16,21 +16,42 @@
 
 namespace winter::data::sql_impl {
 
-    template<typename TImplementation, typename TResultRow>
+    template<typename TResultRow>
     class Response :
-        public winter::templates::Response<TImplementation,
-                                           std::vector<TResultRow>,
-                                           winter::data::ResponseStatus> {
-        using winter::templates::Response<TImplementation,
+        public virtual winter::templates::Response<Response<TResultRow>,
+                                                   std::vector<TResultRow>,
+                                                   winter::data::ResponseStatus> {
+        using winter::templates::Response<Response<TResultRow>,
                                           std::vector<TResultRow>,
                                           winter::data::ResponseStatus>::Value;
 
-        using winter::templates::Response<TImplementation,
+        using winter::templates::Response<Response<TResultRow>,
                                           std::vector<TResultRow>,
                                           winter::data::ResponseStatus>::status;
 
        public:
-        virtual ~Response() = default;
+        // virtual ~Response() = default;
+
+        static Response Error(
+            const std::string& transactionId,
+            StatementType      type,
+            const std::string& message) {
+            return {transactionId, type, ResponseStatus::kError, message};
+        }
+
+        static Response Success(
+            const std::string&             transactionId,
+            StatementType                  type,
+            const std::vector<TResultRow>& result,
+            int                            row_affected,
+            const std::string&             message) {
+            return {transactionId,
+                    type,
+                    result,
+                    ResponseStatus::kSuccess,
+                    message,
+                    row_affected};
+        }
 
         int row_affected() const {
             return row_affected_;
@@ -62,12 +83,12 @@ namespace winter::data::sql_impl {
             return ! IsSuccess();
         };
 
-       protected:
+       public:
         Response(const std::string&           transaction_id,
                  StatementType                type,
                  winter::data::ResponseStatus status,
                  const std::string&           message) :
-            winter::templates::Response<TImplementation,
+            winter::templates::Response<Response<TResultRow>,
                                         std::vector<TResultRow>,
                                         winter::data::ResponseStatus>(status,
                                                                       message),
@@ -79,7 +100,7 @@ namespace winter::data::sql_impl {
                  winter::data::ResponseStatus   status,
                  const std::string&             message,
                  int                            row_affected) :
-            winter::templates::Response<TImplementation,
+            winter::templates::Response<Response<TResultRow>,
                                         std::vector<TResultRow>,
                                         winter::data::ResponseStatus>(
                 result, status, message),

@@ -41,6 +41,7 @@ namespace winter::data::sql_impl {
             return connection_->Execute(prepared_statement);
         }();
         operations_status_[prepared_statement.id()] = response.IsSuccess();
+
         return response;
     }
 
@@ -90,7 +91,7 @@ namespace winter::data::sql_impl {
 
     TRANSACTION_TEMPLATE
     TRANSACTION::~Transaction() {
-        // if any of the operations_status fail that means returns false, we
+        // if any of the operations_status fail or there is an exception not captured inside the transaction scope, that means returns false, we
         // rollback then we commit check in this way because any_of can give
         // better performance than all_of, if we found the first false the loop
         // ends.
@@ -100,7 +101,7 @@ namespace winter::data::sql_impl {
                                     return ! i.second;
                                 });
 
-        if (fail) {
+        if (fail || std::uncaught_exceptions()) {
             if (Transaction::ignore_error()) {
                 Transaction::Commit();
             } else {

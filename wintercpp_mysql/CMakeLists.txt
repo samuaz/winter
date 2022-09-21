@@ -13,8 +13,6 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 set(CMAKE_OPTIMIZE_DEPENDENCIES TRUE)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
 
 include_directories(${CMAKE_BINARY_DIR}/generated)
 
@@ -49,7 +47,7 @@ endforeach()
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 add_library(winter::mysql ALIAS ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} winter::mysql_core ${WINTER_MYSQL_LIBS}) ## the test target is going to use this as definition source
+target_link_libraries(${PROJECT_NAME} winter::mysql_core ${WINTER_MYSQL_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
 
 function(create_winter_header headerFiles)

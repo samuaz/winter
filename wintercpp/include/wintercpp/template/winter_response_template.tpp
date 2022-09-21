@@ -262,6 +262,16 @@ namespace winter::templates {
              typename TResultType,
              typename TStatusType>
     // requires std::is_enum_v<TStatusType>
+    void
+    Response<TImplementation, TResultType, TStatusType>::OnError(
+        const std::function<void(void)> &callback) {
+        if (! HasValue() || IsError()) { callback(); }
+    }
+
+    template<typename TImplementation,
+             typename TResultType,
+             typename TStatusType>
+    // requires std::is_enum_v<TStatusType>
     template<typename T>
     std::optional<T>
     Response<TImplementation, TResultType, TStatusType>::OnError(

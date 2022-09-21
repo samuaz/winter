@@ -11,15 +11,6 @@
 #include <memory>
 
 namespace winter::data::mariadb::connection {
-
-    class ResultRow :
-        public virtual winter::data::sql_impl::mysql::ResultRow<
-            ::sql::ResultSet> {
-       public:
-        ResultRow(const data::sql_impl::PreparedStatement& preparedStatement,
-                  const std::shared_ptr<sql::ResultSet>&   resultSet) :
-            winter::data::sql_impl::mysql::ResultRow<::sql::ResultSet>(
-                preparedStatement, resultSet) {}
-    };
+    typedef winter::data::sql_impl::mysql::ResultRow<::sql::ResultSet> ResultRow;
 }  // namespace winter::data::mariadb::connection
 #endif  // WINTERCPP_WINTER_DATA_SQL_MARIADB_IMPL_RESULT_ROW_H

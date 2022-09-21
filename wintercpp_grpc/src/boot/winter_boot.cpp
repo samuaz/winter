@@ -10,25 +10,39 @@ std::unique_ptr<WinterBoot> WinterBoot::instance_;
 std::once_flag              WinterBoot::m_once_;
 ServerBuilder               WinterBoot::builder_;
 
-void WinterBoot::init(const std::string &host, const std::string &port) {
+void WinterBoot::init(const std::string &host, const std::string &port, bool ssl, const std::string& servercert, const std::string& serverkey) {
     getInstance();
-    runServer(host, port);
+    runServer(host, port, ssl, servercert, serverkey);
 }
 
 void WinterBoot::registerController(grpc::Service *controller) {
     builder_.RegisterService(controller);
 }
 
-void WinterBoot::runServer(const std::string &host, const std::string &port) {
+void WinterBoot::runServer(const std::string &host, const std::string &port, bool ssl, const std::string& servercert, const std::string& serverkey) {
     /// server address
 
     std::string server_address(host + ":" + port);
 
+    std::shared_ptr<grpc::ServerCredentials> creds;
+    if(ssl) {
+        grpc::SslServerCredentialsOptions::PemKeyCertPair pkcp;
+        pkcp.private_key = serverkey;
+        pkcp.cert_chain = servercert;
+
+        grpc::SslServerCredentialsOptions ssl_opts;
+        ssl_opts.pem_root_certs="";
+        ssl_opts.pem_key_cert_pairs.push_back(pkcp);
+
+        creds = grpc::SslServerCredentials(ssl_opts);
+    } else {
+        creds = grpc::InsecureServerCredentials();
+    }
+
     //// Listen on the given address without any authentication mechanism.
     //// security is service independent by security module
     //// you can also make this use ssl security or auth
-    builder_.AddListeningPort(server_address,
-                              grpc::InsecureServerCredentials());
+    builder_.AddListeningPort(server_address, creds);
     builder_.SetSyncServerOption(
         grpc::ServerBuilder::SyncServerOption::CQ_TIMEOUT_MSEC, 900000);
 
@@ -48,9 +62,12 @@ WinterBoot::~WinterBoot() = default;
 
 void WinterBoot::onInit(const std::string           &host,
                         const std::string           &port,
+                        bool ssl,
+                        const std::string& servercert,
+                        const std::string& serverkey,
                         const std::function<void()> &initFunction) {
     initFunction();
-    init(host, port);
+    init(host, port, ssl, servercert, serverkey);
 }
 
 WinterBoot::WinterBoot() = default;

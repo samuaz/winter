@@ -2,6 +2,8 @@
 
 using namespace winter::data::mariadb;
 
+using namespace winter::data::sql_impl;
+
 int32_t winter::data::mariadb::connection::Connection::IsolationLevel(
     const TransactionIsolationType &isolation) {
     switch (isolation) {

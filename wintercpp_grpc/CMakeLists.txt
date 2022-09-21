@@ -47,7 +47,7 @@ endforeach()
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 add_library(winter::grpc ALIAS ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} winter::core ${WINTER_GRPC_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
+target_link_libraries(${PROJECT_NAME} winter::core ${WINTER_GRPC_LIBS} ${EXTRA_LIBRARY})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
 
 function(create_winter_header headerFiles)
@@ -75,6 +75,7 @@ set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)   
+target_include_directories(${PROJECT_NAME} INTERFACE ${Protobuf_INCLUDE_DIR})
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
