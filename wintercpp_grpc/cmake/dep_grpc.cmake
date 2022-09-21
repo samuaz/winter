@@ -7,13 +7,13 @@ set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 ## HOT FIX FOR GRPC AND GCC 11 & CLAND 12
 ## re2 ##
-FetchContent_Declare(
-        re2
-        GIT_REPOSITORY https://github.com/google/re2.git
-        GIT_TAG        2021-09-01
-        GIT_PROGRESS   TRUE
-        SOURCE_DIR ${THIRD_PARTY_DIR}/re2
-)
+# FetchContent_Declare(
+#         re2
+#         GIT_REPOSITORY https://github.com/google/re2.git
+#         GIT_TAG        2021-09-01
+#         GIT_PROGRESS   TRUE
+#         SOURCE_DIR ${THIRD_PARTY_DIR}/re2
+# )
 
 ## grpc ##
 FetchContent_Declare(
@@ -26,7 +26,7 @@ FetchContent_Declare(
 
 set(BUILD_TESTING OFF CACHE INTERNAL "")
 set(gRPC_BUILD_TESTS OFF CACHE INTERNAL "")
-set(gRPC_RE2_PROVIDER package CACHE INTERNAL "")
+#set(gRPC_RE2_PROVIDER package CACHE INTERNAL "")
 set(gRPC_BUILD_GRPC_CPP_PLUGIN ON CACHE INTERNAL "")
 set(gRPC_BUILD_GRPC_CSHARP_PLUGIN OFF CACHE INTERNAL "")
 set(gRPC_BUILD_GRPC_NODE_PLUGIN OFF CACHE INTERNAL "")
@@ -49,5 +49,5 @@ FetchContent_MakeAvailable(re2 grpc)
 #     FetchContent_Populate(grpc)
 #     add_subdirectory(${grpc_SOURCE_DIR} ${grpc_BINARY_DIR} EXCLUDE_FROM_ALL)
 # endif()
-set(WINTER_GRPC_LIB re2 grpc++)
+set(WINTER_GRPC_LIB grpc++)
 
