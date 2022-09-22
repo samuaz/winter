@@ -73,12 +73,28 @@ MESSAGE(STATUS "mariadb_remove_test_CMD_ERROR:" ${mariadb_remove_test_result})
 MESSAGE(STATUS "mariadb_remove_test_CMD_OUTPUT:" ${mariadb_remove_test_VARIABLE})
 
 execute_process(
-        COMMAND bash "-c" "cmake -DBUILD_SHARED_LIBS=OFF -DMARIADB_LINK_DYNAMIC=OFF -DINSTALL_LIB_SUFFIX=${mariadb_connector_SOURCE_DIR}/install -DCMAKE_INSTALL_PREFIX=${mariadb_connector_SOURCE_DIR}/install && make install"
+        COMMAND bash "-c" "rm -rf build; mkdir build"
         WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}
+        RESULT_VARIABLE mariadb_build_dir_result
+        OUTPUT_VARIABLE mariadb_build_dir_VARIABLE)
+MESSAGE(STATUS "mariadb_build_dir_CMD_ERROR:" ${mariadb_build_dir_result})
+MESSAGE(STATUS "mariadb_build_dir_CMD_OUTPUT:" ${mariadb_build_dir_CMD_OUTPUT})
+
+execute_process(
+        COMMAND bash "-c" "cmake .. -DBUILD_SHARED_LIBS=OFF -DMARIADB_LINK_DYNAMIC=OFF -DINSTALL_LIB_SUFFIX=${mariadb_connector_SOURCE_DIR}/install -DCMAKE_INSTALL_PREFIX=${mariadb_connector_SOURCE_DIR}/install"
+        WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}/build
         RESULT_VARIABLE mariadb_cmake_result
         OUTPUT_VARIABLE mariadb_cmake_VARIABLE)
 MESSAGE(STATUS "mariadb_cmake_CMD_ERROR:" ${mariadb_cmake_result})
 MESSAGE(STATUS "mariadb_cmake_CMD_OUTPUT:" ${mariadb_cmake_VARIABLE})
+
+execute_process(
+        COMMAND bash "-c" "make install"
+        WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}/build
+        RESULT_VARIABLE mariadb_install_result
+        OUTPUT_VARIABLE mariadb_install_VARIABLE)
+MESSAGE(STATUS "mariadb_install_CMD_ERROR:" ${mariadb_install_result})
+MESSAGE(STATUS "mariadb_install_CMD_OUTPUT:" ${mariadb_install_VARIABLE})
 
 include_directories(${mariadb_connector_SOURCE_DIR}/install/include)
 link_directories(${mariadb_connector_SOURCE_DIR}/install/lib)
