@@ -38,6 +38,32 @@ set(gRPC_SSL_PROVIDER package CACHE INTERNAL "")
 
 FetchContent_MakeAvailable(re2 grpc)
 
+execute_process(
+        COMMAND bash "-c" "patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/grpc_gzlib.patch"
+        WORKING_DIRECTORY ${grpc_SOURCE_DIR}
+        RESULT_VARIABLE grpc_gzlib_patches_result
+        OUTPUT_VARIABLE grpc_gzlib_patches_VARIABLE)
+MESSAGE(STATUS "grpc_gzlib_patches_CMD_ERROR:" ${grpc_gzlib_patches_result})
+MESSAGE(STATUS "grpc_gzlib_patches_CMD_OUTPUT:" ${grpc_gzlib_patches_VARIABLE})
+
+execute_process(
+        COMMAND bash "-c" "patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/grpc_gzread.patch"
+        WORKING_DIRECTORY ${grpc_SOURCE_DIR}
+        RESULT_VARIABLE grpc_gzread_patches_result
+        OUTPUT_VARIABLE grpc_gzread_patches_VARIABLE)
+MESSAGE(STATUS "grpc_gzread_patches_CMD_ERROR:" ${grpc_gzread_patches_result})
+MESSAGE(STATUS "grpc_gzread_patches_CMD_OUTPUT:" ${grpc_gzread_patches_VARIABLE})
+
+execute_process(
+        COMMAND bash "-c" "patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/grpc_gzwrite.patch"
+        WORKING_DIRECTORY ${grpc_SOURCE_DIR}
+        RESULT_VARIABLE grpc_gzwrite_patches_result
+        OUTPUT_VARIABLE grpc_gzwrite_patches_VARIABLE)
+MESSAGE(STATUS "grpc_gzwrite_patches_CMD_ERROR:" ${grpc_gzwrite_patches_result})
+MESSAGE(STATUS "grpc_gzwrite_patches_CMD_OUTPUT:" ${grpc_gzwrite_patches_VARIABLE})
+
+#include <unistd.h>
+
 # FetchContent_GetProperties(re2)
 # if(NOT re2_POPULATED)
 #     FetchContent_Populate(re2)
