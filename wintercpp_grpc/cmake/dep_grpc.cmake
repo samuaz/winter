@@ -26,6 +26,7 @@ FetchContent_Declare(
 
 
 if (APPLE)
+MESSAGE("APPLE USING PACKAGE C-ARES")
 set(DgRPC_CARES_PROVIDER package CACHE INTERNAL "")
 endif()
 
