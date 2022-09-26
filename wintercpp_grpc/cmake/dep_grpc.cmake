@@ -78,7 +78,7 @@ MESSAGE(STATUS "grpc_init_CMD_OUTPUT:" ${grpc_init_VARIABLE})
 
 execute_process(
         COMMAND bash "-c" "mkdir -p build_grpc; cd build_grpc && 
-        cmake -DCMAKE_BUILD_TYPE=Release \
+        cmake .. -DCMAKE_BUILD_TYPE=Release \
         -DgRPC_BUILD_TESTS=OFF  \
         -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON \
         -DgRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF \
