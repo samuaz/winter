@@ -86,13 +86,14 @@ execute_process(
         -DgRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_PYTHON_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_RUBY_PLUGIN=OFF \
-        -DgRPC_BUILD_GRPC_PHP_PLUGIN =OFF
+        -DgRPC_BUILD_GRPC_PHP_PLUGIN =OFF \
+        -DgRPC_BUILD_GRPC_JAVA_PLUGIN \
         -DgRPC_SSL_PROVIDER=package \
         -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER} \
         -DProtobuf_LIBRARIES=${Protobuf_LIBRARIES} \
         -DProtobuf_INCLUDE_DIR=${Protobuf_INCLUDE_DIR} \
         -DProtobuf_PROTOC_LIBRARY={Protobuf_PROTOC_LIBRARY} \
-        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make -j4 && make install "
+        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make -j2 && make install "
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_install_result
         OUTPUT_VARIABLE grpc_install_VARIABLE)
