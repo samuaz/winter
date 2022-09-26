@@ -26,7 +26,11 @@ set(gRPC_BUILD_GRPC_PYTHON_PLUGIN OFF CACHE INTERNAL "")
 set(gRPC_BUILD_GRPC_RUBY_PLUGIN OFF CACHE INTERNAL "")
 set(gRPC_SSL_PROVIDER package CACHE INTERNAL "")
 
-FetchContent_MakeAvailable(re2 grpc)
+#FetchContent_MakeAvailable(re2 grpc)
+
+if(NOT grpc_POPULATED)
+    FetchContent_Populate(grpc)
+endif()
 
 execute_process(
         COMMAND bash "-c" "patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/grpc_gzlib.patch"
@@ -65,5 +69,33 @@ MESSAGE(STATUS "grpc_gzwrite_patches_CMD_OUTPUT:" ${grpc_gzwrite_patches_VARIABL
 #     FetchContent_Populate(grpc)
 #     add_subdirectory(${grpc_SOURCE_DIR} ${grpc_BINARY_DIR} EXCLUDE_FROM_ALL)
 # endif()
-set(WINTER_GRPC_LIB re2 grpc++)
+
+execute_process(
+        COMMAND bash "-c" "git submodule update --init --recursive"
+        WORKING_DIRECTORY ${grpc_SOURCE_DIR}
+        RESULT_VARIABLE grpc_init_result
+        OUTPUT_VARIABLE grpc_init_VARIABLE)
+MESSAGE(STATUS "grpc_init_CMD_ERROR:" ${grpc_init_result})
+MESSAGE(STATUS "grpc_init_CMD_OUTPUT:" ${grpc_init_VARIABLE})
+
+execute_process(
+        COMMAND bash "-c" "mkdir -p build; cd build && 
+        cmake -DCMAKE_BUILD_TYPE=Release 
+        -gRPC_BUILD_TESTS=OFF 
+        -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON 
+        -DgRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF
+        -DgRPC_BUILD_GRPC_NODE_PLUGIN=OFF
+        -DgRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN=OFF
+        -DgRPC_BUILD_GRPC_PYTHON_PLUGIN=OFF
+        -DgRPC_BUILD_GRPC_RUBY_PLUGIN=OFF
+        -DgRPC_SSL_PROVIDER=package
+        -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER}
+        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install ../cmake && make -j4 && make install "
+        WORKING_DIRECTORY ${protobuf_SOURCE_DIR}
+        RESULT_VARIABLE protobuf_install_result
+        OUTPUT_VARIABLE protobuf_install_VARIABLE)
+MESSAGE(STATUS "grpc_install_CMD_ERROR:" ${protobuf_install_result})
+MESSAGE(STATUS "grpc_install_CMD_OUTPUT:" ${protobuf_install_VARIABLE})
+set(grpc_INCLUDE_DIR ${grpc_SOURCE_DIR}/install/include)
+set(WINTER_GRPC_LIB ${grpc_SOURCE_DIR}/install/lib/libgrpc++.a)
 
