@@ -86,7 +86,7 @@ execute_process(
         -DgRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_PYTHON_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_RUBY_PLUGIN=OFF \
-        -Dgrpc_php_plugin=OFF \
+        -DgRPC_BUILD_GRPC_PHP_PLUGIN =OFF
         -DgRPC_SSL_PROVIDER=package \
         -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER} \
         -DProtobuf_LIBRARIES=${Protobuf_LIBRARIES} \
