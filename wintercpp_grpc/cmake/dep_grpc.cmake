@@ -80,16 +80,16 @@ MESSAGE(STATUS "grpc_init_CMD_OUTPUT:" ${grpc_init_VARIABLE})
 
 execute_process(
         COMMAND bash "-c" "mkdir -p build; cd build && 
-        cmake -DCMAKE_BUILD_TYPE=Release 
-        -gRPC_BUILD_TESTS=OFF 
-        -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON 
-        -DgRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF
-        -DgRPC_BUILD_GRPC_NODE_PLUGIN=OFF
-        -DgRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN=OFF
-        -DgRPC_BUILD_GRPC_PYTHON_PLUGIN=OFF
-        -DgRPC_BUILD_GRPC_RUBY_PLUGIN=OFF
-        -DgRPC_SSL_PROVIDER=package
-        -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER}
+        cmake -DCMAKE_BUILD_TYPE=Release \
+        -gRPC_BUILD_TESTS=OFF  \
+        -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON \
+        -DgRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF \
+        -DgRPC_BUILD_GRPC_NODE_PLUGIN=OFF \
+        -DgRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN=OFF \
+        -DgRPC_BUILD_GRPC_PYTHON_PLUGIN=OFF \
+        -DgRPC_BUILD_GRPC_RUBY_PLUGIN=OFF \
+        -DgRPC_SSL_PROVIDER=package \
+        -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER} \
         -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install ../cmake && make -j4 && make install "
         WORKING_DIRECTORY ${protobuf_SOURCE_DIR}
         RESULT_VARIABLE protobuf_install_result
