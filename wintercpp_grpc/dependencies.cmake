@@ -10,6 +10,15 @@ set(FETCHCONTENT_QUIET OFF)
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 #include(${PARENT_DIR}/cmake/dep_openssl.cmake)
 #include(${PARENT_DIR}/cmake/dep_openssl_system.cmake)
+
+# option(USE_SYSTEM_GRPC "Use system installed gRPC" OFF)
+# if(USE_SYSTEM_GRPC)
+#   # Find system-installed gRPC
+#   find_package(gRPC CONFIG REQUIRED)
+# else()
+#   # Build gRPC using FetchContent or add_subdirectory
+# endif()
+
 include(${PROJECT_SOURCE_DIR}/cmake/dep_protobuf.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/dep_grpc.cmake)
 set(WINTER_GRPC_LIBS ${WINTER_PROTOBUF_LIB} ${WINTER_GRPC_LIB})
