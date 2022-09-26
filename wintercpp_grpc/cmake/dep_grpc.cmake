@@ -89,11 +89,11 @@ execute_process(
         -DgRPC_SSL_PROVIDER=package \
         -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER} \
         -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install ../cmake && make -j4 && make install "
-        WORKING_DIRECTORY ${protobuf_SOURCE_DIR}
-        RESULT_VARIABLE protobuf_install_result
-        OUTPUT_VARIABLE protobuf_install_VARIABLE)
-MESSAGE(STATUS "grpc_install_CMD_ERROR:" ${protobuf_install_result})
-MESSAGE(STATUS "grpc_install_CMD_OUTPUT:" ${protobuf_install_VARIABLE})
+        WORKING_DIRECTORY ${grpc_SOURCE_DIR}
+        RESULT_VARIABLE grpc_install_result
+        OUTPUT_VARIABLE grpc_install_VARIABLE)
+MESSAGE(STATUS "grpc_install_CMD_ERROR:" ${grpc_install_result})
+MESSAGE(STATUS "grpc_install_CMD_OUTPUT:" ${grpc_install_VARIABLE})
 set(grpc_INCLUDE_DIR ${grpc_SOURCE_DIR}/install/include)
 set(WINTER_GRPC_LIB ${grpc_SOURCE_DIR}/install/lib/libgrpc++.a)
 
