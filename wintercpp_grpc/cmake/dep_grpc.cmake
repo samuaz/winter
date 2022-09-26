@@ -56,8 +56,6 @@ execute_process(
 MESSAGE(STATUS "grpc_gzwrite_patches_CMD_ERROR:" ${grpc_gzwrite_patches_result})
 MESSAGE(STATUS "grpc_gzwrite_patches_CMD_OUTPUT:" ${grpc_gzwrite_patches_VARIABLE})
 
-#include <unistd.h>
-
 # FetchContent_GetProperties(re2)
 # if(NOT re2_POPULATED)
 #     FetchContent_Populate(re2)
