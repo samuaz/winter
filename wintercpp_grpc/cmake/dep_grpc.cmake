@@ -24,6 +24,11 @@ FetchContent_Declare(
         SOURCE_DIR ${THIRD_PARTY_DIR}/grpc
 )
 
+
+if (APPLE)
+set(DgRPC_CARES_PROVIDER package CACHE INTERNAL "")
+endif()
+
 set(BUILD_TESTING OFF CACHE INTERNAL "")
 set(gRPC_BUILD_TESTS OFF CACHE INTERNAL "")
 set(gRPC_RE2_PROVIDER package CACHE INTERNAL "")
