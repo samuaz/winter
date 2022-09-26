@@ -90,6 +90,7 @@ execute_process(
         -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER} \
         -DProtobuf_LIBRARIES=${Protobuf_LIBRARIES} \
         -DProtobuf_INCLUDE_DIR=${Protobuf_INCLUDE_DIR} \
+        -DProtobuf_PROTOC_LIBRARY={Protobuf_PROTOC_LIBRARY} \
         -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install ../cmake && make -j4 && make install "
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_install_result
