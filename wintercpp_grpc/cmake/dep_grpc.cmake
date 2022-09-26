@@ -94,6 +94,7 @@ execute_process(
         OUTPUT_VARIABLE grpc_install_VARIABLE)
 MESSAGE(STATUS "grpc_install_CMD_ERROR:" ${grpc_install_result})
 MESSAGE(STATUS "grpc_install_CMD_OUTPUT:" ${grpc_install_VARIABLE})
+link_directories(${grpc_SOURCE_DIR}/install/lib)
 set(grpc_INCLUDE_DIR ${grpc_SOURCE_DIR}/install/include)
 set(WINTER_GRPC_LIB ${grpc_SOURCE_DIR}/install/lib/libgrpc++.a)
 
