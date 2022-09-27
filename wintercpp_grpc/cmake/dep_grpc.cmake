@@ -101,12 +101,21 @@ execute_process(
         -DProtobuf_PROTOC_LIBRARY=${Protobuf_PROTOC_LIBRARY} \
         -DProtobuf_LIBRARY=/${Protobuf_LIBRARY} \
         -DProtobuf_PROTOC_EXECUTABLE=${Protobuf_PROTOC_EXECUTABLE} \
-        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make -j4 && make install "
+        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install"
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
+        RESULT_VARIABLE grpc_config_result
+        OUTPUT_VARIABLE grpc_config_VARIABLE)
+MESSAGE(STATUS "grpc_config_CMD_ERROR:" ${grpc_config_result})
+MESSAGE(STATUS "grpc_config_CMD_OUTPUT:" ${grpc_config_VARIABLE})
+
+execute_process(
+        COMMAND bash "-c" "make -j4 && make install"
+        WORKING_DIRECTORY ${grpc_SOURCE_DIR}/build_grpc
         RESULT_VARIABLE grpc_install_result
         OUTPUT_VARIABLE grpc_install_VARIABLE)
 MESSAGE(STATUS "grpc_install_CMD_ERROR:" ${grpc_install_result})
 MESSAGE(STATUS "grpc_install_CMD_OUTPUT:" ${grpc_install_VARIABLE})
+
 link_directories(${grpc_SOURCE_DIR}/install/lib)
 set(grpc_SOURCE_DIR ${grpc_SOURCE_DIR} CACHE INTERNAL "")
 set(grpc_INCLUDE_DIR ${grpc_SOURCE_DIR}/install/include CACHE INTERNAL "")
