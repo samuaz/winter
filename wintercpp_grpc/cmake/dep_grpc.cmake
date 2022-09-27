@@ -83,6 +83,7 @@ MESSAGE("USING Protobuf_PROTOC_LIBRARY ${Protobuf_PROTOC_LIBRARY}")
 execute_process(
         COMMAND bash "-c" "mkdir -p build_grpc; cd build_grpc && \
         cmake .. -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_TESTING=OFF \
         -DgRPC_BUILD_TESTS=OFF  \
         -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON \
         -DgRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF \
