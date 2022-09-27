@@ -84,7 +84,6 @@ execute_process(
         COMMAND bash "-c" "mkdir -p build_grpc; cd build_grpc && \
         cmake .. -DCMAKE_BUILD_TYPE=Release \
         -DgRPC_BUILD_TESTS=OFF  \
-        -DgRPC_BUILD_GRPC_CPP_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_NODE_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN=OFF \
