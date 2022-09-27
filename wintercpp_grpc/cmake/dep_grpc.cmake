@@ -101,8 +101,7 @@ execute_process(
         -DProtobuf_PROTOC_LIBRARY=${Protobuf_PROTOC_LIBRARY} \
         -DProtobuf_LIBRARY=/${Protobuf_LIBRARY} \
         -DProtobuf_PROTOC_EXECUTABLE=${Protobuf_PROTOC_EXECUTABLE} \
-        -DCMAKE_INSTALL_PREFIX=/Users/samuaz/Projects/pas/pas-backoffice-cpp/third_party/winter/wintercpp_grpc/third_party/grpc/install && make -j4 && \
-        make install "
+        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make -j4 && make install "
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_install_result
         OUTPUT_VARIABLE grpc_install_VARIABLE)
