@@ -93,7 +93,6 @@ execute_process(
         -DgRPC_BUILD_GRPC_RUBY_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_PHP_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_JAVA_PLUGIN=OFF \
-        -DgRPC_SSL_PROVIDER=package \
         -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make && make install "
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_install_result
