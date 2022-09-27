@@ -83,6 +83,7 @@ MESSAGE("USING Protobuf_PROTOC_LIBRARY ${Protobuf_PROTOC_LIBRARY}")
 execute_process(
         COMMAND bash "-c" "mkdir -p build_grpc; cd build_grpc && \
         cmake .. -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_CXX_FLAGS="-I ${Protobuf_INCLUDE_DIR}" \
         -DBUILD_TESTING=OFF \
         -DgRPC_BUILD_TESTS=OFF  \
         -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON \
@@ -93,6 +94,11 @@ execute_process(
         -DgRPC_BUILD_GRPC_RUBY_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_PHP_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_JAVA_PLUGIN=OFF \
+        -DgRPC_SSL_PROVIDER=package \
+        -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER} \
+        -DProtobuf_LIBRARIES=${Protobuf_LIBRARIES} \
+        -DProtobuf_INCLUDE_DIR=${Protobuf_INCLUDE_DIR} \
+        -DProtobuf_PROTOC_LIBRARY={Protobuf_PROTOC_LIBRARY} \
         -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make && make install "
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_install_result
