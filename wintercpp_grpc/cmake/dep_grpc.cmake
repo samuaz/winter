@@ -75,6 +75,10 @@ execute_process(
         OUTPUT_VARIABLE grpc_init_VARIABLE)
 MESSAGE(STATUS "grpc_init_CMD_ERROR:" ${grpc_init_result})
 MESSAGE(STATUS "grpc_init_CMD_OUTPUT:" ${grpc_init_VARIABLE})
+MESSAGE("USING Protobuf_LIBRARIES ${Protobuf_LIBRARIES}")
+MESSAGE("USING gRPC_PROTOBUF_PROVIDER ${gRPC_PROTOBUF_PROVIDER}")
+MESSAGE("USING Protobuf_INCLUDE_DIR ${Protobuf_INCLUDE_DIR}")
+MESSAGE("USING Protobuf_PROTOC_LIBRARY ${Protobuf_PROTOC_LIBRARY}")
 
 execute_process(
         COMMAND bash "-c" "mkdir -p build_grpc; cd build_grpc && \
@@ -88,6 +92,11 @@ execute_process(
         -DgRPC_BUILD_GRPC_RUBY_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_PHP_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_JAVA_PLUGIN=OFF \
+        -DgRPC_SSL_PROVIDER=package \
+        -DgRPC_PROTOBUF_PROVIDER=${gRPC_PROTOBUF_PROVIDER} \
+        -DProtobuf_LIBRARIES=${Protobuf_LIBRARIES} \
+        -DProtobuf_INCLUDE_DIR=${Protobuf_INCLUDE_DIR} \
+        -DProtobuf_PROTOC_LIBRARY={Protobuf_PROTOC_LIBRARY} \
         -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make && make install "
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_install_result
@@ -95,6 +104,7 @@ execute_process(
 MESSAGE(STATUS "grpc_install_CMD_ERROR:" ${grpc_install_result})
 MESSAGE(STATUS "grpc_install_CMD_OUTPUT:" ${grpc_install_VARIABLE})
 link_directories(${grpc_SOURCE_DIR}/install/lib)
+set(grpc_SOURCE_DIR ${grpc_SOURCE_DIR} CACHE INTERNAL "")
 set(grpc_INCLUDE_DIR ${grpc_SOURCE_DIR}/install/include)
 set(WINTER_GRPC_LIB ${grpc_SOURCE_DIR}/install/lib/libgrpc++.a)
 
