@@ -85,7 +85,7 @@ execute_process(
         cmake .. -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_CXX_FLAGS="-I ${Protobuf_INCLUDE_DIR}" \
         -DBUILD_TESTING=OFF \
-        -DgRPC_BUILD_TESTS=OFF  \
+        -DgRPC_BUILD_TESTS=OFF \
         -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON \
         -DgRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF \
         -DgRPC_BUILD_GRPC_NODE_PLUGIN=OFF \
@@ -99,7 +99,7 @@ execute_process(
         -DProtobuf_LIBRARIES=${Protobuf_LIBRARIES} \
         -DProtobuf_INCLUDE_DIR=${Protobuf_INCLUDE_DIR} \
         -DProtobuf_PROTOC_LIBRARY={Protobuf_PROTOC_LIBRARY} \
-        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make && make install "
+        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install && make -j4 && make install "
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_install_result
         OUTPUT_VARIABLE grpc_install_VARIABLE)
