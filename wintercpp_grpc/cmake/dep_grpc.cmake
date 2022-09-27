@@ -106,5 +106,6 @@ MESSAGE(STATUS "grpc_install_CMD_OUTPUT:" ${grpc_install_VARIABLE})
 link_directories(${grpc_SOURCE_DIR}/install/lib)
 set(grpc_SOURCE_DIR ${grpc_SOURCE_DIR} CACHE INTERNAL "")
 set(grpc_INCLUDE_DIR ${grpc_SOURCE_DIR}/install/include CACHE INTERNAL "")
+include_directories(grpc_INCLUDE_DIR)
 set(WINTER_GRPC_LIB ${grpc_SOURCE_DIR}/install/lib/libgrpc++.a CACHE INTERNAL "")
 
