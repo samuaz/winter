@@ -19,7 +19,7 @@ FetchContent_Declare(
 FetchContent_GetProperties(jwt)
 if(NOT jwt_POPULATED)
      FetchContent_Populate(jwt)
-     add_subdirectory(${jwt_SOURCE_DIR} ${jwt_BINARY_DIR} EXCLUDE_FROM_ALL)
+     #add_subdirectory(${jwt_SOURCE_DIR} ${jwt_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
 #FetchContent_MakeAvailable(jwt)
