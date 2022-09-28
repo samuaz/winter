@@ -101,7 +101,9 @@ execute_process(
         -DProtobuf_PROTOC_LIBRARY=${Protobuf_PROTOC_LIBRARY} \
         -DProtobuf_LIBRARY=/${Protobuf_LIBRARY} \
         -DProtobuf_PROTOC_EXECUTABLE=${Protobuf_PROTOC_EXECUTABLE} \
-        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install"
+        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install \
+        -DgRPC_INSTALL_BINDIR=${grpc_SOURCE_DIR}/install/bin \
+        -DgRPC_INSTALL_LIBDIR=${grpc_SOURCE_DIR}/install/lib" 
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
         RESULT_VARIABLE grpc_config_result
         OUTPUT_VARIABLE grpc_config_VARIABLE)
