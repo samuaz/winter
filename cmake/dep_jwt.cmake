@@ -16,11 +16,11 @@ FetchContent_Declare(
         SOURCE_DIR ${THIRD_PARTY_DIR}/jwt
 )
 
-# FetchContent_GetProperties(jwt)
-# if(NOT jwt_POPULATED)
-#     FetchContent_Populate(jwt)
-#     add_subdirectory(${jwt_SOURCE_DIR} ${jwt_BINARY_DIR} EXCLUDE_FROM_ALL)
-# endif()
+FetchContent_GetProperties(jwt)
+if(NOT jwt_POPULATED)
+     FetchContent_Populate(jwt)
+     add_subdirectory(${jwt_SOURCE_DIR} ${jwt_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
 
-FetchContent_MakeAvailable(jwt)
+#FetchContent_MakeAvailable(jwt)
 include_directories(${jwt_SOURCE_DIR}/include/)
