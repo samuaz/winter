@@ -32,6 +32,8 @@ if(NOT grpc_POPULATED)
     FetchContent_Populate(grpc)
 endif()
 
+set(grpc_SOURCE_DIR ${grpc_SOURCE_DIR} CACHE INTERNAL "")
+
 execute_process(
         COMMAND bash "-c" "patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/grpc_gzlib.patch"
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
@@ -79,11 +81,13 @@ MESSAGE("USING Protobuf_LIBRARIES ${Protobuf_LIBRARIES}")
 MESSAGE("USING gRPC_PROTOBUF_PROVIDER ${gRPC_PROTOBUF_PROVIDER}")
 MESSAGE("USING Protobuf_INCLUDE_DIR ${Protobuf_INCLUDE_DIR}")
 MESSAGE("USING Protobuf_PROTOC_LIBRARY ${Protobuf_PROTOC_LIBRARY}")
+MESSAGE("USING grpc_SOURCE_DIR ${grpc_SOURCE_DIR}")
 
 execute_process(
         COMMAND bash "-c" "mkdir -p build_grpc; cd build_grpc && \
         cmake .. -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_CXX_FLAGS="-I /Users/samuaz/Projects/pas/pas-backoffice-cpp/third_party/winter/wintercpp_grpc/third_party/protobuf/install/include" \
+        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install \
+        -DCMAKE_CXX_FLAGS="-I ${Protobuf_INCLUDE_DIR}" \
         -DBUILD_TESTING=OFF \
         -DgRPC_BUILD_TESTS=OFF \
         -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON \
@@ -101,7 +105,6 @@ execute_process(
         -DProtobuf_PROTOC_LIBRARY=${Protobuf_PROTOC_LIBRARY} \
         -DProtobuf_LIBRARY=/${Protobuf_LIBRARY} \
         -DProtobuf_PROTOC_EXECUTABLE=${Protobuf_PROTOC_EXECUTABLE} \
-        -DCMAKE_INSTALL_PREFIX=${grpc_SOURCE_DIR}/install \
         -DgRPC_INSTALL_BINDIR=${grpc_SOURCE_DIR}/install/bin \
         -DgRPC_INSTALL_LIBDIR=${grpc_SOURCE_DIR}/install/lib" 
         WORKING_DIRECTORY ${grpc_SOURCE_DIR}
@@ -119,7 +122,6 @@ MESSAGE(STATUS "grpc_install_CMD_ERROR:" ${grpc_install_result})
 MESSAGE(STATUS "grpc_install_CMD_OUTPUT:" ${grpc_install_VARIABLE})
 
 link_directories(${grpc_SOURCE_DIR}/install/lib)
-set(grpc_SOURCE_DIR ${grpc_SOURCE_DIR} CACHE INTERNAL "")
 set(grpc_INCLUDE_DIR ${grpc_SOURCE_DIR}/install/include CACHE INTERNAL "")
 include_directories(grpc_INCLUDE_DIR)
 set(WINTER_GRPC_LIB ${grpc_SOURCE_DIR}/install/lib/libgrpc++.a CACHE INTERNAL "")
