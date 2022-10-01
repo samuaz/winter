@@ -8,7 +8,6 @@ FetchContent_Declare(
         protobuf
         GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git
         GIT_TAG        v${WINTER_PROTOBUF_VERSION}
-        SOURCE_SUBDIR  cmake
         SOURCE_DIR ${THIRD_PARTY_DIR}/protobuf
 )
 set (Protobuf_USE_STATIC_LIBS ON )
