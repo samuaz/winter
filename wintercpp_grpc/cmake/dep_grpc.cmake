@@ -9,7 +9,7 @@ set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 FetchContent_Declare(
         grpc
         GIT_REPOSITORY https://github.com/grpc/grpc.git
-        GIT_TAG        v1.46.5
+        GIT_TAG        v1.49.1
         GIT_PROGRESS   TRUE 
         SOURCE_DIR ${THIRD_PARTY_DIR}/grpc
 )

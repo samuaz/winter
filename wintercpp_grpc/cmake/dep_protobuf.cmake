@@ -2,7 +2,7 @@
 # Created by AZCONA VARGAS, SAMUEL EDUARDO
 #
 include(${PARENT_DIR}/cmake/host_utils.cmake)
-set(WINTER_PROTOBUF_VERSION 3.19.5 CACHE INTERNAL "default winter protobuf version")
+set(WINTER_PROTOBUF_VERSION 21.6 CACHE INTERNAL "default winter protobuf version")
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 FetchContent_Declare(
         protobuf
