@@ -73,7 +73,7 @@ MESSAGE(STATUS "mariadb_remove_test_CMD_ERROR:" ${mariadb_remove_test_result})
 MESSAGE(STATUS "mariadb_remove_test_CMD_OUTPUT:" ${mariadb_remove_test_VARIABLE})
 
 execute_process(
-        COMMAND bash "-c" "rm -rf build; mkdir build"
+        COMMAND bash "-c" "mkdir build"
         WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}
         RESULT_VARIABLE mariadb_build_dir_result
         OUTPUT_VARIABLE mariadb_build_dir_VARIABLE)
