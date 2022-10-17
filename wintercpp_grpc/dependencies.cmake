@@ -15,7 +15,7 @@ option(USE_SYSTEM_GRPC "Use system installed gRPC" OFF)
 if(USE_SYSTEM_GRPC)
   # Find system-installed gRPC
     find_package(Protobuf REQUIRED)
-    find_package(gRPC CONFIG REQUIRED)
+    find_package(gRPC REQUIRED)
     set(PROTO_BINARY "${Protobuf_PROTOC_EXECUTABLE}" CACHE INTERNAL "")
     set(GRPC_PLUGIN grpc::grpc_cpp_plugin CACHE INTERNAL "")
 else()
