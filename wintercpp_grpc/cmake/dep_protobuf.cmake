@@ -37,7 +37,7 @@ MESSAGE(STATUS "protobuf_init_CMD_ERROR:" ${protobuf_init_result})
 MESSAGE(STATUS "protobuf_init_CMD_OUTPUT:" ${protobuf_init_VARIABLE})
 
 execute_process(
-        COMMAND bash "-c" "mkdir -p build; cd build && cmake -DCMAKE_BUILD_TYPE=Release -Dprotobuf_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${protobuf_SOURCE_DIR}/install ../cmake && make -j4 && make install "
+        COMMAND bash "-c" "mkdir -p build; cd build && cmake -DCMAKE_BUILD_TYPE=Release -Dprotobuf_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${protobuf_SOURCE_DIR}/install ../cmake && make -j$(nproc) && make install "
         WORKING_DIRECTORY ${protobuf_SOURCE_DIR}
         RESULT_VARIABLE protobuf_install_result
         OUTPUT_VARIABLE protobuf_install_VARIABLE)

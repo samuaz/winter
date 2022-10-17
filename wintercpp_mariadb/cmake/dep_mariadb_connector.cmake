@@ -89,7 +89,7 @@ MESSAGE(STATUS "mariadb_cmake_CMD_ERROR:" ${mariadb_cmake_result})
 MESSAGE(STATUS "mariadb_cmake_CMD_OUTPUT:" ${mariadb_cmake_VARIABLE})
 
 execute_process(
-        COMMAND bash "-c" "make -j 4"        
+        COMMAND bash "-c" "make -j$(nproc)"
         COMMAND bash "-c" "make install"
         WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}/build
         RESULT_VARIABLE mariadb_install_result
