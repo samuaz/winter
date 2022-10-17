@@ -64,6 +64,10 @@ set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -pipe -fno-unroll-loops 
 add_subdirectory(wintercpp)
 add_subdirectory(wintercpp_mysql_core)
 
+IF (WINTER_WITH_GRPC)
+add_subdirectory(wintercpp_grpc)
+ENDIF(WINTER_WITH_GRPC)
+
 IF (WINTER_WITH_MARIADB)
 add_subdirectory(wintercpp_mariadb)
 ENDIF(WINTER_WITH_MARIADB)
@@ -71,10 +75,6 @@ ENDIF(WINTER_WITH_MARIADB)
 IF (WINTER_WITH_MYSQL)
 add_subdirectory(wintercpp_mysql)
 ENDIF(WINTER_WITH_MYSQL)
-
-IF (WINTER_WITH_GRPC)
-add_subdirectory(wintercpp_grpc)
-ENDIF(WINTER_WITH_GRPC)
 
 IF (WINTER_WITH_REDIS)
 add_subdirectory(wintercpp_redis)
