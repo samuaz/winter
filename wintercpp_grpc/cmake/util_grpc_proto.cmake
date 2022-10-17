@@ -78,3 +78,4 @@ set(protobuf_BUILD_TESTS OFF)
 #         SOURCE_DIR ${THIRD_PARTY_DIR}/grpc_plugin
 # )
 FetchContent_MakeAvailable(protobuf_compiler)
+set(protobuf_compiler_SOURCE_DIR ${protobuf_compiler_SOURCE_DIR} CACHE INTERNAL "")

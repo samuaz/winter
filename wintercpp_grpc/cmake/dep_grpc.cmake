@@ -126,6 +126,7 @@ FetchContent_MakeAvailable(grpc)
 # include_directories(grpc_INCLUDE_DIR)
 # set(WINTER_GRPC_LIB ${grpc_SOURCE_DIR}/install/lib/libgrpc.a ${grpc_SOURCE_DIR}/install/lib/libgrpc++.a CACHE INTERNAL "")
 
+set(grpc_SOURCE_DIR ${grpc_SOURCE_DIR} CACHE INTERNAL "")
 set(WINTER_GRPC_LIB grpc++)
 
 
