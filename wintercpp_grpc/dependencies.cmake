@@ -18,6 +18,7 @@ if(USE_SYSTEM_GRPC)
 else()
     include(${PROJECT_SOURCE_DIR}/cmake/dep_protobuf.cmake)
     include(${PROJECT_SOURCE_DIR}/cmake/dep_grpc.cmake)
+    include(${PROJECT_SOURCE_DIR}/cmake/util_grpc_proto.cmake)
     set(WINTER_GRPC_LIBS ${WINTER_PROTOBUF_LIB} ${WINTER_GRPC_LIB})
 endif()
 
