@@ -14,12 +14,17 @@ set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 option(USE_SYSTEM_GRPC "Use system installed gRPC" OFF)
 if(USE_SYSTEM_GRPC)
   # Find system-installed gRPC
+    find_package(Protobuf REQUIRED)
     find_package(gRPC CONFIG REQUIRED)
+    set(PROTO_BINARY "${Protobuf_PROTOC_EXECUTABLE}" CACHE INTERNAL "")
+    set(GRPC_PLUGIN grpc::grpc_cpp_plugin CACHE INTERNAL "")
 else()
     include(${PROJECT_SOURCE_DIR}/cmake/dep_protobuf.cmake)
     include(${PROJECT_SOURCE_DIR}/cmake/dep_grpc.cmake)
     include(${PROJECT_SOURCE_DIR}/cmake/util_grpc_proto.cmake)
     set(WINTER_GRPC_LIBS ${WINTER_PROTOBUF_LIB} ${WINTER_GRPC_LIB})
+    set(PROTO_BINARY "${protobuf_compiler_SOURCE_DIR}/bin/protoc" CACHE INTERNAL "")
+    set(GRPC_PLUGIN "${grpc_plugin_SOURCE_DIR}/grpc_cpp_plugin" CACHE INTERNAL "")
 endif()
 
 
