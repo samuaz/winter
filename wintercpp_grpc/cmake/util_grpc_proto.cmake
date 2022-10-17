@@ -49,7 +49,6 @@ execute_process(
         OUTPUT_VARIABLE grpc_plugin_mkdir_out)
 MESSAGE(STATUS "grpc_plugin_mkdir_ERROR:" ${grpc_plugin_mkdir_result})
 MESSAGE(STATUS "grpc_plugin_mkdir_OUTPUT:" ${grpc_plugin_mkdir_out})
-set(grpc_plugin_SOURCE_DIR ${THIRD_PARTY_DIR}/grpc_plugin)
 
 # create grpc_cpp_plugin copy to thirparty dir
 execute_process(
@@ -60,8 +59,6 @@ execute_process(
         OUTPUT_VARIABLE grpc_plugin_install_out)
 MESSAGE(STATUS "grpc_plugin_install_ERROR:" ${grpc_plugin_install_result})
 MESSAGE(STATUS "grpc_plugin_install_OUTPUT:" ${grpc_plugin_install_out})
-set(grpc_plugin_SOURCE_DIR ${THIRD_PARTY_DIR}/grpc_plugin)
-
 
 # protobuf compiler 
 FetchContent_Declare(
@@ -79,3 +76,5 @@ set(protobuf_BUILD_TESTS OFF)
 # )
 FetchContent_MakeAvailable(protobuf_compiler)
 set(protobuf_compiler_SOURCE_DIR ${protobuf_compiler_SOURCE_DIR} CACHE INTERNAL "")
+set(grpc_plugin_SOURCE_DIR ${THIRD_PARTY_DIR}/grpc_plugin CACHE INTERNAL "")
+
