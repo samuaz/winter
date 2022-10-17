@@ -10,9 +10,9 @@ FetchContent_Declare(
         GIT_TAG        v${WINTER_PROTOBUF_VERSION}
         SOURCE_DIR ${THIRD_PARTY_DIR}/protobuf
 )
-set (Protobuf_USE_STATIC_LIBS ON )
-set(protobuf_BUILD_TESTS OFF CACHE INTERNAL "")
-set(gRPC_PROTOBUF_PROVIDER package CACHE INTERNAL "")
+set(Protobuf_USE_STATIC_LIBS ON CACHE INTERNAL "use static protobuf")
+set(protobuf_BUILD_TESTS OFF CACHE INTERNAL "turn off proto tests")
+set(gRPC_PROTOBUF_PROVIDER package CACHE INTERNAL "not use internal protobuf")
 # FetchContent_GetProperties(protobuf)
 # if(NOT protobuf_POPULATED)
 #     FetchContent_Populate(protobuf)
