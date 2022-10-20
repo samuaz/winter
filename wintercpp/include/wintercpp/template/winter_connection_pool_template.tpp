@@ -62,9 +62,7 @@ namespace winter::templates {
                          "********"
                          "******************* \n";
 #endif
-            if (available_connections_.empty() && ! in_use_connections_.empty()
-                && in_use_connections_.size()
-                       < pool_descriptor_.maxPoolSize()) {
+            if (available_connections_.empty() &&  in_use_connections_.size() < pool_descriptor_.maxPoolSize()) {
 #if DEBUG
                 std::cout
                     << pool_descriptor_.name()
@@ -96,7 +94,7 @@ namespace winter::templates {
                             __FILE__,
                             __FUNCTION__,
                             __LINE__,
-                            "Maximum connection pool size and time reached, no "
+                            "Maximum connection pool size or wait time reached, no "
                             "available "
                             "connections!");
                     }
