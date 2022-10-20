@@ -35,6 +35,11 @@ namespace winter::templates {
                             AddConn(CreateConn());
                         }
                     }
+
+                    #if DEBUG
+                    std::cout << "connection created, actual connections: \n";
+                    std::cout << actualConnections << "\n";
+                    #endif
                 } catch (const std::runtime_error &e) {
 #if DEBUG
                     std::cout << "init pool crash \n";
