@@ -33,10 +33,9 @@ namespace winter::templates {
                              i < pool_descriptor_.initialPoolSize();
                              i++) {
                             AddConn(CreateConn());
+                            std::cout << "connection added: " << i << "\n";
                         }
                     }
-                    std::cout << "connection created, actual connections: \n";
-                    std::cout << actualConnections << "\n";
                 } catch (const std::runtime_error &e) {
 #if DEBUG
                     std::cout << "init pool crash \n";
