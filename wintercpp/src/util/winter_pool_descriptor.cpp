@@ -15,11 +15,12 @@ using namespace winter::descriptor;
 PoolDescriptor::PoolDescriptor(std::string  name,
                                unsigned int initialPoolSize,
                                unsigned int maxPoolSize,
-                               unsigned int poolTimeout,
+                               unsigned int waitTimeMs,
+                               unsigned int intents,
                                bool         usePool) :
     _name(std::move(name)),
     _initialPoolSize(initialPoolSize), _maxPoolSize(maxPoolSize),
-    _poolTimeout(poolTimeout), _usePool(usePool) {}
+    _waitTimeMs(waitTimeMs), _intents(intents) ,_usePool(usePool) {}
 
 const std::string& PoolDescriptor::name() const {
     return _name;
@@ -33,8 +34,12 @@ unsigned int PoolDescriptor::maxPoolSize() const {
     return _maxPoolSize;
 }
 
-unsigned int PoolDescriptor::poolTimeout() const {
-    return _poolTimeout;
+unsigned int PoolDescriptor::waitTimeMs() const {
+    return _waitTimeMs;
+}
+
+unsigned int PoolDescriptor::intents() const {
+    return _intents;
 }
 
 bool PoolDescriptor::usePool() const {

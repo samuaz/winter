@@ -76,16 +76,16 @@ namespace winter::templates {
                 AddConn(CreateConn());
             } else {
                 int                       intents = 0;
-                std::chrono::milliseconds waitTme(500);
+                std::chrono::milliseconds waitTme(pool_descriptor_.waitTimeMs());
                 while (available_connections_.empty()) {
 #if DEBUG
                     std::cout
                         << pool_descriptor_.name()
-                        << " NO AVAILABLE CONNECTIONS timeout in seconds is: "
-                        << pool_descriptor_.poolTimeout() << " seconds less :"
-                        << (pool_descriptor_.poolTimeout() - intents) << " \n";
+                        << " NO AVAILABLE CONNECTIONS intents: "
+                        << pool_descriptor_.intents() << " remaining intents :"
+                        << (pool_descriptor_.intents() - intents) << " \n";
 #endif
-                    if (intents >= pool_descriptor_.poolTimeout()) {
+                    if (intents >= pool_descriptor_.intents()) {
 #if DEBUG
                         std::cout
                             << pool_descriptor_.name()

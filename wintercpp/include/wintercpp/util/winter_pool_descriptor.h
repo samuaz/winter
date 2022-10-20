@@ -15,7 +15,8 @@ namespace winter::descriptor {
         PoolDescriptor(std::string  name,
                        unsigned int initialPoolSize,
                        unsigned int maxPoolSize,
-                       unsigned int poolTimeout,
+                       unsigned int waitTimeMs,
+                       unsigned int intents,
                        bool         usePool);
 
         const std::string& name() const;
@@ -24,7 +25,9 @@ namespace winter::descriptor {
 
         unsigned int maxPoolSize() const;
 
-        unsigned int poolTimeout() const;
+        unsigned int waitTimeMs() const;
+
+        unsigned int intents() const;
 
         bool usePool() const;
 
@@ -32,7 +35,8 @@ namespace winter::descriptor {
         const std::string  _name;
         const unsigned int _initialPoolSize;
         const unsigned int _maxPoolSize;
-        const unsigned int _poolTimeout;
+        const unsigned int _waitTimeMs;
+        const unsigned int _intents;
         const bool         _usePool;
     };
 
