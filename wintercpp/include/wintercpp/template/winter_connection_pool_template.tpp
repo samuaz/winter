@@ -46,7 +46,7 @@ namespace winter::templates {
             };
             std::thread db_pool_thread;
             db_pool_thread = std::thread(db_pool);
-            db_pool_thread.detach();
+            db_pool_thread.join();
         }
     }
 
