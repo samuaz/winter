@@ -63,6 +63,8 @@ namespace winter::templates {
                          "********"
                          "******************* \n";
 #endif
+            //if (available_connections_.empty() && !in_use_connections_.empty() && in_use_connections_.size() < pool_descriptor_.maxPoolSize())
+
             if (available_connections_.empty() &&  in_use_connections_.size() < pool_descriptor_.maxPoolSize()) {
 #if DEBUG
                 std::cout
