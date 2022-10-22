@@ -52,14 +52,13 @@ namespace winter::data::sql_impl {
             const unsigned char *str = reinterpret_cast<unsigned char *>(const_cast<char *>(script.c_str()));
             unsigned char        hash[SHA_DIGEST_LENGTH];  // == 20
             SHA1(str, sizeof(str) - 1, hash);
-            std::cout << "imprimiendo hash: " << std::endl;
-
+            std::cout << "imprimiendo hashssss: " << std::endl;
             std::ostringstream s;
 
             s << std::hex;
 
             for (int i = 0; i < 4; i++) {
-                s << std::setfill('0') << std::setw(2) << hash[i] << ' ';
+                s << std::setfill('0') << std::setw(2) << hash[i];
             }
             std::cout << s.str() << std::endl;
 
