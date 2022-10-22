@@ -19,7 +19,6 @@ winter::data::mariadb::connection::Connection* Pool::CreateConn() {
     if (Pool::connection_config_) {
         ::sql::ConnectOptionsMap connectionProperties;
         connectionProperties["hostName"] = Pool::connection_config_->host();
-        connectionProperties["user"] = Pool::connection_config_->user_name();
         connectionProperties["password"] = Pool::connection_config_->password();
         connectionProperties["schema"] = Pool::connection_config_->schema();
         connectionProperties["port"] = std::to_string(Pool::connection_config_->port());
@@ -32,15 +31,10 @@ winter::data::mariadb::connection::Connection* Pool::CreateConn() {
                           + "/" + Pool::connection_config_->schema();
 
         if (Pool::connection_config_->use_mysql_connection()) {
-            connectionProperties["hostName"] = Pool::connection_config_->host();
-            connectionProperties["user"] = Pool::connection_config_->user_name();
-            connectionProperties["password"] = Pool::connection_config_->password();
-            connectionProperties["schema"] = Pool::connection_config_->schema();
-            connectionProperties["port"] = Pool::connection_config_->port();
-            connectionProperties["OPT_RECONNECT"] = Pool::connection_config_->is_opt_reconnect();
-            connectionProperties["OPT_CONNECT_TIMEOUT"] = Pool::connection_config_->opt_connect_timeout();
+            connectionProperties["userName"] = Pool::connection_config_->user_name();
             host = "jdbc:mysql://";
         } else {
+            connectionProperties["user"] = Pool::connection_config_->user_name();
             host = "jdbc:mariadb://";
         }
 
