@@ -48,6 +48,7 @@ namespace winter::data::sql_impl {
 
         [[nodiscard]] std::size_t Hash() const {
             // return h1 ^ (h2 << 1);
+            std::cout << script << std::endl;
             return std::hash<std::string>()(script);
             ;
         }
