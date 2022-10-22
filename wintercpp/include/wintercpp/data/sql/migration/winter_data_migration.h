@@ -5,6 +5,7 @@
 #ifndef WINTERCPP_WINTER_DATA_MIGRATION_H
 #define WINTERCPP_WINTER_DATA_MIGRATION_H
 
+#include <openssl/sha.h>
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_values.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_insert.h>
@@ -24,9 +25,6 @@
 #include <vector>
 
 #include "string"
-
-#include <openssl/sha.h>
-
 
 namespace winter::data::sql_impl {
     namespace fs = std::filesystem;
@@ -51,11 +49,15 @@ namespace winter::data::sql_impl {
             name(std::move(name)), script(std::move(script)) {}
 
         [[nodiscard]] std::size_t Hash() const {
-
-            const unsigned char *str = reinterpret_cast<unsigned char*>(const_cast<char*>(script.c_str()));
-            unsigned char hash[SHA_DIGEST_LENGTH]; // == 20
+            const unsigned char *str = reinterpret_cast<unsigned char *>(const_cast<char *>(script.c_str()));
+            unsigned char        hash[SHA_DIGEST_LENGTH];  // == 20
             SHA1(str, sizeof(str) - 1, hash);
-            std::cout << "el sha es: " << std::string(reinterpret_cast<char*>(hash)) << std::endl;
+            std::cout << "imprimiendo hash: " << std::endl;
+            int i;
+            for (i = 0; i < 20; i++) {
+                printf("%02x ", hash[i]);
+            }
+            printf("\n");
             // return h1 ^ (h2 << 1);
             return std::hash<std::string>()(script);
             ;
