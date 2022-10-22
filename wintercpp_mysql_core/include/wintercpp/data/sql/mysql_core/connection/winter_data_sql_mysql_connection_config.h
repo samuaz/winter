@@ -24,6 +24,7 @@ namespace winter::data::sql_impl::mysql::connection {
                std::string              schema,
                bool                     opt_reconnect,
                int                      opt_connect_timeout,
+               bool                     useMysqlConnection,
                ConnectionProperties     other_properties = {});
 
         const std::string& host() const;
@@ -35,6 +36,8 @@ namespace winter::data::sql_impl::mysql::connection {
         const std::string& password() const;
 
         const std::string& schema() const;
+
+        bool use_mysql_connection() const;
 
         bool is_opt_reconnect() const;
 
@@ -53,6 +56,7 @@ namespace winter::data::sql_impl::mysql::connection {
         const std::string          _schema;
         const bool                 _opt_reconnect;
         const int                  _opt_connect_timeout;
+        const bool                 _use_mysql_connection;
         const ConnectionProperties _other_properties;
     };
 }  // namespace winter::data::sql_impl::mysql::connection

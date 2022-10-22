@@ -21,6 +21,7 @@ namespace winter::data::mariadb::connection {
                const string&               schema,
                bool                        optReconnect,
                int                         optConnectTimeout,
+               bool                        useMysqlConnection,
                const ConnectionProperties& otherProperties) :
             winter::data::sql_impl::mysql::connection::Config<::sql::Driver*>(
                 []() -> ::sql::Driver* {
@@ -33,6 +34,7 @@ namespace winter::data::mariadb::connection {
                 schema,
                 optReconnect,
                 optConnectTimeout,
+                useMysqlConnection,
                 otherProperties) {}
     };
 }  // namespace winter::data::mariadb::connection

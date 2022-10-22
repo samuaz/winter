@@ -26,12 +26,19 @@ winter::data::mariadb::connection::Connection* Pool::CreateConn() {
         connectionProperties["OPT_RECONNECT"] = std::to_string(Pool::connection_config_->is_opt_reconnect());
         connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(Pool::connection_config_->opt_connect_timeout());
 
+        std::string host;
         std::string url = Pool::connection_config_->host() + ":"
                           + std::to_string(Pool::connection_config_->port())
                           + "/" + Pool::connection_config_->schema();
 
+        if (Pool::connection_config_->use_mysql_connection()) {
+            host = "jdbc:mysql://";
+        } else {
+            host = "jdbc:mariadb://";
+        }
+
         return new winter::data::mariadb::connection::Connection(
-            Pool::connection_config_->driver()->connect("jdbc:mariadb://" + url,
+            Pool::connection_config_->driver()->connect(host + url,
                                                         connectionProperties));
     }
     throw WinterInternalException::Create(

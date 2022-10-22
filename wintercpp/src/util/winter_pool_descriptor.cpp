@@ -20,7 +20,7 @@ PoolDescriptor::PoolDescriptor(std::string  name,
                                bool         usePool) :
     _name(std::move(name)),
     _initialPoolSize(initialPoolSize), _maxPoolSize(maxPoolSize),
-    _waitTimeMs(waitTimeMs), _intents(intents) ,_usePool(usePool) {}
+    _waitTimeMs(waitTimeMs), _intents(intents), _usePool(usePool) {}
 
 const std::string& PoolDescriptor::name() const {
     return _name;

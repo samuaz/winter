@@ -32,6 +32,7 @@ namespace winter::data::mysql::connection {
                 schema,
                 optReconnect,
                 optConnectTimeout,
+                true,
                 otherProperties) {}
     };
 }  // namespace winter::data::mysql::connection

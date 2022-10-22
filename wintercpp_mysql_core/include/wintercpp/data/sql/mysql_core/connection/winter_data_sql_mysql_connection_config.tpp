@@ -13,11 +13,13 @@ Config<TDriver>::Config(std::function<TDriver()> driver,
                         std::string              schema,
                         bool                     opt_reconnect,
                         int                      opt_connect_timeout,
+                        const bool               use_mysql_connection,
                         ConnectionProperties     other_properties) :
     _driver(driver()),
     _host(std::move(host)), _port(port), _user_name(std::move(user_name)),
     _password(std::move(password)), _schema(std::move(schema)),
     _opt_reconnect(opt_reconnect), _opt_connect_timeout(opt_connect_timeout),
+    _use_mysql_connection(use_mysql_connection),
     _other_properties(std::move(other_properties)) {}
 
 template<typename TDriver>
@@ -48,6 +50,11 @@ const std::string& Config<TDriver>::schema() const {
 template<typename TDriver>
 bool Config<TDriver>::is_opt_reconnect() const {
     return _opt_reconnect;
+}
+
+template<typename TDriver>
+bool Config<TDriver>::use_mysql_connection() const {
+    return _use_mysql_connection;
 }
 
 template<typename TDriver>
