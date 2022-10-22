@@ -26,7 +26,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                << migration_table_->name()
                << " WHERE "
                << migration_table_->hash.name()
-               << " " << GetCondition<Condition::EQ>::Get() << " " << migration.Hash() << " ) as found;";
+               << " " << GetCondition<Condition::EQ>::Get() << " '" << migration.Hash() << "' ) as found;";
             // auto response = Query(StatementType::kNative, ss.str()) >> transaction;
             /*            auto response = Select() << From(migration_table_)
                                                  << Where(Where::make_predicate(
