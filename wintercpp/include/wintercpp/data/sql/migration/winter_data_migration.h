@@ -58,7 +58,8 @@ namespace winter::data::sql_impl {
             s << std::hex;
 
             for (int i = 0; i < 4; i++) {
-                s << std::setfill('0') << std::setw(2) << hash[i];
+                s <<std::hex << std::setfill('0') << std::setw(2) << (unsigned int)hash[i];
+
             }
             std::cout << s.str() << std::endl;
 
