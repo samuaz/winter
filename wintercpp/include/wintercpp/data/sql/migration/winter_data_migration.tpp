@@ -34,6 +34,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                                         Condition::EQ,
                                                         std::to_string(migration.Hash())))
                                         >> transaction;*/
+            std::cout<< ss.str() << std::endl;                            
             auto columnFound = Column(*migration_table_, "found", FieldType::kBoolean);
             auto columns = std::vector<Column> {columnFound};
             auto response = Select(ss.str()) << columns >> transaction;
