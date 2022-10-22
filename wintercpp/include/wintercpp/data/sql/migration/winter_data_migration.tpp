@@ -56,7 +56,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                  Values::Add(migration_table_->script,
                                              migration.script),
                                  Values::Add(migration_table_->hash,
-                                             std::to_string(migration.Hash()))})
+                                             migration.Hash())})
                                 >> transaction;
                         },
                         [&](void) -> void {

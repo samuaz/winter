@@ -48,23 +48,20 @@ namespace winter::data::sql_impl {
         Migration(std::string name, std::string script) :
             name(std::move(name)), script(std::move(script)) {}
 
-        [[nodiscard]] std::size_t Hash() const {
+        [[nodiscard]] std::string Hash() const {
             const unsigned char *str = reinterpret_cast<unsigned char *>(const_cast<char *>(script.c_str()));
             unsigned char        hash[SHA_DIGEST_LENGTH];  // == 20
             SHA1(str, sizeof(str) - 1, hash);
-            std::cout << "imprimiendo hashssss: " << std::endl;
             std::ostringstream s;
 
             s << std::hex;
 
-            for (int i = 0; i < 20; i++) {
-                s <<std::hex << std::setfill('0') << std::setw(2) << (unsigned int)hash[i];
-
+            for (int i = 0; i < SHA_DIGEST_LENGTH; i++) {
+                s << std::hex << std::setfill('0') << std::setw(2) << (unsigned int) hash[i];
             }
-            std::cout << s.str() << std::endl;
-
             // return h1 ^ (h2 << 1);
-            return std::hash<std::string>()(script);
+            // return std::hash<std::string>()(script);
+            return s.str();
             ;
         }
     };
