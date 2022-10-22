@@ -24,23 +24,25 @@ winter::data::mariadb::connection::Connection* Pool::CreateConn() {
         connectionProperties["port"] = std::to_string(Pool::connection_config_->port());
         connectionProperties["OPT_RECONNECT"] = std::to_string(Pool::connection_config_->is_opt_reconnect());
         connectionProperties["OPT_CONNECT_TIMEOUT"] = std::to_string(Pool::connection_config_->opt_connect_timeout());
+        auto otherProps = Pool::connection_config_->properties();
+        connectionProperties.insert(otherProps.begin(), otherProps.end());
 
-        std::string host;
+        std::string base_url;
+
         std::string url = Pool::connection_config_->host() + ":"
                           + std::to_string(Pool::connection_config_->port())
                           + "/" + Pool::connection_config_->schema();
 
         if (Pool::connection_config_->use_mysql_connection()) {
             connectionProperties["userName"] = Pool::connection_config_->user_name();
-            host = "jdbc:mysql://";
+            return new winter::data::mysql::connection::Connection(Pool::connection_config_->driver()->connect(connectionProperties));
         } else {
             connectionProperties["user"] = Pool::connection_config_->user_name();
-            host = "jdbc:mariadb://";
+            base_url = "jdbc:mariadb://";
+            return new winter::data::mariadb::connection::Connection(Pool::connection_config_->driver()->connect(base_url + url, connectionProperties));
         }
 
-        return new winter::data::mariadb::connection::Connection(
-            Pool::connection_config_->driver()->connect(host + url,
-                                                        connectionProperties));
+
     }
     throw WinterInternalException::Create(
         __FILE__,
