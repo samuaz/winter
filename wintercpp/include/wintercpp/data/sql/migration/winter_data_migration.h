@@ -19,6 +19,7 @@
 #include <iostream>
 #include <memory>
 #include <optional>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -53,8 +54,8 @@ namespace winter::data::sql_impl {
 
             const unsigned char *str = reinterpret_cast<unsigned char*>(const_cast<char*>(script.c_str()));
             unsigned char hash[SHA_DIGEST_LENGTH]; // == 20
-            auto sha1 = SHA1(str, sizeof(str) - 1, hash);
-            std::cout << "el sha es: " << hash << std::endl;
+            SHA1(str, sizeof(str) - 1, hash);
+            std::cout << "el sha es: " << reinterpret_cast<char*>(hash) << std::endl;
             // return h1 ^ (h2 << 1);
             return std::hash<std::string>()(script);
             ;
