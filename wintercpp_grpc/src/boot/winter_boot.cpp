@@ -42,7 +42,7 @@ void WinterBoot::runServer(const std::string &host, const std::string &port, boo
     //// Listen on the given address without any authentication mechanism.
     //// security is service independent by security module
     //// you can also make this use ssl security or auth
-    builder_.AddListeningPort(port, creds);
+    builder_.AddListeningPort(server_address, creds);
     builder_.SetSyncServerOption(
         grpc::ServerBuilder::SyncServerOption::CQ_TIMEOUT_MSEC, 900000);
 
