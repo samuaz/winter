@@ -53,6 +53,10 @@ void WinterBoot::runServer(const std::string &host, const std::string &port, boo
     std::unique_ptr<Server> server(builder_.BuildAndStart());
     std::cout << "Server listening on " << server_address << std::endl;
 
+          // use the default grpc health check for now
+    auto healthService = std::unique_ptr<grpc::HealthCheckServiceInterface>(server->GetHealthCheckService());
+    healthService->SetServingStatus("winter_grpc", true);
+
     /// Wait for the server to shutdown. Note that some other thread must be
     /// responsible for shutting down the server for this call to ever return.
     server->Wait();
