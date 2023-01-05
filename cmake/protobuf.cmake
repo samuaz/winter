@@ -41,7 +41,7 @@ message("***************************** CREATING PROTOBUF ***********************
 execute_process(COMMAND rm -r ${PROTOBUF_OUTPUT_DIRECTORY})
 execute_process(COMMAND mkdir -p ${PROTOBUF_OUTPUT_DIRECTORY})
 execute_process(COMMAND touch ${PROTOBUF_OUTPUT_DIRECTORY}/generated_protos_are_here)
-file(GLOB PROTOBUF_DEFINITION_FILES "${PROTOBUF_INPUT_DIRECTORY}/*.proto ${PROTOBUF_EXTRA_INPUT_DIRECTORY}/*.proto")
+file(GLOB_RECURSE PROTOBUF_DEFINITION_FILES LIST_DIRECTORIES false ${PROTOBUF_INPUT_DIRECTORY}/*.proto ${PROTOBUF_EXTRA_INPUT_DIRECTORY}/*.proto)
 
 foreach (file ${PROTOBUF_DEFINITION_FILES})
     message("***************************** CREATING ${file} IN ${PROTOBUF_OUTPUT_DIRECTORY}  **************************************")
