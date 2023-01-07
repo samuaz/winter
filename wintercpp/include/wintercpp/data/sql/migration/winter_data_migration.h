@@ -48,22 +48,35 @@ namespace winter::data::sql_impl {
         Migration(std::string name, std::string script) :
             name(std::move(name)), script(std::move(script)) {}
 
-        [[nodiscard]] std::string Hash() const {
-            const unsigned char *str = reinterpret_cast<unsigned char *>(const_cast<char *>(script.c_str()));
-            unsigned char        hash[SHA_DIGEST_LENGTH];  // == 20
-            SHA1(str, sizeof(str) - 1, hash);
-            std::ostringstream s;
-
-            s << std::hex;
-
-            for (int i = 0; i < SHA_DIGEST_LENGTH; i++) {
-                s << std::hex << std::setfill('0') << std::setw(2) << (unsigned int) hash[i];
+        std::string HASH_256() const {
+            unsigned char hash[SHA256_DIGEST_LENGTH];
+            SHA256_CTX    sha256;
+            SHA256_Init(&sha256);
+            SHA256_Update(&sha256, script.c_str(), script.size());
+            SHA256_Final(hash, &sha256);
+            stringstream ss;
+            for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+                ss << hex << setw(2) << setfill('0') << (int) hash[i];
             }
-            // return h1 ^ (h2 << 1);
-            // return std::hash<std::string>()(script);
-            return s.str();
-            ;
-        }
+            return ss.str();
+        };
+
+        /*         [[nodiscard]] std::string Hash() const {
+                    const unsigned char *str = reinterpret_cast<unsigned char *>(const_cast<char *>(script.c_str()));
+                    unsigned char        hash[SHA_DIGEST_LENGTH];  // == 20
+                    SHA1(str, sizeof(str) - 1, hash);
+                    std::ostringstream s;
+
+                    s << std::hex;
+
+                    for (int i = 0; i < SHA_DIGEST_LENGTH; i++) {
+                        s << std::hex << std::setfill('0') << std::setw(2) << (unsigned int) hash[i];
+                    }
+                    // return h1 ^ (h2 << 1);
+                    // return std::hash<std::string>()(script);
+                    return s.str();
+                    ;
+                } */
     };
 
     template<typename TConnectionType, typename TTransactionType>

@@ -26,13 +26,13 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                << migration_table_->name()
                << " WHERE "
                << migration_table_->hash.name()
-               << " " << GetCondition<Condition::EQ>::Get() << " '" << migration.Hash() << "' ) as found;";
+               << " " << GetCondition<Condition::EQ>::Get() << " '" << migration.HASH_256() << "' ) as found;";
             // auto response = Query(StatementType::kNative, ss.str()) >> transaction;
             /*            auto response = Select() << From(migration_table_)
                                                  << Where(Where::make_predicate(
                                                         migration_table_->hash,
                                                         Condition::EQ,
-                                                        std::to_string(migration.Hash())))
+                                                        std::to_string(migration.HASH_256())))
                                         >> transaction;*/
             auto columnFound = Column(*migration_table_, "found", FieldType::kBoolean);
             auto columns = std::vector<Column> {columnFound};
@@ -45,17 +45,19 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                 auto        exists = value[columnFound].template as<bool>();
 
                 if (! exists) {
+                    std::cout << "creating migration" << migration.name << "with hash " << migration.HASH_256() << std::endl;
                     auto migrationResponse = (Query(StatementType::kCreate, migration.script)
                                               >> transaction);
                     migrationResponse.template Then<void>(
                         [&](void) -> void {
+                            auto name = std::string(migration.name);
                             Insert(migration_table_) << Values(
                                 {Values::Add(migration_table_->script_name,
                                              migration.name),
                                  Values::Add(migration_table_->script,
                                              migration.script),
                                  Values::Add(migration_table_->hash,
-                                             migration.Hash())})
+                                             migration.HASH_256())})
                                 >> transaction;
                         },
                         [&](void) -> void {
@@ -64,6 +66,8 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                 << std::endl;
                             exit(EXIT_FAILURE);
                         });
+                } else {
+                    std::cout << "migration already exists" << migration.name << "with hash " << migration.HASH_256() << std::endl;
                 }
             } else {
                 std::cerr
