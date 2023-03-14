@@ -6,7 +6,7 @@ include(${PARENT_DIR}/cmake/host_utils.cmake)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 #set(WINTER_MARIADB_DRIVER false CACHE INTERNAL "WINTER_MARIADB_DRIVER")
 
-set(MYSQL_VERSION 8.0.29)
+set(MYSQL_VERSION 8.0.32)
 set(MYSQL_CONNECTOR_EXTENSION tar.gz)
 if (UNIX AND NOT APPLE)
     set(MYSQL_PLATFORM linux-glibc2.12)
@@ -101,7 +101,7 @@ endif()
 if(USE_WINTER_OPENSSL)
         set(MYSQL_CONNECTOR_COMMAND "cmake -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DOPENSSL_INCLUDE_DIR=${openssl_SOURCE_DIR}/install/include -DWITH_SSL=${openssl_SOURCE_DIR}/install -DOPENSSL_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libssl.a -DCRYPTO_LIBRARY=${openssl_SOURCE_DIR}/install/lib/libcrypto.a -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DMYSQLCLIENT_STATIC_LINKING=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install")
 else()
-        set(MYSQL_CONNECTOR_COMMAND "cmake -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DMYSQLCLIENT_STATIC_LINKING=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install")
+        set(MYSQL_CONNECTOR_COMMAND "cmake -DWITH_BOOST=${THIRD_PARTY_DIR}/boost -DCMAKE_INSTALL_LIBDIR=${mysql_connector_cpp_SOURCE_DIR}/install -DMYSQL_LIB_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/lib -DWITH_SSL=${OPENSSL_ROOT_DIR} -DMYSQL_INCLUDE_DIR=${THIRD_PARTY_DIR}/mysql_client/build/install/include -DCMAKE_BUILD_TYPE=Release -DWITH_JDBC=TRUE -DBUILD_STATIC=ON -DMYSQLCLIENT_STATIC_LINKING=ON -DCMAKE_INSTALL_PREFIX=${mysql_connector_cpp_SOURCE_DIR}/install && make install")
 endif()      
 
 execute_process(

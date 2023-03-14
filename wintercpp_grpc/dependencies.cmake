@@ -36,5 +36,8 @@ else()
     set(PROTO_BINARY "${protobuf_compiler_SOURCE_DIR}/bin/protoc" CACHE INTERNAL "")
     set(GRPC_PLUGIN "${grpc_plugin_SOURCE_DIR}/grpc_cpp_plugin" CACHE INTERNAL "")
 endif()
-
+IF (WINTER_WITH_TEST)
+include(${PARENT_DIR}/cmake/dep_gtest.cmake)
+set(WINTER_LIBS_TEST ${WINTER_GTEST_LIB})
+ENDIF(WINTER_WITH_TEST)
 

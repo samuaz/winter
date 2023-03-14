@@ -4,21 +4,21 @@ using namespace winter::data::mysql;
 
 ::sql::transaction_isolation
 winter::data::mysql::connection::Connection::IsolationLevel(
-    const TransactionIsolationType &isolation) {
+    const sql_impl::TransactionIsolationType &isolation) {
     switch (isolation) {
-        case TransactionIsolationType::DEFAULT:
+        case sql_impl::TransactionIsolationType::DEFAULT:
             return ::sql::enum_transaction_isolation::
                 TRANSACTION_REPEATABLE_READ;
-        case TransactionIsolationType::REPEATABLE_READ:
+        case sql_impl::TransactionIsolationType::REPEATABLE_READ:
             return ::sql::enum_transaction_isolation::
                 TRANSACTION_REPEATABLE_READ;
-        case TransactionIsolationType::READ_COMMITTED:
+        case sql_impl::TransactionIsolationType::READ_COMMITTED:
             return ::sql::enum_transaction_isolation::
                 TRANSACTION_READ_COMMITTED;
-        case TransactionIsolationType::READ_UNCOMMITTED:
+        case sql_impl::TransactionIsolationType::READ_UNCOMMITTED:
             return ::sql::enum_transaction_isolation::
                 TRANSACTION_READ_UNCOMMITTED;
-        case TransactionIsolationType::SERIALIZABLE:
+        case sql_impl::TransactionIsolationType::SERIALIZABLE:
             return ::sql::enum_transaction_isolation::TRANSACTION_SERIALIZABLE;
         default: return ::sql::TRANSACTION_REPEATABLE_READ;
     }

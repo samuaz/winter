@@ -78,7 +78,6 @@ add_subdirectory(wintercpp_mariadb)
 add_subdirectory(wintercpp_mysql)
 add_subdirectory(wintercpp_grpc)
 add_subdirectory(wintercpp_redis)
-add_subdirectory(wintercpp_test)
 ENDIF(WINTER_WITH_TEST)
 
 

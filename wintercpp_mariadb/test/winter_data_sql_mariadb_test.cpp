@@ -30,6 +30,7 @@ TEST(configCreation, canCreateMariaDBConfig) {
                                                             "media_manager_db",
                                                             3600,
                                                             0,
+                                                            false,
                                                             props);
 
     ::sql::ConnectOptionsMap connectionProperties;
@@ -51,6 +52,8 @@ TEST(configCreation, canCreateMariaDBConfig) {
                                  connectionProperties));
 
     std::cout << conn->id() << std::endl;
+
+    using namespace winter::data::sql_impl;
 
     auto table = Table("db_migrations", TableType::kTable, DatabaseType::kMysql);
 

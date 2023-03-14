@@ -76,7 +76,7 @@ set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)   
 
-MESSAGE("USING WINTER_MARIADB_DRIVER")
+MESSAGE("USING WINTER_MYSQL_DRIVER")
 target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mysql_connector_cpp/install/include/)
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
@@ -102,4 +102,29 @@ install(TARGETS ${PROJECT_NAME} DESTINATION ${WINTER_INSTALL_DIR}/lib/)
 
 ############################
 ##  END CREATE EXECUTALBE ##
+############################
+
+############################
+##  TEST ##
+############################
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false test/*.cpp)
+IF (WINTER_WITH_TEST AND TEST_SOURCES)
+set(wintercpp_mysql_impl_test_binary ${PROJECT_NAME}_test)
+include(GoogleTest)
+enable_testing()
+add_executable(${wintercpp_mysql_impl_test_binary} ${TEST_SOURCES})
+target_link_libraries(${wintercpp_mysql_impl_test_binary} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core winter::mysql)
+format_with_clang_by_sources(${TEST_SOURCES})
+## to make the build finish if the tests fails
+add_custom_command(
+        TARGET ${wintercpp_mysql_impl_test_binary}
+        COMMENT "Run wintercpp_mysql_impl_test_binary tests"
+        POST_BUILD
+        COMMAND ${wintercpp_mysql_impl_test_binary} --output-on-failure
+)
+gtest_discover_tests(${wintercpp_mysql_impl_test_binary})
+ENDIF(WINTER_WITH_TEST)
+
+############################
+##  END TEST ##
 ############################

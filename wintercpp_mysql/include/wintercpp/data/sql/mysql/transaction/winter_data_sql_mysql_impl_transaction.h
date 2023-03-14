@@ -5,8 +5,8 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_TRANSACTION_H
 #define WINTERCPP_WINTER_DATA_SQL_MYSQL_IMPL_TRANSACTION_H
 
-#include <wintercpp/data/sql/mysql/response/winter_data_sql_mysql_impl_response.h>
 #include <wintercpp/data/sql/mysql/connection/winter_data_sql_mysql_impl_connection.h>
+#include <wintercpp/data/sql/mysql/response/winter_data_sql_mysql_impl_response.h>
 #include <wintercpp/winter.h>
 #include <wintercpp/winter_mysql_core.h>
 

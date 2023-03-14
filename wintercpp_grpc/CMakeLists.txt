@@ -102,3 +102,29 @@ install(TARGETS ${PROJECT_NAME} DESTINATION ${WINTER_INSTALL_DIR}/lib/)
 ############################
 ##  END CREATE EXECUTALBE ##
 ############################
+
+############################
+##  TEST ##
+############################
+
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false test/*.cpp)
+IF (WINTER_WITH_TEST AND TEST_SOURCES)
+set(wintercpp_grpc_test_binary ${PROJECT_NAME}_test)
+include(GoogleTest)
+enable_testing()
+add_executable(${wintercpp_grpc_test_binary} ${TEST_SOURCES})
+target_link_libraries(${wintercpp_grpc_test_binary} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core winter::grpc)
+format_with_clang_by_sources(${TEST_SOURCES})
+## to make the build finish if the tests fails
+add_custom_command(
+        TARGET ${wintercpp_grpc_test_binary}
+        COMMENT "Run wintercpp_grpc_test_binary tests"
+        POST_BUILD
+        COMMAND ${wintercpp_grpc_test_binary} --output-on-failure
+)
+gtest_discover_tests(${wintercpp_grpc_test_binary})
+ENDIF(WINTER_WITH_TEST)
+
+############################
+##  END TEST ##
+############################
