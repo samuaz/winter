@@ -66,6 +66,7 @@
 #include <wintercpp/template/winter_connection_template.h>
 #include <wintercpp/template/winter_response_template.h>
 #include <wintercpp/template/winter_singleton_template.h>
+#include <wintercpp/util/testcontainer_helper.h>
 #include <wintercpp/util/winter_date.h>
 #include <wintercpp/util/winter_macro.h>
 #include <wintercpp/util/winter_pool_descriptor.h>

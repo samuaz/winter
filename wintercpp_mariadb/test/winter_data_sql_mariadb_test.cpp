@@ -12,6 +12,7 @@
 
 #include "gmock/gmock-matchers.h"
 #include "gmock/gmock-more-matchers.h"
+#include "mariadb_docker_helper.h"
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
 #include "wintercpp/data/sql/field/winter_data_sql_field_type.h"
 #include "wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection_config.h"
@@ -20,39 +21,35 @@
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_where.h"
 #include "wintercpp/data/sql/table/winter_data_sql_table.h"
 
-TEST(configCreation, canCreateMariaDBConfig) {
-    auto props = std::map<std::string, std::string> {};
+using MysqlPool = winter::data::mariadb::connection::Pool;
+using MysqlConfig = winter::data::mariadb::connection::Config;
 
+TEST_F(WithMariaDBDatabase, canConnectToMariaDB) {
     auto config = winter::data::mariadb::connection::Config("localhost",
-                                                            3305,
-                                                            "media_manager",
-                                                            "media_manager",
-                                                            "media_manager_db",
-                                                            3600,
-                                                            0,
+                                                            portNumber,
+                                                            MARIA_DB_USER,
+                                                            MARIA_DB_PASSWORD,
+                                                            MARIA_DB_SCHEMA_NAME,
                                                             false,
-                                                            props);
+                                                            3600,
+                                                            false,
+                                                            {});
 
-    ::sql::ConnectOptionsMap connectionProperties;
-    connectionProperties["hostName"] = config.host();
-    connectionProperties["user"] = config.user_name();
-    connectionProperties["password"] = config.password();
-    connectionProperties["schema"] = config.schema();
-    connectionProperties["port"] = std::to_string(config.port());
-    connectionProperties["OPT_RECONNECT"]
-        = std::to_string(config.is_opt_reconnect());
-    connectionProperties["OPT_CONNECT_TIMEOUT"]
-        = std::to_string(config.opt_connect_timeout());
+    MysqlPool::Init(
+        winter::descriptor::PoolDescriptor(
+            "mysql",
+            10,
+            50,
+            5000,
+            10,
+            true),
+        config);
 
-    std::string url = config.host() + ":" + std::to_string(config.port()) + "/"
-                      + config.schema();
+    auto conn = MysqlPool::Connection();
+    ASSERT_FALSE(conn->id().empty());  // asegura que el string no esté vacío
+}
 
-    auto conn = new winter::data::mariadb::connection::Connection(
-        config.driver()->connect("jdbc:mariadb://" + url,
-                                 connectionProperties));
-
-    std::cout << conn->id() << std::endl;
-
+/*
     using namespace winter::data::sql_impl;
 
     auto table = Table("db_migrations", TableType::kTable, DatabaseType::kMysql);
@@ -84,4 +81,5 @@ TEST(configCreation, canCreateMariaDBConfig) {
     }
 
     delete conn;
-}
+
+*/

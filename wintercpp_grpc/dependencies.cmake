@@ -39,5 +39,5 @@ endif()
 IF (WINTER_WITH_TEST)
 include(${PARENT_DIR}/cmake/dep_gtest.cmake)
 set(WINTER_LIBS_TEST ${WINTER_GTEST_LIB})
-ENDIF(WINTER_WITH_TEST)
+ENDIF()
 

@@ -123,7 +123,7 @@ add_custom_command(
         COMMAND ${wintercpp_redis_test_binary} --output-on-failure
 )
 gtest_discover_tests(${wintercpp_redis_test_binary})
-ENDIF(WINTER_WITH_TEST)
+ENDIF()
 ############################
 ##  END TEST ##
 ############################
