@@ -27,8 +27,8 @@ using MysqlConfig = winter::data::mariadb::connection::Config;
 TEST_F(WithMariaDBDatabase, canConnectToMariaDB) {
     auto config = winter::data::mariadb::connection::Config("localhost",
                                                             portNumber,
-                                                            MARIA_DB_USER,
-                                                            MARIA_DB_PASSWORD,
+                                                            "NADA",
+                                                            "NADA",
                                                             MARIA_DB_SCHEMA_NAME,
                                                             false,
                                                             3600,

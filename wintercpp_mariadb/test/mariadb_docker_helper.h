@@ -17,7 +17,7 @@ const std::string MARIA_DB_IMAGE_NAME = "mariadb";
 const std::string MARIA_DB_ROOT_USER = "root";
 const std::string MARIA_DB_ROOT_PASSWORD = "winter_test";
 const std::string MARIA_DB_SCHEMA_NAME = "winter_test";
-
+const int timeout = 300; // 5 minutes timeout
 
 // Check if docker container is ready and also if mysql is ready to accept connections
 inline bool isMariaDBReady(std::string containerName, std::string host, std::string port, int timeout) {
@@ -89,7 +89,6 @@ public:
     
     std::system(runCommand.c_str());
 
-    int timeout = 300; // 5 minutes timeout
     if (isMariaDBReady(containerName, "localhost", std::to_string(portNumber), timeout)) {
         std::cout << "MariaDB is running and ready to accept connections " << containerName << std::endl;
     } else {
@@ -109,8 +108,26 @@ public:
     std::system(rmCommand.c_str());
   }
 
-  ~WithMariaDBDatabase(){
-    std::cout << "calling destructor " << containerName << std::endl;
-  }
+};
 
+#include <functional>
+
+class ScopedGuard {
+public:
+    explicit ScopedGuard(std::function<void()> on_exit_scope)
+        : on_exit_scope_(on_exit_scope), dismissed_(false) {}
+
+    ~ScopedGuard() {
+        if (!dismissed_) {
+            on_exit_scope_();
+        }
+    }
+
+    void dismiss() {
+        dismissed_ = true;
+    }
+
+private:
+    std::function<void()> on_exit_scope_;
+    bool dismissed_;
 };

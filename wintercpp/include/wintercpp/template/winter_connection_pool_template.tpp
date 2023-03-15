@@ -45,9 +45,10 @@ namespace winter::templates {
                         __FILE__, __FUNCTION__, __LINE__, e.what());
                 }
             };
-            std::thread db_pool_thread;
-            db_pool_thread = std::thread(db_pool);
-            db_pool_thread.join();
+            db_pool();
+            /*             std::thread db_pool_thread;
+                        db_pool_thread = std::thread(db_pool);
+                        db_pool_thread.join(); */
         }
     }
 
