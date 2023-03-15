@@ -12,7 +12,6 @@
 
 #include "gmock/gmock-matchers.h"
 #include "gmock/gmock-more-matchers.h"
-#include "mariadb_docker_helper.h"
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
 #include "wintercpp/data/sql/field/winter_data_sql_field_type.h"
 #include "wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection_config.h"
@@ -27,8 +26,8 @@ using MysqlConfig = winter::data::mariadb::connection::Config;
 TEST_F(WithMariaDBDatabase, canConnectToMariaDB) {
     auto config = winter::data::mariadb::connection::Config("localhost",
                                                             portNumber,
-                                                            "NADA",
-                                                            "NADA",
+                                                            MARIA_DB_USER,
+                                                            MARIA_DB_PASSWORD,
                                                             MARIA_DB_SCHEMA_NAME,
                                                             false,
                                                             3600,
@@ -38,8 +37,8 @@ TEST_F(WithMariaDBDatabase, canConnectToMariaDB) {
     MysqlPool::Init(
         winter::descriptor::PoolDescriptor(
             "mysql",
+            1,
             10,
-            50,
             5000,
             10,
             true),
