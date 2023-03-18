@@ -59,18 +59,20 @@ add_subdirectory(wintercpp_mysql_core)
 
 IF (WINTER_WITH_GRPC)
 add_subdirectory(wintercpp_grpc)
-ENDIF(WINTER_WITH_GRPC)
+ENDIF()
 
 IF (WINTER_WITH_MARIADB)
 add_subdirectory(wintercpp_mariadb)
-ENDIF(WINTER_WITH_MARIADB)
+ENDIF()
 
 IF (WINTER_WITH_MYSQL)
 add_subdirectory(wintercpp_mysql)
-ENDIF(WINTER_WITH_MYSQL)
+ENDIF()
 
 IF (WINTER_WITH_REDIS)
 add_subdirectory(wintercpp_redis)
-ENDIF(WINTER_WITH_REDIS)
+ENDIF()
 
-
+IF (WINTER_WITH_TEST)
+add_subdirectory(wintercpp_test)
+ENDIF()

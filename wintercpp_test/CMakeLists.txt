@@ -5,7 +5,7 @@
 ############################
 ##      CONFIG BUILD      ##
 ############################
-project( wintercpp_mariadb_impl )
+project( wintercpp_test_util)
 
 get_filename_component(PARENT_DIR ../ ABSOLUTE)
 set(CMAKE_CXX_STANDARD 17)
@@ -44,41 +44,40 @@ endforeach()
 #format_with_astyle_by_sources(${SOURCES})
 #format_with_astyle_by_sources(${HEADERS})
 
-add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
-add_library(winter::mariadb ALIAS ${PROJECT_NAME})
+add_library(${PROJECT_NAME} INTERFACE)
+add_library(winter::test_util ALIAS ${PROJECT_NAME})
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_BINARY_DIR}/generated)   
 
+#add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
+#add_library(winter::test_util ALIAS ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} winter::mysql_core ${WINTER_MARIADB_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
+#target_link_libraries(${PROJECT_NAME} winter::core ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
+#set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
 
 function(create_winter_header headerFiles)
     # Create empty output file
-    set(output ${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/winter_mariadb_impl.h)
+    set(output ${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/winter_test_util.h)
     file(WRITE ${output} "")
     # Iterate through input files
     file(APPEND ${output} "//\n")
     file(APPEND ${output} "// Created by AZCONA VARGAS, SAMUEL EDUARDO\n")
     file(APPEND ${output} "//\n")
-    file(APPEND ${output} "#ifndef WINTERC_WINTER_MARIADB_H\n")
-    file(APPEND ${output} "#define WINTERC_WINTER_MARIADB_H\n")
+    file(APPEND ${output} "#ifndef WINTERC_WINTER_TEST_UTIL_H\n")
+    file(APPEND ${output} "#define WINTERC_WINTER_TEST_UTIL_H\n")
     foreach(bin ${HEADERS})
         string(REGEX REPLACE "(.*)include/" "" filename ${bin})
-        IF(NOT ${filename} MATCHES "winter_mariadb_impl.h")
+        IF(NOT ${filename} MATCHES "winter_test_util.h")
         file(APPEND ${output} "#include <${filename}>\n")
         endif()
     endforeach()
-    file(APPEND ${output} "#endif // WINTERC_WINTER_MARIADB_H;\n")
+    file(APPEND ${output} "#endif // WINTERC_WINTER_TEST_UTIL_H;\n")
 endfunction()
 
 create_winter_header(${HEADERS})
 
 set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)   
-
-MESSAGE("USING WINTER_MARIADB_DRIVER")
-target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mariadb_connector/install/include/)
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
         DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
@@ -109,23 +108,23 @@ install(TARGETS ${PROJECT_NAME} DESTINATION ${WINTER_INSTALL_DIR}/lib/)
 ##  TEST ##
 ############################
 
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false test/*.cpp)
-IF (WINTER_WITH_TEST AND TEST_SOURCES)
-set(wintercpp_mariadb_impl_test_binary ${PROJECT_NAME}_test)
-include(GoogleTest)
-enable_testing()
-add_executable(${wintercpp_mariadb_impl_test_binary} ${TEST_SOURCES})
-target_link_libraries(${wintercpp_mariadb_impl_test_binary} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core winter::test_util winter::mariadb)
-format_with_clang_by_sources(${TEST_SOURCES})
+#file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false test/*.cpp)
+#IF (WINTER_WITH_TEST AND TEST_SOURCES)
+#set(wintercpp_test_util_test_binary ${PROJECT_NAME}_test)
+#include(GoogleTest)
+#enable_testing()
+#add_executable(${wintercpp_test_util_test_binary} ${TEST_SOURCES})
+#target_link_libraries(${wintercpp_test_util_test_binary} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core winter::test_util)
+#format_with_clang_by_sources(${TEST_SOURCES})
 ## to make the build finish if the tests fails
-add_custom_command(
-        TARGET ${wintercpp_mariadb_impl_test_binary}
-        COMMENT "Run wintercpp_mariadb_impl_test_binary tests"
-        POST_BUILD
-        COMMAND ${wintercpp_mariadb_impl_test_binary} --output-on-failure
-)
-gtest_discover_tests(${wintercpp_mariadb_impl_test_binary})
-ENDIF()
+#add_custom_command(
+#        TARGET ${wintercpp_test_util_test_binary}
+#        COMMENT "Run wintercpp_test_util_test_binary tests"
+#        POST_BUILD
+#        COMMAND ${wintercpp_test_util_test_binary} --output-on-failure
+#)
+#gtest_discover_tests(${wintercpp_test_util_test_binary})
+#ENDIF()
 
 ############################
 ##  END TEST ##

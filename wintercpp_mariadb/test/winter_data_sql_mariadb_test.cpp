@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <wintercpp/winter.h>
 #include <wintercpp/winter_mariadb_impl.h>
+#include <wintercpp/winter_test_util.h>
 
 #include <iostream>
 #include <memory>
@@ -22,6 +23,7 @@
 
 using MysqlPool = winter::data::mariadb::connection::Pool;
 using MysqlConfig = winter::data::mariadb::connection::Config;
+using namespace winter::test::docker::mariadb;
 
 TEST_F(WithMariaDBDatabase, canConnectToMariaDB) {
     auto config = winter::data::mariadb::connection::Config("localhost",
