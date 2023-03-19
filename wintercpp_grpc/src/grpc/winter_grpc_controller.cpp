@@ -17,14 +17,19 @@ grpc::Status winter::GrpcController::responseEntity(
     try {
         execute();
     } catch (const SecurityException &e) {
+        std::cout << e.what() << std::endl;
         status = grpc::Status(grpc::StatusCode::UNAUTHENTICATED, e.what());
-    } catch (const WinterException &e) {
-        status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
     } catch (const SqlException &e) {
+        std::cout << e.what() << std::endl;    
+        status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
+    } catch (const WinterException &e) {
+        std::cout << e.what() << std::endl;    
         status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
     } catch (const std::runtime_error &e) {
+        std::cout << e.what() << std::endl;
         status = grpc::Status(grpc::StatusCode::INTERNAL, e.what());
     } catch (const std::exception &e) {
+        std::cout << e.what() << std::endl;
         status = grpc::Status(grpc::StatusCode::UNKNOWN, e.what());
     }
     return status;
