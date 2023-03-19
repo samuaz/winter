@@ -19,7 +19,7 @@ namespace winter::test::docker::mariadb {
     const std::string MARIA_DB_ROOT_USER = "root";
     const std::string MARIA_DB_ROOT_PASSWORD = "winter_test";
     const std::string MARIA_DB_SCHEMA_NAME = "winter_test";
-    const int         timeout = 300;  // 5 minutes timeout
+    const int         timeout = 60;  // 1 minutes timeout
     // Test fixture for gtest
     class WithMariaDBDatabase : public ::testing::Test {
        public:

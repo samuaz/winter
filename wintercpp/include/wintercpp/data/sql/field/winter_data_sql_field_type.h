@@ -87,6 +87,11 @@ namespace winter::data::sql_impl {
     };
 
     template<>
+    struct TypeField<long> {
+        static FieldType Get();
+    };
+
+    template<>
     struct TypeField<double> {
         static FieldType Get();
     };
