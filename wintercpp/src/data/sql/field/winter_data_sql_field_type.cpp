@@ -38,6 +38,10 @@ FieldType TypeField<uint64_t>::Get() {
     return FieldType::kUlong;
 }
 
+FieldType TypeField<long>::Get() {
+    return FieldType::kLong;
+}
+
 FieldType TypeField<int64_t>::Get() {
     return FieldType::kLong;
 }
