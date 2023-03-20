@@ -21,16 +21,12 @@ namespace winter::data::sql_impl {
         if (res_) {
             return std::get<T>(res_.Value());
         }
-        throw WinterInternalException::Create(
-            __FILE__, __FUNCTION__, __LINE__, res_.message());
-        }
-        catch (const std::bad_variant_access& ex) 
-        {
+        throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, res_.message());
+        } catch (const std::bad_variant_access& ex) {
           std::string message = "wrong return type " + typeid(T).name() + " the value type is ";
           throw WinterInternalException::Create( __FILE__, __FUNCTION__, __LINE__, message);
+          }
         }
-        }
-    }
 
     template<typename TResultSet>
     DataTypeResult ResultRow<TResultSet>::operator[](
