@@ -17,6 +17,7 @@ namespace winter::data::sql_impl {
                          int64_t,
                          char,
                          short,
+                         long long,
                          long,
                          long double,
                          double,
