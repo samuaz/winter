@@ -16,8 +16,7 @@ namespace winter::data::sql_impl {
 
     template<typename T>
     T DataTypeResult::as() const {
-        try
-        {
+        try {
         if (res_) {
             return std::get<T>(res_.Value());
         }
