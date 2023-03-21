@@ -101,9 +101,12 @@ TResponse MYSQL_CONNECTION_INTERFACE::ResultQuery(
     if (result_set != nullptr) {
         if (result_set->first()) {
             std::vector<TResultRow> result_rows;
-            do {
+/*             do {
                 result_rows.emplace_back(prepared_statement, result_set);
-            } while (result_set->next());
+            } while (result_set->next()); */
+            while (result_set->next()) {
+                result_rows.emplace_back(prepared_statement, result_set);
+            };
             return TResponse(prepared_statement.id(),
                              prepared_statement.type(),
                              result_rows,

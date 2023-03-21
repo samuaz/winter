@@ -4,7 +4,6 @@
 
 #include <gtest/gtest.h>
 #include <wintercpp/winter.h>
-#include <wintercpp/winter_mariadb_impl.h>
 
 #include <iostream>
 #include <memory>
@@ -13,7 +12,6 @@
 #include "gmock/gmock-matchers.h"
 #include "gmock/gmock-more-matchers.h"
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
-#include "wintercpp/data/sql/mariadb/connection/winter_data_sql_mariadb_impl_connection_config.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_or.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_where.h"
 
