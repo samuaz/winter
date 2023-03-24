@@ -99,7 +99,7 @@ TResponse MYSQL_CONNECTION_INTERFACE::ResultQuery(
     const PreparedStatement&           prepared_statement,
     const std::shared_ptr<TResultSet>& result_set) const {
     if (result_set != nullptr) {
-        if (result_set->first()) {
+        if (result_set->rowsCount() > 0) {
             std::vector<TResultRow> result_rows;
             while (result_set->next()) {
                 result_rows.emplace_back(prepared_statement, result_set);

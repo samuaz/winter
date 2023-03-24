@@ -40,7 +40,7 @@ namespace winter::data::sql_impl::mysql {
         };
 
        private:
-       // we are creating always the result row with the next position from the resultset for that reason we can not move the cursor here
+        // we are creating always the result row with the next position from the resultset for that reason we can not move the cursor here
         void Create(const PreparedStatement           &prepared_statement,
                     const std::shared_ptr<TResultSet> &result_set) override {
             if (result_set != nullptr) {

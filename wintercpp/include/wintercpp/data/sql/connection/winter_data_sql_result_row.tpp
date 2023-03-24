@@ -8,6 +8,7 @@
 #include <string>
 #include <utility>
 #include <variant>
+
 #include "wintercpp/data/sql/field/winter_data_sql_field_type.h"
 //#include "winter_data_sql_result_row.h"
 
@@ -18,15 +19,15 @@ namespace winter::data::sql_impl {
     template<typename T>
     T DataTypeResult::as() const {
         try {
-        if (res_) {
-            return std::get<T>(res_.Value());
+            if (res_) {
+                return std::get<T>(res_.Value());
+            }
+            throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, res_.message());
+        } catch (const std::bad_variant_access &ex) {
+            std::string message = "wrong return type for T " + std::string(typeid(T).name()) + " error is " + ex.what();
+            throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, message);
         }
-        throw WinterInternalException::Create(__FILE__, __FUNCTION__, __LINE__, res_.message());
-        } catch (const std::bad_variant_access& ex) {
-          std::string message = "wrong return type for T " + std::string(typeid(T).name()) + " error is " + ex.what(); 
-          throw WinterInternalException::Create( __FILE__, __FUNCTION__, __LINE__, message);
-          }
-        }
+    }
 
     template<typename TResultSet>
     DataTypeResult ResultRow<TResultSet>::operator[](
