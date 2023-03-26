@@ -125,7 +125,7 @@ namespace winter::data::sql_impl {
         prepared_statement_->AddAll(preparedStatement.values());
         if (prepared_statement_->columns().empty()) {
             prepared_statement_->AddColumn(preparedStatement.columns());
-        } 
+        }
         return This();
     }
 

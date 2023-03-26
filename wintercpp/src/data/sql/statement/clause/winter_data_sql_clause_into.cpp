@@ -16,9 +16,9 @@ winter::data::sql_impl::Into::Prepare() {
                                                      statement_template());
 }
 
-    std::string winter::data::sql_impl::Into::Into::name() const {
-            return "Into";
-    };
+std::string winter::data::sql_impl::Into::Into::name() const {
+    return "Into";
+};
 
 void winter::data::sql_impl::Into::GenerateStatement() {
     set_statement_template(winter::util::string::replace_value(

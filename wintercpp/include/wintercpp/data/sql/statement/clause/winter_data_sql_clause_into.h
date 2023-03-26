@@ -15,7 +15,7 @@ namespace winter::data::sql_impl {
         PreparedStatement Prepare() override;
 
         std::string name() const override;
-        
+
        private:
         std::shared_ptr<Table> table_;
         void                   GenerateStatement();

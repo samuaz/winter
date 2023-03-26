@@ -22,10 +22,9 @@ winter::data::sql_impl::Or::Or(Column                            column,
     Clause("OR $or", "$or"),
     column_(std::move(column)), condition_(condition) {}
 
-        std::string winter::data::sql_impl::Or::Or::name() const {
-            return "Or";
-    };
-
+std::string winter::data::sql_impl::Or::Or::name() const {
+    return "Or";
+};
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Or::Prepare() {

@@ -14,9 +14,9 @@ winter::data::sql_impl::Set::Set(
     Clause("SET $fields", "$fields"),
     fields_(std::move(fields)) {}
 
-            std::string winter::data::sql_impl::Set::Set::name() const {
-            return "Set";
-    };
+std::string winter::data::sql_impl::Set::Set::name() const {
+    return "Set";
+};
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Set::Prepare() {

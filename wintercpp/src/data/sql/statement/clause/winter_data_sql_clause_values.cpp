@@ -13,9 +13,9 @@ winter::data::sql_impl::Values::Values(
     Clause("($columns) VALUES ($set_values)", "$set_values"),
     _fields(std::move(fields)) {}
 
-                std::string winter::data::sql_impl::Values::Values::name() const {
-            return "Values";
-    };
+std::string winter::data::sql_impl::Values::Values::name() const {
+    return "Values";
+};
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Values::Prepare() {

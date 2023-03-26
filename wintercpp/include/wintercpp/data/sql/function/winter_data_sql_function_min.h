@@ -13,6 +13,7 @@
 
 #include <queue>
 #include <string>
+
 #include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h"
 
 namespace winter::data::sql_impl {
@@ -26,10 +27,9 @@ namespace winter::data::sql_impl {
         std::string name() const override;
 
        private:
-        const StatementValues                                          column_;
+        const StatementValues                                 column_;
         const std::shared_ptr<AbstractPreparedStatementField> field_;
         const bool                                            is_predicate_ = false;
-
     };
 
 }  // namespace winter::data::sql_impl

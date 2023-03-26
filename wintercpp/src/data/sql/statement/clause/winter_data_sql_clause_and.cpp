@@ -22,9 +22,9 @@ winter::data::sql_impl::And::And(Column                            column,
     Clause("AND $and", "$and"),
     column_(std::move(column)), condition_(condition) {}
 
-    std::string winter::data::sql_impl::And::And::name() const {
-            return "And";
-    };
+std::string winter::data::sql_impl::And::And::name() const {
+    return "And";
+};
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::And::Prepare() {

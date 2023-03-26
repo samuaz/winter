@@ -14,18 +14,19 @@
 #include <set>
 #include <string>
 #include <vector>
+
 #include "wintercpp/exception/generic/winter_internal_exception.h"
 
 namespace winter::data::sql_impl {
 
     class IStatementValue {
-        public:
-         virtual std::string name() const {
+       public:
+        virtual std::string name() const {
             throw exception::WinterInternalException("using virtual function");
-         } ;
-         virtual const std::string &query() const {
+        };
+        virtual const std::string &query() const {
             throw exception::WinterInternalException("using virtual function");
-         };
+        };
     };
 
     typedef std::variant<Column, IStatementValue> StatementValues;
@@ -38,10 +39,10 @@ namespace winter::data::sql_impl {
                           std::string          statement_template,
                           std::string          id = winter::random::uuid());
 
-        PreparedStatement(const StatementType &statement_type,
-                          std::string          statement_template,
-                          std::vector<StatementValues>  columns_,
-                          std::string          id = winter::random::uuid());
+        PreparedStatement(const StatementType         &statement_type,
+                          std::string                  statement_template,
+                          std::vector<StatementValues> columns_,
+                          std::string                  id = winter::random::uuid());
 
         PreparedStatement(
             const StatementType                                          &statement_type,
@@ -119,7 +120,7 @@ namespace winter::data::sql_impl {
         StatementType type_ {};
         // std::shared_ptr<AbstractPreparedStatementField> _entityId;
         std::string                                                   statement_template_;
-        std::vector<StatementValues>                                           columns_;
+        std::vector<StatementValues>                                  columns_;
         std::vector<std::shared_ptr<AbstractPreparedStatementField> > values_;
         std::vector<std::shared_ptr<AbstractPreparedStatementField> >::iterator
         FindValue(const std::string &name);

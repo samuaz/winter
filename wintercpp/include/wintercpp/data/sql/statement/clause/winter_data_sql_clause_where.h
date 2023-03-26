@@ -25,7 +25,6 @@ namespace winter::data::sql_impl {
         explicit Where(Column column, winter::data::sql_impl::Condition);
         std::string name() const override;
 
-
         PreparedStatement Prepare() override;
 
         template<typename T>

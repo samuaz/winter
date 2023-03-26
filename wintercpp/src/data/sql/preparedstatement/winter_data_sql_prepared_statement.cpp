@@ -18,10 +18,10 @@ PreparedStatement::PreparedStatement(const StatementType &statement_type,
     id_(std::move(id)),
     type_(statement_type), statement_template_(std::move(statement_template)) {}
 
-PreparedStatement::PreparedStatement(const StatementType &statement_type,
-                                     std::string          statement_template,
-                                     std::vector<StatementValues>  columns,
-                                     std::string          id) :
+PreparedStatement::PreparedStatement(const StatementType         &statement_type,
+                                     std::string                  statement_template,
+                                     std::vector<StatementValues> columns,
+                                     std::string                  id) :
     id_(std::move(id)),
     type_(statement_type), statement_template_(std::move(statement_template)),
     columns_(std::move(columns)) {}

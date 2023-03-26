@@ -27,9 +27,9 @@ winter::data::sql_impl::Join::Join(std::shared_ptr<Table> table) :
         winter::data::sql_impl::CommaSeparatedValue({table_->name()})));
 }
 
-    std::string winter::data::sql_impl::Join::Join::name() const {
-            return "Join";
-    };
+std::string winter::data::sql_impl::Join::Join::name() const {
+    return "Join";
+};
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Join::Prepare() {
