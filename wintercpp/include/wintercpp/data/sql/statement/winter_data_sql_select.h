@@ -20,11 +20,11 @@ namespace winter::data::sql_impl {
        public:
         Select();
 
-        explicit Select(std::vector<Column> columns);
+        explicit Select(std::vector<StatementValues> columns);
 
         explicit Select(const std::string &query);
 
-        Select &operator<<(std::vector<Column> columns);
+        Select &operator<<(std::vector<StatementValues> columns);
 
         using Statement<Select>::prepared_statement;
         using Statement<Select>::operator<<;
@@ -37,7 +37,7 @@ namespace winter::data::sql_impl {
        private:
         using Statement<Select>::prepared_statement_;
         using Statement<Select>::type_;
-        std::vector<Column> columns_;
+        std::vector<StatementValues> columns_;
         //  std::vector<std::shared_ptr<Table> > tables_;
 
         void writeColumns();

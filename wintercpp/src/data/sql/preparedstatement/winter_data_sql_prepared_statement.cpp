@@ -20,7 +20,7 @@ PreparedStatement::PreparedStatement(const StatementType &statement_type,
 
 PreparedStatement::PreparedStatement(const StatementType &statement_type,
                                      std::string          statement_template,
-                                     std::vector<Column>  columns,
+                                     std::vector<StatementValues>  columns,
                                      std::string          id) :
     id_(std::move(id)),
     type_(statement_type), statement_template_(std::move(statement_template)),
@@ -175,21 +175,21 @@ int PreparedStatement::SearchFieldIndex(const std::string &name) {
         ("preparedstatement field not found " + name));
 }
 
-const std::vector<Column> &PreparedStatement::columns() const {
+const std::vector<StatementValues> &PreparedStatement::columns() const {
     return columns_;
 }
 
-void PreparedStatement::columns(std::vector<Column> columns) {
+void PreparedStatement::columns(std::vector<StatementValues> columns) {
     columns_ = std::move(columns);
 }
 
-PreparedStatement &PreparedStatement::AddColumn(const Column &column) {
+PreparedStatement &PreparedStatement::AddColumn(const StatementValues &column) {
     columns_.push_back(column);
     return *this;
 }
 
 PreparedStatement &PreparedStatement::AddColumn(
-    const std::vector<Column> &columns) {
-    for (const Column &col : columns) { columns_.push_back(col); }
+    const std::vector<StatementValues> &columns) {
+    for (const StatementValues &col : columns) { columns_.push_back(col); }
     return *this;
 }

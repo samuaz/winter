@@ -22,32 +22,35 @@ winter::data::sql_impl::Where::Where(
     Clause("WHERE $where", "$where"),
     column_(std::move(column)), condition_(condition) {}
 
+    std::string winter::data::sql_impl::Where::Where::name() const {
+            return "Where";
+    };
+
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Where::Prepare() {
+    std::ostringstream builder;
     if (_is_predicate) {
         if (field_->IsCustomValue()) {
-            BuildQuery() << column_->TableName() << Dot() << column_->name()
-                         << Space() << condition(condition_) << Space()
-                         << field_->custom_value();
-            return PreparedStatement(
-                StatementType::kClause,
-                replace_value(statement_template(), param(), query()),
-                field_);
+            builder << column_->TableName() << Dot() << column_->name()
+                    << Space() << condition(condition_) << Space()
+                    << field_->custom_value();
         } else {
-            BuildQuery() << column_->TableName() << Dot() << column_->name()
-                         << Space() << condition(condition_) << Space()
-                         << PlaceHolder();
-            return PreparedStatement(
-                StatementType::kClause,
-                replace_value(statement_template(), param(), query()),
-                field_);
+            builder << column_->TableName() << Dot() << column_->name()
+                    << Space() << condition(condition_) << Space()
+                    << PlaceHolder();
         }
+        BuildQuery() << builder.str();
+        return PreparedStatement(
+            StatementType::kClause,
+            replace_value(statement_template(), param(), query()),
+            field_);
     }
 
-    BuildQuery() << column_->TableName() << Dot() << column_->name()
-                 << ((condition_ != Condition::NONE)
-                         ? Space() + condition(condition_)
-                         : "");
+    builder << column_->TableName() << Dot() << column_->name()
+            << ((condition_ != Condition::NONE)
+                    ? Space() + condition(condition_)
+                    : "");
+    BuildQuery() << builder.str();
     return PreparedStatement(
         StatementType::kClause,
         replace_value(statement_template(), param(), query()));

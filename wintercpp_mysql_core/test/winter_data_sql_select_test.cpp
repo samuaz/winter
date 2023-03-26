@@ -12,6 +12,7 @@
 #include "gmock/gmock-matchers.h"
 #include "gmock/gmock-more-matchers.h"
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
+#include "wintercpp/data/sql/function/winter_data_sql_function_min.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_or.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_where.h"
 
@@ -82,6 +83,17 @@ TEST(winterSqlTable, canConstructSelecFromMultipleTables) {
     std::shared_ptr<QueryTestTable2> testTable2 = std::shared_ptr<QueryTestTable2>(new QueryTestTable2());
 
     auto query = Select({testTable->col1, testTable2->col3}) << From({testTable, testTable2}) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable2->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
+
+    EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable2.col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
+}
+
+TEST(winterSqlTable, canConstructSelectWithMinFun) {
+    std::shared_ptr<QueryTestTable>  testTable = std::shared_ptr<QueryTestTable>(new QueryTestTable());
+    std::shared_ptr<QueryTestTable2> testTable2 = std::shared_ptr<QueryTestTable2>(new QueryTestTable2());
+
+    auto query = Select({testTable->col1}) << Min(testTable2->col3) << From({testTable, testTable2}) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable2->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
+
+    std::cout << "slect con min es " << query.prepared_statement().statement_template() << std::endl;
 
     EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable2.col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
 }

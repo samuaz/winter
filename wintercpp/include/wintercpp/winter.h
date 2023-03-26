@@ -14,6 +14,7 @@
 #include <wintercpp/data/sql/field/winter_data_sql_data_type.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
+#include <wintercpp/data/sql/function/winter_data_sql_function_min.h>
 #include <wintercpp/data/sql/migration/winter_data_migration.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>

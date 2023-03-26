@@ -25,6 +25,8 @@ namespace winter::data::sql_impl {
         explicit NotIn(std::vector<T> values);
         explicit NotIn(const winter::data::sql_impl::Select &select);
         PreparedStatement Prepare() override;
+        std::string name() const override;
+
 
        private:
         std::vector<T> values_;

@@ -13,6 +13,11 @@ winter::data::sql_impl::Parenthesis::Parenthesis(
         clause->Prepare().statement_template()));
 }
 
+        std::string winter::data::sql_impl::Parenthesis::Parenthesis::name() const {
+            return "On";
+    };
+
+
 winter::data::sql_impl::Parenthesis::Parenthesis(const std::string &clause) :
     Clause("($clause)", "$clause") {
     set_statement_template(winter::util::string::replace_value(

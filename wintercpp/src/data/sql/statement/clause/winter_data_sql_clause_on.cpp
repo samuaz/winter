@@ -22,6 +22,10 @@ winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
         r_column->TableName() + Dot() + r_column->name()));
 }
 
+    std::string winter::data::sql_impl::On::On::name() const {
+            return "On";
+    };
+
 winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
                                winter::data::sql_impl::Condition     condition) :
     Clause("ON $lcolumn $condition", "$lcolumn $condition") {

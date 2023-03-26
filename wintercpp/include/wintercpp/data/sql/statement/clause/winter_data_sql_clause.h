@@ -11,11 +11,11 @@
 
 namespace winter::data::sql_impl {
 
-    class Clause {
+    class Clause : public virtual IStatementValue {
        public:
         Clause &operator<<(const std::string &rvalue);
 
-        const std::string &query() const;
+        const std::string &query() const override;
 
         std::string param();
 

@@ -21,6 +21,8 @@ namespace winter::data::sql_impl {
                     const Column &r_column);
         explicit On(const Column &l_column, Condition condition);
         PreparedStatement Prepare() override;
+        std::string name() const override;
+
     };
 }  // namespace winter::data::sql_impl
 

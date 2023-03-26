@@ -23,6 +23,8 @@ namespace winter::data::sql_impl {
         explicit Or(Column column);
 
         explicit Or(Column column, Condition);
+        std::string name() const override;
+
 
         PreparedStatement Prepare() override;
 

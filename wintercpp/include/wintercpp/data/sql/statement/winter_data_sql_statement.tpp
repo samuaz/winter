@@ -121,12 +121,11 @@ namespace winter::data::sql_impl {
     template<typename CLAUSE>
     Children &Statement<Children>::AddClause(CLAUSE clause) {
         auto preparedStatement = clause.Prepare();
-        statement_template_.append(" ").append(
-            preparedStatement.statement_template());
+        statement_template_.append(" ").append(preparedStatement.statement_template());
         prepared_statement_->AddAll(preparedStatement.values());
         if (prepared_statement_->columns().empty()) {
             prepared_statement_->AddColumn(preparedStatement.columns());
-        }
+        } 
         return This();
     }
 

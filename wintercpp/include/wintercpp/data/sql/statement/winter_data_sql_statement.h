@@ -5,7 +5,6 @@
 #ifndef WINTER_DATA_SQL_STATEMENT
 #define WINTER_DATA_SQL_STATEMENT
 
-#include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 

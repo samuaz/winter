@@ -9,12 +9,18 @@
 using namespace winter::util::string;
 
 winter::data::sql_impl::From::From(std::vector<std::shared_ptr<Table>> tables) :
-    Clause("FROM $tables", "$tables"), tables_(std::move(tables)) {}
+    Clause("FROM $tables", "$tables"), tables_(std::move(tables)) {
+        Prepare();
+    }
 
 winter::data::sql_impl::From::From(const std::shared_ptr<Table> &table) :
     Clause("FROM $tables", "$tables") {
     tables_.push_back(table);
 }
+
+    std::string winter::data::sql_impl::From::From::name() const {
+            return "From";
+    };
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::From::Prepare() {

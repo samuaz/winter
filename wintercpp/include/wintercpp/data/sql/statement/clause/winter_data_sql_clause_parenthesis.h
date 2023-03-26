@@ -17,6 +17,8 @@ namespace winter::data::sql_impl {
         explicit Parenthesis(Clause *clause);
         explicit Parenthesis(const std::string &clause);
         PreparedStatement Prepare() override;
+        std::string name() const override;
+
     };
 
     template<typename T>

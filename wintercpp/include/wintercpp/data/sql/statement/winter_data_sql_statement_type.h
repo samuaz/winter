@@ -16,7 +16,8 @@ namespace winter::data::sql_impl {
         kCreate,
         kDrop,
         kTruncate,
-        kClause
+        kClause,
+        KFunction
     };
 }
 #endif  // WINTERCPP_WINTER_SQL_STATEMENT_TYPE_H
