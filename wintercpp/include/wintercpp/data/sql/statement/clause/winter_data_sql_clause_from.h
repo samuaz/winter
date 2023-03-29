@@ -20,7 +20,8 @@ namespace winter::data::sql_impl {
         explicit From(std::vector<std::shared_ptr<Table>> tables);
         explicit From(const std::shared_ptr<Table> &table);
         PreparedStatement Prepare() override;
-        std::string       name() const override;
+        std::string       name() override;
+        FieldType         fieldType() override;
 
        private:
         std::vector<std::shared_ptr<Table>> tables_;

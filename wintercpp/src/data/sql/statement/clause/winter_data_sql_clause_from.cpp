@@ -6,6 +6,8 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
+#include "wintercpp/exception/generic/winter_internal_exception.h"
+
 using namespace winter::util::string;
 
 winter::data::sql_impl::From::From(std::vector<std::shared_ptr<Table>> tables) :
@@ -18,9 +20,21 @@ winter::data::sql_impl::From::From(const std::shared_ptr<Table> &table) :
     tables_.push_back(table);
 }
 
-std::string winter::data::sql_impl::From::From::name() const {
-    return "From";
+std::string winter::data::sql_impl::From::From::name() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to name function on clause"));
 };
+
+winter::data::sql_impl::FieldType winter::data::sql_impl::From::fieldType() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to fieldtype function on clause"));
+}
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::From::Prepare() {

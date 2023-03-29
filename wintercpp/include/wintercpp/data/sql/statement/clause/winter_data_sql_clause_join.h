@@ -22,7 +22,8 @@ namespace winter::data::sql_impl {
         explicit Join(std::shared_ptr<Table> table);
         PreparedStatement Prepare() override;
 
-        std::string name() const override;
+        std::string name() override;
+        FieldType   fieldType() override;
 
        private:
         std::shared_ptr<Table> table_;

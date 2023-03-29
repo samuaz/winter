@@ -6,6 +6,7 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
+#include <memory>
 #include <vector>
 
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause.h"
@@ -32,8 +33,8 @@ void Select::writeColumns() {
     for (auto const &col : columns_) {
         if (auto columnVal = std::get_if<Column>(&col)) {
             columns.push_back(columnVal->TableName() + "." + columnVal->name());
-        } else if (auto clauseVal = std::get_if<winter::data::sql_impl::IStatementValue>(&col)) {
-            columns.push_back(clauseVal->query());
+        } else if (auto clauseVal = std::get_if<std::shared_ptr<winter::data::sql_impl::IStatementValue>>(&col)) {
+            columns.push_back(clauseVal->get()->query());
         }
     }
     winter::util::string::replace(

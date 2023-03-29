@@ -23,4 +23,5 @@ Min min(name);
 min.Prepare();
 ASSERT_EQ(min.statement_template(), "MIN($min) AS min_$columnName");
 ASSERT_EQ(min.query() , "MIN(TestTable.testColumn) AS min_TestTable.testColumn");
+ASSERT_EQ(min.name() , "min_TestTable.testColumn");
 }

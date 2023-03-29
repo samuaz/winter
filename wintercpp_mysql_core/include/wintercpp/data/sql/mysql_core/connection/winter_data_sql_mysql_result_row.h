@@ -54,9 +54,13 @@ namespace winter::data::sql_impl::mysql {
                             } else {
                                 CreateRow(column_name, columnValue->type(), result_set);
                             }
-                        }
-                        // Verificamos si el elemento es de tipo std::string
-                        else if (auto clauseValue = std::get_if<winter::data::sql_impl::IStatementValue>(&column)) {
+                        } else if (auto clauseValue = std::get_if<std::shared_ptr<winter::data::sql_impl::IStatementValue>>(&column)) {
+                            std::string column_name = clauseValue->get()->name();
+                            if (result_set->isNull(column_name)) {
+                                AddRow(column_name, std::nullopt);
+                            } else {
+                                CreateRow(column_name, clauseValue->get()->fieldType(), result_set);
+                            }
                         }
                     }
                 }

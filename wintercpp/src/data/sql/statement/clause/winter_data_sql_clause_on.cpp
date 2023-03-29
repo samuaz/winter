@@ -22,9 +22,21 @@ winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
         r_column->TableName() + Dot() + r_column->name()));
 }
 
-std::string winter::data::sql_impl::On::On::name() const {
-    return "On";
+std::string winter::data::sql_impl::On::On::name() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to name function on clause"));
 };
+
+winter::data::sql_impl::FieldType winter::data::sql_impl::On::fieldType() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to fieldtype function on clause"));
+}
 
 winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
                                winter::data::sql_impl::Condition     condition) :

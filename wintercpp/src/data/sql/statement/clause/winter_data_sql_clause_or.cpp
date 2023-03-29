@@ -22,9 +22,21 @@ winter::data::sql_impl::Or::Or(Column                            column,
     Clause("OR $or", "$or"),
     column_(std::move(column)), condition_(condition) {}
 
-std::string winter::data::sql_impl::Or::Or::name() const {
-    return "Or";
+std::string winter::data::sql_impl::Or::Or::name() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to name function on clause"));
 };
+
+winter::data::sql_impl::FieldType winter::data::sql_impl::Or::fieldType() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to fieldtype function on clause"));
+}
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Or::Prepare() {

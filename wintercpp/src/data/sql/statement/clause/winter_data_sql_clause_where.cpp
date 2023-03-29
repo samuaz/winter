@@ -22,9 +22,21 @@ winter::data::sql_impl::Where::Where(
     Clause("WHERE $where", "$where"),
     column_(std::move(column)), condition_(condition) {}
 
-std::string winter::data::sql_impl::Where::Where::name() const {
-    return "Where";
+std::string winter::data::sql_impl::Where::Where::name() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to name function on clause"));
 };
+
+winter::data::sql_impl::FieldType winter::data::sql_impl::Where::fieldType() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to fieldtype function on clause"));
+}
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Where::Prepare() {

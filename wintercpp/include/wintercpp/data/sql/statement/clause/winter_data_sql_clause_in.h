@@ -26,7 +26,8 @@ namespace winter::data::sql_impl {
         explicit In(const winter::data::sql_impl::Select &select);
         PreparedStatement Prepare() override;
 
-        std::string name() const override;
+        std::string name() override;
+        FieldType   fieldType() override;
 
        private:
         std::vector<T> values_;

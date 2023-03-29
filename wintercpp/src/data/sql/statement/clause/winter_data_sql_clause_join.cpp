@@ -27,9 +27,21 @@ winter::data::sql_impl::Join::Join(std::shared_ptr<Table> table) :
         winter::data::sql_impl::CommaSeparatedValue({table_->name()})));
 }
 
-std::string winter::data::sql_impl::Join::Join::name() const {
-    return "Join";
+std::string winter::data::sql_impl::Join::Join::name() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to name function on clause"));
 };
+
+winter::data::sql_impl::FieldType winter::data::sql_impl::Join::fieldType() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to fieldtype function on clause"));
+}
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Join::Prepare() {

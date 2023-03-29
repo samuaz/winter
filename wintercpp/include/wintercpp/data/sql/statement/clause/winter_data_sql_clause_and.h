@@ -23,7 +23,9 @@ namespace winter::data::sql_impl {
 
         explicit And(Column column, Condition);
 
-        std::string name() const override;
+        std::string name() override;
+
+        FieldType fieldType() override;
 
         PreparedStatement Prepare() override;
 

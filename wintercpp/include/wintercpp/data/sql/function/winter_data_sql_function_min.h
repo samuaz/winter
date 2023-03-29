@@ -14,6 +14,7 @@
 #include <queue>
 #include <string>
 
+#include "wintercpp/data/sql/field/winter_data_sql_field_type.h"
 #include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h"
 
 namespace winter::data::sql_impl {
@@ -24,7 +25,9 @@ namespace winter::data::sql_impl {
 
         PreparedStatement Prepare() override;
 
-        std::string name() const override;
+        std::string name() override;
+
+        FieldType fieldType() override;
 
        private:
         const StatementValues                                 column_;

@@ -13,9 +13,21 @@ winter::data::sql_impl::Parenthesis::Parenthesis(
         clause->Prepare().statement_template()));
 }
 
-std::string winter::data::sql_impl::Parenthesis::Parenthesis::name() const {
-    return "On";
+std::string winter::data::sql_impl::Parenthesis::Parenthesis::name() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to name function on clause"));
 };
+
+winter::data::sql_impl::FieldType winter::data::sql_impl::Parenthesis::fieldType() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to fieldtype function on clause"));
+}
 
 winter::data::sql_impl::Parenthesis::Parenthesis(const std::string &clause) :
     Clause("($clause)", "$clause") {

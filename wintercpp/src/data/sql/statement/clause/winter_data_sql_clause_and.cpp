@@ -22,9 +22,21 @@ winter::data::sql_impl::And::And(Column                            column,
     Clause("AND $and", "$and"),
     column_(std::move(column)), condition_(condition) {}
 
-std::string winter::data::sql_impl::And::And::name() const {
-    return "And";
+std::string winter::data::sql_impl::And::And::name() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to name function on clause"));
 };
+
+winter::data::sql_impl::FieldType winter::data::sql_impl::And::fieldType() {
+    throw exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        ("invalid call to fieldtype function on clause"));
+}
 
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::And::Prepare() {

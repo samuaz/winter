@@ -21,7 +21,8 @@ namespace winter::data::sql_impl {
                 fields);
 
         PreparedStatement Prepare() override;
-        std::string       name() const override;
+        std::string       name() override;
+        FieldType         fieldType() override;
 
         template<typename T>
         static std::shared_ptr<PreparedStatementField<T> > Add(
