@@ -20,8 +20,8 @@ TEST(winterSqlFunction, minFunction) {
 Table table("TestTable", TableType::kLong, DatabaseType::kMysql);
 Column name(table, "testColumn", FieldType::kBigInt);
 Min min(name);
-min.Prepare();
+//min.Prepare();
 ASSERT_EQ(min.statement_template(), "MIN($min) AS min_$columnName");
-ASSERT_EQ(min.query() , "MIN(TestTable.testColumn) AS min_TestTable.testColumn");
-ASSERT_EQ(min.name() , "min_TestTable.testColumn");
+ASSERT_EQ(min.query() , "MIN(TestTable.testColumn) AS min_TestTable_testColumn");
+ASSERT_EQ(min.name() , "min_TestTable_testColumn");
 }

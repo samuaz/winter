@@ -24,9 +24,7 @@ std::string winter::data::sql_impl::Min::Min::name() {
     std::ostringstream builder;
     if (auto columnValue = std::get_if<Column>(&column_)) {
         builder << columnValue->TableName() << "_" << columnValue->name();
-    }
-    // Verificamos si el elemento es de tipo std::string
-    else if (auto clauseValue = std::get_if<std::shared_ptr<winter::data::sql_impl::IStatementValue>>(&column_)) {
+    } else if (auto clauseValue = std::get_if<std::shared_ptr<winter::data::sql_impl::IStatementValue>>(&column_)) {
         builder << clauseValue->get()->query();
     }
     std::string name = "min_$columnName";
@@ -36,19 +34,22 @@ std::string winter::data::sql_impl::Min::Min::name() {
 winter::data::sql_impl::PreparedStatement
 winter::data::sql_impl::Min::Prepare() {
     std::ostringstream builder;
+    std::ostringstream builderAsName;
 
     if (auto columnValue = std::get_if<Column>(&column_)) {
         builder << columnValue->TableName() << Dot() << columnValue->name();
+        builderAsName << columnValue->TableName() << "_" << columnValue->name();
     } else if (auto clauseValue = std::get_if<std::shared_ptr<winter::data::sql_impl::IStatementValue>>(&column_)) {
         builder << clauseValue->get()->query();
     }
 
     std::string minFunString = replace_value(statement_template(), param(), builder.str());
-    BuildQuery() << replace_value(minFunString, "$columnName", builder.str());
+    BuildQuery() << replace_value(minFunString, "min_$columnName", name());
 
-    return PreparedStatement(
+
+    return PreparedStatement{
         StatementType::KFunction,
-        query());
+        query()};
 }
 
 winter::data::sql_impl::FieldType winter::data::sql_impl::Min::fieldType() {
@@ -58,9 +59,9 @@ winter::data::sql_impl::FieldType winter::data::sql_impl::Min::fieldType() {
         return clauseValue->get()->fieldType();
     } else {
         throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to fieldtype function on clause"));
+            __FILE__,
+            __FUNCTION__,
+            __LINE__,
+            ("invalid call to fieldtype function on clause"));
     }
 }

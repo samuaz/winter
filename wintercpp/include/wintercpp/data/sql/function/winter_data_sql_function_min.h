@@ -22,6 +22,7 @@ namespace winter::data::sql_impl {
     class Min : public virtual Clause {
        public:
         explicit Min(StatementValues column);
+        virtual ~Min() = default;
 
         PreparedStatement Prepare() override;
 

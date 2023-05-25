@@ -1,6 +1,4 @@
-FROM ubuntu:22.04
-
-ENV GLIBC_VERSION 2.35-r0
+FROM --platform=linux/amd64 ubuntu:22.04
 
 RUN useradd -s /bin/bash -m vscode \
   && groupadd docker \
@@ -13,11 +11,22 @@ clang \
 gdb \
 git \
 pkg-config \
-wget
+wget \
+python3-pip \
+libcairo2-dev \ 
+libgirepository1.0-dev \ 
+libxml2-dev \ 
+libxslt-dev \
+libresolv-wrapper \
+libbind-dev 
 
-RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1l-1ubuntu1_amd64.deb \
-&& dpkg -i libssl1.1_1.1.1l-1ubuntu1_amd64.deb \
-&& wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl-dev_1.1.1l-1ubuntu1_amd64.deb \
-&& dpkg -i libssl-dev_1.1.1l-1ubuntu1_amd64.deb
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade pygobject
+RUN pip3 install conan
+
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb \
+&& dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb \
+&& wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl-dev_1.1.1f-1ubuntu2_amd64.deb \
+&& dpkg -i libssl-dev_1.1.1f-1ubuntu2_amd64.deb
 
 USER vscode
