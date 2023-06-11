@@ -8,30 +8,14 @@
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 
 #include <string>
+#include <vector>
 
 namespace winter::data::sql_impl {
 
-    class Clause : public virtual IStatementValue {
+    class Clause {
        public:
-        Clause &operator<<(const std::string &rvalue);
-
-        const std::string &query() const override;
-
-        std::string param();
-
-        std::string statement_template();
-
-        virtual PreparedStatement Prepare() = 0;
-
-       protected:
-        Clause &BuildQuery();
-        Clause(std::string statement_template, std::string param);
-        void set_statement_template(const std::string &statement_template);
-
-       private:
-        std::string       statement_template_ {};
-        const std::string param_ {};
-        std::string       query_ {};
+        virtual std::string                                                                          Query() const = 0;
+        virtual std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const = 0;
     };
 
 }  // namespace winter::data::sql_impl

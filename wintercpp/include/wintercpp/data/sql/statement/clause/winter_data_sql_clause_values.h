@@ -16,30 +16,30 @@ namespace winter::data::sql_impl {
 
     class Values : public virtual Clause {
        public:
-        explicit Values(
-            std::vector<std::shared_ptr<AbstractPreparedStatementField> >
-                fields);
+        explicit Values(const std::vector<std::shared_ptr<AbstractPreparedStatementField>> &fields);
 
-        PreparedStatement Prepare() override;
-        std::string       name() override;
-        FieldType         fieldType() override;
+        std::string                                                                          Query() const override;
+        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
         template<typename T>
-        static std::shared_ptr<PreparedStatementField<T> > Add(
+        static std::shared_ptr<PreparedStatementField<T>> Add(
             const Column &column, T value) {
-            return std::make_shared<PreparedStatementField<T> >(column->name(),
-                                                                value);
+            return std::make_shared<PreparedStatementField<T>>(column->name(),
+                                                               value);
         }
 
         template<typename T>
-        static std::shared_ptr<PreparedStatementField<T> > Add(
+        static std::shared_ptr<PreparedStatementField<T>> Add(
             const Column &column, T value, const std::string &custom_value) {
-            return std::make_shared<PreparedStatementField<T> >(
+            return std::make_shared<PreparedStatementField<T>>(
                 column->name(), value, custom_value);
         }
 
        private:
-        std::vector<std::shared_ptr<AbstractPreparedStatementField> > _fields;
+        std::vector<std::shared_ptr<AbstractPreparedStatementField>> fields_;
+        const std::string                                            query_template_ = "($columns) VALUES ($set_values)";
+        const std::string                                            query_param_columns_ = "$columns";
+        const std::string                                            query_param_values_ = "$set_values";
     };
 
 }  // namespace winter::data::sql_impl

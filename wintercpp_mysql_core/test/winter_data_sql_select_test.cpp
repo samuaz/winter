@@ -94,6 +94,5 @@ TEST(winterSqlTable, canConstructSelectWithMinFun) {
     std::shared_ptr<IStatementValue> min = std::make_shared<Min>(Min(testTable2->col3));
     auto                             query = Select({testTable->col1, min}) << From({testTable, testTable2}) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(And::MakePredicate(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Or::MakePredicate(testTable2->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
 
-
     EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, MIN(QueryTestTable2.col3) AS min_QueryTestTable2_col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
 }

@@ -4,55 +4,54 @@
 
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_join.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
+#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/util/winter_string_util.h>
 
-winter::data::sql_impl::Join::Join(std::shared_ptr<Table> table,
-                                   JoinType               type) :
-    Clause("$type JOIN $table", "$table"),
-    table_(std::move(table)), type_(type) {
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(), "$type", GenerateType()));
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        param(),
-        winter::data::sql_impl::CommaSeparatedValue({table_->name()})));
+#include <memory>
+#include <string>
+#include <variant>
+
+winter::data::sql_impl::Join::Join(const StatementValue& statement_value,
+                                   JoinType              type) :
+    statement_value_(statement_value),
+    type_(type) {
 }
 
-winter::data::sql_impl::Join::Join(std::shared_ptr<Table> table) :
-    Clause("JOIN $table", "$table"), table_(std::move(table)),
+winter::data::sql_impl::Join::Join(const StatementValue& statement_value) :
+    statement_value_(statement_value),
     type_(JoinType::DEFAULT) {
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        param(),
-        winter::data::sql_impl::CommaSeparatedValue({table_->name()})));
 }
 
-std::string winter::data::sql_impl::Join::Join::name() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to name function on clause"));
-};
+std::string
+winter::data::sql_impl::Join::Query() const {
+    std::string query = winter::util::string::replace_value(query_template_, "$type", GenerateType());
 
-winter::data::sql_impl::FieldType winter::data::sql_impl::Join::fieldType() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to fieldtype function on clause"));
+    auto subQuery = [&]() -> std::string {
+        if (auto sharedTable = std::get_if<std::shared_ptr<Table>>(&statement_value_)) {
+            return sharedTable->get()->name();
+        } else if (auto table = std::get_if<Table>(&statement_value_)) {
+            return table->name();
+        } else if (auto clause = std::get_if<std::shared_ptr<Clause>>(&statement_value_)) {
+            return clause->get()->Query();
+        }
+
+        std::string typeName = StatementValueType(statement_value_.index());
+        std::string error = "invalid statement_value " + typeName + "not supported";
+        throw ::winter::exception::WinterInternalException::Create(
+            __FILE__,
+            __FUNCTION__,
+            __LINE__,
+            (error));
+    };
+
+    return winter::util::string::replace_value(
+        query,
+        query_param_,
+        winter::data::sql_impl::CommaSeparatedValue({subQuery()}));
 }
 
-winter::data::sql_impl::PreparedStatement
-winter::data::sql_impl::Join::Prepare() {
-    GenerateStatement();
-    return winter::data::sql_impl::PreparedStatement(StatementType::kClause,
-                                                     statement_template());
-}
-
-void winter::data::sql_impl::Join::GenerateStatement() {}
-
-std::string winter::data::sql_impl::Join::GenerateType() {
+std::string winter::data::sql_impl::Join::GenerateType() const {
     switch (type_) {
         case JoinType::INNER: return "INNER";
         case JoinType::LEFT: return "LEFT";

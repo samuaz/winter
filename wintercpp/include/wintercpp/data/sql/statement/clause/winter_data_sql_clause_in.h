@@ -10,6 +10,7 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_select.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_type.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
+#include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
 #include <wintercpp/util/winter_string_util.h>
 
 #include <memory>
@@ -22,17 +23,17 @@ namespace winter::data::sql_impl {
     template<typename T>
     class In : public virtual Clause {
        public:
-        explicit In(std::vector<T> values);
-        explicit In(const winter::data::sql_impl::Select &select);
-        PreparedStatement Prepare() override;
-
-        std::string name() override;
-        FieldType   fieldType() override;
+        explicit In(const std::vector<T> &values);
+        explicit In(const StatementValue &statement_value);
+        std::string                                                                          Query() const override;
+        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
        private:
-        std::vector<T> values_;
-        Select         select_;
-        bool           has_clause_ = false;
+        const std::vector<T> values_;
+        const StatementValue statement_value_;
+        bool                 has_clause_ = false;
+        const std::string    query_template_ = "IN ($IN_VALUE)";
+        const std::string    query_param_ = "$IN_VALUE";
     };
 
 }  // namespace winter::data::sql_impl

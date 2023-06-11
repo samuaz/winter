@@ -11,22 +11,21 @@
 #include <memory>
 #include <vector>
 
-#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 namespace winter::data::sql_impl {
 
     class From : public virtual Clause {
        public:
-        explicit From(std::vector<std::shared_ptr<Table>> tables);
-        explicit From(const std::shared_ptr<Table> &table);
-        PreparedStatement Prepare() override;
-        std::string       name() override;
-        FieldType         fieldType() override;
+        explicit From(const std::vector<StatementValue>& tables);
+        explicit From(const StatementValue& statement_value);
+        std::string                                                                          Query() const override;
+        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
        private:
-        std::vector<std::shared_ptr<Table>> tables_;
-        std::vector<StatementValues>        columns_;
-        void                                GenerateStatement();
+        std::vector<StatementValue> statement_values_;
+        const std::string           query_template_ = "FROM $tables";
+        const std::string           query_param_ = "$tables";
     };
 
 }  // namespace winter::data::sql_impl

@@ -1,35 +1,49 @@
 namespace winter::data::sql_impl {
 
     template<typename T>
-    In<T>::In(std::vector<T> values) :
-        Clause("IN ($IN_VALUE)", "$IN_VALUE"), values_(std::move(values)) {}
+    In<T>::In(const std::vector<T> &values) :
+        values_(values) {}
 
     template<typename T>
-    In<T>::In(const Select &select) :
-        select_(select), has_clause_(true) {}
+    In<T>::In(const StatementValue &statement_value) :
+        statement_value_(statement_value), has_clause_(true) {}
 
     template<typename T>
-    PreparedStatement In<T>::Prepare() {
-        if (has_clause_) {
-            return Prepare(
-                StatementType::kClause,
-                winter::util::string::replace_value(
-                    statement_template(),
-                    param(),
-                    select_.prepared_statement().statement_template()),
-                select_.prepared_statement().values());
-        } else {
-            std::vector<std::shared_ptr<AbstractPreparedStatementField> > fields;
-            for (const auto &value : values_) {
-                fields.push_back(
-                    std::make_shared<PreparedStatementField<T> >(value));
-            }
-            return Prepare(StatementType::kClause,
-                           winter::util::string::replace_value(
-                               statement_template(),
-                               param(),
-                               CommaSeparatedPlaceHolder(values_.size())),
-                           fields);
+    std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> In<T>::Fields() const {
+        std::vector<std::shared_ptr<AbstractPreparedStatementField>> fields;
+        for (const auto &value : values_) {
+            fields.push_back(
+                std::make_shared<PreparedStatementField<T>>(value));
         }
+        return fields;
+    };
+
+    template<typename T>
+    std::string In<T>::Query() const {
+        if (has_clause_) {
+            std::string subQuery;
+            auto       &statement_value = statement_value_;
+            auto        clause_ptr = std::get_if<std::shared_ptr<Clause>>(&statement_value);
+            if (clause_ptr) {
+                subQuery = clause_ptr->get()->Query();
+            } else {
+                std::string       typeName = StatementValueType(statement_value.index());
+                std::stringstream ss;
+                ss << "invalid statement_value " << typeName << " not supported";
+                throw ::winter::exception::WinterInternalException::Create(
+                    __FILE__,
+                    __FUNCTION__,
+                    __LINE__,
+                    ss.str());
+            }
+            return winter::util::string::replace_value(
+                query_template_,
+                query_param_,
+                std::move(subQuery));
+        }
+        return winter::util::string::replace_value(
+            query_template_,
+            query_param_,
+            CommaSeparatedPlaceHolder(values_.size()));
     }
 }  // namespace winter::data::sql_impl

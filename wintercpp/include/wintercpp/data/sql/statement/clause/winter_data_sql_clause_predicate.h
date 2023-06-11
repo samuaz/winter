@@ -17,18 +17,19 @@
 #include <wintercpp/data/sql/field/winter_data_sql_abstract_field.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
+#include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
 
 namespace winter::data::sql_impl {
 
     class Predicate {
        public:
         Predicate(
-            Column column,
-            std::shared_ptr<
-                winter::data::sql_impl::AbstractPreparedStatementField> field,
-            Condition                                                   conditionOperator);
+            const StatementValue& statement_value,
+            const std::shared_ptr<
+                winter::data::sql_impl::AbstractPreparedStatementField>& field,
+            Condition                                                    conditionOperator);
 
-        const Column& column() const;
+        const StatementValue& statementValue() const;
 
         const std::shared_ptr<
             winter::data::sql_impl::AbstractPreparedStatementField>&
@@ -37,10 +38,9 @@ namespace winter::data::sql_impl {
         Condition condition() const;
 
        private:
-        Column column_;
-        std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>
-                                          field_;
-        winter::data::sql_impl::Condition condition_ {};
+        const StatementValue                                                          statement_value_;
+        const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField> field_;
+        const winter::data::sql_impl::Condition                                       condition_ {};
     };
 }  // namespace winter::data::sql_impl
 

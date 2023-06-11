@@ -13,28 +13,28 @@
 
 #include <queue>
 
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+
 namespace winter::data::sql_impl {
 
     class And : public virtual Clause {
        public:
         explicit And(const Predicate &predicate);
 
-        explicit And(Column column);
+        explicit And(StatementValue statement_value);
 
-        explicit And(Column column, Condition);
+        explicit And(StatementValue statement_value, Condition);
 
-        std::string name() override;
+        std::string Query() const override;
 
-        FieldType fieldType() override;
-
-        PreparedStatement Prepare() override;
+        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
         template<typename T>
         static Predicate MakePredicate(const Column &column,
                                        Condition     condition,
                                        T             value) {
             return Predicate(column,
-                             std::make_shared<PreparedStatementField<T> >(
+                             std::make_shared<PreparedStatementField<T>>(
                                  column->name(), value),
                              condition);
         }
@@ -45,16 +45,18 @@ namespace winter::data::sql_impl {
                                        T                  value,
                                        const std::string &custom_value) {
             return Predicate(column,
-                             std::make_shared<PreparedStatementField<T> >(
+                             std::make_shared<PreparedStatementField<T>>(
                                  column->name(), value, custom_value),
                              condition);
         }
 
        private:
-        const Column                                          column_;
+        const StatementValue                                  statement_value_;
         const std::shared_ptr<AbstractPreparedStatementField> field_;
         const Condition                                       condition_ {};
         const bool                                            is_predicate_ = false;
+        const std::string                                     query_template_ = "AND $and";
+        const std::string                                     query_param_ = "$and";
     };
 
 }  // namespace winter::data::sql_impl

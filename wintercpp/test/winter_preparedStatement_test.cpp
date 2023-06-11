@@ -30,8 +30,8 @@ Column col = Column(table, "test_column_1", FieldType::kLong);
 Column col2 = Column(table, "test_column_2", FieldType::kBoolean);
 Column col3 = Column(table, "test_column_3", FieldType::kString);
 auto preparedStatement = PreparedStatement(StatementType::kNative, "template $test");
-preparedStatement.AddColumn({col, col2, col3});
-ASSERT_EQ(preparedStatement.columns().size(), 3);
+preparedStatement.AddStatementValue({col, col2, col3});
+ASSERT_EQ(preparedStatement.statementValues().size(), 3);
 }
 
 TEST(preparedStatement, canFindFields) {

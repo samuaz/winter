@@ -75,6 +75,12 @@ namespace winter::data::sql_impl {
         const std::string &name() const;
 
         /**
+         * @brief returns the full name of the column example tableName.columnName
+         * @return std::string
+         */
+        std::string FullName() const;
+
+        /**
          * @brief returns the datatype this column represents
          * @return const FieldType
          */

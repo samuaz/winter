@@ -4,38 +4,20 @@
 
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_set.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
+#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/util/winter_string_util.h>
 
+#include <string>
 #include <utility>
 
-winter::data::sql_impl::Set::Set(
-    std::vector<std::shared_ptr<
-        winter::data::sql_impl::AbstractPreparedStatementField> > fields) :
-    Clause("SET $fields", "$fields"),
-    fields_(std::move(fields)) {}
+winter::data::sql_impl::Set::Set(const std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> &fields) :
+    fields_(fields) {}
 
-std::string winter::data::sql_impl::Set::Set::name() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to name function on clause"));
-};
-
-winter::data::sql_impl::FieldType winter::data::sql_impl::Set::fieldType() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to fieldtype function on clause"));
-}
-
-winter::data::sql_impl::PreparedStatement
-winter::data::sql_impl::Set::Prepare() {
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        param(),
-        winter::data::sql_impl::commaSeparatedEqualValue(fields_)));
-    return winter::data::sql_impl::PreparedStatement(
-        StatementType::kClause, statement_template(), fields_);
+std::string
+winter::data::sql_impl::Set::Query() const {
+    return winter::util::string::replace_value(
+        query_template_,
+        query_param_,
+        winter::data::sql_impl::commaSeparatedEqualValue(fields_));
 }

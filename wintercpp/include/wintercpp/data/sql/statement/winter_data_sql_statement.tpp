@@ -120,11 +120,11 @@ namespace winter::data::sql_impl {
     template<typename Children>
     template<typename CLAUSE>
     Children &Statement<Children>::AddClause(CLAUSE clause) {
-        auto preparedStatement = clause.Prepare();
-        statement_template_.append(" ").append(preparedStatement.statement_template());
-        prepared_statement_->AddAll(preparedStatement.values());
-        if (prepared_statement_->columns().empty()) {
-            prepared_statement_->AddColumn(preparedStatement.columns());
+        statement_template_.append(" ").append(clause.Query());
+        prepared_statement_->AddAll(clause.Fields());
+        if (prepared_statement_->statementValues().empty()) {
+            // FIXME
+            //prepared_statement_->AddStatementValue(preparedStatement.columns());
         }
         return This();
     }

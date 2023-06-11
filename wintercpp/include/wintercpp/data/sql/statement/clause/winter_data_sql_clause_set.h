@@ -15,30 +15,28 @@ namespace winter::data::sql_impl {
 
     class Set : public virtual Clause {
        public:
-        explicit Set(
-            std::vector<std::shared_ptr<AbstractPreparedStatementField> >
-                fields);
+        explicit Set(const std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> &fields);
 
-        PreparedStatement Prepare() override;
-        std::string       name() override;
-        FieldType         fieldType() override;
+        std::string                                                                          Query() const override;
+        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
         template<typename T>
-        static std::shared_ptr<PreparedStatementField<T> > Add(
-            const Column &column, T value) {
-            return std::make_shared<PreparedStatementField<T> >(column->name(),
-                                                                value);
+        static std::shared_ptr<PreparedStatementField<T>> Add(const Column &column, T value) {
+            return std::make_shared<PreparedStatementField<T>>(column->name(),
+                                                               value);
         }
 
         template<typename T>
-        static std::shared_ptr<PreparedStatementField<T> > Add(
+        static std::shared_ptr<PreparedStatementField<T>> Add(
             const Column &column, T value, const std::string &custom_value_) {
-            return std::make_shared<PreparedStatementField<T> >(
+            return std::make_shared<PreparedStatementField<T>>(
                 column->name(), value, custom_value_);
         }
 
        private:
-        std::vector<std::shared_ptr<AbstractPreparedStatementField> > fields_;
+        std::vector<std::shared_ptr<AbstractPreparedStatementField>> fields_;
+        const std::string                                            query_template_ = "SET $fields";
+        const std::string                                            query_param_ = "$fields";
     };
 }  // namespace winter::data::sql_impl
 

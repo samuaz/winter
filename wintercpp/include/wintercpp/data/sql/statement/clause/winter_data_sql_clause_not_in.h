@@ -22,16 +22,17 @@ namespace winter::data::sql_impl {
     template<typename T>
     class NotIn : public virtual Clause {
        public:
-        explicit NotIn(std::vector<T> values);
-        explicit NotIn(const winter::data::sql_impl::Select &select);
-        PreparedStatement Prepare() override;
-        std::string       name() override;
-        FieldType         fieldType() override;
+        explicit NotIn(const std::vector<T> &values);
+        explicit NotIn(const StatementValue &statement_value);
+        std::string                                                                          Query() const override;
+        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
        private:
-        std::vector<T> values_;
-        Select         select_;
-        bool           has_clause = false;
+        const std::vector<T> values_;
+        const StatementValue statement_value_;
+        bool                 has_clause_ = false;
+        const std::string    query_template_ = "NOT IN ($NOT_IN_VALUE)";
+        const std::string    query_param_ = "$NOT_IN_VALUE";
     };
 
 }  // namespace winter::data::sql_impl
