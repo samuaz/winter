@@ -5,8 +5,8 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_STATEMENT_VALUES
 #define WINTERCPP_WINTER_DATA_SQL_STATEMENT_VALUES
 
-#include <wintercpp/data/sql/Table/winter_data_sql_table.h>
-#include <wintercpp/data/sql/column//winter_data_sql_column.h>
+#include <wintercpp/data/sql/column/winter_data_sql_column.h>
+#include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
 #include <memory>
 #include <string>

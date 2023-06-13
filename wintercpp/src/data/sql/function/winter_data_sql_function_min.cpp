@@ -18,9 +18,10 @@
 
 using namespace winter::util::string;
 
-winter::data::sql_impl::Min::Min(const StatementValue& statement_value) : statement_value_(statement_value) {}
+winter::data::sql_impl::Min::Min(const StatementValue& statement_value) :
+    statement_value_(statement_value) {}
 
- std::string winter::data::sql_impl::Min::Min::name() const {
+std::string winter::data::sql_impl::Min::Min::name() const {
     std::ostringstream builder;
     if (auto columnValue = std::get_if<Column>(&statement_value_)) {
         builder << columnValue->TableName() << "_" << columnValue->name();

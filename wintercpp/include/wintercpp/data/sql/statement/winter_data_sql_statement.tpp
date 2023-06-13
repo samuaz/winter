@@ -124,7 +124,7 @@ namespace winter::data::sql_impl {
         prepared_statement_->AddAll(clause.Fields());
         if (prepared_statement_->statementValues().empty()) {
             // FIXME
-            //prepared_statement_->AddStatementValue(preparedStatement.columns());
+            // prepared_statement_->AddStatementValue(preparedStatement.columns());
         }
         return This();
     }

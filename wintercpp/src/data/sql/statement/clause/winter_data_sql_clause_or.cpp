@@ -16,7 +16,7 @@
 using namespace winter::util::string;
 
 winter::data::sql_impl::Or::Or(const Predicate &predicate) :
-    statement_value_(predicate.statementValue()),
+    statement_value_(predicate.lstatementValue()),
     field_(predicate.field()), condition_(predicate.condition()),
     is_predicate_(true) {}
 

@@ -22,7 +22,6 @@ option(WINTER_WITH_MARIADB "Enable building MARIADB" OFF)
 option(WINTER_WITH_MYSQL "Enable building MYSQL" OFF)
 option(WINTER_WITH_REDIS "Enable building REDIS" OFF)
 
-
 # Set a default build type if none was specified
 set(default_build_type "Release")
 

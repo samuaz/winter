@@ -77,13 +77,13 @@ std::string GetCondition<Condition::NONE>::Get() {
 
 std::string winter::data::sql_impl::condition(enum Condition condition) {
     switch (condition) {
+        case Condition::NONE: return GetCondition<Condition::NONE>::Get();
         case Condition::EQ: return GetCondition<Condition::EQ>::Get();
         case Condition::NOT_EQ: return GetCondition<Condition::NOT_EQ>::Get();
         case Condition::LESS: return GetCondition<Condition::LESS>::Get();
         case Condition::LESS_EQ: return GetCondition<Condition::LESS_EQ>::Get();
         case Condition::GREATER: return GetCondition<Condition::GREATER>::Get();
-        case Condition::GREATER_EQ:
-            return GetCondition<Condition::GREATER_EQ>::Get();
+        case Condition::GREATER_EQ: return GetCondition<Condition::GREATER_EQ>::Get();
         case Condition::IN: return GetCondition<Condition::IN>::Get();
         case Condition::NOT: return GetCondition<Condition::NOT>::Get();
         case Condition::NOT_IN: return GetCondition<Condition::NOT_IN>::Get();
@@ -91,15 +91,11 @@ std::string winter::data::sql_impl::condition(enum Condition condition) {
         case Condition::IS: return GetCondition<Condition::IS>::Get();
         case Condition::LIKE: return GetCondition<Condition::LIKE>::Get();
         case Condition::EXISTS: return GetCondition<Condition::EXISTS>::Get();
-        case Condition::NONE: return GetCondition<Condition::NONE>::Get();
-        case Condition::NOT_NULL:
-            return GetCondition<Condition::NOT_NULL>::Get();
+        case Condition::NOT_NULL: return GetCondition<Condition::NOT_NULL>::Get();
         case Condition::IS_NULL: return GetCondition<Condition::IS_NULL>::Get();
-        case Condition::IS_NOT_NULL:
-            return GetCondition<Condition::IS_NOT_NULL>::Get();
+        case Condition::IS_NOT_NULL: return GetCondition<Condition::IS_NOT_NULL>::Get();
         default: {
-            std::string message = "no value for condition index, please fix me"
-                                  + std::to_string(static_cast<int>(condition));
+            std::string message = "no value for condition index, please fix me" + std::to_string(static_cast<int>(condition));
             throw winter::exception::WinterInternalException::Create(
                 __FILE__, __FUNCTION__, __LINE__, message);
         }

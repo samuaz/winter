@@ -10,7 +10,7 @@ using namespace winter::util::string;
 using namespace winter::data::sql_impl;
 
 Where::Where(const Predicate& predicate) :
-    statement_value_(predicate.statementValue()),
+    statement_value_(predicate.lstatementValue()),
     field_(predicate.field()),
     condition_(predicate.condition()),
     _is_predicate(true) {}

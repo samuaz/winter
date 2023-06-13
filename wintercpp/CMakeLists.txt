@@ -13,6 +13,7 @@ set(CMAKE_C_STANDARD_REQUIRED TRUE)
 set(_LIBCPP_INLINE_VISIBILITY "")
 set(CMAKE_OPTIMIZE_DEPENDENCIES TRUE)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(APP_ENV "APP_ENV" local)
 message("***************************** ENVIRONMENT IS ${APP_ENV} **************************************")

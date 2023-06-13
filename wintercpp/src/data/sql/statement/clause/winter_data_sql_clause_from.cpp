@@ -10,18 +10,27 @@
 #include <string>
 #include <variant>
 
-#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
-#include "wintercpp/data/sql/table/winter_data_sql_table.h"
-#include "wintercpp/exception/generic/winter_internal_exception.h"
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
 using namespace winter::util::string;
+using namespace winter::data::sql_impl;
 
-winter::data::sql_impl::From::From(const StatementValue &statement_value) {
-    statement_values_.push_back(statement_value);
+From::From(const Predicate &predicate) {
+    predicate_.push_back(predicate);
 }
 
-winter::data::sql_impl::From::From(const std::vector<StatementValue> &statement_values) :
-    statement_values_(statement_values) {}
+From::From(const std::vector<Predicate> &predicates) :
+    predicate_(predicates) {}
+
+From::From(const StatementValue &statement_value) {
+    predicate_.push_back(Predicate(statement_value));
+}
+
+From::From(const std::vector<StatementValue> &statement_value) {
+    for (auto const &statement_value : statement_value) {
+        predicate_.push_back(Predicate(statement_value));
+    }
+}
 
 std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> winter::data::sql_impl::From::Fields() const {
     return {};
@@ -30,22 +39,8 @@ std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementFie
 std::string winter::data::sql_impl::From::Query() const {
     std::vector<std::string> tablesNames;
 
-    for (auto const &statement_value : statement_values_) {
-        if (auto sharedTableValue = std::get_if<std::shared_ptr<Table>>(&statement_value)) {
-            tablesNames.push_back(sharedTableValue->get()->name());
-        } else if (auto tableValue = std::get_if<Table>(&statement_value)) {
-            tablesNames.push_back(tableValue->name());
-        } else if (auto clauseValue = std::get_if<std::shared_ptr<Clause>>(&statement_value)) {
-            tablesNames.push_back(clauseValue->get()->Query());
-        } else {
-            std::string typeName = StatementValueType(statement_value.index());
-            std::string error = "invalid statement_value " + typeName + "not supported";
-            throw ::winter::exception::WinterInternalException::Create(
-                __FILE__,
-                __FUNCTION__,
-                __LINE__,
-                (error));
-        }
+    for (auto const &predicate : predicate_) {
+        tablesNames.push_back(predicate.lstatementStr());
     }
     return winter::util::string::replace_value(
         query_template_,

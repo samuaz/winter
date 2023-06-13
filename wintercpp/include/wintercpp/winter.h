@@ -45,6 +45,7 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_type.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
+#include <wintercpp/data/sql/statement/winter_data_sql_statement_values_utils.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_update.h>
 #include <wintercpp/data/sql/table/winter_data_sql_id_type.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
