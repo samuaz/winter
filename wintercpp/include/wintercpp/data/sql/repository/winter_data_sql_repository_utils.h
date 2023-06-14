@@ -20,6 +20,8 @@
 #include <functional>
 #include <memory>
 
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
+
 namespace winter::data::sql_impl {
 
     using namespace winter::exception;
@@ -108,10 +110,10 @@ namespace winter::data::sql_impl {
                 auto uuidTable = std::dynamic_pointer_cast<
                     winter::data::sql_impl::UUIDTable>(table);
                 if (uuidTable->binary()) {
-                    select << Where(Where::make_predicate(
+                    select << Where(Predicate::MakePredicate(
                         uuidTable->id(), Condition::EQ, id, "unhex(?)"));
                 } else {
-                    select << Where(Where::make_predicate(
+                    select << Where(Predicate::MakePredicate(
                         uuidTable->id(), Condition::EQ, id));
                 }
                 break;

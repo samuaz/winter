@@ -91,6 +91,10 @@ std::string winter::data::sql_impl::CommaSeparatedPlaceHolder(size_t size) {
     return values;
 }
 
+std::string winter::data::sql_impl::CommaSeparatedParenthesesPlaceHolder(size_t size) {
+    return "(" + CommaSeparatedPlaceHolder(size) + ")";
+}
+
 std::string winter::data::sql_impl::Dot() {
     return ".";
 }

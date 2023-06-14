@@ -37,6 +37,13 @@ namespace winter::data::sql_impl {
         return std::holds_alternative<std::shared_ptr<Clause>>(statement_value);
     }
 
+    inline bool IsClause(const std::optional<StatementValue>& statement_value) {
+        if (statement_value.has_value()) {
+            return std::holds_alternative<std::shared_ptr<Clause>>(statement_value.value());
+        }
+        return false;
+    }
+
     inline std::string StatementValueType(int index) {
         switch (index) {
             case 0:

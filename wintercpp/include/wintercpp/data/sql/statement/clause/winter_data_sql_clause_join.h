@@ -8,6 +8,7 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 namespace winter::data::sql_impl {
@@ -16,7 +17,9 @@ namespace winter::data::sql_impl {
                                 INNER,
                                 LEFT,
                                 RIGHT,
-                                CROSS };
+                                CROSS,
+                                FULL_JOIN
+    };
 
     class Join : public virtual Clause {
        public:
@@ -26,11 +29,11 @@ namespace winter::data::sql_impl {
         std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
        private:
-        const StatementValue statement_value_;
-        const JoinType       type_;
-        std::string          GenerateType() const;
-        const std::string    query_template_ = "$type JOIN $table";
-        const std::string    query_param_ = "$table";
+        const Predicate   predicate_;
+        const JoinType    type_;
+        std::string       GenerateType() const;
+        const std::string query_template_ = "$type JOIN $table";
+        const std::string query_param_ = "$table";
     };
 
 }  // namespace winter::data::sql_impl

@@ -33,13 +33,19 @@ From::From(const std::vector<StatementValue> &statement_value) {
 }
 
 std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> winter::data::sql_impl::From::Fields() const {
-    return {};
+    std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> fields;
+    fields.reserve(predicate_.size());
+    for (const auto &predicate : predicate_) {
+        auto predicateFields = predicate.fields();
+        fields.insert(fields.end(), predicateFields.begin(), predicateFields.end());
+    }
+    return fields;
 }
 
 std::string winter::data::sql_impl::From::Query() const {
     std::vector<std::string> tablesNames;
-
-    for (auto const &predicate : predicate_) {
+    tablesNames.reserve(predicate_.size());
+    for (const auto &predicate : predicate_) {
         tablesNames.push_back(predicate.lstatementStr());
     }
     return winter::util::string::replace_value(

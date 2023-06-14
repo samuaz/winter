@@ -5,65 +5,43 @@
 #include <wintercpp/util/winter_string_util.h>
 
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause.h"
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 using namespace winter::util::string;
 using namespace winter::data::sql_impl;
 
 Where::Where(const Predicate& predicate) :
-    statement_value_(predicate.lstatementValue()),
-    field_(predicate.field()),
-    condition_(predicate.condition()),
+    predicate_(predicate),
     _is_predicate(true) {}
 
-Where::Where(StatementValue statement_value) :
-    statement_value_(std::move(statement_value)),
-    condition_(Condition::NONE) {}
+Where::Where(const StatementValue& statement_value) :
+    predicate_(statement_value) {}
 
 Where::Where(
-    StatementValue statement_value, Condition condition) :
-    statement_value_(std::move(statement_value)),
-    condition_(condition) {}
+    const StatementValue& statement_value, Condition condition) :
+    predicate_(statement_value, condition) {}
 
 std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Where::Fields() const {
-    std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> fields;
-    fields.push_back(field_);
-    return fields;
+    return predicate_.fields();
 }
 
 std::string
 Where::Query() const {
     std::ostringstream builder;
-    if (auto columnValue = std::get_if<std::shared_ptr<Column>>(&statement_value_)) {
-        if (_is_predicate) {
-            if (field_->IsCustomValue()) {
-                builder << columnValue->get()->TableName() << Dot() << columnValue->get()->name()
-                        << Space() << condition(condition_) << Space()
-                        << field_->custom_value();
-            } else {
-                builder << columnValue->get()->TableName() << Dot() << columnValue->get()->name()
-                        << Space() << condition(condition_) << Space()
-                        << PlaceHolder();
-            }
+    bool               isColumn = IsClause(predicate_.lstatementValue());
 
-            return replace_value(query_template_, query_param_, builder.str());
-        }
-
-        builder << columnValue->get()->TableName() << Dot() << columnValue->get()->name()
-                << ((condition_ != Condition::NONE)
-                        ? Space() + condition(condition_)
-                        : "");
-        return replace_value(query_template_, query_param_, builder.str());
-    } else if (auto clauseValue = std::get_if<std::shared_ptr<Clause>>(&statement_value_)) {
-        builder << clauseValue->get()->Query();
-        return replace_value(query_template_, query_param_, builder.str());
+    if (isColumn && predicate_.has_fields()) {
+        const auto&       field = predicate_.field();
+        const std::string value_str = field->IsCustomValue() ? field->custom_value() : PlaceHolder();
+        builder << predicate_.lstatementStr()
+                << predicate_.conditionStr()
+                << value_str;
+    } else if (isColumn) {
+        builder << predicate_.lstatementStr()
+                << predicate_.conditionStr();
+    } else {
+        builder << predicate_.lstatementStr();
     }
-
-    std::string typeName = StatementValueType(statement_value_.index());
-    std::string error = "invalid statement_value " + typeName + "not supported";
-
-    throw ::winter::exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        (error));
+    return replace_value(query_template_, query_param_, builder.str());
 }

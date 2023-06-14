@@ -10,6 +10,7 @@
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values_utils.h"
+#include "wintercpp/exception/generic/winter_internal_exception.h"
 
 using namespace winter::util::string;
 using namespace winter::data::sql_impl;
@@ -18,6 +19,12 @@ Predicate::Predicate(const StatementValue& statement_value) :
     l_statement_value_(statement_value),
     condition_(Condition::NONE) {}
 
+Predicate::Predicate(const std::shared_ptr<AbstractPreparedStatementField>& field) :
+    condition_(Condition::NONE), fields_(std::vector {field}) {}
+
+Predicate::Predicate(const std::vector<std::shared_ptr<AbstractPreparedStatementField>>& fields) :
+    condition_(Condition::NONE), fields_(fields) {}
+
 Predicate::Predicate(
     const StatementValue& statement_value,
     Condition             conditionOperator) :
@@ -25,19 +32,20 @@ Predicate::Predicate(
     condition_(conditionOperator) {}
 
 Predicate::Predicate(
-    const StatementValue&                                                          statement_value,
-    const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>& field) :
+    const StatementValue&                                  statement_value,
+    const std::shared_ptr<AbstractPreparedStatementField>& field) :
     l_statement_value_(statement_value),
     condition_(Condition::NONE),
-    field_(field) {}
+    fields_(std::vector {field}) {
+}
 
 Predicate::Predicate(
-    const winter::data::sql_impl::StatementValue&                                  statement_value,
-    winter::data::sql_impl::Condition                                              conditionOperator,
-    const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>& field) :
+    const StatementValue&                                  statement_value,
+    Condition                                              conditionOperator,
+    const std::shared_ptr<AbstractPreparedStatementField>& field) :
     l_statement_value_(statement_value),
     condition_(conditionOperator),
-    field_(field) {}
+    fields_(std::vector {field}) {}
 
 Predicate::Predicate(
     const StatementValue& l_statement_value,
@@ -46,43 +54,63 @@ Predicate::Predicate(
     l_statement_value_(l_statement_value),
     condition_(conditionOperator), r_statement_value_(r_statement_value) {}
 
-const winter::data::sql_impl::StatementValue&
+const std::optional<StatementValue>&
 Predicate::lstatementValue() const {
     return l_statement_value_;
 }
 
-const std::optional<winter::data::sql_impl::StatementValue>&
+const std::optional<StatementValue>&
 Predicate::rstatementValue() const {
     return r_statement_value_;
 }
 
-const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>&
-Predicate::field() const {
-    return field_;
+const std::vector<std::shared_ptr<AbstractPreparedStatementField>>&
+Predicate::fields() const {
+    return fields_;
 }
 
-winter::data::sql_impl::Condition Predicate::condition() const {
+const std::shared_ptr<AbstractPreparedStatementField>& Predicate::field() const {
+    if (has_fields()) {
+        const std::shared_ptr<AbstractPreparedStatementField>& front = fields().front();
+        if (front.get() != nullptr) {
+            return front;
+        }
+    }
+    throw winter::exception::WinterInternalException::Create(
+        __FILE__,
+        __FUNCTION__,
+        __LINE__,
+        "Predicate Fields empty");
+}
+
+::Condition Predicate::condition() const {
     return condition_;
 }
 
 std::string Predicate::lstatementStr() const {
-    bool        isClause = IsClause(l_statement_value_) || IsStatement(l_statement_value_);
-    std::string clauseValue = GetStatementValue(l_statement_value_);
-    return ((isClause) ? "(" + clauseValue + ")" : clauseValue);
+    return statementStr(l_statement_value_);
 }
 
 std::string Predicate::rstatementStr() const {
-    if (r_statement_value_) {
-        auto        value = r_statement_value_.value();
+    return statementStr(r_statement_value_);
+};
+
+std::string Predicate::statementStr(std::optional<StatementValue> statement_value) const {
+    if (statement_value) {
+        auto        value = statement_value.value();
         bool        isClause = IsClause(value) || IsStatement(value);
         std::string clauseValue = GetStatementValue(value);
         return ((isClause) ? "(" + clauseValue + ")" : clauseValue);
     }
-    return GetStatementValue(r_statement_value_);
-};
+    return GetStatementValue(statement_value);
+}
 
 std::string Predicate::conditionStr() const {
     return ::condition(condition_);
+};
+
+bool Predicate::has_lstatement() const {
+    return l_statement_value_.has_value();
 };
 
 bool Predicate::has_rstatement() const {
@@ -93,6 +121,6 @@ bool Predicate::has_condition() const {
     return condition_ != Condition::NONE;
 };
 
-bool Predicate::has_field() const {
-    return field_ != nullptr;
+bool Predicate::has_fields() const {
+    return ! fields_.empty();
 };

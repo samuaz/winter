@@ -13,8 +13,6 @@
 
 #include <queue>
 
-#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
-
 namespace winter::data::sql_impl {
 
     class And : public virtual Clause {

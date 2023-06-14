@@ -23,6 +23,8 @@ namespace winter::data::sql_impl {
 
     std::string CommaSeparatedPlaceHolder(size_t size);
 
+    std::string CommaSeparatedParenthesesPlaceHolder(size_t size);
+
     std::string CommaSeparatedEqualValue(
         const std::vector<std::string> &elements);
 

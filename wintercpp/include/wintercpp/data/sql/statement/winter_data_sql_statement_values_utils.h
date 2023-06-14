@@ -31,7 +31,11 @@ namespace winter::data::sql_impl {
         } else if (auto statement = std::get_if<std::shared_ptr<IStatement>>(&statement_value)) {
             return statement->get()->prepared_statement().statement_template();
         }
-        throw winter::exception::WinterInternalException("invalid statementvalue or not implemented");
+        throw winter::exception::WinterInternalException::Create(
+            __FILE__,
+            __FUNCTION__,
+            __LINE__,
+            "invalid statementvalue or not implemented");
     };
 
     inline std::string GetStatementValue(const std::optional<StatementValue>& opt_statement_value) {

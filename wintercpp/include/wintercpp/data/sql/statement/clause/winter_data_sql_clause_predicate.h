@@ -20,6 +20,7 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
 
+#include <optional>
 #include <string>
 
 namespace winter::data::sql_impl {
@@ -27,6 +28,10 @@ namespace winter::data::sql_impl {
     class Predicate {
        public:
         explicit Predicate(const StatementValue& statement_value);
+
+        explicit Predicate(const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>& field);
+
+        explicit Predicate(const std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>>& fields);
 
         Predicate(
             const StatementValue&                                                          statement_value,
@@ -77,6 +82,21 @@ namespace winter::data::sql_impl {
                              std::make_shared<PreparedStatementField<T>>(value));
         }
 
+        template<typename T>
+        static Predicate MakePredicate(T value) {
+            return Predicate(std::make_shared<PreparedStatementField<T>>(value));
+        }
+
+        template<typename T>
+        static Predicate MakePredicate(const std::vector<T>& values) {
+            std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> fields;
+            fields.reserve(values.size());
+            for (const auto& value : values) {
+                fields.push_back(std::make_shared<PreparedStatementField<T>>(value));
+            }
+            return Predicate(fields);
+        }
+
         static Predicate MakePredicate(const StatementValue& statement_value,
                                        Condition             condition) {
             return Predicate(statement_value,
@@ -94,7 +114,9 @@ namespace winter::data::sql_impl {
             return Predicate(lclause, condition, rclause);
         }
 
-        const StatementValue& lstatementValue() const;
+        const std::optional<StatementValue>& lstatementValue() const;
+
+        const std::optional<StatementValue>& rstatementValue() const;
 
         std::string lstatementStr() const;
 
@@ -102,23 +124,26 @@ namespace winter::data::sql_impl {
 
         std::string conditionStr() const;
 
+        bool has_lstatement() const;
+
         bool has_rstatement() const;
 
         bool has_condition() const;
 
-        bool has_field() const;
+        bool has_fields() const;
 
-        const std::optional<StatementValue>& rstatementValue() const;
+        const std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>>& fields() const;
 
         const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>& field() const;
 
         Condition condition() const;
 
        private:
-        const StatementValue                                                          l_statement_value_;
-        const winter::data::sql_impl::Condition                                       condition_;
-        const std::optional<StatementValue>                                           r_statement_value_;
-        const std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField> field_;
+        std::string                                                                                statementStr(std::optional<StatementValue> statement_value) const;
+        const std::optional<StatementValue>                                                        l_statement_value_;
+        const winter::data::sql_impl::Condition                                                    condition_;
+        const std::optional<StatementValue>                                                        r_statement_value_;
+        const std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> fields_ {};
     };
 }  // namespace winter::data::sql_impl
 
