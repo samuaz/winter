@@ -19,42 +19,40 @@
 using namespace winter::util::string;
 using namespace winter::data::sql_impl;
 
-And::And(const Predicate &predicate) :
+And::And(const Predicate& predicate) :
     predicate_(predicate) {}
 
 std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> And::And::Fields() const {
     return predicate_.fields();
 }
 
-std::string
-And::Query() const {
+std::string And::Query() const {
     std::ostringstream builder;
     std::string        lstatement = predicate_.lstatementStr();
     std::string        rstatement = predicate_.rstatementStr();
     std::string        condition = predicate_.conditionStr();
 
+    std::string result;
     if (predicate_.has_fields()) {
-        std::shared_ptr<AbstractPreparedStatementField> field = predicate_.fields().front();
-        if (field->IsCustomValue()) {
-            builder << lstatement
-                    << Space() << condition << Space()
-                    << field->custom_value();
-        } else {
-            builder << lstatement
-                    << Space() << condition << Space()
-                    << PlaceHolder();
+        for (auto& field : predicate_.fields()) {
+            if (field->IsCustomValue()) {
+                builder << lstatement
+                        << Space() << condition << Space()
+                        << field->custom_value().value();
+            } else {
+                builder << lstatement
+                        << Space() << condition << Space()
+                        << PlaceHolder();
+            }
         }
-        return replace_value(query_template_, query_param_, builder.str());
-    }
-
-    if (predicate_.has_rstatement()) {
+    } else if (predicate_.has_rstatement()) {
         builder << lstatement
                 << Space() << condition << Space()
                 << rstatement;
-        return replace_value(query_template_, query_param_, builder.str());
+    } else {
+        builder << lstatement
+                << Space() << condition;
     }
 
-    builder << lstatement
-            << Space() << condition;
     return replace_value(query_template_, query_param_, builder.str());
 }

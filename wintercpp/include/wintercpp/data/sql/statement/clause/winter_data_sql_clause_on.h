@@ -13,6 +13,7 @@
 #include <optional>
 #include <queue>
 
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 namespace winter::data::sql_impl {
@@ -27,13 +28,11 @@ namespace winter::data::sql_impl {
         std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
        private:
-        const StatementValue                l_statement_value_;
-        const std::optional<StatementValue> r_statement_value_;
-        const Condition                     condition_;
-        const std::string                   query_template_ = "ON $lcolumn $condition $rcolumn";
-        const std::string                   query_param_l = "$lcolumn";
-        const std::string                   query_param_r = "$rcolumn";
-        const std::string                   query_param_condition = "$condition";
+        const Predicate   predicate_;
+        const std::string query_template_ = "ON $lcolumn $condition $rcolumn";
+        const std::string query_param_l = "$lcolumn";
+        const std::string query_param_r = "$rcolumn";
+        const std::string query_param_condition = "$condition";
     };
 }  // namespace winter::data::sql_impl
 

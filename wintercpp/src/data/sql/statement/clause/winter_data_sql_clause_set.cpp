@@ -11,13 +11,28 @@
 #include <string>
 #include <utility>
 
-winter::data::sql_impl::Set::Set(const std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> &fields) :
-    fields_(fields) {}
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
-std::string
-winter::data::sql_impl::Set::Query() const {
-    return winter::util::string::replace_value(
-        query_template_,
-        query_param_,
-        winter::data::sql_impl::commaSeparatedEqualValue(fields_));
-}
+namespace winter::data::sql_impl {
+
+    Set::Set(const std::vector<std::shared_ptr<AbstractPreparedStatementField>> &fields) :
+        predicate_(fields) {}
+
+    Set::Set(const std::shared_ptr<AbstractPreparedStatementField> &field) :
+        predicate_(field) {}
+
+    Set::Set(const Predicate &predicate) :
+        predicate_(predicate) {}
+
+    std::vector<std::shared_ptr<AbstractPreparedStatementField>> Set::Fields() const {
+        return predicate_.fields();
+    }
+
+    std::string
+    Set::Query() const {
+        return winter::util::string::replace_value(
+            query_template_,
+            query_param_,
+            commaSeparatedEqualValue(predicate_.fields()));
+    }
+}  // namespace winter::data::sql_impl

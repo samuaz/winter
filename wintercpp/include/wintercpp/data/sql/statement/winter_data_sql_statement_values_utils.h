@@ -11,11 +11,35 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
+#include <cstddef>
 #include <memory>
 #include <string>
 #include <variant>
 
 namespace winter::data::sql_impl {
+
+    inline std::string StatementValueType(size_t index) {
+        switch (index) {
+            case 0:
+                return "Column";
+            case 1:
+                return "std::shared_ptr<Column>";
+            case 2:
+                return "Table";
+            case 3:
+                return "std::shared_ptr<Table>";
+            case 4:
+                return "std::shared_ptr<IStatement>";
+            case 5:
+                return "std::shared_ptr<Clause";
+            default:
+                return "UNKNOWN";
+        }
+    }
+
+    inline std::string StatementValueType(const StatementValue& statementValue) {
+        return StatementValueType(statementValue.index());
+    }
 
     inline std::string GetStatementValue(const StatementValue& statement_value) {
         if (auto sharedColumn = std::get_if<std::shared_ptr<Column>>(&statement_value)) {

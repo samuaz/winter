@@ -31,7 +31,6 @@ namespace winter::data::sql_impl {
 
        private:
         const Predicate   predicate_;
-        bool              is_predicate_ = false;
         const std::string query_template_ = "OR $or";
         const std::string query_param_ = "$or";
     };

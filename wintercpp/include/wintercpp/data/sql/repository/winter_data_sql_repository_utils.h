@@ -110,10 +110,10 @@ namespace winter::data::sql_impl {
                 auto uuidTable = std::dynamic_pointer_cast<
                     winter::data::sql_impl::UUIDTable>(table);
                 if (uuidTable->binary()) {
-                    select << Where(Predicate::MakePredicate(
+                    select << Where(Predicate::Make(
                         uuidTable->id(), Condition::EQ, id, "unhex(?)"));
                 } else {
-                    select << Where(Predicate::MakePredicate(
+                    select << Where(Predicate::Make(
                         uuidTable->id(), Condition::EQ, id));
                 }
                 break;

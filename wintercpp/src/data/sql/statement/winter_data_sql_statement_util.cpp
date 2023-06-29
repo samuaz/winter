@@ -40,7 +40,7 @@ std::string winter::data::sql_impl::commaSeparatedEqualValue(
     for (unsigned long i = 0; i < size; i++) {
         auto row = columns[i];
         if (row->IsCustomValue()) {
-            values += row->name() + Equal() += row->custom_value()
+            values += row->name() + Equal() += row->custom_value().value()
                                                + std::string(i == size - 1 ? Nothing() : Comma());
         } else {
             values += row->name() + Equal() += PlaceHolder() += std::string(i == size - 1 ? Nothing() : Comma());
@@ -57,7 +57,7 @@ std::string winter::data::sql_impl::CommaSeparatedStatement(
     for (unsigned long i = 0; i < size; i++) {
         auto row = columns[i];
         if (row->IsCustomValue()) {
-            values += Space() += row->custom_value()
+            values += Space() += row->custom_value().value()
                                  + std::string(i == size - 1 ? Nothing() : Comma());
         } else {
             values += PlaceHolder() += std::string(i == size - 1 ? Nothing() : Comma());
@@ -74,7 +74,7 @@ std::string winter::data::sql_impl::CommaSeparatedStatement(
     for (unsigned long i = 0; i < size; i++) {
         auto row = columns[i];
         if (row->IsCustomValue()) {
-            values += Space() += row->custom_value()
+            values += Space() += row->custom_value().value()
                                  + std::string(i == size - 1 ? Nothing() : Comma());
         } else {
             values += PlaceHolder() += std::string(i == size - 1 ? Nothing() : Comma());

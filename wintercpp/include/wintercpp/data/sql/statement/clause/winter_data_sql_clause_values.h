@@ -12,6 +12,8 @@
 #include <utility>
 #include <vector>
 
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
+
 namespace winter::data::sql_impl {
 
     class Values : public virtual Clause {
@@ -24,7 +26,7 @@ namespace winter::data::sql_impl {
         template<typename T>
         static std::shared_ptr<PreparedStatementField<T>> Add(
             const Column &column, T value) {
-            return std::make_shared<PreparedStatementField<T>>(column->name(),
+            return std::make_shared<PreparedStatementField<T>>(column->FullName(),
                                                                value);
         }
 
@@ -32,14 +34,14 @@ namespace winter::data::sql_impl {
         static std::shared_ptr<PreparedStatementField<T>> Add(
             const Column &column, T value, const std::string &custom_value) {
             return std::make_shared<PreparedStatementField<T>>(
-                column->name(), value, custom_value);
+                column->FullName(), value, custom_value);
         }
 
        private:
-        std::vector<std::shared_ptr<AbstractPreparedStatementField>> fields_;
-        const std::string                                            query_template_ = "($columns) VALUES ($set_values)";
-        const std::string                                            query_param_columns_ = "$columns";
-        const std::string                                            query_param_values_ = "$set_values";
+        const Predicate   predicate_;
+        const std::string query_template_ = "($columns) VALUES ($values)";
+        const std::string query_param_columns_ = "$columns";
+        const std::string query_param_values_ = "$values";
     };
 
 }  // namespace winter::data::sql_impl

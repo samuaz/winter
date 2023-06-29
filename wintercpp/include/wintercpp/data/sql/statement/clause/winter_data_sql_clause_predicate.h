@@ -23,6 +23,8 @@
 #include <optional>
 #include <string>
 
+#include "wintercpp/data/sql/statement/winter_data_sql_statement.h"
+
 namespace winter::data::sql_impl {
 
     class Predicate {
@@ -52,43 +54,58 @@ namespace winter::data::sql_impl {
             const StatementValue& r_statement_value);
 
         template<typename T>
-        static Predicate MakePredicate(const Column& column,
-                                       Condition     condition,
-                                       T             value) {
-            return Predicate(column, condition, std::make_shared<PreparedStatementField<T>>(column->name(), value));
+        static Predicate Make(const Column& column,
+                              T             value) {
+            return Predicate(column, std::make_shared<PreparedStatementField<T>>(column->FullName(), value));
         }
 
         template<typename T>
-        static Predicate MakePredicate(const Column&      column,
-                                       Condition          condition,
-                                       T                  value,
-                                       const std::string& custom_value) {
+        static Predicate Make(const Column& column,
+                              Condition     condition,
+                              T             value) {
+            return Predicate(column, condition, std::make_shared<PreparedStatementField<T>>(column->FullName(), value));
+        }
+
+        template<typename T>
+        static Predicate Make(const Column&      column,
+                              Condition          condition,
+                              T                  value,
+                              const std::string& custom_value) {
             return Predicate(column,
                              condition,
-                             std::make_shared<PreparedStatementField<T>>(column->name(), value, custom_value));
-        }
-
-        static Predicate MakePredicate(const Column& column,
-                                       Condition     condition) {
-            return Predicate(column, condition);
+                             std::make_shared<PreparedStatementField<T>>(column->FullName(), value, custom_value));
         }
 
         template<typename T>
-        static Predicate MakePredicate(const StatementValue& statement_value,
-                                       Condition             condition,
-                                       T                     value) {
+        static Predicate Make(
+            const Column& column, 
+            T value, 
+            const std::string& custom_value) {
+            return Predicate(std::make_shared<PreparedStatementField<T>>(column->FullName(), value, custom_value));
+        }
+
+        template<typename T>
+        static Predicate Make(const std::string& valueName,
+                              T                  value) {
+            return Predicate(std::make_shared<PreparedStatementField<T>>(valueName, value));
+        }
+
+        template<typename T>
+        static Predicate Make(const StatementValue& statement_value,
+                              Condition             condition,
+                              T                     value) {
             return Predicate(statement_value,
                              condition,
                              std::make_shared<PreparedStatementField<T>>(value));
         }
 
         template<typename T>
-        static Predicate MakePredicate(T value) {
+        static Predicate Make(T value) {
             return Predicate(std::make_shared<PreparedStatementField<T>>(value));
         }
 
         template<typename T>
-        static Predicate MakePredicate(const std::vector<T>& values) {
+        static Predicate Make(const std::vector<T>& values) {
             std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> fields;
             fields.reserve(values.size());
             for (const auto& value : values) {
@@ -97,21 +114,18 @@ namespace winter::data::sql_impl {
             return Predicate(fields);
         }
 
-        static Predicate MakePredicate(const StatementValue& statement_value,
-                                       Condition             condition) {
+        static Predicate Make(const StatementValue& statement_value,
+                              Condition             condition) {
             return Predicate(statement_value,
                              condition);
         }
 
-        static Predicate MakePredicate(const std::shared_ptr<Clause>& clause,
-                                       Condition                      condition) {
-            return Predicate(clause, condition);
-        }
-
-        static Predicate MakePredicate(const std::shared_ptr<Clause>& lclause,
-                                       Condition                      condition,
-                                       const std::shared_ptr<Clause>& rclause) {
-            return Predicate(lclause, condition, rclause);
+        static Predicate Make(const StatementValue& rstatement_value,
+                              Condition             condition,
+                              const StatementValue& lstatement_value) {
+            return Predicate(rstatement_value,
+                             condition,
+                             lstatement_value);
         }
 
         const std::optional<StatementValue>& lstatementValue() const;

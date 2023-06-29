@@ -33,7 +33,6 @@ namespace winter::data::sql_impl {
 
        private:
         const Predicate   predicate_;
-        const bool        _is_predicate = false;
         const std::string query_template_ = "WHERE $where";
         const std::string query_param_ = "$where";
     };

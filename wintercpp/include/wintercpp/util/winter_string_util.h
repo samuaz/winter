@@ -19,6 +19,8 @@ namespace winter::util::string {
 
     void strip_unicode(std::string &str);
 
+    void trim_string(std::string &str);
+
 }  // namespace winter::util::string
 
 #endif  // WINTERCPP_WINTER_STRING_UTIL_H

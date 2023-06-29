@@ -9,7 +9,7 @@
 
 namespace winter::data::sql_impl {
     struct AbstractPreparedStatementField : public virtual AbstractField {
-        virtual const std::string& custom_value() const = 0;
+        virtual const std::optional<std::string>& custom_value() const = 0;
 
         virtual bool IsCustomValue() = 0;
     };

@@ -10,6 +10,7 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
 #include <wintercpp/util/winter_string_util.h>
 
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 namespace winter::data::sql_impl {
@@ -21,9 +22,9 @@ namespace winter::data::sql_impl {
         std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
        private:
-        const StatementValue statement_value_;
-        const std::string    query_template_ = "$clause";
-        const std::string    query_param_ = "$clause";
+        const Predicate   predicate_;
+        const std::string query_template_ = "$clause";
+        const std::string query_param_ = "$clause";
     };
 
     template<typename T>

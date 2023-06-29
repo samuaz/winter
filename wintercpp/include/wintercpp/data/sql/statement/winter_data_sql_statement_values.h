@@ -44,24 +44,5 @@ namespace winter::data::sql_impl {
         return false;
     }
 
-    inline std::string StatementValueType(int index) {
-        switch (index) {
-            case 0:
-                return "Column";
-            case 1:
-                return "std::shared_ptr<Column>";
-            case 2:
-                return "Table";
-            case 3:
-                return "std::shared_ptr<Table>";
-            case 4:
-                return "std::shared_ptr<IStatement>";
-            case 5:
-                return "std::shared_ptr<Clause";
-            default:
-                return "UNKNOWN";
-        }
-    }
-
 }  // namespace winter::data::sql_impl
 #endif

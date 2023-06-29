@@ -17,8 +17,7 @@
 using namespace winter::util::string;
 
 winter::data::sql_impl::Or::Or(const Predicate &predicate) :
-    predicate_(predicate),
-    is_predicate_(true) {}
+    predicate_(predicate) {}
 
 winter::data::sql_impl::Or::Or(const StatementValue &statement_value) :
     predicate_(statement_value) {}
@@ -34,24 +33,31 @@ std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementFie
 std::string
 winter::data::sql_impl::Or::Query() const {
     std::ostringstream builder;
+    std::string        lstatement = predicate_.lstatementStr();
+    std::string        rstatement = predicate_.rstatementStr();
+    std::string        condition = predicate_.conditionStr();
 
-    if (is_predicate_) {
-        const auto &field = predicate_.field();
-        if (field->IsCustomValue()) {
-            builder << predicate_.lstatementStr()
-                    << Space() << predicate_.conditionStr() << Space()
-                    << field->custom_value();
-        } else {
-            builder << predicate_.lstatementStr()
-                    << Space() << predicate_.conditionStr() << Space()
-                    << PlaceHolder();
+    std::string result;
+    if (predicate_.has_fields()) {
+        for (auto &field : predicate_.fields()) {
+            if (field->IsCustomValue()) {
+                builder << lstatement
+                        << Space() << condition << Space()
+                        << field->custom_value().value();
+            } else {
+                builder << lstatement
+                        << Space() << condition << Space()
+                        << PlaceHolder();
+            }
         }
-
-        return replace_value(query_template_, query_param_, builder.str());
+    } else if (predicate_.has_rstatement()) {
+        builder << lstatement
+                << Space() << condition << Space()
+                << rstatement;
+    } else {
+        builder << lstatement
+                << Space() << condition;
     }
-
-    builder << predicate_.lstatementStr()
-            << predicate_.conditionStr();
 
     return replace_value(query_template_, query_param_, builder.str());
 }

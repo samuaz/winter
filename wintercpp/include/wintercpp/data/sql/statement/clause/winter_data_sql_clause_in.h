@@ -31,7 +31,7 @@ namespace winter::data::sql_impl {
 
         template<typename T>
         static In Values(const std::vector<T>& values_) {
-            return In(Predicate::MakePredicate(values_));
+            return In(Predicate::Make(values_));
         }
 
        private:

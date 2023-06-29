@@ -12,25 +12,26 @@
 #include <string>
 
 winter::data::sql_impl::Values::Values(const std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>>& fields) :
-    fields_(fields) {}
+    predicate_(fields) {}
 
 std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> winter::data::sql_impl::Values::Fields() const {
-    return fields_;
+    return predicate_.fields();
 };
 
 std::string
 winter::data::sql_impl::Values::Query() const {
     std::vector<std::string> columns;
+    auto                     fields = predicate_.fields();
 
-    for (const auto& field : fields_) { columns.push_back(field->name()); }
+    for (const auto& field : fields) { columns.push_back(field->name()); }
 
     std::string query = winter::util::string::replace_value(
         query_template_,
-        query_param_values_,
+        query_param_columns_,
         winter::data::sql_impl::CommaSeparatedValue(columns));
 
     return winter::util::string::replace_value(
         query,
         query_param_values_,
-        winter::data::sql_impl::CommaSeparatedStatement(fields_));
+        winter::data::sql_impl::CommaSeparatedStatement(fields));
 }
