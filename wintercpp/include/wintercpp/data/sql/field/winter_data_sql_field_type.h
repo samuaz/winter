@@ -141,6 +141,47 @@ namespace winter::data::sql_impl {
         static FieldType Get();
     };
 
+    template<typename T>
+    FieldType GetFieldType() {
+        if constexpr (std::is_same_v<T, uint8_t>) {
+            return FieldType::kUchar;
+        } else if constexpr (std::is_same_v<T, uint16_t>) {
+            return FieldType::kUshort;
+        } else if constexpr (std::is_same_v<T, uint32_t>) {
+            return FieldType::KUint;
+        } else if constexpr (std::is_same_v<T, uint64_t>) {
+            return FieldType::kBigInt;
+        } else if constexpr (std::is_same_v<T, int8_t>) {
+            return FieldType::kSchar;
+        } else if constexpr (std::is_same_v<T, int16_t>) {
+            return FieldType::KShort;
+        } else if constexpr (std::is_same_v<T, int32_t>) {
+            return FieldType::kInt;
+        } else if constexpr (std::is_same_v<T, int64_t>) {
+            return FieldType::kLong;
+        } else if constexpr (std::is_same_v<T, char>) {
+            return FieldType::kChar;
+        } else if constexpr (std::is_same_v<T, short>) {
+            return FieldType::KShort;
+        } else if constexpr (std::is_same_v<T, long>) {
+            return FieldType::kLong;
+        } else if constexpr (std::is_same_v<T, long double>) {
+            return FieldType::KDecimal;
+        } else if constexpr (std::is_same_v<T, double>) {
+            return FieldType::kDouble;
+        } else if constexpr (std::is_same_v<T, float>) {
+            return FieldType::kFloat;
+        } else if constexpr (std::is_same_v<T, bool>) {
+            return FieldType::kBoolean;
+        } else if constexpr (std::is_same_v<T, std::string>) {
+            return FieldType::kString;
+        } else if constexpr (std::is_same_v<T, std::istream *>) {
+            return FieldType::kBlob;
+        } else {
+            return FieldType::kNull;  // Valor por defecto en caso de no coincidir con ninguno
+        }
+    }
+
 }  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_FIELD_TYPE */

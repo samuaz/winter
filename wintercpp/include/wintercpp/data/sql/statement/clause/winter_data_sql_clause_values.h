@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
 namespace winter::data::sql_impl {
@@ -23,17 +24,15 @@ namespace winter::data::sql_impl {
         std::string                                                                          Query() const override;
         std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
-        template<typename T>
-        static std::shared_ptr<PreparedStatementField<T>> Add(
-            const Column &column, T value) {
-            return std::make_shared<PreparedStatementField<T>>(column->FullName(),
-                                                               value);
+        static std::shared_ptr<PreparedStatementField> Add(
+            const Column &column, const DataType &value) {
+            return std::make_shared<PreparedStatementField>(column->FullName(),
+                                                            value);
         }
 
-        template<typename T>
-        static std::shared_ptr<PreparedStatementField<T>> Add(
-            const Column &column, T value, const std::string &custom_value) {
-            return std::make_shared<PreparedStatementField<T>>(
+        static std::shared_ptr<PreparedStatementField> Add(
+            const Column &column, const DataType &value, const std::string &custom_value) {
+            return std::make_shared<PreparedStatementField>(
                 column->FullName(), value, custom_value);
         }
 

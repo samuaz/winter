@@ -18,6 +18,7 @@
 #include <utility>
 #include <vector>
 
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
 namespace winter::data::sql_impl {
@@ -29,8 +30,7 @@ namespace winter::data::sql_impl {
         std::string                                                                          Query() const override;
         std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
-        template<typename T>
-        static In Values(const std::vector<T>& values_) {
+        static In Values(const std::vector<DataType>& values_) {
             return In(Predicate::Make(values_));
         }
 

@@ -10,6 +10,7 @@
 
 #include "gtest/gtest.h"
 #include "wintercpp/data/sql/column/winter_data_sql_column.h"
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_select.h"
 
 using namespace winter::data::sql_impl;
@@ -25,7 +26,7 @@ struct QueryTestTableMin : public UUIDTable {
 };
 
 TEST(winteInClause, canCreateInWithValues) {
-    std::vector<int> values {1,2,3};
+    std::vector<DataType> values {1, 2, 3};
     auto      inClause = In::Values(values);
     ASSERT_EQ(inClause.Query(), "IN (?,?,?)");
 }

@@ -17,6 +17,8 @@
 #include <utility>
 #include <vector>
 
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
+
 namespace winter::data::sql_impl {
 
     class NotIn : public virtual Clause {
@@ -26,9 +28,8 @@ namespace winter::data::sql_impl {
         std::string                                                                          Query() const override;
         std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
 
-        template<typename T>
-        static NotIn Values(const std::vector<T>& values_) {
-            return NotIn(Predicate::Make(values_));
+        static NotIn Values(const std::vector<DataType>& values) {
+            return NotIn(Predicate::Make(values));
         }
 
        private:

@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <memory>
 #include <set>
+#include <string>
 
 #include "gtest/gtest.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
@@ -63,7 +64,7 @@ TEST(winteSelectClause, canCreateSelectClauseTwoWithStatement) {
 
 TEST(winteSelectClause, canCreateSelectClauseWithStatement) {
     std::shared_ptr<QueryTestTableMin> testTable = std::make_shared<QueryTestTableMin>();
-    auto      selectShared = std::shared_ptr<Select>(new Select({testTable->col1}));
+    auto      selectShared = std::shared_ptr<IStatement>(new Select({testTable->col1}));
     auto      whereClause = Where(Predicate::Make(selectShared, Condition::IS_NOT_NULL));
     ASSERT_EQ(whereClause.Query(), "WHERE (SELECT QueryTestTableMin.col1) IS NOT NULL");
 }

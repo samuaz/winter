@@ -3,6 +3,7 @@
 //
 
 //#include "wintercpp/data/sql/statement/winter_data_sql_statement.h"
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
 namespace winter::data::sql_impl {
 
     template<typename Children>
@@ -49,27 +50,24 @@ namespace winter::data::sql_impl {
     }; */
 
     template<typename Children>
-    template<typename T>
-    Children &Statement<Children>::Value(const T value) {
-        prepared_statement_->AddValue(new PreparedStatementField<T>(value));
+    Children &Statement<Children>::Value(const DataType &value) {
+        prepared_statement_->AddValue(new PreparedStatementField(value));
         return This();
     };
 
     template<typename Children>
-    template<typename T>
-    Children &Statement<Children>::Value(const Column &row, const T value) {
+    Children &Statement<Children>::Value(const Column &row, const DataType &value) {
         prepared_statement_->AddValue(
-            new PreparedStatementField<T>(row->name(), value));
+            new PreparedStatementField(row->name(), value));
         return This();
     };
 
     template<typename Children>
-    template<typename T>
     Children &Statement<Children>::Value(const Column      &row,
-                                         const T            value,
+                                         const DataType    &value,
                                          const std::string &custom_value) {
         prepared_statement_->AddValue(
-            new PreparedStatementField<T>(row->name(), value, custom_value));
+            new PreparedStatementField(row->name(), value, custom_value));
         return This();
     };
 

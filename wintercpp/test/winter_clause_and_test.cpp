@@ -9,12 +9,6 @@
 #include <set>
 
 #include "gtest/gtest.h"
-#include "wintercpp/data/sql/column/winter_data_sql_column.h"
-#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_and.h"
-#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_from.h"
-#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h"
-#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
-#include "wintercpp/data/sql/statement/winter_data_sql_select.h"
 
 // AND (SELECT columna4 FROM tabla2 WHERE columna5 = 'bar') < (SELECT columna6 FROM tabla3 WHERE columna7 = 'baz')
 // AND (SELECT columna4 FROM tabla2 WHERE columna5 = 'bar') < 10

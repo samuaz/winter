@@ -10,40 +10,43 @@
 
 namespace winter::data::sql_impl {
 
-    template<typename T>
+
     class Field : public virtual AbstractField {
        public:
-        explicit Field(T value) :
-            value_(std::move(value)), type_(TypeField<T>::Get()) {}
+        explicit Field(const DataType& value) :
+            value_(value) {
+                using T = std::decay_t<decltype(value)>;
+                type_ = GetFieldType<T>();
+            }
 
-        Field(std::string name, T value) :
-            name_(std::move(name)), value_(std::move(value)),
-            type_(TypeField<T>::Get()) {}
+        Field(const std::string& name, const DataType& value) :
+            name_(name), value_(value) {
+                using T = std::decay_t<decltype(value)>;
+                type_ = GetFieldType<T>();
+            }
 
-        Field(const Field &field) :
-            value_(field.value_), type_(field.type_), name_(field.name_) {}
+        Field(const Field& field) :
+            name_(field.name_), value_(field.value_), type_(field.type_) {}
 
-        explicit Field(const Field *field) :
-            value_(field->value_), type_(field->type_), name_(field->name_) {}
+        explicit Field(const Field* field) :
+            name_(field->name_), value_(field->value_), type_(field->type_) {}
 
-        const T &value() const;
+        const DataType& value() const;
 
-        const FieldType &type() const override;
+        const FieldType& type() const override;
 
-        const std::string &name() const override;
+        const std::string& name() const override;
 
-        void value(T value);
+        void value(DataType value);
 
         ~Field() override = default;
 
        protected:
         std::string name_;
-        T           value_;
+        DataType    value_;
         FieldType   type_;
     };
 
 }  // namespace winter::data::sql_impl
-
-#include "winter_data_sql_field.tpp"
 
 #endif /* WINTER_DATA_SQL_FIELD */

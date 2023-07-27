@@ -9,6 +9,7 @@
 #include <set>
 
 #include "gtest/gtest.h"
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
 
 using namespace winter::data::sql_impl;
 
@@ -23,7 +24,7 @@ struct QueryTestTableMin : public UUIDTable {
 };
 
 TEST(winteNotInClause, canCreatenNotInWithValues) {
-    std::vector<int> values {1,2,3};
+    std::vector<DataType> values {1,2,3};
     auto      notInClause = NotIn::Values(values);
     ASSERT_EQ(notInClause.Query(), "NOT IN (?,?,?)");
 }

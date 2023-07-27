@@ -11,6 +11,8 @@
 #include <string>
 #include <utility>
 
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
+
 namespace winter::data::sql_impl {
 
     class IStatement {
@@ -39,15 +41,12 @@ namespace winter::data::sql_impl {
         Children &set_statement_template(const std::string &statement_template);
       */
 
-        template<typename T>
-        Children &Value(const T value);
+        Children &Value(const DataType &value);
 
-        template<typename T>
-        Children &Value(const Column &row, const T value);
+        Children &Value(const Column &row, const DataType &value);
 
-        template<typename T>
         Children &Value(const Column      &row,
-                        const T            value,
+                        const DataType    &value,
                         const std::string &custom_value);
 
         const PreparedStatement &prepared_statement() override;
