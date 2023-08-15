@@ -10,20 +10,19 @@
 
 namespace winter::data::sql_impl {
 
-
     class Field : public virtual AbstractField {
        public:
         explicit Field(const DataType& value) :
             value_(value) {
-                using T = std::decay_t<decltype(value)>;
-                type_ = GetFieldType<T>();
-            }
+            //using T = std::decay_t<decltype(value)>;
+            type_ = GetFieldType(value);
+        }
 
         Field(const std::string& name, const DataType& value) :
             name_(name), value_(value) {
-                using T = std::decay_t<decltype(value)>;
-                type_ = GetFieldType<T>();
-            }
+            //using T = std::decay_t<decltype(value)>;
+            type_ = GetFieldType(value);
+        }
 
         Field(const Field& field) :
             name_(field.name_), value_(field.value_), type_(field.type_) {}

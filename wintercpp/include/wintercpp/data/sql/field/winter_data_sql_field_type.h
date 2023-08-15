@@ -5,7 +5,12 @@
 #ifndef WINTER_DATA_SQL_FIELD_TYPE
 #define WINTER_DATA_SQL_FIELD_TYPE
 
+#include <iostream>
+#include <optional>
 #include <string>
+
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
+#include "wintercpp/exception/generic/winter_internal_exception.h"
 
 namespace winter::data::sql_impl {
 
@@ -177,9 +182,21 @@ namespace winter::data::sql_impl {
             return FieldType::kString;
         } else if constexpr (std::is_same_v<T, std::istream *>) {
             return FieldType::kBlob;
+        } else if constexpr (std::is_same_v<T, nullptr_t>) {
+            return FieldType::kNull;
+        } else if constexpr (std::is_same_v<T, std::nullopt_t>) {
+            return FieldType::kNull;
         } else {
-            return FieldType::kNull;  // Valor por defecto en caso de no coincidir con ninguno
+            std::cout << "Type of T is: " << typeid(T).name() << std::endl;
+            throw exception::WinterInternalException("Type not supported");
         }
+    }
+
+    inline FieldType GetFieldType(const DataType &var) {
+        return std::visit([](const auto &value) {
+            using T = std::decay_t<decltype(value)>;
+            return GetFieldType<T>();
+        }, var);
     }
 
 }  // namespace winter::data::sql_impl
