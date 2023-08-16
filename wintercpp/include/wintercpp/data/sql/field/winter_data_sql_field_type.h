@@ -146,6 +146,17 @@ namespace winter::data::sql_impl {
         static FieldType Get();
     };
 
+    /**
+     * @brief Get the FieldType for a given type T.
+     *
+     * This template function returns the FieldType corresponding to the input type T. It uses
+     * compile-time type checking with std::is_same_v to determine the FieldType. If the input
+     * type T is not supported, it throws an exception of type exception::WinterInternalException.
+     *
+     * @tparam T The input type for which to get the FieldType.
+     * @return The FieldType corresponding to the input type T.
+     * @throws exception::WinterInternalException if the input type T is not supported.
+     */
     template<typename T>
     FieldType GetFieldType() {
         if constexpr (std::is_same_v<T, uint8_t>) {
@@ -187,16 +198,25 @@ namespace winter::data::sql_impl {
         } else if constexpr (std::is_same_v<T, std::nullopt_t>) {
             return FieldType::kNull;
         } else {
-            std::cout << "Type of T is: " << typeid(T).name() << std::endl;
             throw exception::WinterInternalException("Type not supported");
         }
     }
 
-    inline FieldType GetFieldType(const DataType &var) {
+/**
+ * @brief Get the FieldType for a given variant variable.
+ *
+ * This inline function uses std::visit to extract the type of the variant variable and then calls
+ * the GetFieldType<T>() template function to get the corresponding FieldType. It returns the FieldType.
+ *
+ * @param dataType The variant variable for which to get the FieldType.
+ * @return The FieldType corresponding to the type of the variant variable.
+ */
+    inline FieldType GetFieldType(const DataType &dataType) {
         return std::visit([](const auto &value) {
             using T = std::decay_t<decltype(value)>;
             return GetFieldType<T>();
-        }, var);
+        },
+                          dataType);
     }
 
 }  // namespace winter::data::sql_impl
