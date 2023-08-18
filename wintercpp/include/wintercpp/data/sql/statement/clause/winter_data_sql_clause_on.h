@@ -10,19 +10,29 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
 
+#include <optional>
 #include <queue>
+
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 namespace winter::data::sql_impl {
 
     class On : public virtual Clause {
        public:
-        explicit On(const Column &l_column,
-                    Condition     condition,
-                    const Column &r_column);
-        explicit On(const Column &l_column, Condition condition);
-        PreparedStatement Prepare() override;
-        std::string       name() override;
-        FieldType         fieldType() override;
+        explicit On(const StatementValue &l_statement_value,
+                    Condition             condition,
+                    const StatementValue &r_statement_value);
+        explicit On(const StatementValue &l_statement_value, Condition condition);
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
+
+       private:
+        const Predicate   predicate_;
+        const std::string query_template_ = "ON $lcolumn $condition $rcolumn";
+        const std::string query_param_l = "$lcolumn";
+        const std::string query_param_r = "$rcolumn";
+        const std::string query_param_condition = "$condition";
     };
 }  // namespace winter::data::sql_impl
 

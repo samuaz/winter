@@ -134,7 +134,7 @@ namespace winter::data::sql_impl {
          * operations are successful status set to success
          * @return winter::data::ResponseStatus
          */
-        //winter::data::ResponseStatus status() const;
+        // winter::data::ResponseStatus status() const;
 
         ~Transaction();
 
@@ -145,7 +145,7 @@ namespace winter::data::sql_impl {
         std::map<std::string, bool>     operations_status_;
         TTransactionImpl               &This();
 
-        //void status(const ResponseStatus &status);
+        // void status(const ResponseStatus &status);
     };
 
 }  // namespace winter::data::sql_impl

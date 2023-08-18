@@ -17,25 +17,27 @@
 #include <utility>
 #include <vector>
 
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
+
 namespace winter::data::sql_impl {
 
-    template<typename T>
     class NotIn : public virtual Clause {
        public:
-        explicit NotIn(std::vector<T> values);
-        explicit NotIn(const winter::data::sql_impl::Select &select);
-        PreparedStatement Prepare() override;
-        std::string       name() override;
-        FieldType         fieldType() override;
+        explicit NotIn(const StatementValue& statement_value);
+        explicit NotIn(const Predicate& predicate);
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
+
+        static NotIn Values(const std::vector<DataType>& values) {
+            return NotIn(Predicate::Make(values));
+        }
 
        private:
-        std::vector<T> values_;
-        Select         select_;
-        bool           has_clause = false;
+        const Predicate   predicate_;
+        const std::string query_template_ = "NOT IN $NOT_IN_VALUE";
+        const std::string query_param_ = "$NOT_IN_VALUE";
     };
 
 }  // namespace winter::data::sql_impl
-
-#include "winter_data_sql_clause_not_in.tpp"
 
 #endif  // WINTERCPP_WINTER_DATA_SQL_CLAUSE_NOT_IN_H

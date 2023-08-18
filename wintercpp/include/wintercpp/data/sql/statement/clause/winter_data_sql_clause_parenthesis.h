@@ -10,15 +10,21 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
 #include <wintercpp/util/winter_string_util.h>
 
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+
 namespace winter::data::sql_impl {
 
     class Parenthesis : public virtual Clause {
        public:
-        explicit Parenthesis(Clause *clause);
-        explicit Parenthesis(const std::string &clause);
-        PreparedStatement Prepare() override;
-        std::string       name() override;
-        FieldType         fieldType() override;
+        explicit Parenthesis(const StatementValue &clause);
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
+
+       private:
+        const Predicate   predicate_;
+        const std::string query_template_ = "$clause";
+        const std::string query_param_ = "$clause";
     };
 
     template<typename T>

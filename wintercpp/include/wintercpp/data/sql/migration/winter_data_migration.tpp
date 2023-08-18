@@ -36,7 +36,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                                         std::to_string(migration.HASH_256())))
                                         >> transaction;*/
             auto columnFound = Column(*migration_table_, "found", FieldType::kBoolean);
-            auto columns = std::vector<sql_impl::StatementValues> {columnFound};
+            auto columns = std::vector<sql_impl::StatementValue> {columnFound};
             auto response = Select(ss.str()) << columns >> transaction;
             auto resultRow = response.RequireSingleOrNullopt();
             // resultRow->AddRow("name");

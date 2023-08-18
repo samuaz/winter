@@ -19,6 +19,8 @@
 #include <string>
 #include <variant>
 
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+
 namespace winter::data::sql_impl::mysql {
 
     template<typename TResultSet>
@@ -54,20 +56,22 @@ namespace winter::data::sql_impl::mysql {
                             } else {
                                 CreateRow(column_name, columnValue->type(), result_set);
                             }
-                        } else if (auto clauseValue = std::get_if<std::shared_ptr<winter::data::sql_impl::IStatementValue>>(&column)) {
-                            std::string column_name = clauseValue->get()->name();
-                            if (result_set->isNull(column_name)) {
-                                AddRow(column_name, std::nullopt);
-                            } else {
-                                CreateRow(column_name, clauseValue->get()->fieldType(), result_set);
-                            }
+                        } else if (auto clauseValue = std::get_if<std::shared_ptr<winter::data::sql_impl::Clause>>(&column)) {
+                            // TODO: FIX NAME ON "AS" CASES
+                            /*                             std::string column_name = clauseValue->get()->name();
+                                                        if (result_set->isNull(column_name)) {
+                                                            AddRow(column_name, std::nullopt);
+                                                        } else {
+                                                            CreateRow(column_name, clauseValue->get()->fieldType(), result_set);
+                                                        } */
                         }
                     }
                 }
             }
         };
 
-        void CreateRow(const std::string                 &value_name,
+        void CreateRow(const std::string &value_name,
+
                        FieldType                          type,
                        const std::shared_ptr<TResultSet> &result) {
             switch (type) {

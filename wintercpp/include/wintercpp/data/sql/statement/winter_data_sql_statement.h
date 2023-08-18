@@ -11,6 +11,8 @@
 #include <string>
 #include <utility>
 
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
+
 namespace winter::data::sql_impl {
 
     class IStatement {
@@ -30,6 +32,11 @@ namespace winter::data::sql_impl {
     template<typename Children>
     class Statement : public virtual IStatement {
        public:
+        explicit Statement(const std::string &query, const std::string &transaction_id = winter::random::uuid());
+        Statement(const std::string &statement_template, const StatementType &statement_type, const std::string &transaction_id = winter::random::uuid());
+        Statement(const Statement &statement);
+
+        Statement    &operator=(const Statement &) = default;
         StatementType type() override;
 
         std::string transaction_id() override;
@@ -39,15 +46,12 @@ namespace winter::data::sql_impl {
         Children &set_statement_template(const std::string &statement_template);
       */
 
-        template<typename T>
-        Children &Value(const T value);
+        Children &Value(const DataType &value);
 
-        template<typename T>
-        Children &Value(const Column &row, const T value);
+        Children &Value(const Column &row, const DataType &value);
 
-        template<typename T>
         Children &Value(const Column      &row,
-                        const T            value,
+                        const DataType    &value,
                         const std::string &custom_value);
 
         const PreparedStatement &prepared_statement() override;
@@ -79,18 +83,12 @@ namespace winter::data::sql_impl {
         virtual ~Statement();
 
        protected:
-        explicit Statement(std::string query);
-        Statement(std::string          statement_template,
-                  const StatementType &statement_type);
-        Statement(const Statement &statement);
-        Statement &operator=(const Statement &) = default;
-
-        std::string                        statement_template_;
-        std::unique_ptr<PreparedStatement> prepared_statement_;
-        const StatementType                type_ {};
+        std::string         statement_template_;
+        PreparedStatement   prepared_statement_;
+        const StatementType type_ {};
 
        private:
-        const std::string transaction_id_ = winter::random::uuid();
+        const std::string transaction_id_;
         Children         &This();
     };
 

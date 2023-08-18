@@ -19,42 +19,14 @@ namespace winter::data::sql_impl {
        public:
         explicit And(const Predicate &predicate);
 
-        explicit And(Column column);
+        std::string Query() const override;
 
-        explicit And(Column column, Condition);
-
-        std::string name() override;
-
-        FieldType fieldType() override;
-
-        PreparedStatement Prepare() override;
-
-        template<typename T>
-        static Predicate MakePredicate(const Column &column,
-                                       Condition     condition,
-                                       T             value) {
-            return Predicate(column,
-                             std::make_shared<PreparedStatementField<T> >(
-                                 column->name(), value),
-                             condition);
-        }
-
-        template<typename T>
-        static Predicate MakePredicate(const Column      &column,
-                                       Condition          condition,
-                                       T                  value,
-                                       const std::string &custom_value) {
-            return Predicate(column,
-                             std::make_shared<PreparedStatementField<T> >(
-                                 column->name(), value, custom_value),
-                             condition);
-        }
+        std::vector<PreparedStatementField> Fields() const override;
 
        private:
-        const Column                                          column_;
-        const std::shared_ptr<AbstractPreparedStatementField> field_;
-        const Condition                                       condition_ {};
-        const bool                                            is_predicate_ = false;
+        const Predicate   predicate_;
+        const std::string query_template_ = "AND $and";
+        const std::string query_param_ = "$and";
     };
 
 }  // namespace winter::data::sql_impl
