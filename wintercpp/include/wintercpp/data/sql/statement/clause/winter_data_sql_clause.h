@@ -5,33 +5,31 @@
 #ifndef WINTERCPP_WINTER_DATA_SQL_CLAUSE_H
 #define WINTERCPP_WINTER_DATA_SQL_CLAUSE_H
 
-#include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
-
+#include <memory>
 #include <string>
+#include <vector>
+
+#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement.h"
 
 namespace winter::data::sql_impl {
 
-    class Clause : public virtual IStatementValue {
+    class Clause {
        public:
-        Clause &operator<<(const std::string &rvalue);
+        virtual std::string                         Query() const = 0;
+        virtual std::vector<PreparedStatementField> Fields() const = 0;
 
-        const std::string &query() const override;
+        std::string operator()(const Clause &clause) {
+            return "(" + clause.Query() + ")";
+        }
 
-        std::string param();
+        std::string operator()(const std::shared_ptr<Clause> clause) {
+            return "(" + clause->Query() + ")";
+        }
 
-        std::string statement_template();
-
-        virtual PreparedStatement Prepare() = 0;
-
-       protected:
-        Clause &BuildQuery();
-        Clause(std::string statement_template, std::string param);
-        void set_statement_template(const std::string &statement_template);
-
-       private:
-        std::string       statement_template_ {};
-        const std::string param_ {};
-        std::string       query_ {};
+        std::string operator()(const std::shared_ptr<IStatement> statement) {
+            return "(" + statement->prepared_statement().statement_template() + ")";
+        }
     };
 
 }  // namespace winter::data::sql_impl

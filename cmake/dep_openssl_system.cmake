@@ -38,4 +38,4 @@ if ( OPENSSL_FOUND )
 endif()
 
 #target_link_libraries(${YOUR_TARGET_HERE} ${OPENSSL_LIBRARIES})
-set(WINTER_OPENSSL_LIB -lssl -lcrypto)
+set(WINTER_OPENSSL_LIB ${OPENSSL_LIBRARIES})

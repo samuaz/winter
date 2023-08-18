@@ -21,6 +21,6 @@ void Insert::BuildStatement() {
         winter::util::string::replace(
             statement_template_, "$table", table_->name());
     }
-    prepared_statement_->set_statement_template(statement_template_);
+    prepared_statement_.set_statement_template(statement_template_);
     // GenerateId();
 }

@@ -6,39 +6,34 @@
 #define WINTERCPP_DATA_SQL_PREPARED_STATEMENT_FIELD_H
 
 #include <memory>
+#include <optional>
 #include <string>
 
-#include "../field/winter_data_sql_field.h"
-#include "winter_data_sql_abstract_prepared_statement_field.h"
+#include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
+#include "wintercpp/data/sql/field/winter_data_sql_field.h"
 
 namespace winter::data::sql_impl {
 
-    template<typename T>
-    class PreparedStatementField :
-        public virtual Field<T>,
-        public virtual AbstractPreparedStatementField {
+    class PreparedStatementField : public virtual Field {
        public:
-        explicit PreparedStatementField(const T &value) :
-            Field<T>(value) {}
+        explicit PreparedStatementField(const DataType &value) :
+            Field(value) {}
 
-        PreparedStatementField(const std::string &name, const T &value) :
-            Field<T>(name, value) {}
+        PreparedStatementField(const std::string &name, const DataType &value) :
+            Field(name, value), custom_value_(std::nullopt) {}
 
-        PreparedStatementField(const std::string &name,
-                               const T           &value,
-                               std::string        custom_value) :
-            Field<T>(name, value),
-            custom_value_(std::move(custom_value)) {}
+        PreparedStatementField(const std::string &name, const DataType &value, const std::optional<std::string> &custom_value) :
+            Field(name, value),
+            custom_value_(custom_value) {}
 
-        PreparedStatementField(const PreparedStatementField<T> &field) :
-            Field<T>(field), custom_value_(field.custom_value_) {}
+        PreparedStatementField(const PreparedStatementField &field) :
+            Field(field), custom_value_(field.custom_value_) {}
 
-        explicit PreparedStatementField(
-            const PreparedStatementField<T> *field) :
-            Field<T>(field),
+        explicit PreparedStatementField(const PreparedStatementField *field) :
+            Field(field),
             custom_value_(field->custom_value_) {}
 
-        const std::string &custom_value() const override {
+        const std::optional<std::string> &custom_value() const {
             return custom_value_;
         }
 
@@ -46,16 +41,13 @@ namespace winter::data::sql_impl {
             PreparedStatementField::custom_value_ = custom_value;
         }
 
-        bool IsCustomValue() override {
-            return ! custom_value_.empty();
+        bool IsCustomValue() const {
+            return custom_value_.has_value() && ! custom_value_.value().empty();
         }
 
        private:
-        std::string custom_value_;
+        std::optional<std::string> custom_value_;
     };
-
-    template<typename T>
-    using QUERY_FIELD = std::shared_ptr<PreparedStatementField<T> >;
 
 }  // namespace winter::data::sql_impl
 

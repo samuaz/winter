@@ -12,52 +12,30 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h>
 
 #include <queue>
+#include <string>
 #include <utility>
+
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 namespace winter::data::sql_impl {
 
     class Where : public virtual Clause {
        public:
-        explicit Where(const Predicate &predicate);
+        explicit Where(const Predicate& predicate);
 
-        explicit Where(Column column);
+        explicit Where(const StatementValue& statement_value);
 
-        explicit Where(Column column, winter::data::sql_impl::Condition);
-        std::string name() override;
-        FieldType   fieldType() override;
+        explicit Where(const StatementValue& statement_value, winter::data::sql_impl::Condition);
 
-        PreparedStatement Prepare() override;
+        std::string Query() const override;
 
-        template<typename T>
-        static Predicate make_predicate(const Column &column,
-                                        Condition     condition,
-                                        T             value) {
-            return Predicate(column,
-                             std::make_shared<PreparedStatementField<T> >(
-                                 column->name(), value),
-                             condition);
-        }
-
-        template<typename T>
-        static Predicate make_predicate(const Column      &column,
-                                        Condition          condition,
-                                        T                  value,
-                                        const std::string &custom_value) {
-            return Predicate(column,
-                             std::make_shared<PreparedStatementField<T> >(
-                                 column->name(), value, custom_value),
-                             condition);
-        }
+        std::vector<PreparedStatementField> Fields() const override;
 
        private:
-        const Column column_;
-        const std::shared_ptr<
-            winter::data::sql_impl::AbstractPreparedStatementField>
-                                                field_;
-        const winter::data::sql_impl::Condition condition_ {};
-        const bool                              _is_predicate = false;
+        const Predicate   predicate_;
+        const std::string query_template_ = "WHERE $where";
+        const std::string query_param_ = "$where";
     };
-
 }  // namespace winter::data::sql_impl
 
 #endif /* WINTER_DATA_SQL_CLAUSE_WHERE */

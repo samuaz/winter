@@ -3,40 +3,27 @@
 //
 
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_parenthesis.h>
+#include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
+#include <wintercpp/data/sql/statement/winter_data_sql_statement_values_utils.h>
+#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
+
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
+
+using namespace winter::data::sql_impl;
 
 winter::data::sql_impl::Parenthesis::Parenthesis(
-    winter::data::sql_impl::Clause *clause) :
-    Clause("($clause)", "$clause") {
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        "$clause",
-        clause->Prepare().statement_template()));
-}
+    const winter::data::sql_impl::StatementValue& statement_value) :
+    predicate_(statement_value) {}
 
-std::string winter::data::sql_impl::Parenthesis::Parenthesis::name() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to name function on clause"));
+std::vector<PreparedStatementField> winter::data::sql_impl::Parenthesis::Fields() const {
+    return predicate_.fields();
 };
 
-winter::data::sql_impl::FieldType winter::data::sql_impl::Parenthesis::fieldType() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to fieldtype function on clause"));
-}
-
-winter::data::sql_impl::Parenthesis::Parenthesis(const std::string &clause) :
-    Clause("($clause)", "$clause") {
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(), "$clause", clause));
-}
-
-winter::data::sql_impl::PreparedStatement
-winter::data::sql_impl::Parenthesis::Prepare() {
-    return winter::data::sql_impl::PreparedStatement(StatementType::kClause,
-                                                     statement_template());
+std::string
+winter::data::sql_impl::Parenthesis::Query() const {
+    return winter::util::string::replace_value(
+        query_template_,
+        query_param_,
+        predicate_.lstatementStr());
 }

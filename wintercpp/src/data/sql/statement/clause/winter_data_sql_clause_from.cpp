@@ -6,52 +6,50 @@
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/util/winter_string_util.h>
 
-#include "wintercpp/exception/generic/winter_internal_exception.h"
+#include <memory>
+#include <string>
+#include <variant>
+
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
 using namespace winter::util::string;
+using namespace winter::data::sql_impl;
 
-winter::data::sql_impl::From::From(std::vector<std::shared_ptr<Table>> tables) :
-    Clause("FROM $tables", "$tables"), tables_(std::move(tables)) {
-    Prepare();
+From::From(const Predicate &predicate) {
+    predicate_.push_back(predicate);
 }
 
-winter::data::sql_impl::From::From(const std::shared_ptr<Table> &table) :
-    Clause("FROM $tables", "$tables") {
-    tables_.push_back(table);
+From::From(const std::vector<Predicate> &predicates) :
+    predicate_(predicates) {}
+
+From::From(const StatementValue &statement_value) {
+    predicate_.push_back(Predicate(statement_value));
 }
 
-std::string winter::data::sql_impl::From::From::name() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to name function on clause"));
-};
-
-winter::data::sql_impl::FieldType winter::data::sql_impl::From::fieldType() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to fieldtype function on clause"));
-}
-
-winter::data::sql_impl::PreparedStatement
-winter::data::sql_impl::From::Prepare() {
-    GenerateStatement();
-    return winter::data::sql_impl::PreparedStatement(
-        StatementType::kClause, statement_template(), columns_);
-}
-
-void winter::data::sql_impl::From::GenerateStatement() {
-    std::vector<std::string> tablesNames;
-    for (auto const &table : tables_) {
-        tablesNames.push_back(table->name());
-        auto tableColumns = table->columns();
-        for (const Column &col : tableColumns) { columns_.push_back(col); }
+From::From(const std::vector<StatementValue> &statement_value) {
+    for (auto const &statement_value : statement_value) {
+        predicate_.push_back(Predicate(statement_value));
     }
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        param(),
-        winter::data::sql_impl::CommaSeparatedValue(tablesNames)));
+}
+
+std::vector<PreparedStatementField> winter::data::sql_impl::From::Fields() const {
+    std::vector<PreparedStatementField> fields;
+    fields.reserve(predicate_.size());
+    for (const auto &predicate : predicate_) {
+        auto predicateFields = predicate.fields();
+        fields.insert(fields.end(), predicateFields.begin(), predicateFields.end());
+    }
+    return fields;
+}
+
+std::string winter::data::sql_impl::From::Query() const {
+    std::vector<std::string> tablesNames;
+    tablesNames.reserve(predicate_.size());
+    for (const auto &predicate : predicate_) {
+        tablesNames.push_back(predicate.lstatementStr());
+    }
+    return winter::util::string::replace_value(
+        query_template_,
+        query_param_,
+        winter::data::sql_impl::CommaSeparatedValue(tablesNames));
 }

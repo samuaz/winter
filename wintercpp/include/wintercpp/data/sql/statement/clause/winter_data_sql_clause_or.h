@@ -14,46 +14,25 @@
 #include <queue>
 #include <utility>
 
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+
 namespace winter::data::sql_impl {
 
     class Or : public virtual Clause {
        public:
         explicit Or(const Predicate &predicate);
 
-        explicit Or(Column column);
+        explicit Or(const StatementValue &statement_value);
 
-        explicit Or(Column column, Condition);
-        std::string name() override;
-        FieldType   fieldType() override;
+        explicit Or(const StatementValue &statement_value, Condition);
 
-        PreparedStatement Prepare() override;
-
-        template<typename T>
-        static Predicate MakePredicate(const Column &column,
-                                       Condition     condition,
-                                       T             value) {
-            return Predicate(column,
-                             std::make_shared<PreparedStatementField<T> >(
-                                 column->name(), value),
-                             condition);
-        }
-
-        template<typename T>
-        static Predicate MakePredicate(const Column      &column,
-                                       Condition          condition,
-                                       T                  value,
-                                       const std::string &customValue) {
-            return Predicate(column,
-                             std::make_shared<PreparedStatementField<T> >(
-                                 column->name(), value, customValue),
-                             condition);
-        }
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
        private:
-        Column                                          column_;
-        std::shared_ptr<AbstractPreparedStatementField> field_;
-        Condition                                       condition_ {};
-        bool                                            is_predicate_ = false;
+        const Predicate   predicate_;
+        const std::string query_template_ = "OR $or";
+        const std::string query_param_ = "$or";
     };
 
 }  // namespace winter::data::sql_impl

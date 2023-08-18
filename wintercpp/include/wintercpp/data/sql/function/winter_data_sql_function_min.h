@@ -6,34 +6,38 @@
 #define WINTER_DATA_SQL_FUNCTION_MIN
 
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
+#include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
+#include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_operator.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h>
+#include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
 
 #include <queue>
 #include <string>
-
-#include "wintercpp/data/sql/field/winter_data_sql_field_type.h"
-#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h"
 
 namespace winter::data::sql_impl {
 
     class Min : public virtual Clause {
        public:
-        explicit Min(StatementValues column);
+        explicit Min(const StatementValue &statement_value);
         virtual ~Min() = default;
 
-        PreparedStatement Prepare() override;
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
-        std::string name() override;
+        // PreparedStatement Prepare() override;
 
-        FieldType fieldType() override;
+        std::string name() const;
+
+        // FieldType fieldType() override;
 
        private:
-        const StatementValues                                 column_;
-        const std::shared_ptr<AbstractPreparedStatementField> field_;
-        const bool                                            is_predicate_ = false;
+        const StatementValue statement_value_;
+        // const PreparedStatementField field_;
+        const std::string query_template_ = "MIN($min) AS min_$columnName";
+        const std::string query_param_ = "$min";
     };
 
 }  // namespace winter::data::sql_impl

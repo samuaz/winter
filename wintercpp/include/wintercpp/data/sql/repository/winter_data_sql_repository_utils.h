@@ -13,13 +13,14 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_where.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_select.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
+#include <wintercpp/data/sql/table/winter_data_sql_uuid_table.h>
 #include <wintercpp/data/winter_data_pageable.h>
 #include <wintercpp/exception/generic/winter_internal_exception.h>
 
 #include <functional>
 #include <memory>
 
-#include "wintercpp/data/sql/table/winter_data_sql_uuid_table.h"
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
 namespace winter::data::sql_impl {
 
@@ -109,10 +110,10 @@ namespace winter::data::sql_impl {
                 auto uuidTable = std::dynamic_pointer_cast<
                     winter::data::sql_impl::UUIDTable>(table);
                 if (uuidTable->binary()) {
-                    select << Where(Where::make_predicate(
+                    select << Where(Predicate::Make(
                         uuidTable->id(), Condition::EQ, id, "unhex(?)"));
                 } else {
-                    select << Where(Where::make_predicate(
+                    select << Where(Predicate::Make(
                         uuidTable->id(), Condition::EQ, id));
                 }
                 break;

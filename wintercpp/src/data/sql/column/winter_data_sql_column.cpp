@@ -52,6 +52,10 @@ const std::string &Column::TableName() const {
     return table_.name();
 }
 
+std::string Column::FullName() const {
+    return table_.name() + "." + name();
+}
+
 bool Column::operator==(const Column &column) const {
     return this->TableName() == column.TableName() && this->name_ == column.name_;
 }

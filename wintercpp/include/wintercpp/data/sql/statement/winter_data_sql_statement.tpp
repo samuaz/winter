@@ -1,28 +1,35 @@
+#include <utility>
+
 //
 // Created by Samuel Azcona on 14/03/2020.
 //
 
+#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h"
 //#include "wintercpp/data/sql/statement/winter_data_sql_statement.h"
 namespace winter::data::sql_impl {
 
     template<typename Children>
-    Statement<Children>::Statement(std::string query) :
-        statement_template_(std::move(query)), type_(StatementType::kNative) {}
+    Statement<Children>::Statement(const std::string &query, const std::string &transaction_id) :
+        statement_template_(query),
+        prepared_statement_(PreparedStatement(StatementType::kNative, "", transaction_id)),
+        type_(StatementType::kNative) {
+    }
 
     template<typename Children>
-    Statement<Children>::Statement(std::string          statement_template,
-                                   const StatementType &statement_type) :
-        statement_template_(std::move(statement_template)),
+    Statement<Children>::Statement(const std::string   &statement_template,
+                                   const StatementType &statement_type,
+                                   const std::string   &transaction_id) :
+        statement_template_(statement_template),
+        prepared_statement_(PreparedStatement(statement_type, "", transaction_id)),
         type_(statement_type) {
-        prepared_statement_ = std::make_unique<PreparedStatement>(type_, "", transaction_id_);
     }
 
     template<typename Children>
     Statement<Children>::Statement(const Statement &statement) :
         statement_template_(statement.statement_template_),
-        prepared_statement_(
-            new PreparedStatement(*statement.prepared_statement_)),
-        type_(statement.type_), transaction_id_(statement.transaction_id_) {}
+        prepared_statement_(PreparedStatement(statement.prepared_statement_)),
+        type_(statement.type_), transaction_id_(statement.transaction_id_) {
+    }
 
     template<typename Children>
     StatementType Statement<Children>::type() {
@@ -49,34 +56,30 @@ namespace winter::data::sql_impl {
     }; */
 
     template<typename Children>
-    template<typename T>
-    Children &Statement<Children>::Value(const T value) {
-        prepared_statement_->AddValue(new PreparedStatementField<T>(value));
+    Children &Statement<Children>::Value(const DataType &value) {
+        prepared_statement_.AddValue(PreparedStatementField(value));
         return This();
     };
 
     template<typename Children>
-    template<typename T>
-    Children &Statement<Children>::Value(const Column &row, const T value) {
-        prepared_statement_->AddValue(
-            new PreparedStatementField<T>(row->name(), value));
+    Children &Statement<Children>::Value(const Column &row, const DataType &value) {
+        prepared_statement_.AddValue(PreparedStatementField(row.name(), value));
         return This();
     };
 
     template<typename Children>
-    template<typename T>
     Children &Statement<Children>::Value(const Column      &row,
-                                         const T            value,
+                                         const DataType    &value,
                                          const std::string &custom_value) {
-        prepared_statement_->AddValue(
-            new PreparedStatementField<T>(row->name(), value, custom_value));
+        prepared_statement_.AddValue(
+            PreparedStatementField(row.name(), value, custom_value));
         return This();
     };
 
     template<typename Children>
     const PreparedStatement &Statement<Children>::prepared_statement() {
         BuildStatement();
-        return *prepared_statement_;
+        return prepared_statement_;
     };
 
     template<typename Children>
@@ -120,11 +123,11 @@ namespace winter::data::sql_impl {
     template<typename Children>
     template<typename CLAUSE>
     Children &Statement<Children>::AddClause(CLAUSE clause) {
-        auto preparedStatement = clause.Prepare();
-        statement_template_.append(" ").append(preparedStatement.statement_template());
-        prepared_statement_->AddAll(preparedStatement.values());
-        if (prepared_statement_->columns().empty()) {
-            prepared_statement_->AddColumn(preparedStatement.columns());
+        statement_template_.append(" ").append(clause.Query());
+        prepared_statement_.AddAll(clause.Fields());
+        if (prepared_statement_.statementValues().empty()) {
+            // FIXME
+            //  prepared_statement_.AddStatementValue(preparedStatement.columns());
         }
         return This();
     }

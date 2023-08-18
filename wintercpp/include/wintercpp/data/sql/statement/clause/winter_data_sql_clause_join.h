@@ -8,28 +8,32 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause.h>
 #include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+
 namespace winter::data::sql_impl {
 
     enum class JoinType : int { DEFAULT = 0,
                                 INNER,
                                 LEFT,
                                 RIGHT,
-                                CROSS };
+                                CROSS,
+                                FULL_JOIN
+    };
 
     class Join : public virtual Clause {
        public:
-        explicit Join(std::shared_ptr<Table> table, JoinType type);
-        explicit Join(std::shared_ptr<Table> table);
-        PreparedStatement Prepare() override;
-
-        std::string name() override;
-        FieldType   fieldType() override;
+        explicit Join(const StatementValue&, JoinType type);
+        explicit Join(const StatementValue& statement_value);
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
        private:
-        std::shared_ptr<Table> table_;
-        JoinType               type_;
-        void                   GenerateStatement();
-        std::string            GenerateType();
+        const Predicate   predicate_;
+        const JoinType    type_;
+        std::string       GenerateType() const;
+        const std::string query_template_ = "$type JOIN $table";
+        const std::string query_param_ = "$table";
     };
 
 }  // namespace winter::data::sql_impl

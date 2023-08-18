@@ -4,38 +4,35 @@
 
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_set.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
+#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/util/winter_string_util.h>
 
+#include <string>
 #include <utility>
 
-winter::data::sql_impl::Set::Set(
-    std::vector<std::shared_ptr<
-        winter::data::sql_impl::AbstractPreparedStatementField> > fields) :
-    Clause("SET $fields", "$fields"),
-    fields_(std::move(fields)) {}
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
-std::string winter::data::sql_impl::Set::Set::name() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to name function on clause"));
-};
+namespace winter::data::sql_impl {
 
-winter::data::sql_impl::FieldType winter::data::sql_impl::Set::fieldType() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to fieldtype function on clause"));
-}
+    Set::Set(const std::vector<PreparedStatementField> &fields) :
+        predicate_(fields) {}
 
-winter::data::sql_impl::PreparedStatement
-winter::data::sql_impl::Set::Prepare() {
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        param(),
-        winter::data::sql_impl::commaSeparatedEqualValue(fields_)));
-    return winter::data::sql_impl::PreparedStatement(
-        StatementType::kClause, statement_template(), fields_);
-}
+    Set::Set(const PreparedStatementField &field) :
+        predicate_(field) {}
+
+    Set::Set(const Predicate &predicate) :
+        predicate_(predicate) {}
+
+    std::vector<PreparedStatementField> Set::Fields() const {
+        return predicate_.fields();
+    }
+
+    std::string
+    Set::Query() const {
+        return winter::util::string::replace_value(
+            query_template_,
+            query_param_,
+            commaSeparatedEqualValue(predicate_.fields()));
+    }
+}  // namespace winter::data::sql_impl

@@ -4,53 +4,44 @@
 
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_on.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
+#include <wintercpp/exception/generic/winter_exception.h>
+#include <wintercpp/exception/generic/winter_internal_exception.h>
 #include <wintercpp/util/winter_string_util.h>
 
-winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
-                               winter::data::sql_impl::Condition     condition,
-                               const winter::data::sql_impl::Column &r_column) :
-    Clause("ON $lcolumn $condition $rcolumn", "$lcolumn $condition $rcolumn") {
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        "$lcolumn",
-        l_column->TableName() + Dot() + l_column->name()));
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(), "$condition", sql_impl::condition(condition)));
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        "$rcolumn",
-        r_column->TableName() + Dot() + r_column->name()));
-}
+#include <string>
 
-std::string winter::data::sql_impl::On::On::name() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to name function on clause"));
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+
+using namespace winter::data::sql_impl;
+using namespace winter::util::string;
+
+On::On(const StatementValue &l_statement_value,
+       Condition             condition,
+       const StatementValue &r_statement_value) :
+    predicate_(l_statement_value, condition, r_statement_value) {}
+
+On::On(const StatementValue &l_statement_value,
+       Condition             condition) :
+    predicate_(l_statement_value, condition) {}
+
+std::vector<PreparedStatementField> On::Fields() const {
+    return predicate_.fields();
 };
 
-winter::data::sql_impl::FieldType winter::data::sql_impl::On::fieldType() {
-    throw exception::WinterInternalException::Create(
-        __FILE__,
-        __FUNCTION__,
-        __LINE__,
-        ("invalid call to fieldtype function on clause"));
-}
+std::string
+On::Query() const {
+    std::string result = winter::util::string::replace_value(
+        query_template_,
+        query_param_l,
+        predicate_.lstatementStr());
 
-winter::data::sql_impl::On::On(const winter::data::sql_impl::Column &l_column,
-                               winter::data::sql_impl::Condition     condition) :
-    Clause("ON $lcolumn $condition", "$lcolumn $condition") {
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(),
-        "$lcolumn",
-        l_column->TableName() + Dot() + l_column->name()));
-    set_statement_template(winter::util::string::replace_value(
-        statement_template(), "$condition", sql_impl::condition(condition)));
-}
+    result = winter::util::string::replace_value(
+        result,
+        query_param_r,
+        predicate_.rstatementStr());
 
-winter::data::sql_impl::PreparedStatement
-winter::data::sql_impl::On::Prepare() {
-    return winter::data::sql_impl::PreparedStatement(StatementType::kClause,
-                                                     statement_template());
+    std::string query = replace_value(result, query_param_condition, predicate_.conditionStr());
+    trim_string(query);
+    return query;
 }
