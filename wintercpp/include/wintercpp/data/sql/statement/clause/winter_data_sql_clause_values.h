@@ -19,20 +19,20 @@ namespace winter::data::sql_impl {
 
     class Values : public virtual Clause {
        public:
-        explicit Values(const std::vector<std::shared_ptr<AbstractPreparedStatementField>> &fields);
+        explicit Values(const std::vector<PreparedStatementField> &fields);
 
-        std::string                                                                          Query() const override;
-        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
-        static std::shared_ptr<PreparedStatementField> Add(
+        static PreparedStatementField Add(
             const Column &column, const DataType &value) {
-            return std::make_shared<PreparedStatementField>(column->FullName(),
-                                                            value);
+            return PreparedStatementField(column->FullName(),
+                                          value);
         }
 
-        static std::shared_ptr<PreparedStatementField> Add(
+        static PreparedStatementField Add(
             const Column &column, const DataType &value, const std::string &custom_value) {
-            return std::make_shared<PreparedStatementField>(
+            return PreparedStatementField(
                 column->FullName(), value, custom_value);
         }
 

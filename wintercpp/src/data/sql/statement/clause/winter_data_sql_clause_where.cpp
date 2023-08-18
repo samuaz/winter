@@ -20,7 +20,7 @@ Where::Where(
     const StatementValue& statement_value, Condition condition) :
     predicate_(statement_value, condition) {}
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Where::Fields() const {
+std::vector<PreparedStatementField> Where::Fields() const {
     return predicate_.fields();
 }
 
@@ -32,7 +32,7 @@ Where::Query() const {
 
     if (isColumn && predicate_.has_fields()) {
         const auto&       field = predicate_.field();
-        const std::string value_str = field->IsCustomValue() ? field->custom_value().value() : PlaceHolder();
+        const std::string value_str = field.IsCustomValue() ? field.custom_value().value() : PlaceHolder();
         builder << predicate_.lstatementStr()
                 << Space()
                 << predicate_.conditionStr()

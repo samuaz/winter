@@ -21,7 +21,7 @@ namespace winter::data::sql_impl {
 
         std::string Query() const override;
 
-        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
        private:
         const Predicate   predicate_;

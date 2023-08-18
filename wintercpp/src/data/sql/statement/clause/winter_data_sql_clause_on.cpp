@@ -25,7 +25,7 @@ On::On(const StatementValue &l_statement_value,
        Condition             condition) :
     predicate_(l_statement_value, condition) {}
 
-std::vector<std::shared_ptr<AbstractPreparedStatementField>> On::Fields() const {
+std::vector<PreparedStatementField> On::Fields() const {
     return predicate_.fields();
 };
 

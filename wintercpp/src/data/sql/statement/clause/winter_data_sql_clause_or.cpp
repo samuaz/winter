@@ -15,6 +15,7 @@
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 using namespace winter::util::string;
+using namespace winter::data::sql_impl;
 
 winter::data::sql_impl::Or::Or(const Predicate &predicate) :
     predicate_(predicate) {}
@@ -26,7 +27,7 @@ winter::data::sql_impl::Or::Or(const StatementValue             &statement_value
                                winter::data::sql_impl::Condition condition) :
     predicate_(statement_value, condition) {}
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> winter::data::sql_impl::Or::Or::Fields() const {
+std::vector<PreparedStatementField> winter::data::sql_impl::Or::Or::Fields() const {
     return predicate_.fields();
 }
 
@@ -40,10 +41,10 @@ winter::data::sql_impl::Or::Query() const {
     std::string result;
     if (predicate_.has_fields()) {
         for (auto &field : predicate_.fields()) {
-            if (field->IsCustomValue()) {
+            if (field.IsCustomValue()) {
                 builder << lstatement
                         << Space() << condition << Space()
-                        << field->custom_value().value();
+                        << field.custom_value().value();
             } else {
                 builder << lstatement
                         << Space() << condition << Space()

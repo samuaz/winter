@@ -9,15 +9,12 @@
 #include <optional>
 #include <string>
 
-#include "../field/winter_data_sql_field.h"
-#include "winter_data_sql_abstract_prepared_statement_field.h"
 #include "wintercpp/data/sql/field/winter_data_sql_data_type.h"
+#include "wintercpp/data/sql/field/winter_data_sql_field.h"
 
 namespace winter::data::sql_impl {
 
-    class PreparedStatementField :
-        public virtual Field,
-        public virtual AbstractPreparedStatementField {
+    class PreparedStatementField : public virtual Field {
        public:
         explicit PreparedStatementField(const DataType &value) :
             Field(value) {}
@@ -36,7 +33,7 @@ namespace winter::data::sql_impl {
             Field(field),
             custom_value_(field->custom_value_) {}
 
-        const std::optional<std::string> &custom_value() const override {
+        const std::optional<std::string> &custom_value() const {
             return custom_value_;
         }
 
@@ -44,16 +41,13 @@ namespace winter::data::sql_impl {
             PreparedStatementField::custom_value_ = custom_value;
         }
 
-        bool IsCustomValue() override {
+        bool IsCustomValue() const {
             return custom_value_.has_value() && ! custom_value_.value().empty();
         }
 
        private:
         std::optional<std::string> custom_value_;
     };
-
-    template<typename T>
-    using QUERY_FIELD = std::shared_ptr<PreparedStatementField>;
 
 }  // namespace winter::data::sql_impl
 

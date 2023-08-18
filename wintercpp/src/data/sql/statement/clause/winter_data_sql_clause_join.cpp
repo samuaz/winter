@@ -25,7 +25,7 @@ Join::Join(const StatementValue& statement_value) :
     type_(JoinType::DEFAULT) {
 }
 
-std::vector<std::shared_ptr<AbstractPreparedStatementField>> Join::Fields() const {
+std::vector<PreparedStatementField> Join::Fields() const {
     return predicate_.fields();
 }
 

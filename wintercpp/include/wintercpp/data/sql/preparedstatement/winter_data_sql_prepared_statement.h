@@ -7,7 +7,7 @@
 
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
-#include <wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h>
+#include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_type.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
 #include <wintercpp/exception/generic/winter_exception.h>
@@ -20,65 +20,43 @@
 #include <vector>
 namespace winter::data::sql_impl {
 
-    /*     class IStatementValue {
-           public:
-            virtual const std::string &query() const = 0;
-            virtual std::string        name() {
-                       throw exception::WinterInternalException::Create(
-                    __FILE__,
-                    __FUNCTION__,
-                    __LINE__,
-                    ("invalid call to name function on IStatementValue"));
-            };
-            virtual FieldType fieldType() {
-                throw exception::WinterInternalException::Create(
-                    __FILE__,
-                    __FUNCTION__,
-                    __LINE__,
-                    ("invalid call to fieldtype function on IStatementValue"));
-            };
-        }; */
-
     class PreparedStatement {
        public:
         PreparedStatement() = default;
 
         PreparedStatement(const StatementType &statement_type,
-                          std::string          statement_template,
-                          std::string          id = winter::random::uuid());
+                          const std::string   &statement_template,
+                          const std::string   &id = winter::random::uuid());
 
-        PreparedStatement(const StatementType        &statement_type,
-                          std::string                 statement_template,
-                          std::vector<StatementValue> fields,
-                          std::string                 id = winter::random::uuid());
-
-        PreparedStatement(
-            const StatementType                                         &statement_type,
-            std::string                                                  query,
-            std::vector<std::shared_ptr<AbstractPreparedStatementField>> fields,
-            std::string                                                  id = winter::random::uuid());
+        PreparedStatement(const StatementType               &statement_type,
+                          const std::string                 &statement_template,
+                          const std::vector<StatementValue> &fields,
+                          const std::string                 &id = winter::random::uuid());
 
         PreparedStatement(
-            const StatementType                                   &statement_type,
-            std::string                                            statement_template,
-            const std::shared_ptr<AbstractPreparedStatementField> &field,
-            std::string                                            id = winter::random::uuid());
+            const StatementType                       &statement_type,
+            const std::string                         &query,
+            const std::vector<PreparedStatementField> &fields,
+            const std::string                         &id = winter::random::uuid());
+
+        PreparedStatement(
+            const StatementType          &statement_type,
+            const std::string            &statement_template,
+            const PreparedStatementField &field,
+            const std::string            &id = winter::random::uuid());
 
         const std::string &id() const;
 
         void set_id(const std::string &id);
 
-        const std::vector<std::shared_ptr<AbstractPreparedStatementField>>
+        const std::vector<PreparedStatementField>
             &values() const;
 
         void set_values(
-            const std::vector<std::shared_ptr<AbstractPreparedStatementField>>
+            const std::vector<PreparedStatementField>
                 &values);
 
-        PreparedStatement &AddValue(AbstractPreparedStatementField *field);
-
-        PreparedStatement &AddValue(
-            const std::shared_ptr<AbstractPreparedStatementField> &field);
+        PreparedStatement &AddValue(const PreparedStatementField &field);
 
         template<typename T>
         void AddAll(const T &fields) {
@@ -103,10 +81,10 @@ namespace winter::data::sql_impl {
 
         // const AbstractPreparedStatementField &entityId() const;
 
-        const AbstractPreparedStatementField &FindByName(
+        const PreparedStatementField &FindByName(
             const std::string &name);
 
-        std::shared_ptr<AbstractPreparedStatementField> FindByField(
+        PreparedStatementField FindByField(
             const std::string &name);
 
         bool FieldIsPresent(const std::string &name);
@@ -127,10 +105,11 @@ namespace winter::data::sql_impl {
         std::string   id_ {};
         StatementType type_ {};
         // std::shared_ptr<AbstractPreparedStatementField> _entityId;
-        std::string                                                  statement_template_;
-        std::vector<StatementValue>                                  statement_values_;
-        std::vector<std::shared_ptr<AbstractPreparedStatementField>> fields_;
-        std::vector<std::shared_ptr<AbstractPreparedStatementField>>::iterator
+        std::string                         statement_template_ {};
+        std::vector<StatementValue>         statement_values_;
+        std::vector<PreparedStatementField> fields_;
+
+        std::vector<PreparedStatementField>::iterator
         FindValue(const std::string &name);
     };
 }  // namespace winter::data::sql_impl

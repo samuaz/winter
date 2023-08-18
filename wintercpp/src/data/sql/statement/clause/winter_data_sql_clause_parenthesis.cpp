@@ -10,11 +10,13 @@
 
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
+using namespace winter::data::sql_impl;
+
 winter::data::sql_impl::Parenthesis::Parenthesis(
     const winter::data::sql_impl::StatementValue& statement_value) :
     predicate_(statement_value) {}
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> winter::data::sql_impl::Parenthesis::Fields() const {
+std::vector<PreparedStatementField> winter::data::sql_impl::Parenthesis::Fields() const {
     return predicate_.fields();
 };
 

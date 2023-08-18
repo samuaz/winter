@@ -13,5 +13,5 @@ Delete::Delete() :
 }
 
 void Delete::BuildStatement() {
-    prepared_statement_->set_statement_template(statement_template_);
+    prepared_statement_.set_statement_template(statement_template_);
 }

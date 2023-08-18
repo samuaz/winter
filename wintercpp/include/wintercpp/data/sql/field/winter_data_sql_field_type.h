@@ -202,15 +202,15 @@ namespace winter::data::sql_impl {
         }
     }
 
-/**
- * @brief Get the FieldType for a given variant variable.
- *
- * This inline function uses std::visit to extract the type of the variant variable and then calls
- * the GetFieldType<T>() template function to get the corresponding FieldType. It returns the FieldType.
- *
- * @param dataType The variant variable for which to get the FieldType.
- * @return The FieldType corresponding to the type of the variant variable.
- */
+    /**
+     * @brief Get the FieldType for a given variant variable.
+     *
+     * This inline function uses std::visit to extract the type of the variant variable and then calls
+     * the GetFieldType<T>() template function to get the corresponding FieldType. It returns the FieldType.
+     *
+     * @param dataType The variant variable for which to get the FieldType.
+     * @return The FieldType corresponding to the type of the variant variable.
+     */
     inline FieldType GetFieldType(const DataType &dataType) {
         return std::visit([](const auto &value) {
             using T = std::decay_t<decltype(value)>;

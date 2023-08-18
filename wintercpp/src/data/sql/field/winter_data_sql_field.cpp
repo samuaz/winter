@@ -1,6 +1,8 @@
 
 #include <wintercpp/data/sql/field/winter_data_sql_field.h>
 
+#include <utility>
+
 namespace winter::data::sql_impl {
 
     const DataType& Field::value() const {
@@ -16,7 +18,7 @@ namespace winter::data::sql_impl {
     }
 
     void Field::value(DataType value) {
-        value_ = value;
+        value_ = std::move(value);
     }
 
 }  // namespace winter::data::sql_impl

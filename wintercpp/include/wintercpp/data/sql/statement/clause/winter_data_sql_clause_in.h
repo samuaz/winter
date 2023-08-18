@@ -27,8 +27,8 @@ namespace winter::data::sql_impl {
        public:
         explicit In(const StatementValue& statement_value);
         explicit In(const Predicate& predicate);
-        std::string                                                                          Query() const override;
-        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
         static In Values(const std::vector<DataType>& values_) {
             return In(Predicate::Make(values_));

@@ -26,6 +26,6 @@ std::string Into::Query() const {
         predicate_.lstatementStr());
 }
 
-std::vector<std::shared_ptr<AbstractPreparedStatementField>> Into::Fields() const {
+std::vector<PreparedStatementField> Into::Fields() const {
     return predicate_.fields();
 }

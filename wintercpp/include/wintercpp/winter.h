@@ -10,13 +10,11 @@
 #include <wintercpp/data/sql/column/winter_data_sql_column.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_connection.h>
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
-#include <wintercpp/data/sql/field/winter_data_sql_abstract_field.h>
 #include <wintercpp/data/sql/field/winter_data_sql_data_type.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
 #include <wintercpp/data/sql/function/winter_data_sql_function_min.h>
 #include <wintercpp/data/sql/migration/winter_data_migration.h>
-#include <wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h>
 #include <wintercpp/data/sql/repository/winter_data_sql_repository_utils.h>

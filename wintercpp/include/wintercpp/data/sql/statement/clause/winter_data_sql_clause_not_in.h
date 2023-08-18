@@ -25,8 +25,8 @@ namespace winter::data::sql_impl {
        public:
         explicit NotIn(const StatementValue& statement_value);
         explicit NotIn(const Predicate& predicate);
-        std::string                                                                          Query() const override;
-        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
         static NotIn Values(const std::vector<DataType>& values) {
             return NotIn(Predicate::Make(values));

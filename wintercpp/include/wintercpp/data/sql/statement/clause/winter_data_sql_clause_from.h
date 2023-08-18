@@ -22,8 +22,8 @@ namespace winter::data::sql_impl {
         explicit From(const Predicate& predicate);
         explicit From(const StatementValue& statement_value);
         explicit From(const std::vector<StatementValue>& statement_value);
-        std::string                                                                          Query() const override;
-        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
        private:
         std::vector<Predicate> predicate_;

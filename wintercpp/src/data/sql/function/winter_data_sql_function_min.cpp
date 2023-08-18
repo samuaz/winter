@@ -17,6 +17,7 @@
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
 
 using namespace winter::util::string;
+using namespace winter::data::sql_impl;
 
 winter::data::sql_impl::Min::Min(const StatementValue& statement_value) :
     statement_value_(statement_value) {}
@@ -34,7 +35,7 @@ std::string winter::data::sql_impl::Min::Min::name() const {
     return replace_value(name, "$columnName", builder.str());
 };
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> winter::data::sql_impl::Min::Fields() const {
+std::vector<PreparedStatementField> winter::data::sql_impl::Min::Fields() const {
     return {};
 }
 

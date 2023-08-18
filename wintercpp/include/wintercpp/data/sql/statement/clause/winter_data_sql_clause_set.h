@@ -20,19 +20,19 @@ namespace winter::data::sql_impl {
 
     class Set : public virtual Clause {
        public:
-        explicit Set(const std::vector<std::shared_ptr<AbstractPreparedStatementField>> &fields);
-        explicit Set(const std::shared_ptr<AbstractPreparedStatementField> &field);
+        explicit Set(const std::vector<PreparedStatementField> &fields);
+        explicit Set(const PreparedStatementField &field);
         explicit Set(const Predicate &predicate);
 
-        std::string                                                  Query() const override;
-        std::vector<std::shared_ptr<AbstractPreparedStatementField>> Fields() const override;
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
-        static std::shared_ptr<PreparedStatementField> Add(const Column &column, const DataType &value, const std::optional<std::string> &custom_value_ = nullopt) {
+        static PreparedStatementField Add(const Column &column, const DataType &value, const std::optional<std::string> &custom_value_ = nullopt) {
             return Set::Add(column.FullName(), value, custom_value_);
         }
 
-        static std::shared_ptr<PreparedStatementField> Add(const std::string &name, const DataType &value, const std::optional<std::string> &custom_value_ = nullopt) {
-            return std::make_shared<PreparedStatementField>(name, value, custom_value_);
+        static PreparedStatementField Add(const std::string &name, const DataType &value, const std::optional<std::string> &custom_value_ = nullopt) {
+            return PreparedStatementField(name, value, custom_value_);
         }
 
        private:

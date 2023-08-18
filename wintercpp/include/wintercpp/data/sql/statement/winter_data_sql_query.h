@@ -25,7 +25,7 @@ namespace winter::data::sql_impl {
 
        protected:
         void BuildStatement() override {
-            prepared_statement_->set_statement_template(statement_template_);
+            prepared_statement_.set_statement_template(statement_template_);
         }
 
        private:

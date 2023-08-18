@@ -15,16 +15,16 @@
 
 namespace winter::data::sql_impl {
 
-    Set::Set(const std::vector<std::shared_ptr<AbstractPreparedStatementField>> &fields) :
+    Set::Set(const std::vector<PreparedStatementField> &fields) :
         predicate_(fields) {}
 
-    Set::Set(const std::shared_ptr<AbstractPreparedStatementField> &field) :
+    Set::Set(const PreparedStatementField &field) :
         predicate_(field) {}
 
     Set::Set(const Predicate &predicate) :
         predicate_(predicate) {}
 
-    std::vector<std::shared_ptr<AbstractPreparedStatementField>> Set::Fields() const {
+    std::vector<PreparedStatementField> Set::Fields() const {
         return predicate_.fields();
     }
 

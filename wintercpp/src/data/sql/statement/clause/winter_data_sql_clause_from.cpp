@@ -32,8 +32,8 @@ From::From(const std::vector<StatementValue> &statement_value) {
     }
 }
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> winter::data::sql_impl::From::Fields() const {
-    std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> fields;
+std::vector<PreparedStatementField> winter::data::sql_impl::From::Fields() const {
+    std::vector<PreparedStatementField> fields;
     fields.reserve(predicate_.size());
     for (const auto &predicate : predicate_) {
         auto predicateFields = predicate.fields();

@@ -18,7 +18,7 @@ namespace winter::data::sql_impl {
         const PreparedStatement &prepared_statement);
 
     std::string CommaSeparatedStatement(
-        const std::vector<std::shared_ptr<AbstractPreparedStatementField> >
+        const std::vector<PreparedStatementField>
             &columns);
 
     std::string CommaSeparatedPlaceHolder(size_t size);
@@ -32,7 +32,7 @@ namespace winter::data::sql_impl {
         const PreparedStatement &prepared_statement);
 
     std::string commaSeparatedEqualValue(
-        const std::vector<std::shared_ptr<AbstractPreparedStatementField> >
+        const std::vector<PreparedStatementField>
             &columns);
 
     std::string Dot();

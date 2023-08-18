@@ -9,15 +9,15 @@
 #include <string>
 #include <vector>
 
-#include "wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h"
+#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_statement.h"
 
 namespace winter::data::sql_impl {
 
     class Clause {
        public:
-        virtual std::string                                                                          Query() const = 0;
-        virtual std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const = 0;
+        virtual std::string                         Query() const = 0;
+        virtual std::vector<PreparedStatementField> Fields() const = 0;
 
         std::string operator()(const Clause &clause) {
             return "(" + clause.Query() + ")";

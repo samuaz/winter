@@ -19,10 +19,10 @@ Predicate::Predicate(const StatementValue& statement_value) :
     l_statement_value_(statement_value),
     condition_(Condition::NONE) {}
 
-Predicate::Predicate(const std::shared_ptr<AbstractPreparedStatementField>& field) :
+Predicate::Predicate(const PreparedStatementField& field) :
     condition_(Condition::NONE), fields_(std::vector {field}) {}
 
-Predicate::Predicate(const std::vector<std::shared_ptr<AbstractPreparedStatementField>>& fields) :
+Predicate::Predicate(const std::vector<PreparedStatementField>& fields) :
     condition_(Condition::NONE), fields_(fields) {}
 
 Predicate::Predicate(
@@ -32,17 +32,17 @@ Predicate::Predicate(
     condition_(conditionOperator) {}
 
 Predicate::Predicate(
-    const StatementValue&                                  statement_value,
-    const std::shared_ptr<AbstractPreparedStatementField>& field) :
+    const StatementValue&         statement_value,
+    const PreparedStatementField& field) :
     l_statement_value_(statement_value),
     condition_(Condition::NONE),
     fields_(std::vector {field}) {
 }
 
 Predicate::Predicate(
-    const StatementValue&                                  statement_value,
-    Condition                                              conditionOperator,
-    const std::shared_ptr<AbstractPreparedStatementField>& field) :
+    const StatementValue&         statement_value,
+    Condition                     conditionOperator,
+    const PreparedStatementField& field) :
     l_statement_value_(statement_value),
     condition_(conditionOperator),
     fields_(std::vector {field}) {}
@@ -64,17 +64,14 @@ Predicate::rstatementValue() const {
     return r_statement_value_;
 }
 
-const std::vector<std::shared_ptr<AbstractPreparedStatementField>>&
+const std::vector<PreparedStatementField>&
 Predicate::fields() const {
     return fields_;
 }
 
-const std::shared_ptr<AbstractPreparedStatementField>& Predicate::field() const {
+const PreparedStatementField& Predicate::field() const {
     if (has_fields()) {
-        const std::shared_ptr<AbstractPreparedStatementField>& front = fields().front();
-        if (front.get() != nullptr) {
-            return front;
-        }
+        return fields().front();
     }
     throw winter::exception::WinterInternalException::Create(
         __FILE__,

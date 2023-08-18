@@ -5,8 +5,8 @@
 #ifndef WINTER_DATA_SQL_FIELD
 #define WINTER_DATA_SQL_FIELD
 
-#include <wintercpp/data/sql/field/winter_data_sql_abstract_field.h>
 #include <wintercpp/data/sql/field/winter_data_sql_data_type.h>
+#include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
 
 namespace winter::data::sql_impl {
 
@@ -19,7 +19,7 @@ namespace winter::data::sql_impl {
      * @tparam FieldType
      * @tparam name
      */
-    class Field : public virtual AbstractField {
+    class Field {
        public:
         explicit Field(const DataType& value) :
             value_(value) {
@@ -49,14 +49,14 @@ namespace winter::data::sql_impl {
          *
          * @return const FieldType&
          */
-        const FieldType& type() const override;
+        const FieldType& type() const;
 
         /**
          * @brief Returns the name of the field.
          *
          * @return const std::string&
          */
-        const std::string& name() const override;
+        const std::string& name() const;
 
         /**
          * @brief Sets the value of the field.
@@ -65,7 +65,7 @@ namespace winter::data::sql_impl {
          */
         void value(DataType value);
 
-        ~Field() override = default;
+        //~Field() = default;
 
        protected:
         std::string name_;

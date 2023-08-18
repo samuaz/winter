@@ -11,7 +11,7 @@ In::In(const StatementValue& statement_value) :
 In::In(const Predicate& predicate) :
     predicate_(predicate) {}
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> In::Fields() const {
+std::vector<PreparedStatementField> In::Fields() const {
     return predicate_.fields();
 };
 

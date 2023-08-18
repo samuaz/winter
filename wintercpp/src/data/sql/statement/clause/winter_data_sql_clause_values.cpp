@@ -2,7 +2,6 @@
 // Created by Samuel Azcona on 07/06/2020.
 //
 
-#include <wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h>
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_values.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_util.h>
 #include <wintercpp/exception/generic/winter_exception.h>
@@ -11,10 +10,12 @@
 
 #include <string>
 
-winter::data::sql_impl::Values::Values(const std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>>& fields) :
+using namespace winter::data::sql_impl;
+
+winter::data::sql_impl::Values::Values(const std::vector<PreparedStatementField>& fields) :
     predicate_(fields) {}
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> winter::data::sql_impl::Values::Fields() const {
+std::vector<PreparedStatementField> winter::data::sql_impl::Values::Fields() const {
     return predicate_.fields();
 };
 
@@ -23,7 +24,7 @@ winter::data::sql_impl::Values::Query() const {
     std::vector<std::string> columns;
     auto                     fields = predicate_.fields();
 
-    for (const auto& field : fields) { columns.push_back(field->name()); }
+    for (const auto& field : fields) { columns.push_back(field.name()); }
 
     std::string query = winter::util::string::replace_value(
         query_template_,

@@ -13,7 +13,7 @@
 #include <memory>
 #include <string>
 
-#include "wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h"
+#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h"
 #include "wintercpp/data/sql/statement/clause/winter_data_sql_clause_predicate.h"
 
 using namespace winter::util::string;
@@ -22,7 +22,7 @@ using namespace winter::data::sql_impl;
 And::And(const Predicate& predicate) :
     predicate_(predicate) {}
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> And::And::Fields() const {
+std::vector<PreparedStatementField> And::And::Fields() const {
     return predicate_.fields();
 }
 
@@ -35,10 +35,10 @@ std::string And::Query() const {
     std::string result;
     if (predicate_.has_fields()) {
         for (auto& field : predicate_.fields()) {
-            if (field->IsCustomValue()) {
+            if (field.IsCustomValue()) {
                 builder << lstatement
                         << Space() << condition << Space()
-                        << field->custom_value().value();
+                        << field.custom_value().value();
             } else {
                 builder << lstatement
                         << Space() << condition << Space()

@@ -11,7 +11,7 @@ NotIn::NotIn(const StatementValue& statement_value) :
 NotIn::NotIn(const Predicate& predicate) :
     predicate_(predicate) {}
 
-std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> NotIn::Fields() const {
+std::vector<PreparedStatementField> NotIn::Fields() const {
     return predicate_.fields();
 };
 

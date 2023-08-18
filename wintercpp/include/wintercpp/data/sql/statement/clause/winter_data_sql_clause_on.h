@@ -24,8 +24,8 @@ namespace winter::data::sql_impl {
                     Condition             condition,
                     const StatementValue &r_statement_value);
         explicit On(const StatementValue &l_statement_value, Condition condition);
-        std::string                                                                          Query() const override;
-        std::vector<std::shared_ptr<winter::data::sql_impl::AbstractPreparedStatementField>> Fields() const override;
+        std::string                         Query() const override;
+        std::vector<PreparedStatementField> Fields() const override;
 
        private:
         const Predicate   predicate_;

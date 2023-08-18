@@ -13,35 +13,36 @@ using namespace winter::exception;
 using namespace winter::data::sql_impl;
 
 PreparedStatement::PreparedStatement(const StatementType &statement_type,
-                                     std::string          statement_template,
-                                     std::string          id) :
-    id_(std::move(id)),
-    type_(statement_type), statement_template_(std::move(statement_template)) {}
+                                     const std::string   &statement_template,
+                                     const std::string   &id) :
+    id_(id),
+    type_(statement_type), statement_template_(statement_template) {}
 
-PreparedStatement::PreparedStatement(const StatementType        &statement_type,
-                                     std::string                 statement_template,
-                                     std::vector<StatementValue> columns,
-                                     std::string                 id) :
-    id_(std::move(id)),
-    type_(statement_type), statement_template_(std::move(statement_template)),
-    statement_values_(std::move(columns)) {}
-
-PreparedStatement::PreparedStatement(
-    const StatementType                                          &statement_type,
-    std::string                                                   query,
-    std::vector<std::shared_ptr<AbstractPreparedStatementField> > values,
-    std::string                                                   id) :
-    id_(std::move(id)),
-    type_(statement_type), statement_template_(std::move(query)),
-    fields_(std::move(values)) {}
+PreparedStatement::PreparedStatement(const StatementType               &statement_type,
+                                     const std::string                 &statement_template,
+                                     const std::vector<StatementValue> &columns,
+                                     const std::string                 &id) :
+    id_(id),
+    type_(statement_type), statement_template_(statement_template),
+    statement_values_(columns) {}
 
 PreparedStatement::PreparedStatement(
-    const StatementType                                   &statement_type,
-    std::string                                            statement_template,
-    const std::shared_ptr<AbstractPreparedStatementField> &value,
-    std::string                                            id) :
-    id_(std::move(id)),
-    type_(statement_type), statement_template_(std::move(statement_template)) {
+    const StatementType                       &statement_type,
+    const std::string                         &query,
+    const std::vector<PreparedStatementField> &values,
+    const std::string                         &id) :
+    id_(id),
+    type_(statement_type),
+    statement_template_(query),
+    fields_(values) {}
+
+PreparedStatement::PreparedStatement(
+    const StatementType          &statement_type,
+    const std::string            &statement_template,
+    const PreparedStatementField &value,
+    const std::string            &id) :
+    id_(id),
+    type_(statement_type), statement_template_(statement_template) {
     fields_.push_back(value);
 }
 
@@ -49,14 +50,7 @@ void PreparedStatement::set_id(const std::string &id) {
     id_ = id;
 }
 
-PreparedStatement &PreparedStatement::AddValue(
-    AbstractPreparedStatementField *field) {
-    fields_.push_back(std::shared_ptr<AbstractPreparedStatementField>(field));
-    return *this;
-}
-
-PreparedStatement &PreparedStatement::AddValue(
-    const std::shared_ptr<AbstractPreparedStatementField> &field) {
+PreparedStatement &PreparedStatement::AddValue(const PreparedStatementField &field) {
     fields_.push_back(field);
     return *this;
 }
@@ -70,13 +64,13 @@ void PreparedStatement::set_statement_template(
     statement_template_ = statement_template;
 }
 
-const std::vector<std::shared_ptr<AbstractPreparedStatementField> >
+const std::vector<PreparedStatementField>
     &PreparedStatement::values() const {
     return fields_;
 }
 
 void PreparedStatement::set_values(
-    const std::vector<std::shared_ptr<AbstractPreparedStatementField> > &values) {
+    const std::vector<PreparedStatementField> &values) {
     fields_ = values;
 }
 
@@ -123,20 +117,20 @@ const AbstractPreparedStatementField &Prepare::entityId() const {
 }
 */
 
-std::vector<std::shared_ptr<AbstractPreparedStatementField> >::iterator
+std::vector<PreparedStatementField>::iterator
 PreparedStatement::FindValue(const std::string &name) {
     return std::find_if(
         fields_.begin(),
         fields_.end(),
-        [&name](const std::shared_ptr<AbstractPreparedStatementField> &obj) {
-            return obj->name() == name;
+        [&name](const PreparedStatementField &obj) {
+            return obj.name() == name;
         });
 }
 
-const AbstractPreparedStatementField &PreparedStatement::FindByName(
+const PreparedStatementField &PreparedStatement::FindByName(
     const std::string &name) {
     auto it = FindValue(name);
-    if (it != fields_.end()) { return **it; }
+    if (it != fields_.end()) { return *it; }
 
     throw WinterInternalException::Create(
         __FILE__,
@@ -145,7 +139,7 @@ const AbstractPreparedStatementField &PreparedStatement::FindByName(
         ("preparedstatement field not found " + name));
 }
 
-std::shared_ptr<AbstractPreparedStatementField> PreparedStatement::FindByField(
+PreparedStatementField PreparedStatement::FindByField(
     const string &name) {
     auto it = FindValue(name);
     if (it != fields_.end()) { return *it; }

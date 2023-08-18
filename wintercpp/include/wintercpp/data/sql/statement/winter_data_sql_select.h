@@ -10,7 +10,6 @@
 #include <wintercpp/data/sql/statement/clause/winter_data_sql_clause_where.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement.h>
 #include <wintercpp/data/sql/statement/winter_data_sql_statement_values.h>
-#include <wintercpp/data/sql/table/winter_data_sql_table.h>
 
 #include <string>
 #include <vector>
@@ -21,7 +20,7 @@ namespace winter::data::sql_impl {
        public:
         Select();
 
-        explicit Select(std::vector<StatementValue> statement_value);
+        explicit Select(const std::vector<StatementValue> &statement_value);
 
         explicit Select(const std::string &query);
 
@@ -39,7 +38,6 @@ namespace winter::data::sql_impl {
         using Statement<Select>::prepared_statement_;
         using Statement<Select>::type_;
         std::vector<StatementValue> value_;
-        //  std::vector<std::shared_ptr<Table> > tables_;
 
         void writeColumns();
     };

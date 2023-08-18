@@ -8,13 +8,6 @@
 #include <set>
 
 #include "gtest/gtest.h"
-#include "wintercpp/data/sql/column/winter_data_sql_column.h"
-#include "wintercpp/data/sql/field/winter_data_sql_field_type.h"
-#include "wintercpp/data/sql/preparedstatement/winter_data_sql_abstract_prepared_statement_field.h"
-#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h"
-#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement_field.h"
-#include "wintercpp/data/sql/statement/winter_data_sql_statement_type.h"
-#include "wintercpp/data/sql/table/winter_data_sql_uuid_table.h"
 
 using namespace winter::data::sql_impl;
 
@@ -36,24 +29,24 @@ TEST(preparedStatement, canAddColumns) {
 
 TEST(preparedStatement, canFindFields) {
     auto preparedStatement = PreparedStatement(StatementType::kNative, "template $test");
-    preparedStatement.AddValue(new PreparedStatementField("name", "name"));
-    preparedStatement.AddValue(new PreparedStatementField("lastName", "lastName"));
-    const AbstractPreparedStatementField& foundField = preparedStatement.FindByName("name");
+    preparedStatement.AddValue(PreparedStatementField("name", "name"));
+    preparedStatement.AddValue(PreparedStatementField("lastName", "lastName"));
+    const PreparedStatementField& foundField = preparedStatement.FindByName("name");
     auto                                  foundField2 = preparedStatement.FindByField("lastName");
     ASSERT_EQ(foundField.name(), "name");
-    ASSERT_EQ(foundField2->name(), "lastName");
+    ASSERT_EQ(foundField2.name(), "lastName");
 }
 
 TEST(preparedStatement, fieldIsPresent) {
     auto preparedStatement = PreparedStatement(StatementType::kNative, "template $test");
-    preparedStatement.AddValue(new PreparedStatementField("name", "name"));
+    preparedStatement.AddValue(PreparedStatementField("name", "name"));
     ASSERT_TRUE(preparedStatement.FieldIsPresent("name"));
 }
 
 TEST(preparedStatement, searchByIndex) {
     auto preparedStatement = PreparedStatement(StatementType::kNative, "template $test");
-    preparedStatement.AddValue(new PreparedStatementField("name", "name"));
-    preparedStatement.AddValue(new PreparedStatementField("lastName", "lastName"));
+    preparedStatement.AddValue(PreparedStatementField("name", "name"));
+    preparedStatement.AddValue(PreparedStatementField("lastName", "lastName"));
     ASSERT_EQ(preparedStatement.SearchFieldIndex("name"), 0);
     ASSERT_EQ(preparedStatement.SearchFieldIndex("lastName"), 1);
 }
