@@ -13,13 +13,16 @@
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
 
+#include <__tuple>
 #include <cstdint>
 #include <map>
 #include <memory>
 #include <string>
 #include <variant>
 
+#include "wintercpp/data/sql/statement/clause/winter_data_sql_clause.h"
 #include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+#include "wintercpp/exception/generic/winter_internal_exception.h"
 
 namespace winter::data::sql_impl::mysql {
 
@@ -45,25 +48,32 @@ namespace winter::data::sql_impl::mysql {
         // we are creating always the result row with the next position from the resultset for that reason we can not move the cursor here
         void Create(const PreparedStatement           &prepared_statement,
                     const std::shared_ptr<TResultSet> &result_set) override {
+            auto funAddValue = [&](const std::string &name, const FieldType &type) {
+                if (result_set->isNull(name)) {
+                    AddRow(name, std::nullopt);
+                } else {
+                    CreateRow(name, type, result_set);
+                }
+            };
+
             if (result_set != nullptr) {
                 if (result_set->rowsCount() > 0) {
-                    auto columns = prepared_statement.columns();
-                    for (const auto &column : columns) {
-                        if (auto columnValue = std::get_if<Column>(&column)) {
-                            std::string column_name = columnValue->name();
-                            if (result_set->isNull(column_name)) {
-                                AddRow(column_name, std::nullopt);
-                            } else {
-                                CreateRow(column_name, columnValue->type(), result_set);
+                    auto statement_values = prepared_statement.statementValues();
+                    for (const auto &statement_value : statement_values) {
+                        if (auto columnValue = std::get_if<Column>(&statement_value)) {
+                            funAddValue(columnValue->FullName(), columnValue->type());
+                        } else if (auto sharedColumnValue = std::get_if<std::shared_ptr<Column>>(&statement_value)) {
+                            funAddValue(columnValue->FullName(), columnValue->type());
+                        } else if (auto clauseValue = std::get_if<std::shared_ptr<winter::data::sql_impl::Clause>>(&statement_value)) {
+                            auto name = clauseValue->get()->Alias();
+                            auto type = clauseValue->get()->FieldType();
+                            if (! name.has_value()) {
+                                throw WinterInternalException("Alias not found on clause");
                             }
-                        } else if (auto clauseValue = std::get_if<std::shared_ptr<winter::data::sql_impl::Clause>>(&column)) {
-                            // TODO: FIX NAME ON "AS" CASES
-                            /*                             std::string column_name = clauseValue->get()->name();
-                                                        if (result_set->isNull(column_name)) {
-                                                            AddRow(column_name, std::nullopt);
-                                                        } else {
-                                                            CreateRow(column_name, clauseValue->get()->fieldType(), result_set);
-                                                        } */
+                            if (! type.has_value()) {
+                                throw WinterInternalException("FieldType not found on clause");
+                            }
+                            funAddValue(name.value(), type.value());
                         }
                     }
                 }
