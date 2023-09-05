@@ -13,6 +13,8 @@
 #include <optional>
 #include <string>
 
+//#include "winter_data_sql_mysql_connection.h"
+
 using namespace winter;
 using namespace winter::descriptor;
 using namespace winter::exception;
@@ -163,15 +165,12 @@ MYSQL_CONNECTION_INTERFACE::GeneratePrepareStatement(
     // inside the foreach we set each value with his specific order as it was
     // declared on the query creation
     for (std::size_t i = 0; i != values.size(); ++i) {
-        auto field = values[i].get();
+        auto field = values[i];
         int  position = i + 1;
-        switch (field->type()) {
+        switch (field.type()) {
             case FieldType::kNull: _prep_stmt->setNull(position, 0); break;
             case FieldType::kBigInt:
-                _prep_stmt->setBigInt(
-                    position,
-                    dynamic_cast<PreparedStatementField<std::string>*>(field)
-                        ->value());
+                _prep_stmt->setBigInt(position, std::get<std::string>(field.value()));
                 break;
             case FieldType::kChar:
             case FieldType::kDate:
@@ -179,58 +178,34 @@ MYSQL_CONNECTION_INTERFACE::GeneratePrepareStatement(
             case FieldType::KDecimal:
             case FieldType::kTimeStamp:
             case FieldType::kString:
-                _prep_stmt->setString(
-                    position,
-                    dynamic_cast<PreparedStatementField<std::string>*>(field)
-                        ->value());
+                _prep_stmt->setString(position, std::get<std::string>(field.value()));
                 break;
             case FieldType::kEnum:
             case FieldType::KShort:
             case FieldType::kSchar:
             case FieldType::kInt:
-                _prep_stmt->setInt(
-                    position,
-                    dynamic_cast<PreparedStatementField<int32_t>*>(field)
-                        ->value());
+                _prep_stmt->setInt(position, std::get<int32_t>(field.value()));
                 break;
             case FieldType::kUshort:
             case FieldType::kUchar:
             case FieldType::KUint:
-                _prep_stmt->setUInt(
-                    position,
-                    dynamic_cast<PreparedStatementField<uint32_t>*>(field)
-                        ->value());
+                _prep_stmt->setUInt(position, std::get<uint32_t>(field.value()));
                 break;
             case FieldType::kBoolean:
-                _prep_stmt->setBoolean(
-                    position,
-                    dynamic_cast<PreparedStatementField<bool>*>(field)
-                        ->value());
+                _prep_stmt->setBoolean(position, std::get<bool>(field.value()));
                 break;
             case FieldType::kFloat:
             case FieldType::kDouble:
-                _prep_stmt->setDouble(
-                    position,
-                    dynamic_cast<PreparedStatementField<double>*>(field)
-                        ->value());
+                _prep_stmt->setDouble(position, std::get<double>(field.value()));
                 break;
             case FieldType::kLong:
-                _prep_stmt->setInt64(
-                    position,
-                    dynamic_cast<PreparedStatementField<int64_t>*>(field)
-                        ->value());
+                _prep_stmt->setInt64(position, std::get<int64_t>(field.value()));
                 break;
             case FieldType::kUlong:
-                _prep_stmt->setUInt64(
-                    position,
-                    dynamic_cast<PreparedStatementField<uint64_t>*>(field)
-                        ->value());
+                _prep_stmt->setUInt64(position, std::get<uint64_t>(field.value()));
                 break;
             case FieldType::kBlob:
-                _prep_stmt->setBlob(
-                    position,
-                    dynamic_cast<PreparedStatementField<std::istream*>*>(field)
-                        ->value());
+                _prep_stmt->setBlob(position, std::get<std::istream*>(field.value()));
                 break;
         }
     }

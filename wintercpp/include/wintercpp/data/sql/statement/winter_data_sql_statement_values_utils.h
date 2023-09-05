@@ -41,6 +41,36 @@ namespace winter::data::sql_impl {
         return StatementValueType(statementValue.index());
     }
 
+    inline std::string GetStatementName(const StatementValue& statement_value) {
+        if (auto sharedColumn = std::get_if<std::shared_ptr<Column>>(&statement_value)) {
+            return sharedColumn->get()->FullName();
+        } else if (auto column = std::get_if<Column>(&statement_value)) {
+            return column->FullName();
+        } else if (auto table = std::get_if<Table>(&statement_value)) {
+            return table->name();
+        } else if (auto sharedTable = std::get_if<std::shared_ptr<Table>>(&statement_value)) {
+            return sharedTable->get()->name();
+        } else if (auto clause = std::get_if<std::shared_ptr<Clause>>(&statement_value)) {
+            auto alias = clause->get()->Alias();
+            if (alias.has_value()) {
+                return alias.value();
+            }
+            throw winter::exception::WinterInternalException::Create(
+                __FILE__,
+                __FUNCTION__,
+                __LINE__,
+                "clause alias not implemented");
+
+            return clause->get()->Alias().value();
+        }
+
+        throw winter::exception::WinterInternalException::Create(
+            __FILE__,
+            __FUNCTION__,
+            __LINE__,
+            "invalid statementvalue or not implemented");
+    };
+
     inline std::string GetStatementValue(const StatementValue& statement_value) {
         if (auto sharedColumn = std::get_if<std::shared_ptr<Column>>(&statement_value)) {
             return sharedColumn->get()->FullName();

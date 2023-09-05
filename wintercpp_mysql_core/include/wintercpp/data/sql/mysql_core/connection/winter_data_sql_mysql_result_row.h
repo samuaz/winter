@@ -13,7 +13,6 @@
 #include <wintercpp/data/sql/connection/winter_data_sql_result_row.h>
 #include <wintercpp/data/sql/field/winter_data_sql_field_type.h>
 
-#include <__tuple>
 #include <cstdint>
 #include <map>
 #include <memory>

@@ -9,7 +9,8 @@
 #include <utility>
 #include <variant>
 
-#include "wintercpp/data/sql/field/winter_data_sql_field_type.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values_utils.h"
 //#include "winter_data_sql_result_row.h"
 
 namespace winter::data::sql_impl {
@@ -31,38 +32,36 @@ namespace winter::data::sql_impl {
 
     template<typename TResultSet>
     DataTypeResult ResultRow<TResultSet>::operator[](
-        const winter::data::sql_impl::Column &column) const {
-        auto         column_name = column.name();
-        return this->operator[](column_name);
+        const StatementValue &statementValue) const {
+        return this->operator[](GetStatementName(statementValue));
     }
 
     template<typename TResultSet>
     DataTypeResult ResultRow<TResultSet>::operator[](
-        const std::string &column_name) const {
-        if (rows_.find(column_name) == rows_.end()) {
+        const std::string &name) const {
+        if (rows_.find(name) == rows_.end()) {
             return DataTypeResult(
                 winter::data::response::Response<DataType>::Error(
-                    "value for column " + column_name + " not found"));
+                    "value " + name + " not found"));
         } else {
             return DataTypeResult(
                 winter::data::response::Response<DataType>::Success(
-                    rows_.at(column_name)));
+                    rows_.at(name)));
         }
     }
 
     template<typename TResultSet>
     template<typename T>
     winter::data::response::Response<T> ResultRow<TResultSet>::Value(
-        const winter::data::sql_impl::Column &column) const {
-        auto column_name = column.name();
-        return Value(column_name);
+        const StatementValue &statementValue) const {
+        return Value(GetStatementName(statementValue));
     }
 
     template<typename TResultSet>
     template<typename T>
     winter::data::response::Response<T> ResultRow<TResultSet>::Value(
-        const std::string &column_name) const {
-        return this[column_name].template as<T>();
+        const std::string &name) const {
+        return this[name].template as<T>();
     }
 
     template<typename TResultSet>
