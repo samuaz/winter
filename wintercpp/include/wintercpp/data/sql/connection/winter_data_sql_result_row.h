@@ -44,17 +44,17 @@ namespace winter::data::sql_impl {
         virtual ~ResultRow() = default;
 
         DataTypeResult operator[](
-            const winter::data::sql_impl::Column &column) const;
+            const StatementValue &statementValue) const;
 
-        DataTypeResult operator[](const std::string &column_name) const;
-
-        template<typename T>
-        winter::data::response::Response<T> Value(
-            const winter::data::sql_impl::Column &column) const;
+        DataTypeResult operator[](const std::string &name) const;
 
         template<typename T>
         winter::data::response::Response<T> Value(
-            const std::string &column_name) const;
+            const StatementValue &statementValue) const;
+
+        template<typename T>
+        winter::data::response::Response<T> Value(
+            const std::string &name) const;
 
        protected:
         const Rows &rows() const;
