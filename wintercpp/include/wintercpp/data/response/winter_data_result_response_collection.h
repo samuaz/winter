@@ -9,8 +9,6 @@
 #include <wintercpp/exception/generic/winter_internal_exception.h>
 
 #include <optional>
-#include <string>
-#include <utility>
 
 namespace winter::data::response {
     using namespace winter::exception;
@@ -62,7 +60,7 @@ namespace winter::data::response {
             return Response<T>::Error("Collection is empty");
         }
 
-        return Response<T>::Success(*result().begin());
+        return Response<T>::Success(*result.begin());
     }
 
     /**

@@ -21,7 +21,8 @@ namespace winter::data::sql_impl {
 
     class Min : public virtual Clause {
        public:
-        explicit Min(const StatementValue &statement_value);
+        explicit Min(const StatementValue& statement_value);
+        explicit Min(const StatementValue& statement_value, const std::string& alias, const winter::data::sql_impl::FieldType& field_type);
         virtual ~Min() = default;
 
         std::string                         Query() const override;
@@ -29,15 +30,16 @@ namespace winter::data::sql_impl {
 
         // PreparedStatement Prepare() override;
 
-        std::string name() const;
-
         // FieldType fieldType() override;
 
        private:
+        std::string          name() const;
         const StatementValue statement_value_;
         // const PreparedStatementField field_;
         const std::string query_template_ = "MIN($min) AS min_$columnName";
         const std::string query_param_ = "$min";
+        const std::string query_param_min_column_name_ = "min_$columnName";
+        const std::string query_param_column_name_ = "$columnName";
     };
 
 }  // namespace winter::data::sql_impl

@@ -1,0 +1,94 @@
+//
+// Created by samuaz on 3/10/21.
+//
+
+#include <gtest/gtest.h>
+#include <wintercpp/winter.h>
+
+#include <iostream>
+#include <memory>
+#include <optional>
+
+#include "wintercpp/data/sql/statement/winter_data_sql_statement_values.h"
+#include <wintercpp/winter.h>
+
+using namespace winter;
+using namespace winter::data::sql_impl;
+struct QueryTestTable : public UUIDTable {
+    QueryTestTable() :
+        UUIDTable("QueryTestTable", true, DatabaseType::kGeneric) {}
+    const Column col1 = String("col1");
+    const Column col2 = String("col2");
+    const Column col3 = String("col3");
+    const Column col4 = String("col4");
+    const Column col5 = String("col5");
+};
+
+struct QueryTestTable2 : public UUIDTable {
+    QueryTestTable2() :
+        UUIDTable("QueryTestTable2", true, DatabaseType::kGeneric) {}
+    const Column col1 = String("col1");
+    const Column col2 = String("col2");
+    const Column col3 = String("col3");
+    const Column col4 = String("col4");
+    const Column col5 = String("col5");
+};
+
+TEST(winterInsert, canConstructInsertQuery) {
+    std::shared_ptr<QueryTestTable> testTable = std::make_shared<QueryTestTable>();
+
+    auto query = Insert() << Into(testTable) << Values({Values::Add(testTable->col1, "hola")});
+
+    EXPECT_EQ(query.prepared_statement().statement_template(), "INSERT INTO QueryTestTable (QueryTestTable.col1) VALUES (?)");
+}
+
+TEST(winterSqlTable, canConstructInsertQueryWhereAndOr) {
+    std::shared_ptr<QueryTestTable> testTable = std::make_shared<QueryTestTable>();
+
+    auto query = Select() << From(testTable) << Where(Predicate::Make(testTable->col1, winter::data::sql_impl::Condition::EQ, "samuel")) << And(Predicate::Make(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Predicate::Make(testTable->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
+
+    EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT * FROM QueryTestTable WHERE QueryTestTable.col1 = ? AND QueryTestTable.col2 = ? OR QueryTestTable.col1 = ?");
+}
+
+TEST(winterSqlTable, canConstructInsertQueryWhereWithoutPredicate) {
+    std::shared_ptr<QueryTestTable> testTable = std::make_shared<QueryTestTable>();
+
+    auto query = Select() << From(testTable) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(Predicate::Make(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Predicate::Make(testTable->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
+
+    EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT * FROM QueryTestTable WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable.col1 = ?");
+}
+
+TEST(winterSqlTable, canConstructInsertPartialFieldsQueryWhereWithoutPredicate) {
+    std::shared_ptr<QueryTestTable> testTable = std::make_shared<QueryTestTable>();
+
+    auto query = Select({testTable->col1, testTable->col2, testTable->col3}) << From(testTable) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(Predicate::Make(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Predicate::Make(testTable->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
+
+    EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable.col2, QueryTestTable.col3 FROM QueryTestTable WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable.col1 = ?");
+}
+
+TEST(winterSqlTable, canConstructInsertOneFieldQueryWhereWithoutPredicate) {
+    std::shared_ptr<QueryTestTable> testTable = std::make_shared<QueryTestTable>();
+
+    auto query = Select({testTable->col1}) << From(testTable) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(Predicate::Make(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Predicate::Make(testTable->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
+
+    EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1 FROM QueryTestTable WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable.col1 = ?");
+}
+
+TEST(winterSqlTable, canConstructInsertFromMultipleTables) {
+    std::shared_ptr<QueryTestTable>  testTable = std::make_shared<QueryTestTable>();
+    std::shared_ptr<QueryTestTable2> testTable2 = std::make_shared<QueryTestTable2>();
+
+    auto query = Select({testTable->col1, testTable2->col3}) << From({testTable, testTable2}) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(Predicate::Make(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Predicate::Make(testTable2->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
+
+    EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, QueryTestTable2.col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
+}
+
+TEST(winterSqlTable, canConstructInsertWithMinFun) {
+    std::shared_ptr<QueryTestTable>  testTable = std::make_shared<QueryTestTable>();
+    std::shared_ptr<QueryTestTable2> testTable2 = std::make_shared<QueryTestTable2>();
+
+    auto min = std::make_shared<Min>(Min(testTable2->col3));
+    auto                             query = Select({testTable->col1, min}) << From({testTable, testTable2}) << Where(testTable->col3, winter::data::sql_impl::Condition::IS_NULL) << And(Predicate::Make(testTable->col2, winter::data::sql_impl::Condition::EQ, "Azcona")) << Or(Predicate::Make(testTable2->col1, winter::data::sql_impl::Condition::EQ, "Eduardo"));
+
+    EXPECT_EQ(query.prepared_statement().statement_template(), "SELECT QueryTestTable.col1, MIN(QueryTestTable2.col3) AS min_QueryTestTable2_col3 FROM QueryTestTable, QueryTestTable2 WHERE QueryTestTable.col3 IS NULL AND QueryTestTable.col2 = ? OR QueryTestTable2.col1 = ?");
+}

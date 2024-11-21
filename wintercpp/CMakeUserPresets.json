@@ -1,0 +1,9 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "/Users/samuaz/Projects/toc/winter/wintercpp/cmake-build-debug/conan/CMakePresets.json"
+    ]
+}

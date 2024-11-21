@@ -1,135 +1,107 @@
-#
-# Created by AZCONA VARGAS, SAMUEL EDUARDO
-#
+cmake_minimum_required(VERSION 3.15)
+set(APP_NAME wintercpp_core)
+set(APP_VERSION 0.1)
+set(APP_DESCRIPTION "winterc++ core framework to build microservices using cpp")
+project(${APP_NAME} VERSION ${APP_VERSION} DESCRIPTION ${APP_DESCRIPTION})
 
-############################
-##      CONFIG BUILD      ##
-############################
-project( wintercpp_core )
-get_filename_component(PARENT_DIR ../ ABSOLUTE)
+set(WINTER_WITH_TEST ON)
+include(dependencies.cmake)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
-set(_LIBCPP_INLINE_VISIBILITY "")
-set(CMAKE_OPTIMIZE_DEPENDENCIES TRUE)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(APP_ENV "APP_ENV" local)
-message("***************************** ENVIRONMENT IS ${APP_ENV} **************************************")
-if (APP_ENV)
-else ()
-    message("***************************** NOT ENV **************************************")
-    message("local AS DEFAULT")
-    set(APP_ENV local)
-endif (APP_ENV)
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    set(default_build_type "Release")
+    message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+    set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
 
-############################
-##      DEPS              ##
-############################
-include(dependencies.cmake)
-include(${PARENT_DIR}/cmake/ClangFormat.cmake)
+if(APPLE)
+    set(CMAKE_THREAD_LIBS_INIT "-lpthread")
+    set(CMAKE_HAVE_THREADS_LIBRARY 1)
+    set(CMAKE_USE_WIN32_THREADS_INIT 0)
+    set(CMAKE_USE_PTHREADS_INIT 1)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+endif()
 
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DEBUG -O0 -g2 -ggdb -Wall -Wextra -fsanitize=address -fdiagnostics-color=auto -fno-omit-frame-pointer -ftemplate-backtrace-limit=0 -Werror=return-type")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DEBUG -O0 -g2 -ggdb -Wall -Wextra -fsanitize=address -fdiagnostics-color=auto -fno-omit-frame-pointer -ftemplate-backtrace-limit=0 -Werror=return-type")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -pipe -fno-unroll-loops -fmerge-all-constants -fno-ident -ffunction-sections -fdata-sections -Bsymbolic-functions -fpie -Wall -Werror=return-type")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -pipe -fno-unroll-loops -fmerge-all-constants -fno-ident -ffunction-sections -fdata-sections -Bsymbolic-functions -fpie -Wall -Werror=return-type")
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DDEBUG=TRUE)
-endif ()
+endif()
 
-message("***************************** LIBRARY ${WINTER_LIBS} **************************************")
 file(GLOB_RECURSE HEADERS LIST_DIRECTORIES false include/wintercpp/*.h)
 file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false src/*.cpp include/wintercpp/*.tpp)
 
-foreach(file ${HEADERS})
-    format_with_clang(${file})
-endforeach()
+add_library(${APP_NAME} STATIC ${HEADERS} ${SOURCES})
+add_library(winter::core ALIAS ${APP_NAME})
 
-foreach(file ${SOURCES})
-    format_with_clang(${file})
-endforeach()
+target_include_directories(${APP_NAME} PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated>
+        $<INSTALL_INTERFACE:include>
+)
 
-#format_with_astyle_by_sources(${SOURCES})
-#format_with_astyle_by_sources(${HEADERS})
+target_link_libraries(${APP_NAME} PUBLIC ${WINTER_LIBS})
 
-add_library(${PROJECT_NAME} STATIC ${PROTOBUF_MODELS_INCLUDES} ${HEADERS} ${SOURCES})
-add_library(winter::core ALIAS ${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} ${WINTER_LIBS} ${EXTRA_LIBRARY}) ## the test target is going to use this as definition source
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/generated)    
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
+set_target_properties(${APP_NAME} PROPERTIES VERSION ${APP_VERSION} SOVERSION ${APP_VERSION})
 
-function(create_winter_header headerFiles)
-    # Create empty output file
-    set(output ${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/winter.h)
-    file(WRITE ${output} "")
-    # Iterate through input files
-    file(APPEND ${output} "//\n")
-    file(APPEND ${output} "// Created by AZCONA VARGAS, SAMUEL EDUARDO\n")
-    file(APPEND ${output} "//\n")
-    file(APPEND ${output} "#ifndef WINTERC_WINTER_H\n")
-    file(APPEND ${output} "#define WINTERC_WINTER_H\n")
-    foreach(bin ${HEADERS})
-        string(REGEX REPLACE "(.*)include/" "" filename ${bin})
-        IF(NOT ${filename} MATCHES "winter.h")
-        file(APPEND ${output} "#include <${filename}>\n")
-        endif()
-    endforeach()
-    file(APPEND ${output} "#endif // WINTERC_WINTER_H;\n")
-endfunction()
+include(GNUInstallDirs)
+install(TARGETS ${APP_NAME}
+        EXPORT ${APP_NAME}Targets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-create_winter_header(${HEADERS})
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/wintercpp/"
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wintercpp)
 
-set(WINTER_INSTALL_DIR "$ENV{HOME}/winter-release/winter")
+install(EXPORT ${APP_NAME}Targets
+        FILE ${APP_NAME}Targets.cmake
+        NAMESPACE winter::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${APP_NAME})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${OPENSSL_INCLUDE_DIR})
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third_party/json/include)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third_party/jwt/include)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}ConfigVersion.cmake
+        VERSION ${APP_VERSION}
+        COMPATIBILITY AnyNewerVersion
+)
 
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
-        DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
-        FILES_MATCHING # install only matched files
-        PATTERN "*.h*" # select header files
-        )
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" # source directory
-        DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME} # target directory
-        FILES_MATCHING # install only matched files
-        PATTERN "*.tpp*" # select header files
-        )
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}Config.cmake
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${APP_NAME}
+)
 
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/cmake" # source directory
-        DESTINATION ${WINTER_INSTALL_DIR}/include/${APP_NAME}/cmake # target directory
-        FILES_MATCHING # install only matched files
-        PATTERN "*.cmake*" # select header files
-        )
+install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}Config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}ConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${APP_NAME})
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${WINTER_INSTALL_DIR}/lib/)
-
-
-############################
-##  END CREATE EXECUTALBE ##
-############################
-
-############################
-##  TEST ##
-############################
+export(EXPORT ${APP_NAME}Targets
+        FILE ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}Targets.cmake
+        NAMESPACE winter::)
 
 file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false test/*.cpp)
-IF (WINTER_WITH_TEST AND TEST_SOURCES)
-set(wintercpp_core_binary ${PROJECT_NAME}_test)
-include(GoogleTest)
-enable_testing()
-add_executable(${wintercpp_core_binary} ${TEST_SOURCES})
-target_link_libraries(${wintercpp_core_binary} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core)
-format_with_clang_by_sources(${TEST_SOURCES})
-## to make the build finish if the tests fails
-add_custom_command(
-        TARGET ${wintercpp_core_binary}
-        COMMENT "Run wintercpp_core_binary tests"
-        POST_BUILD
-        COMMAND ${wintercpp_core_binary} --output-on-failure
-)
-gtest_discover_tests(${wintercpp_core_binary})
-ENDIF()
-
-############################
-##  END TEST ##
-############################
+if (WINTER_WITH_TEST AND TEST_SOURCES)
+    set(wintercpp_core_binary ${APP_NAME}_test)
+    include(GoogleTest)
+    enable_testing()
+    add_executable(${wintercpp_core_binary} ${TEST_SOURCES})
+    target_link_libraries(${wintercpp_core_binary} PUBLIC ${WINTER_LIBS_TEST} ${EXTRA_LIBRARY} winter::core)
+    add_custom_command(
+            TARGET ${wintercpp_core_binary}
+            COMMENT "Run wintercpp_core_binary tests"
+            POST_BUILD
+            COMMAND ${wintercpp_core_binary} --output-on-failure
+    )
+    gtest_discover_tests(${wintercpp_core_binary})
+endif()

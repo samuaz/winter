@@ -1,0 +1,10 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "/Users/samuaz/Projects/toc/winter/wintercpp_mariadb/build/build/Release/generators/CMakePresets.json",
+        "/Users/samuaz/Projects/toc/winter/wintercpp_mariadb/build/Release/generators/CMakePresets.json"
+    ]
+}

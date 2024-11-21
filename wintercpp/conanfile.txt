@@ -1,0 +1,8 @@
+[requires]
+nlohmann_json/3.11.3
+cpp-jwt/1.4
+gtest/1.14.0
+openssl/[>=1.1.1 <4]
+[generators]
+CMakeDeps
+CMakeToolchain

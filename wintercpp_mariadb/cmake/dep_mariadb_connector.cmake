@@ -11,7 +11,7 @@ set(MARIADB_LINK_DYNAMIC OFF CACHE INTERNAL "")
 FetchContent_Declare(
         mariadb_connector
         GIT_REPOSITORY https://github.com/mariadb-corporation/mariadb-connector-cpp.git
-        GIT_TAG        1.1.1
+        GIT_TAG        1.1.2
         SOURCE_SUBDIR  cmake
         SOURCE_DIR ${THIRD_PARTY_DIR}/mariadb_connector
 )
@@ -32,7 +32,7 @@ execute_process(
 MESSAGE(STATUS "mariadb_init_CMD_ERROR:" ${mariadb_patches_result})
 MESSAGE(STATUS "mariadb_init_CMD_OUTPUT:" ${mariadb_patches_VARIABLE})
 
-execute_process(
+#[[execute_process(
         COMMAND bash "-c" "patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/mariadb_cpp_cmake_static_build.patch"
         WORKING_DIRECTORY ${mariadb_connector_SOURCE_DIR}
         RESULT_VARIABLE mariadb_patches_result
@@ -62,7 +62,7 @@ execute_process(
         RESULT_VARIABLE mariadb_c_patches_result
         OUTPUT_VARIABLE mariadb_c_patches_VARIABLE)
 MESSAGE(STATUS "mariadb_c_patches_CMD_ERROR:" ${mariadb_c_patches_result})
-MESSAGE(STATUS "mariadb_c_patches_CMD_OUTPUT:" ${mariadb_c_patches_VARIABLE})
+MESSAGE(STATUS "mariadb_c_patches_CMD_OUTPUT:" ${mariadb_c_patches_VARIABLE})]]
 
 execute_process(
         COMMAND bash "-c" "rm -rf test"

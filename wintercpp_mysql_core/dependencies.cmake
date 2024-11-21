@@ -5,10 +5,9 @@
 ############################
 ##     EXTERNAL LIBS      ##
 ############################
-include(FetchContent)
-set(FETCHCONTENT_QUIET OFF)
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-IF (WINTER_WITH_TEST)
-include(${PARENT_DIR}/cmake/dep_gtest.cmake)
-set(WINTER_LIBS_TEST ${WINTER_GTEST_LIB})
-ENDIF()
+find_package(wintercpp_core REQUIRED CONFIG)
+if (WINTER_WITH_TEST)
+    find_package(GTest REQUIRED)
+    set(WINTER_LIBS_TEST gtest::gtest)
+endif()
+set(WINTER_LIBS wintercpp_core::wintercpp_core)
