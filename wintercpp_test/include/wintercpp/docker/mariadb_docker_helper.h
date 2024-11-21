@@ -33,8 +33,10 @@ namespace winter::test::docker::mariadb {
 
         // Execute Mariadb docker before each test
         void SetUp() override {
+            std::cout << "setup containers " << containerName << std::endl;
             // Generar un nombre de contenedor aleatorio
             containerName = generateContainerName();
+            portNumber = generatePortNumber();
 
             // command to run mariadb docker container
             std::string runCommand = "docker run -d --name " + containerName + " -p " + std::to_string(portNumber) + ":3306 -e MYSQL_ROOT_PASSWORD=" + MARIA_DB_ROOT_PASSWORD + " -e MYSQL_USER=" + MARIA_DB_USER + " -e MYSQL_PASSWORD=" + MARIA_DB_PASSWORD + " -e MYSQL_DATABASE=" + MARIA_DB_SCHEMA_NAME + " " + MARIA_DB_IMAGE_NAME + ":" + MARIA_DB_TAG;
@@ -52,12 +54,12 @@ namespace winter::test::docker::mariadb {
 
         // stop and clean docker container
         void TearDown() override {
-            std::cout << "Limpiando test " << containerName << std::endl;
-            // stop and remove mariadb docker container
+            // std::cout << "Cleaning containers " << containerName << std::endl;
+            //  stop and remove mariadb docker container
             std::string stopCommand = "docker stop " + containerName;
             std::string rmCommand = "docker rm " + containerName;
             std::system(stopCommand.c_str());
-            std::system(rmCommand.c_str());
+            // std::system(rmCommand.c_str());
         }
 
        private:

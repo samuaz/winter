@@ -9,8 +9,6 @@
 #include <sstream>
 
 #include "winter_data_migration.h"
-#include "wintercpp/data/response/winter_data_response_status.h"
-#include "wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h"
 
 template<typename TConnectionType, typename TTransactionType>
 void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
@@ -19,6 +17,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                                            & transaction) -> auto{
         Query(StatementType::kCreate, CreateMigrationTable().script)
             >> transaction;
+
         auto migrations = Migrations();
         for (const auto &migration : migrations) {
             std::stringstream ss;
@@ -27,7 +26,7 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                << migration_table_->name()
                << " WHERE "
                << migration_table_->hash.name()
-               << " " << GetCondition<Condition::EQ>::Get() << " '" << migration.HASH_256() << "' ) as found;";
+               << " " << GetCondition<Condition::EQ>::Get() << " '" << migration.HASH_256() << "' ) AS 'db_migrations.found';";
             // auto response = Query(StatementType::kNative, ss.str()) >> transaction;
             /*            auto response = Select() << From(migration_table_)
                                                  << Where(Where::make_predicate(
@@ -63,12 +62,12 @@ void DataBaseMigration<TConnectionType, TTransactionType>::execute() {
                         },
                         [&](void) -> void {
                             std::cerr
-                                << "EXITING,DB MIGRATION FAIL: " << migration.name
+                                << "EXITING, DB MIGRATION FAIL: " << migration.name
                                 << std::endl;
                             exit(EXIT_FAILURE);
                         });
                 } else {
-                    std::cout << "migration already exists" << migration.name << "with hash " << migration.HASH_256() << std::endl;
+                    std::cout << "migration already exists " << migration.name << " with hash " << migration.HASH_256() << std::endl;
                 }
             } else {
                 std::cerr

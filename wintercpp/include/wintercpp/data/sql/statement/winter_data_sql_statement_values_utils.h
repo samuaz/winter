@@ -60,8 +60,6 @@ namespace winter::data::sql_impl {
                 __FUNCTION__,
                 __LINE__,
                 "clause alias not implemented");
-
-            return clause->get()->Alias().value();
         }
 
         throw winter::exception::WinterInternalException::Create(

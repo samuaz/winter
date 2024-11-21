@@ -1,0 +1,9 @@
+[requires]
+grpc/1.54.3
+protobuf/3.21.12
+gtest/1.14.0
+[generators]
+CMakeDeps
+CMakeToolchain
+[layout]
+cmake_layout

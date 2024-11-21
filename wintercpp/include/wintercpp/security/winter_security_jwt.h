@@ -13,8 +13,8 @@
 #include <cctype>
 #include <chrono>
 #include <iostream>
-#include <jwt/jwt.hpp>
 
+#include <jwt/jwt.hpp>
 namespace winter::security {
 
     class Jwt {

@@ -1,0 +1,9 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "/Users/samuaz/Projects/toc/winter/wintercpp_grpc/build/build/Release/generators/CMakePresets.json"
+    ]
+}

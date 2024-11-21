@@ -5,8 +5,5 @@
 ############################
 ##     EXTERNAL LIBS      ##
 ############################
-include(FetchContent)
-set(FETCHCONTENT_QUIET OFF)
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-include(${PARENT_DIR}/cmake/dep_gtest.cmake)
-set(WINTER_LIBS_TEST ${WINTER_GTEST_LIB})
+find_package(GTest REQUIRED)
+set(WINTER_LIBS_TEST gtest::gtest)

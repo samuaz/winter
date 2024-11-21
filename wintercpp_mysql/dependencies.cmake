@@ -5,14 +5,11 @@
 ############################
 ##     EXTERNAL LIBS      ##
 ############################
-include(FetchContent)
-set(FETCHCONTENT_QUIET OFF)
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-#include(${PARENT_DIR}/cmake/dep_openssl.cmake)
-include(${PARENT_DIR}/cmake/dep_openssl_system.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/dep_mysql_connector.cmake)
+find_package(mysql-connector-cpp REQUIRED CONFIG)
+find_package(wintercpp_mysql_core REQUIRED CONFIG)
+find_package(cpp-jwt REQUIRED)
 IF (WINTER_WITH_TEST)
-include(${PARENT_DIR}/cmake/dep_gtest.cmake)
-set(WINTER_LIBS_TEST ${WINTER_GTEST_LIB})
+find_package(GTest REQUIRED)
+set(WINTER_LIBS_TEST gtest::gtest)
 ENDIF()
-set(WINTER_MYSQL_LIBS ${WINTER_OPENSSL_LIB} ${WINTER_MYSQL_CONNECTOR_LIB})
+set(WINTER_MYSQL_LIBS cpp-jwt::cpp-jwt wintercpp_mysql_core::wintercpp_mysql_core mysql-connector-cpp::mysql-connector-cpp)

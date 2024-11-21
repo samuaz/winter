@@ -1,0 +1,10 @@
+[requires]
+wintercpp_core/1.0
+gtest/1.14.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[options]
+wintercpp_core/1.0:shared=False

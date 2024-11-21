@@ -5,15 +5,11 @@
 ############################
 ##     EXTERNAL LIBS      ##
 ############################
-include(FetchContent)
-set(FETCHCONTENT_QUIET OFF)
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-
-include(${PARENT_DIR}/cmake/dep_openssl_system.cmake)
-include(${PARENT_DIR}/cmake/dep_json.cmake)
-include(${PARENT_DIR}/cmake/dep_jwt.cmake)
-IF (WINTER_WITH_TEST)
-include(${PARENT_DIR}/cmake/dep_gtest.cmake)
-set(WINTER_LIBS_TEST ${WINTER_GTEST_LIB})
-ENDIF()
-set(WINTER_LIBS ${WINTER_OPENSSL_LIB})
+find_package(OpenSSL REQUIRED)
+find_package(nlohmann_json REQUIRED)
+find_package(cpp-jwt REQUIRED)
+if (WINTER_WITH_TEST)
+    find_package(GTest REQUIRED)
+    set(WINTER_LIBS_TEST gtest::gtest)
+endif()
+set(WINTER_LIBS OpenSSL::SSL nlohmann_json::nlohmann_json cpp-jwt::cpp-jwt)

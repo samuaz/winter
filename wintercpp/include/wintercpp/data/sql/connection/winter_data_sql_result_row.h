@@ -6,14 +6,9 @@
 #include <wintercpp/data/sql/field/winter_data_sql_data_type.h>
 #include <wintercpp/data/sql/preparedstatement/winter_data_sql_prepared_statement.h>
 
-#include <cstddef>
-#include <cstdint>
-#include <map>
-#include <memory>
 #include <optional>
 #include <string>
 #include <utility>
-#include <variant>
 
 namespace winter::data::sql_impl {
 
@@ -26,7 +21,7 @@ namespace winter::data::sql_impl {
             res_(std::move(res)) {}
 
         template<typename T>
-        T as() const;
+        std::optional<T> as() const;
 
        private:
         winter::data::response::Response<DataType> res_;
@@ -49,11 +44,11 @@ namespace winter::data::sql_impl {
         DataTypeResult operator[](const std::string &name) const;
 
         template<typename T>
-        winter::data::response::Response<T> Value(
+        std::optional<T> Value(
             const StatementValue &statementValue) const;
 
         template<typename T>
-        winter::data::response::Response<T> Value(
+        std::optional<T> Value(
             const std::string &name) const;
 
        protected:
